@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>媒体加密解密 - 正式修复版</title>
+    <title>媒体加密解密 - 永久持久版</title>
     <style>
         * {
             margin: 0;
@@ -23,7 +23,7 @@
             padding: 20px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.1);
         }
-        /* 公告栏样式 */
+        /* 公告栏 */
         .notice {
             background: #e6f7ff;
             border: 1px solid #91caff;
@@ -38,7 +38,7 @@
             font-size: 14px;
             margin-bottom: 6px;
         }
-        /* 全局禁用遮罩 */
+        /* 全局锁定遮罩 */
         .global-lock {
             position: fixed;
             inset: 0;
@@ -85,7 +85,7 @@
             font-size: 14px;
             cursor: pointer;
         }
-        /* 托管限制警告栏 */
+        /* 警告提示 */
         .warn-tip {
             background: #fff7e6;
             border: 1px solid #ffcc00;
@@ -96,7 +96,7 @@
             margin-bottom: 15px;
             line-height: 1.5;
         }
-        /* 管理员密码区域 */
+        /* 管理员区域 */
         .admin-pwd-box {
             background: #fef0f0;
             border: 1px solid #ff9494;
@@ -147,7 +147,7 @@
             color: #333;
             line-height: 1.4;
         }
-        /* 次数统计底部栏 */
+        /* 计数底部 */
         .count-footer {
             margin-top: 15px;
             padding-top: 10px;
@@ -221,7 +221,7 @@
             background: #52c41a;
             color: #fff;
         }
-        /* 滑动预览区域 */
+        /* 滑动预览 */
         .slide-outer {
             position: relative;
             margin: 10px 0;
@@ -256,7 +256,6 @@
         .slide-wrap::-webkit-scrollbar {
             display: none;
         }
-        /* 翻页按钮 */
         .slide-btn {
             position: absolute;
             top: 50%;
@@ -277,36 +276,25 @@
         .slide-btn:active {
             background: #1677ff;
         }
-        .btn-prev {
-            left: 4px;
-        }
-        .btn-next {
-            right: 4px;
-        }
-        .hide {
-            display: none;
-        }
+        .btn-prev {left: 4px;}
+        .btn-next {right: 4px;}
+        .hide {display: none;}
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 新增公告栏 -->
         <div class="notice">
-            <h4>📢 版本修复公告</h4>
-            1. 彻底修复所有按钮点击无响应问题<br>
-            2. 修复管理员密码解锁失效BUG<br>
-            3. 修复批量加密、解密加载功能异常<br>
-            4. 优化事件绑定，兼容 GitHub Pages 全环境<br>
-            5. 保留北京时间防篡改每日重置、设备IP检测限制
+            <h4>📢 版本更新：永久持久存储版</h4>
+            1. 改用 IndexedDB 持久化存储，关闭/杀后台/重启仍可用<br>
+            2. 彻底修复所有按钮点击失效问题<br>
+            3. 保留北京时间防篡改、设备检测、管理员权限<br>
+            4. 媒体文件永久留存（不清浏览器数据不丢失）
         </div>
 
-        <!-- 文件大小警告 -->
         <div class="warn-tip">
-            ⚠️ 温馨提醒：本页面部署至 GitHub/Gitee Pages 托管时，<br>
-            单个文件<strong>最大仅支持 100MB</strong>，请压缩视频/图片后再上传使用！
+            ⚠️ 温馨提醒：单文件建议控制在 50MB 以内，过大文件转换较慢
         </div>
 
-        <!-- 管理员密码登录区 -->
         <div class="admin-pwd-box">
             <h4>🔐 管理员专属解锁（免费用户无需填写）</h4>
             <input type="text" id="adminPwdInput" class="lock-input" placeholder="请输入管理员密码">
@@ -316,7 +304,6 @@
             </div>
         </div>
 
-        <!-- 套餐展示区 -->
         <div class="package-box">
             <div class="package-title">当前套餐</div>
             <div class="package-switch">
@@ -324,7 +311,7 @@
                 <button class="pkg-btn" id="adminPkgBtn" disabled>管理员专属</button>
             </div>
             <div class="pkg-desc" id="pkgDesc">
-                免费套餐：单文件≤100MB，每日限3次上传
+                免费套餐：每日限3次上传 | 管理员：无限制
             </div>
         </div>
 
@@ -334,20 +321,18 @@
             <button class="mode-btn" id="tabDec">解密模式</button>
         </div>
 
-        <!-- 加密面板 -->
         <div id="encBox">
             <div class="lock-tip" id="fileTip">未选择任何文件</div>
             <input type="file" id="fileIn" accept="image/*,video/*" multiple class="lock-input">
-            <input type="text" id="pwdEnc" class="lock-input" placeholder="输入自定义口令(中文/英文/数字均可)">
+            <input type="text" id="pwdEnc" class="lock-input" placeholder="输入自定义口令">
             <div class="lock-btn-wrap">
                 <button class="lock-btn btn-blue" id="doEnc">批量加密</button>
                 <button class="lock-btn btn-gray" id="resetEnc">重置</button>
             </div>
         </div>
 
-        <!-- 解密面板 -->
         <div id="decBox" class="hide">
-            <input type="text" id="pwdDec" class="lock-input" placeholder="输入/粘贴加密口令进行解密">
+            <input type="text" id="pwdDec" class="lock-input" placeholder="输入解密口令">
             <div class="slide-outer">
                 <button class="slide-btn btn-prev" id="prevBtn">‹</button>
                 <div class="slide-wrap" id="slideBox">
@@ -362,28 +347,61 @@
             </div>
         </div>
 
-        <!-- 底部上传次数统计 -->
         <div class="count-footer" id="countFooter">
             今日已上传：0 次 | 剩余次数：3 次
         </div>
     </div>
 
     <script>
-        // 基础配置常量
+        // 基础配置
         const DAILY_FREE_LIMIT = 3;
         const ADMIN_PASSWORD = "管理员牛逼";
         const UNLOCK_WORD = "我错了";
         const DAY_SEC = 86400;
-
-        // 全局变量
         let userType = "free";
         let uploadCount = 0;
         let nowFiles = [];
-        let nowUrls = [];
         let decryptList = [];
         let currentIndex = 0;
 
-        // ========== 北京时间计算（防篡改本地时间） ==========
+        // ========== IndexedDB 数据库初始化（持久化存储核心） ==========
+        const DB_NAME = "MediaEncDB";
+        const DB_STORE = "MediaData";
+        let db = null;
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, 1);
+                req.onupgradeneeded = e => {
+                    db = e.target.result;
+                    if (!db.objectStoreNames.contains(DB_STORE)) {
+                        db.createObjectStore(DB_STORE, { keyPath: "key" });
+                    }
+                };
+                req.onsuccess = e => {
+                    db = e.target.result;
+                    resolve(db);
+                };
+                req.onerror = e => reject(e);
+            });
+        }
+
+        async function saveToDB(key, data) {
+            await initDB();
+            const tx = db.transaction(DB_STORE, "readwrite");
+            const store = tx.objectStore(DB_STORE);
+            await store.put({ key, data });
+        }
+
+        async function getFromDB(key) {
+            await initDB();
+            const tx = db.transaction(DB_STORE, "readonly");
+            const store = tx.objectStore(DB_STORE);
+            const res = await store.get(key);
+            return res ? res.data : null;
+        }
+
+        // ========== 北京时间 防篡改计时 ==========
         function getBeijingDayStamp() {
             const nowTs = Date.now();
             const bjOffset = 8 * 3600 * 1000;
@@ -391,7 +409,7 @@
             return Math.floor(bjTime / DAY_SEC / 1000) * DAY_SEC * 1000;
         }
 
-        // ========== 设备指纹生成（同设备/IP检测） ==========
+        // ========== 设备指纹检测 ==========
         function getDeviceFingerprint() {
             const ua = navigator.userAgent;
             const screenInfo = `${screen.width}-${screen.height}-${screen.colorDepth}`;
@@ -400,11 +418,9 @@
             return btoa(`${ua}|${screenInfo}|${tz}|${lang}`);
         }
 
-        // 设备违规检测逻辑
         (function deviceCheck() {
             const currentFinger = getDeviceFingerprint();
             const firstFinger = localStorage.getItem('deviceFirstFinger');
-
             if (!firstFinger) {
                 localStorage.setItem('deviceFirstFinger', currentFinger);
                 return;
@@ -415,7 +431,7 @@
                 lockMask.innerHTML = `
                     <div class="lock-alert">
                         <h2>⚠️ 违规检测</h2>
-                        <p>检测到同一设备、同一IP更换浏览器/异地访问</p>
+                        <p>检测到更换浏览器/异地访问</p>
                         <p>请输入指定文字解除限制：</p>
                         <input type="text" id="unlockInput" placeholder="请输入文字">
                         <br>
@@ -424,7 +440,6 @@
                 `;
                 document.body.appendChild(lockMask);
                 document.body.style.overflow = 'hidden';
-
                 document.getElementById('confirmUnlock').onclick = function () {
                     const val = document.getElementById('unlockInput').value.trim();
                     if (val === UNLOCK_WORD) {
@@ -437,7 +452,7 @@
                         alert('输入错误，请重新填写！');
                     }
                 };
-                throw new Error("设备异常，终止执行");
+                throw new Error("设备异常");
             }
         })();
 
@@ -446,7 +461,6 @@
             const todayZero = getBeijingDayStamp();
             const lastDayStamp = parseInt(localStorage.getItem('lastDayStamp')) || 0;
             let count = parseInt(localStorage.getItem('uploadCount')) || 0;
-
             if (todayZero !== lastDayStamp) {
                 count = 0;
                 localStorage.setItem('lastDayStamp', todayZero);
@@ -456,12 +470,19 @@
         }
         initUploadCount();
 
-        // ========== 编解码工具 ==========
+        // ========== 口令编解码 ==========
         function encodePwd(str) {
             return btoa(unescape(encodeURIComponent(str)));
         }
-        function decodePwd(str) {
-            return decodeURIComponent(escape(atob(str)));
+
+        // ========== 文件转 Base64（永久可用） ==========
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = err => reject(err);
+                reader.readAsDataURL(file);
+            });
         }
 
         // ========== 滑动翻页 ==========
@@ -476,7 +497,7 @@
             box.scrollLeft = box.offsetWidth * currentIndex;
         }
 
-        // ========== DOM 节点获取 ==========
+        // ========== DOM 节点 ==========
         const adminPwdInput = document.getElementById('adminPwdInput');
         const unlockAdmin = document.getElementById('unlockAdmin');
         const logoutAdmin = document.getElementById('logoutAdmin');
@@ -502,19 +523,17 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
 
-        // ========== 页面数据刷新 ==========
+        // ========== 页面刷新 ==========
         function refreshCountView() {
             const remain = userType === "free" ? DAILY_FREE_LIMIT - uploadCount : "无限制";
             countFooter.innerText = `今日已上传：${uploadCount} 次 | 剩余次数：${remain}`;
         }
         function refreshPkgDesc() {
             if (userType === "free") {
-                pkgDesc.innerText = "免费套餐：单文件≤100MB，每日限3次上传";
                 freePkg.classList.add('active');
                 adminPkgBtn.classList.remove('active');
                 adminPkgBtn.disabled = true;
             } else {
-                pkgDesc.innerText = "管理员专属：单文件≤100MB，上传次数无限制";
                 adminPkgBtn.classList.add('active');
                 freePkg.classList.remove('active');
                 adminPkgBtn.disabled = false;
@@ -523,29 +542,24 @@
         }
         refreshPkgDesc();
 
-        // ========== 所有按钮事件绑定（原生onclick，彻底解决绑定失效） ==========
-        // 管理员解锁
+        // ========== 按钮事件 ==========
         unlockAdmin.onclick = function () {
             const pwd = adminPwdInput.value.trim();
             if (pwd === ADMIN_PASSWORD) {
                 userType = "admin";
                 adminPwdInput.value = "";
-                alert("✅ 管理员身份解锁成功！已开启无限上传");
+                alert("✅ 管理员解锁成功，无限上传");
                 refreshPkgDesc();
             } else {
-                alert("❌ 密码错误，解锁失败");
+                alert("❌ 密码错误");
             }
         };
-
-        // 退出管理员
         logoutAdmin.onclick = function () {
             userType = "free";
             adminPwdInput.value = "";
-            alert("✅ 已切换为免费用户模式");
+            alert("✅ 已切回免费用户");
             refreshPkgDesc();
         };
-
-        // 切换免费/管理员标签
         freePkg.onclick = function () {
             userType = "free";
             refreshPkgDesc();
@@ -556,8 +570,6 @@
                 refreshPkgDesc();
             }
         };
-
-        // 切换加密/解密面板
         tabEnc.onclick = function () {
             tabEnc.classList.add('active');
             tabDec.classList.remove('active');
@@ -572,73 +584,73 @@
             encBox.classList.add('hide');
             uiTitle.innerText = '🔓 解密｜口令解锁+翻页浏览';
         };
-
-        // 选择文件
         fileIn.onchange = function (e) {
             nowFiles = Array.from(e.target.files);
-            nowUrls = [];
-            nowFiles.forEach(file => {
-                nowUrls.push(URL.createObjectURL(file));
-            });
             fileTip.innerText = `已选：${nowFiles.length} 个媒体文件`;
         };
 
-        // 批量加密
-        doEnc.onclick = function () {
+        // 批量加密（转Base64存入IndexedDB，永久保存）
+        doEnc.onclick = async function () {
             const pwd = pwdEnc.value.trim();
             if (nowFiles.length === 0) {
-                alert('请先选择照片/视频文件！');
+                alert('请先选择文件！');
                 return;
             }
             if (!pwd) {
-                alert('请输入自定义口令！');
+                alert('请输入加密口令！');
                 return;
             }
-            if (userType === "free") {
-                if (uploadCount >= DAILY_FREE_LIMIT) {
-                    alert("❌ 免费次数已用尽，请明日再试或解锁管理员权限！");
-                    return;
-                }
-                uploadCount++;
-                localStorage.setItem('uploadCount', uploadCount);
-                refreshCountView();
+            if (userType === "free" && uploadCount >= DAILY_FREE_LIMIT) {
+                alert("❌ 今日免费次数已用完");
+                return;
             }
             const key = encodePwd(pwd);
-            const data = nowFiles.map((item, idx) => ({
-                name: item.name,
-                type: item.type,
-                url: nowUrls[idx]
-            }));
-            localStorage.setItem('webMediaLock_' + key, JSON.stringify(data));
-            alert(`✅ 加密成功！\n请牢记口令：${pwd}`);
-            resetEnc.onclick();
+            let fileList = [];
+            try {
+                for (const file of nowFiles) {
+                    const base64 = await fileToBase64(file);
+                    fileList.push({
+                        name: file.name,
+                        type: file.type,
+                        data: base64
+                    });
+                }
+                await saveToDB(key, fileList);
+                if (userType === "free") {
+                    uploadCount++;
+                    localStorage.setItem('uploadCount', uploadCount);
+                    refreshCountView();
+                }
+                alert(`✅ 加密并永久保存成功！\n口令：${pwd}`);
+                resetEnc.onclick();
+            } catch (err) {
+                alert("文件处理失败，文件过大或格式不支持");
+            }
         };
 
-        // 加密重置
         resetEnc.onclick = function () {
             nowFiles = [];
-            nowUrls = [];
             fileIn.value = "";
             pwdEnc.value = "";
             fileTip.innerText = "未选择任何文件";
         };
 
         // 解密加载
-        doDec.onclick = function () {
+        doDec.onclick = async function () {
             const pwd = pwdDec.value.trim();
             if (!pwd) {
                 alert('请输入解密口令！');
                 return;
             }
             const key = encodePwd(pwd);
-            const raw = localStorage.getItem('webMediaLock_' + key);
-            if (!raw) {
-                alert("❌ 口令错误，解密失败！");
+            const res = await getFromDB(key);
+            if (!res) {
+                alert("❌ 口令错误或无对应数据");
                 slideBox.innerHTML = '<div class="slide-item">解密失败</div>';
                 decryptList = [];
                 return;
             }
-            decryptList = JSON.parse(raw);
+            decryptList = res;
             currentIndex = 0;
             alert(`✅ 解密成功，共 ${decryptList.length} 个文件`);
             slideBox.innerHTML = "";
@@ -646,9 +658,9 @@
                 const div = document.createElement('div');
                 div.className = "slide-item";
                 if (item.type.startsWith('image')) {
-                    div.innerHTML = `<img src="${item.url}" alt="">`;
+                    div.innerHTML = `<img src="${item.data}" alt="">`;
                 } else {
-                    div.innerHTML = `<video src="${item.url}" controls></video>`;
+                    div.innerHTML = `<video src="${item.data}" controls></video>`;
                 }
                 slideBox.appendChild(div);
             });
@@ -658,35 +670,28 @@
         // 批量保存
         saveAll.onclick = function () {
             if (decryptList.length === 0) {
-                alert('请先解密加载媒体！');
+                alert('请先解密！');
                 return;
             }
             decryptList.forEach(item => {
                 const a = document.createElement('a');
-                a.href = item.url;
+                a.href = item.data;
                 a.download = item.name;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
             });
-            alert('✅ 已批量保存全部文件');
+            alert("✅ 全部保存完成");
         };
 
-        // 解密清空
         resetDec.onclick = function () {
             decryptList = [];
             currentIndex = 0;
             pwdDec.value = "";
             slideBox.innerHTML = '<div class="slide-item">请先解密加载媒体</div>';
         };
-
-        // 翻页按钮
-        prevBtn.onclick = function () {
-            slidePrev(slideBox);
-        };
-        nextBtn.onclick = function () {
-            slideNext(slideBox);
-        };
+        prevBtn.onclick = () => slidePrev(slideBox);
+        nextBtn.onclick = () => slideNext(slideBox);
     </script>
 </body>
 </html>
