@@ -1,697 +1,314 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>媒体加密解密 - 永久持久版</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
-        body {
-            background-color: #f0f2f5;
-            padding: 20px;
-        }
-        .container {
-            max-width: 420px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-        }
-        /* 公告栏 */
-        .notice {
-            background: #e6f7ff;
-            border: 1px solid #91caff;
-            color: #0050b3;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .notice h4 {
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
-        /* 全局锁定遮罩 */
-        .global-lock {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .lock-alert {
-            background: #fff;
-            width: 90%;
-            max-width: 360px;
-            padding: 25px 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .lock-alert h2 {
-            color: #f5222d;
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-        .lock-alert p {
-            color: #333;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-        .lock-alert input {
-            width: 80%;
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            outline: none;
-        }
-        .lock-alert button {
-            padding: 8px 24px;
-            background: #1677ff;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        /* 警告提示 */
-        .warn-tip {
-            background: #fff7e6;
-            border: 1px solid #ffcc00;
-            color: #d48806;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-        /* 管理员区域 */
-        .admin-pwd-box {
-            background: #fef0f0;
-            border: 1px solid #ff9494;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
-        }
-        .admin-pwd-box h4 {
-            font-size: 14px;
-            color: #cf1322;
-            margin-bottom: 8px;
-        }
-        /* 套餐区域 */
-        .package-box {
-            background: #f0f7ff;
-            border: 1px solid #91caff;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
-        }
-        .package-title {
-            font-size: 14px;
-            color: #1677ff;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .package-switch {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .pkg-btn {
-            flex: 1;
-            padding: 6px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            background: #fff;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .pkg-btn.active {
-            background: #1677ff;
-            color: #fff;
-            border-color: #1677ff;
-        }
-        .pkg-desc {
-            font-size: 13px;
-            color: #333;
-            line-height: 1.4;
-        }
-        /* 计数底部 */
-        .count-footer {
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-            font-size: 13px;
-            color: #666;
-            text-align: center;
-        }
-        h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #222;
-            font-size: 17px;
-        }
-        .mode-switch {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .mode-btn {
-            flex: 1;
-            padding: 7px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            background: #f5f5f5;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .mode-btn.active {
-            background: #1677ff;
-            color: #fff;
-            border-color: #1677ff;
-        }
-        .lock-input {
-            width: 100%;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 11px;
-            margin: 8px 0;
-            font-size: 15px;
-            background: #f9fafb;
-            outline: none;
-        }
-        .lock-tip {
-            color: #666;
-            font-size: 14px;
-            margin: 5px 0 10px;
-        }
-        .lock-btn-wrap {
-            display: flex;
-            gap: 10px;
-            margin-top: 18px;
-        }
-        .lock-btn {
-            flex: 1;
-            border: none;
-            border-radius: 10px;
-            padding: 11px;
-            font-size: 15px;
-            cursor: pointer;
-        }
-        .btn-blue {
-            background: #1677ff;
-            color: #fff;
-        }
-        .btn-gray {
-            background: #e5e7eb;
-            color: #333;
-        }
-        .btn-green {
-            background: #52c41a;
-            color: #fff;
-        }
-        /* 滑动预览 */
-        .slide-outer {
-            position: relative;
-            margin: 10px 0;
-        }
-        .slide-wrap {
-            width: 100%;
-            height: 260px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            display: flex;
-            gap: 0;
-            padding: 10px 0;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            background: #f9fafb;
-            border-radius: 10px;
-            overscroll-behavior-x: contain;
-        }
-        .slide-item {
-            flex: 0 0 100%;
-            scroll-snap-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .slide-item img, .slide-item video {
-            max-width: 90%;
-            max-height: 240px;
-            border-radius: 8px;
-        }
-        .slide-wrap::-webkit-scrollbar {
-            display: none;
-        }
-        .slide-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(22,119,255,0.8);
-            color: #fff;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .slide-btn:active {
-            background: #1677ff;
-        }
-        .btn-prev {left: 4px;}
-        .btn-next {right: 4px;}
-        .hide {display: none;}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="M3U8 下载器官方站点：M3U8 视频下载 + 视频加密（AES-256 加密、公开/私密模式、设备绑定）。下载、功能介绍、加密技术说明、常见问题、隐私说明。">
+<title>M3U8 下载器 v2.0 官网</title>
+<style>
+  :root{
+    --bg:#0d141c; --bg2:#121b26; --card:#16212e; --card2:#1b2836;
+    --line:#243447; --txt:#e8eef5; --sub:#9fb0c2; --dim:#6b7d90;
+    --accent:#2dd4a7; --accent2:#22b38a; --warn:#f0b95c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Roboto,sans-serif;line-height:1.7}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px}
+
+  /* 顶栏 */
+  header{position:sticky;top:0;z-index:50;background:rgba(13,20,28,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;height:54px;gap:14px}
+  .logo{font-weight:700;font-size:17px;color:var(--txt);white-space:nowrap}
+  .logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{color:var(--sub);font-size:13.5px;padding:6px 9px;border-radius:8px;white-space:nowrap}
+  .nav-links a:hover{color:var(--txt);background:var(--card)}
+
+  /* Hero */
+  .hero{padding:56px 0 46px;text-align:center;background:radial-gradient(1200px 500px at 50% -80px,rgba(45,212,167,.14),transparent 70%)}
+  .hero .badge{display:inline-block;font-size:12px;color:var(--accent);border:1px solid rgba(45,212,167,.4);border-radius:20px;padding:3px 12px;margin-bottom:16px}
+  .hero h1{font-size:30px;line-height:1.3;margin-bottom:12px}
+  .hero h1 b{color:var(--accent)}
+  .hero p{color:var(--sub);max-width:560px;margin:0 auto 26px;font-size:15px}
+  .download-btn{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent2),var(--accent));color:#04231a;font-size:17px;font-weight:800;padding:15px 42px;border-radius:14px;box-shadow:0 8px 30px rgba(45,212,167,.3);transition:transform .15s}
+  .download-btn:active{transform:scale(.97)}
+  .download-btn small{display:block;font-size:11px;font-weight:500;opacity:.75;text-align:left;line-height:1.2}
+  .hero .meta{margin-top:14px;font-size:12.5px;color:var(--dim)}
+  .hero .meta span{margin:0 8px;color:var(--line)}
+
+  /* 区块 */
+  section{padding:46px 0}
+  section:nth-of-type(odd){background:var(--bg2)}
+  .sec-title{font-size:22px;font-weight:800;margin-bottom:6px}
+  .sec-sub{color:var(--dim);font-size:13.5px;margin-bottom:26px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .card h3{font-size:15.5px;margin-bottom:8px;color:var(--accent)}
+  .card p{font-size:13.5px;color:var(--sub)}
+
+  /* 三步流程 */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:8px}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;position:relative}
+  .step .num{position:absolute;top:12px;right:14px;font-size:30px;font-weight:800;color:rgba(45,212,167,.18)}
+  .step h3{font-size:15px;margin-bottom:6px}
+  .step p{font-size:13px;color:var(--sub)}
+
+  /* 加密技术 */
+  .tech{border-left:3px solid var(--accent);background:var(--card);border-radius:0 12px 12px 0;padding:14px 16px;margin-bottom:12px}
+  .tech h3{font-size:15px;margin-bottom:4px}
+  .tech p{font-size:13.5px;color:var(--sub)}
+  .tech .tag{display:inline-block;font-size:11px;color:var(--accent);border:1px solid rgba(45,212,167,.35);border-radius:12px;padding:1px 9px;margin-bottom:6px}
+
+  /* FAQ */
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  summary{cursor:pointer;padding:15px 16px;font-size:14.5px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  summary::after{content:"+";color:var(--accent);font-size:20px;font-weight:400;flex-shrink:0}
+  details[open] summary::after{content:"−"}
+  details .ans{padding:0 16px 16px;font-size:13.5px;color:var(--sub);border-top:1px dashed var(--line);padding-top:12px}
+  details .ans b{color:var(--txt)}
+
+  /* 隐私 */
+  .priv{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .priv .dot{width:26px;height:26px;border-radius:50%;background:rgba(45,212,167,.15);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+  .priv h3{font-size:14.5px;margin-bottom:2px}
+  .priv p{font-size:13.5px;color:var(--sub)}
+
+  /* 联系 */
+  .contact{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 20px}
+  .contact .qq{font-size:34px;font-weight:800;color:var(--accent);letter-spacing:1px;margin:12px 0 4px}
+  .contact p{color:var(--dim);font-size:13.5px}
+  .contact .copy-btn{margin-top:14px;background:var(--card2);border:1px solid var(--line);color:var(--txt);font-size:13px;padding:9px 22px;border-radius:10px;cursor:pointer}
+
+  footer{padding:30px 0 40px;border-top:1px solid var(--line);color:var(--dim);font-size:12.5px;text-align:center}
+  footer p{margin-bottom:4px}
+
+  /* 下载横幅 */
+  .dl-float{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(13,20,28,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 18px;display:flex;align-items:center;gap:12px}
+  .dl-float .txt{font-size:13px;color:var(--sub);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dl-float a{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#04231a;font-weight:800;font-size:14px;padding:10px 26px;border-radius:11px;white-space:nowrap}
+  body{padding-bottom:70px}
+  @media(min-width:760px){.dl-float{display:none}body{padding-bottom:0}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="notice">
-            <h4>📢 版本更新：永久持久存储版</h4>
-            1. 改用 IndexedDB 持久化存储，关闭/杀后台/重启仍可用<br>
-            2. 彻底修复所有按钮点击失效问题<br>
-            3. 保留北京时间防篡改、设备检测、管理员权限<br>
-            4. 媒体文件永久留存（不清浏览器数据不丢失）
-        </div>
 
-        <div class="warn-tip">
-            ⚠️ 温馨提醒：单文件建议控制在 50MB 以内，过大文件转换较慢
-        </div>
+<header>
+  <div class="wrap nav">
+    <div class="logo">M3U8 <span>下载器</span></div>
+    <nav class="nav-links">
+      <a href="#features">功能</a>
+      <a href="#crypto">加密技术</a>
+      <a href="#menu">三条杠</a>
+      <a href="#faq">常见问题</a>
+      <a href="#privacy">隐私</a>
+      <a href="#disclaimer">免责声明</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
 
-        <div class="admin-pwd-box">
-            <h4>🔐 管理员专属解锁（免费用户无需填写）</h4>
-            <input type="text" id="adminPwdInput" class="lock-input" placeholder="请输入管理员密码">
-            <div class="lock-btn-wrap">
-                <button class="lock-btn btn-blue" id="unlockAdmin">确认解锁</button>
-                <button class="lock-btn btn-gray" id="logoutAdmin">退出管理员</button>
-            </div>
-        </div>
+<!-- 首页：下载 -->
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">v2.0 · 安卓</span>
+    <h1>M3U8 视频下载 + <b>视频加密</b><br>一个 App 搞定</h1>
+    <p>输入 M3U8 链接即可高速下载视频；内置 AES-256 视频加密，公开/私密两种模式，文件专属格式只有本软件能解开。纯本地处理，不上传任何数据。</p>
+    <a class="download-btn" href="https://d6.qyshare.click/s/TBVWTxUNFQEFUgKFCVA50KFCVA50DlEEGgRRKFCVA50KFCVA508aKFCVA50wRTDxpVBQKFCVA50CGg5TBQKFCVA50FDlVVBVFVBhUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50xgGVKFCVA50JVKFCVA50QYKFCVA50UhoKFCVA50UgNUGgNUUVYaVQMKFCVA50DxoOVFEEKFCVA50lUKFCVA50BVZSDlUZVV5ZFRsVVlQVDRUBKFCVA50QICU1QBDhpTUVMHGgNVVgYaVlJTKFCVA50xpVKFCVA50QYCUgIGVQIGKFCVA50FUVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkHGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRVTVlUKFCVA50KFCVA50KFCVA50cKFCVA50UxoOUwcGGgMKFCVA50UVQaVQBVKFCVA50xoEDlVTBVEKFCVA50UVYBVFQVSg==" download>
+      <span>立即下载 APK<small>M3U8下载器_v2.0.apk · 安卓 5.0+</small></span>
+    </a>
+    <div class="meta">约 136 KB · 无广告 · 无账号 <span>|</span> 仅网络权限（下载用）<span>|</span> 加密零联网</div>
+  </div>
+</div>
 
-        <div class="package-box">
-            <div class="package-title">当前套餐</div>
-            <div class="package-switch">
-                <button class="pkg-btn active" id="freePkg">免费用户</button>
-                <button class="pkg-btn" id="adminPkgBtn" disabled>管理员专属</button>
-            </div>
-            <div class="pkg-desc" id="pkgDesc">
-                免费套餐：每日限3次上传 | 管理员：无限制
-            </div>
-        </div>
+<!-- 功能 -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-title">功能介绍</div>
+    <div class="sec-sub">软件真实能力，不夸大、不虚构</div>
+    <div class="grid">
+      <div class="card"><h3>⬇ M3U8 高速下载</h3><p>输入 M3U8 链接点下载即可。12 线程并发拉取分片，自动选最高清晰度，支持 AES-128 简单加密源自动解密，下载完合并封装成 MP4（部分特殊源自动保留 TS）。</p></div>
+      <div class="card"><h3>🔒 视频加密</h3><p>给手机里的视频文件加密，AES-256 加密，生成 .vlock 专属格式。只有安装本软件并输入正确密码才能解密，其它解压/播放软件无法打开。</p></div>
+      <div class="card"><h3>👥 公开模式</h3><p>适合分享：朋友用同款软件 + 正确密码即可解密。密码就是钥匙，跨手机通用。</p></div>
+      <div class="card"><h3>📱 私密模式（设备绑定）</h3><p>只有加密时那台手机 + 密码才能解密。文件被转发、别人拿到也没用，换手机都解不开。</p></div>
+      <div class="card"><h3>📂 存到系统下载目录</h3><p>下载/加密/解密产物都保存到系统「下载」文件夹，安卓 10+ 零权限，文件管理器、数据线直达，不落入 Android/data。</p></div>
+      <div class="card"><h3>📶 剪贴板自动识别</h3><p>复制了链接打开 App 自动填入，省去手动粘贴。</p></div>
+    </div>
+  </div>
+</section>
 
-        <h3 id="uiTitle">🔒 批量加密 照片/视频</h3>
-        <div class="mode-switch">
-            <button class="mode-btn active" id="tabEnc">加密模式</button>
-            <button class="mode-btn" id="tabDec">解密模式</button>
-        </div>
+<!-- 加密技术 -->
+<section id="crypto">
+  <div class="wrap">
+    <div class="sec-title">视频加密技术说明</div>
+    <div class="sec-sub">用了什么加密、还叠加了什么机制，逐条讲清楚（按真实实现）</div>
 
-        <div id="encBox">
-            <div class="lock-tip" id="fileTip">未选择任何文件</div>
-            <input type="file" id="fileIn" accept="image/*,video/*" multiple class="lock-input">
-            <input type="text" id="pwdEnc" class="lock-input" placeholder="输入自定义口令">
-            <div class="lock-btn-wrap">
-                <button class="lock-btn btn-blue" id="doEnc">批量加密</button>
-                <button class="lock-btn btn-gray" id="resetEnc">重置</button>
-            </div>
-        </div>
-
-        <div id="decBox" class="hide">
-            <input type="text" id="pwdDec" class="lock-input" placeholder="输入解密口令">
-            <div class="slide-outer">
-                <button class="slide-btn btn-prev" id="prevBtn">‹</button>
-                <div class="slide-wrap" id="slideBox">
-                    <div class="slide-item">请先解密加载媒体</div>
-                </div>
-                <button class="slide-btn btn-next" id="nextBtn">›</button>
-            </div>
-            <div class="lock-btn-wrap">
-                <button class="lock-btn btn-green" id="doDec">解密加载</button>
-                <button class="lock-btn btn-blue" id="saveAll">全部保存</button>
-                <button class="lock-btn btn-gray" id="resetDec">清空</button>
-            </div>
-        </div>
-
-        <div class="count-footer" id="countFooter">
-            今日已上传：0 次 | 剩余次数：3 次
-        </div>
+    <div class="tech">
+      <span class="tag">主加密算法</span>
+      <h3>AES-256 对称加密（CBC 模式）</h3>
+      <p>视频内容用 <b>AES-256</b> 加密：256 位密钥、CBC 分组模式、PKCS7 填充。AES 是目前全球使用最广、被公认安全的对称加密标准，密钥空间 2<sup>256</sup>，以当前算力不存在暴力破解的可行方案。加密后的视频是密文，没有密钥就是一堆乱码。</p>
     </div>
 
-    <script>
-        // 基础配置
-        const DAILY_FREE_LIMIT = 3;
-        const ADMIN_PASSWORD = "管理员牛逼";
-        const UNLOCK_WORD = "我错了";
-        const DAY_SEC = 86400;
-        let userType = "free";
-        let uploadCount = 0;
-        let nowFiles = [];
-        let decryptList = [];
-        let currentIndex = 0;
+    <div class="tech">
+      <span class="tag">密钥派生</span>
+      <h3>PBKDF2 密钥拉伸（200,000 次迭代）</h3>
+      <p>你的密码不会直接当密钥用。软件用 <b>PBKDF2</b> 算法把密码和随机盐迭代 20 万次，拉伸成 256 位密钥。这样即使密码偏简单，暴力破解的成本也被拉高 20 万倍。</p>
+    </div>
 
-        // ========== IndexedDB 数据库初始化（持久化存储核心） ==========
-        const DB_NAME = "MediaEncDB";
-        const DB_STORE = "MediaData";
-        let db = null;
+    <div class="tech">
+      <span class="tag">防重放 / 防彩虹表</span>
+      <h3>随机盐 + 随机 IV（每个文件独立）</h3>
+      <p>每次加密都会生成<b>独立的 16 字节随机盐和 16 字节随机 IV</b>。效果：同一个视频、同一个密码，加密两次得到的密文完全不同；相同内容的视频加密后也无法通过比对密文猜出内容（防彩虹表、防模式泄露）。</p>
+    </div>
 
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const req = indexedDB.open(DB_NAME, 1);
-                req.onupgradeneeded = e => {
-                    db = e.target.result;
-                    if (!db.objectStoreNames.contains(DB_STORE)) {
-                        db.createObjectStore(DB_STORE, { keyPath: "key" });
-                    }
-                };
-                req.onsuccess = e => {
-                    db = e.target.result;
-                    resolve(db);
-                };
-                req.onerror = e => reject(e);
-            });
-        }
+    <div class="tech">
+      <span class="tag">文件识别</span>
+      <h3>专属文件头 + .vlock 后缀</h3>
+      <p>加密文件带软件专属的<b>文件头标识</b>和 .vlock 后缀。打开时先做文件识别：只有本软件能认出并解密，其它解压软件、播放器拿到文件只会看到乱码或直接打不开。</p>
+    </div>
 
-        async function saveToDB(key, data) {
-            await initDB();
-            const tx = db.transaction(DB_STORE, "readwrite");
-            const store = tx.objectStore(DB_STORE);
-            await store.put({ key, data });
-        }
+    <div class="tech">
+      <span class="tag">私密模式专属</span>
+      <h3>设备绑定（设备标识混入密钥）</h3>
+      <p>私密模式下，密钥由「密码派生结果 + 这台手机的设备标识」共同生成。换个手机，设备标识不同，派生出的密钥就不同——所以<b>知道密码、拿到文件，换手机也解不开</b>，必须用加密时那台手机。</p>
+    </div>
 
-        async function getFromDB(key) {
-            await initDB();
-            const tx = db.transaction(DB_STORE, "readonly");
-            const store = tx.objectStore(DB_STORE);
-            const res = await store.get(key);
-            return res ? res.data : null;
-        }
+    <div class="tech">
+      <span class="tag">工程层面</span>
+      <h3>流式加解密 + 失败自清理</h3>
+      <p>加解密全程流式处理，不把整个视频读进内存，任意大文件都能加密；中途失败会自动删除半成品文件，不残留垃圾数据。</p>
+    </div>
+  </div>
+</section>
 
-        // ========== 北京时间 防篡改计时 ==========
-        function getBeijingDayStamp() {
-            const nowTs = Date.now();
-            const bjOffset = 8 * 3600 * 1000;
-            const bjTime = nowTs + bjOffset;
-            return Math.floor(bjTime / DAY_SEC / 1000) * DAY_SEC * 1000;
-        }
+<!-- 三条杠 -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-title">点击左上角「三条杠 ☰」</div>
+    <div class="sec-sub">App 主界面左上角的三条杠是功能菜单入口</div>
+    <div class="steps">
+      <div class="step"><span class="num">1</span><h3>☰ 视频加密 / 解密</h3><p>进入加密页面：设置密码 → 选择视频 → 点「立即视频加密」→ 弹出加密类型（公开/私密）→ 生成 .vlock 文件；下方「视频解密」输入密码选择加密文件即可还原。</p></div>
+      <div class="step"><span class="num">2</span><h3>⚙ 下载设置</h3><p>下载目录设置：默认系统下载目录；可自选目录（系统文件选择器），或一键恢复默认。</p></div>
+    </div>
+  </div>
+</section>
 
-        // ========== 设备指纹检测 ==========
-        function getDeviceFingerprint() {
-            const ua = navigator.userAgent;
-            const screenInfo = `${screen.width}-${screen.height}-${screen.colorDepth}`;
-            const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const lang = navigator.language;
-            return btoa(`${ua}|${screenInfo}|${tz}|${lang}`);
-        }
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-title">常见问题</div>
+    <div class="sec-sub">关于加密技术、模式区别、速度与安全</div>
 
-        (function deviceCheck() {
-            const currentFinger = getDeviceFingerprint();
-            const firstFinger = localStorage.getItem('deviceFirstFinger');
-            if (!firstFinger) {
-                localStorage.setItem('deviceFirstFinger', currentFinger);
-                return;
-            }
-            if (firstFinger !== currentFinger) {
-                const lockMask = document.createElement('div');
-                lockMask.className = 'global-lock';
-                lockMask.innerHTML = `
-                    <div class="lock-alert">
-                        <h2>⚠️ 违规检测</h2>
-                        <p>检测到更换浏览器/异地访问</p>
-                        <p>请输入指定文字解除限制：</p>
-                        <input type="text" id="unlockInput" placeholder="请输入文字">
-                        <br>
-                        <button id="confirmUnlock">确认进入</button>
-                    </div>
-                `;
-                document.body.appendChild(lockMask);
-                document.body.style.overflow = 'hidden';
-                document.getElementById('confirmUnlock').onclick = function () {
-                    const val = document.getElementById('unlockInput').value.trim();
-                    if (val === UNLOCK_WORD) {
-                        localStorage.setItem('uploadCount', DAILY_FREE_LIMIT);
-                        document.body.removeChild(lockMask);
-                        document.body.style.overflow = 'auto';
-                        initUploadCount();
-                        refreshCountView();
-                    } else {
-                        alert('输入错误，请重新填写！');
-                    }
-                };
-                throw new Error("设备异常");
-            }
-        })();
+    <details>
+      <summary>1. 给视频加密使用的什么加密技术？</summary>
+      <div class="ans">使用 <b>AES-256</b> 加密算法（CBC 分组模式 + PKCS7 填充），密钥由你的密码经 <b>PBKDF2</b> 迭代 20 万次派生。AES 是国际公认的标准对称加密算法，256 位密钥当前不存在暴力破解的可行手段。加密产物是 .vlock 专属格式文件，无法被其它软件识别或打开。</div>
+    </details>
 
-        // ========== 每日次数初始化 ==========
-        function initUploadCount() {
-            const todayZero = getBeijingDayStamp();
-            const lastDayStamp = parseInt(localStorage.getItem('lastDayStamp')) || 0;
-            let count = parseInt(localStorage.getItem('uploadCount')) || 0;
-            if (todayZero !== lastDayStamp) {
-                count = 0;
-                localStorage.setItem('lastDayStamp', todayZero);
-                localStorage.setItem('uploadCount', 0);
-            }
-            uploadCount = count;
-        }
-        initUploadCount();
+    <details>
+      <summary>2. 公开模式和私密模式有什么区别？</summary>
+      <div class="ans"><b>公开模式</b>：密钥只由密码生成。任何安装本软件的人，输入正确密码即可解密 —— 适合把视频分享给朋友（朋友需要同款软件 + 密码）。<br><b>私密模式</b>：密钥由「密码 + 这台手机的设备标识」共同生成。只有加密时那台手机 + 正确密码才能解密 —— 适合只给自己用，防止文件被转发后泄露。</div>
+    </details>
 
-        // ========== 口令编解码 ==========
-        function encodePwd(str) {
-            return btoa(unescape(encodeURIComponent(str)));
-        }
+    <details>
+      <summary>3. 除了 AES-256，还使用了什么技术进一步加强加密？</summary>
+      <div class="ans">一共 5 层叠加：<br>① <b>PBKDF2 密钥拉伸</b>（20 万次迭代）——提高暴力破解成本；<br>② <b>随机盐</b>（每文件独立 16 字节）——同一密码加密同一视频，密文每次不同，防彩虹表；<br>③ <b>随机 IV</b>（每文件独立 16 字节）——防止相同内容泄露加密模式；<br>④ <b>专属文件头 + .vlock 后缀</b>——文件识别，只有本软件能解；<br>⑤ <b>设备绑定</b>（私密模式）——设备标识参与密钥派生，换设备无法解密。</div>
+    </details>
 
-        // ========== 文件转 Base64（永久可用） ==========
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = err => reject(err);
-                reader.readAsDataURL(file);
-            });
-        }
+    <details>
+      <summary>4. 私密模式到底是什么？有什么用？我还是听不懂</summary>
+      <div class="ans">简单说：私密模式 = <b>加密文件认手机</b>。<br>加密时，软件会把你手机的「设备标识」也算进钥匙里。所以这个加密文件<b>只认加密它那台手机</b>：<br>· 你把文件发到别的手机上 —— 解不开（即使密码正确）；<br>· 别人知道你的密码 —— 在他手机上还是解不开；<br>· 只有回到你加密时用的那台手机，输入正确密码 —— 才能解开。<br>用处：只给自己看的私密视频。文件就算被偷走、被转发、备份到别处，离开你的手机就是一堆无法解开的乱码。公开模式则相反，任何人的手机 + 密码都能解，适合分享。</div>
+    </details>
 
-        // ========== 滑动翻页 ==========
-        function slidePrev(box) {
-            if (currentIndex <= 0) return;
-            currentIndex--;
-            box.scrollLeft = box.offsetWidth * currentIndex;
-        }
-        function slideNext(box) {
-            if (currentIndex >= decryptList.length - 1) return;
-            currentIndex++;
-            box.scrollLeft = box.offsetWidth * currentIndex;
-        }
+    <details>
+      <summary>5. 功能速度怎么样？</summary>
+      <div class="ans"><b>下载</b>：12 线程并发拉取分片，自动选最高清晰度，实时显示进度和速度。实际速度取决于你的网速和视频源站。下载完自动合并，几百 MB 的视频一般几十秒内完成（视网速）。<br><b>加密/解密</b>：AES-256 加解密由手机 CPU 硬件指令加速，速度很快。以主流手机为例，100MB 视频约几秒到十几秒，全程进度条显示，大文件不会卡死（流式处理）。</div>
+    </details>
+  </div>
+</section>
 
-        // ========== DOM 节点 ==========
-        const adminPwdInput = document.getElementById('adminPwdInput');
-        const unlockAdmin = document.getElementById('unlockAdmin');
-        const logoutAdmin = document.getElementById('logoutAdmin');
-        const freePkg = document.getElementById('freePkg');
-        const adminPkgBtn = document.getElementById('adminPkgBtn');
-        const pkgDesc = document.getElementById('pkgDesc');
-        const countFooter = document.getElementById('countFooter');
-        const tabEnc = document.getElementById('tabEnc');
-        const tabDec = document.getElementById('tabDec');
-        const encBox = document.getElementById('encBox');
-        const decBox = document.getElementById('decBox');
-        const uiTitle = document.getElementById('uiTitle');
-        const fileIn = document.getElementById('fileIn');
-        const fileTip = document.getElementById('fileTip');
-        const pwdEnc = document.getElementById('pwdEnc');
-        const doEnc = document.getElementById('doEnc');
-        const resetEnc = document.getElementById('resetEnc');
-        const pwdDec = document.getElementById('pwdDec');
-        const doDec = document.getElementById('doDec');
-        const saveAll = document.getElementById('saveAll');
-        const resetDec = document.getElementById('resetDec');
-        const slideBox = document.getElementById('slideBox');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+<!-- 隐私 -->
+<section id="privacy">
+  <div class="wrap">
+    <div class="sec-title">隐私说明</div>
+    <div class="sec-sub">真实情况，逐条说明</div>
+    <div class="priv"><div class="dot">☁</div><div><h3>1. 是否会上传视频云端？</h3><p><b>不会。</b>加密、解密全程在你手机本地完成，视频文件不经过任何服务器，也不会上传到任何云端。软件本身没有任何云端上传功能。</p></div></div>
+    <div class="priv"><div class="dot">📱</div><div><h3>2. 是否是本地处理？</h3><p><b>是。</b>加密/解密 100% 本地处理，不需要联网。下载功能仅在你输入 M3U8 链接时，去对应网站拉取视频数据（这是下载的本职工作），下载完成后数据就只在你的手机里。</p></div></div>
+    <div class="priv"><div class="dot">⚖</div><div><h3>3. 本软件是否合法合规？</h3><p>软件本身是<b>合法工具</b>：仅申请网络权限用于下载你主动输入的 M3U8 链接，不涉及任何破解、脱壳、绕过付费等行为。请只下载和加密你<b>拥有版权或已获授权</b>的视频，并遵守你所在地区的法律法规——这一点需要使用者自己负责。</p></div></div>
+    <div class="priv"><div class="dot">🔒</div><div><h3>4. 是否会读取隐私？</h3><p><b>不会。</b>App 不读取通讯录、相册、短信、定位、麦克风等任何敏感权限；不收集任何个人信息；无广告、无统计、无账号系统、无后台联网（除下载时访问你输入的链接）。唯一申请的权限是网络权限（下载用），旧版安卓的存储权限仅用于保存文件且已限制版本。</p></div></div>
+  </div>
+</section>
 
-        // ========== 页面刷新 ==========
-        function refreshCountView() {
-            const remain = userType === "free" ? DAILY_FREE_LIMIT - uploadCount : "无限制";
-            countFooter.innerText = `今日已上传：${uploadCount} 次 | 剩余次数：${remain}`;
-        }
-        function refreshPkgDesc() {
-            if (userType === "free") {
-                freePkg.classList.add('active');
-                adminPkgBtn.classList.remove('active');
-                adminPkgBtn.disabled = true;
-            } else {
-                adminPkgBtn.classList.add('active');
-                freePkg.classList.remove('active');
-                adminPkgBtn.disabled = false;
-            }
-            refreshCountView();
-        }
-        refreshPkgDesc();
+<!-- 免责声明 -->
+<section id="disclaimer">
+  <div class="wrap">
+    <div class="sec-title">免责声明</div>
+    <div class="sec-sub">请在使用前阅读，真实透明，不含夸大承诺</div>
+    <div class="tech">
+      <span class="tag">加密真实性声明</span>
+      <h3>AES-256 是真实使用的加密算法，可验证</h3>
+      <p>本软件视频加密确实使用 <b>AES-256</b>：密钥为 256 位（32 字节），经 PBKDF2 从你的密码派生，CBC 分组 + PKCS7 填充。这是公开的国际标准算法，不搞“自定义假加密”。<b>但请注意</b>：任何加密都无法承诺“绝对不可破解”，实际安全性取决于你的密码强度（请勿使用简单密码）、设备本身的安全状况等因素。</p>
+    </div>
+    <div class="tech">
+      <span class="tag">重要风险提醒 ①</span>
+      <h3>忘记密码 = 文件永久无法解密</h3>
+      <p>本软件没有密码找回功能，也不存在任何后门或重置机制（这是安全性设计，不是缺陷）。<b>一旦忘记密码，加密文件将永久无法解密</b>。请务必牢记密码，重要文件建议先保留一份未加密备份。</p>
+    </div>
+    <div class="tech">
+      <span class="tag">重要风险提醒 ②</span>
+      <h3>私密模式与设备绑定：换机/刷机/恢复出厂的风险</h3>
+      <p>私密模式依赖手机设备标识参与密钥生成。如果加密后你<b>恢复出厂设置、刷机、更换设备标识</b>，设备绑定密钥将失效，<b>该文件将永久无法解密</b>。加密私密文件前请确认：你不会在近期恢复出厂/刷机；或对必须长期保存的文件改用公开模式或保留明文备份。</p>
+    </div>
+    <div class="tech">
+      <span class="tag">内容版权</span>
+      <h3>请只加密/下载你有权处理的内容</h3>
+      <p>请仅对<b>你拥有版权或已获得授权</b>的视频进行下载与加密，并遵守你所在地区的法律法规。因下载、加密、传播未经授权内容产生的任何法律责任由使用者自行承担，与软件开发者无关。</p>
+    </div>
+    <div class="tech">
+      <span class="tag">兼容与现状</span>
+      <h3>软件按“现状”提供</h3>
+      <p>本软件按“现状”免费提供：不保证兼容所有手机型号与所有 M3U8 视频源（部分特殊加密源会明确提示不支持）；因使用本软件（包括但不限于文件丢失、数据损坏、解密失败）产生的任何损失，由使用者自行承担。M3U8 链接对应的视频内容版权归原权利方所有，本站与软件不存储、不提供任何视频内容。</p>
+    </div>
+  </div>
+</section>
 
-        // ========== 按钮事件 ==========
-        unlockAdmin.onclick = function () {
-            const pwd = adminPwdInput.value.trim();
-            if (pwd === ADMIN_PASSWORD) {
-                userType = "admin";
-                adminPwdInput.value = "";
-                alert("✅ 管理员解锁成功，无限上传");
-                refreshPkgDesc();
-            } else {
-                alert("❌ 密码错误");
-            }
-        };
-        logoutAdmin.onclick = function () {
-            userType = "free";
-            adminPwdInput.value = "";
-            alert("✅ 已切回免费用户");
-            refreshPkgDesc();
-        };
-        freePkg.onclick = function () {
-            userType = "free";
-            refreshPkgDesc();
-        };
-        adminPkgBtn.onclick = function () {
-            if (!adminPkgBtn.disabled) {
-                userType = "admin";
-                refreshPkgDesc();
-            }
-        };
-        tabEnc.onclick = function () {
-            tabEnc.classList.add('active');
-            tabDec.classList.remove('active');
-            encBox.classList.remove('hide');
-            decBox.classList.add('hide');
-            uiTitle.innerText = '🔒 批量加密 照片/视频';
-        };
-        tabDec.onclick = function () {
-            tabDec.classList.add('active');
-            tabEnc.classList.remove('active');
-            decBox.classList.remove('hide');
-            encBox.classList.add('hide');
-            uiTitle.innerText = '🔓 解密｜口令解锁+翻页浏览';
-        };
-        fileIn.onchange = function (e) {
-            nowFiles = Array.from(e.target.files);
-            fileTip.innerText = `已选：${nowFiles.length} 个媒体文件`;
-        };
+<!-- 联系 -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-title">联系我们</div>
+    <div class="sec-sub">欢迎聊天</div>
+    <div class="contact">
+      <p>启发者QQ</p>
+      <div class="qq">3647677118</div>
+      <p>加好友请备注「M3U8 下载器」</p>
+      <button class="copy-btn" onclick="copyQQ()">复制 QQ 号</button>
+    </div>
+  </div>
+</section>
 
-        // 批量加密（转Base64存入IndexedDB，永久保存）
-        doEnc.onclick = async function () {
-            const pwd = pwdEnc.value.trim();
-            if (nowFiles.length === 0) {
-                alert('请先选择文件！');
-                return;
-            }
-            if (!pwd) {
-                alert('请输入加密口令！');
-                return;
-            }
-            if (userType === "free" && uploadCount >= DAILY_FREE_LIMIT) {
-                alert("❌ 今日免费次数已用完");
-                return;
-            }
-            const key = encodePwd(pwd);
-            let fileList = [];
-            try {
-                for (const file of nowFiles) {
-                    const base64 = await fileToBase64(file);
-                    fileList.push({
-                        name: file.name,
-                        type: file.type,
-                        data: base64
-                    });
-                }
-                await saveToDB(key, fileList);
-                if (userType === "free") {
-                    uploadCount++;
-                    localStorage.setItem('uploadCount', uploadCount);
-                    refreshCountView();
-                }
-                alert(`✅ 加密并永久保存成功！\n口令：${pwd}`);
-                resetEnc.onclick();
-            } catch (err) {
-                alert("文件处理失败，文件过大或格式不支持");
-            }
-        };
+<footer>
+  <div class="wrap">
+    <p>M3U8 下载器 v2.0 · 本页面为软件官方介绍站</p>
+    <p>内容按软件真实功能编写 · 请合法使用 · 本站不存储任何视频文件</p>
+  </div>
+</footer>
 
-        resetEnc.onclick = function () {
-            nowFiles = [];
-            fileIn.value = "";
-            pwdEnc.value = "";
-            fileTip.innerText = "未选择任何文件";
-        };
+<!-- 移动端底部下载条 -->
+<div class="dl-float">
+  <div class="txt">M3U8下载器_v2.0.apk</div>
+  <a href="https://d6.qyshare.click/s/TBVWTxUNFQEFUgKFCVA50KFCVA50DlEEGgRRKFCVA50KFCVA508aKFCVA50wRTDxpVBQKFCVA50CGg5TBQKFCVA50FDlVVBVFVBhUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50xgGVKFCVA50JVKFCVA50QYKFCVA50UhoKFCVA50UgNUGgNUUVYaVQMKFCVA50DxoOVFEEKFCVA50lUKFCVA50BVZSDlUZVV5ZFRsVVlQVDRUBKFCVA50QICU1QBDhpTUVMHGgNVVgYaVlJTKFCVA50xpVKFCVA50QYCUgIGVQIGKFCVA50FUVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkHGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRVTVlUKFCVA50KFCVA50KFCVA50cKFCVA50UxoOUwcGGgMKFCVA50UVQaVQBVKFCVA50xoEDlVTBVEKFCVA50UVYBVFQVSg==" download>下载</a>
+</div>
 
-        // 解密加载
-        doDec.onclick = async function () {
-            const pwd = pwdDec.value.trim();
-            if (!pwd) {
-                alert('请输入解密口令！');
-                return;
-            }
-            const key = encodePwd(pwd);
-            const res = await getFromDB(key);
-            if (!res) {
-                alert("❌ 口令错误或无对应数据");
-                slideBox.innerHTML = '<div class="slide-item">解密失败</div>';
-                decryptList = [];
-                return;
-            }
-            decryptList = res;
-            currentIndex = 0;
-            alert(`✅ 解密成功，共 ${decryptList.length} 个文件`);
-            slideBox.innerHTML = "";
-            decryptList.forEach(item => {
-                const div = document.createElement('div');
-                div.className = "slide-item";
-                if (item.type.startsWith('image')) {
-                    div.innerHTML = `<img src="${item.data}" alt="">`;
-                } else {
-                    div.innerHTML = `<video src="${item.data}" controls></video>`;
-                }
-                slideBox.appendChild(div);
-            });
-            slideBox.scrollLeft = 0;
-        };
-
-        // 批量保存
-        saveAll.onclick = function () {
-            if (decryptList.length === 0) {
-                alert('请先解密！');
-                return;
-            }
-            decryptList.forEach(item => {
-                const a = document.createElement('a');
-                a.href = item.data;
-                a.download = item.name;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            });
-            alert("✅ 全部保存完成");
-        };
-
-        resetDec.onclick = function () {
-            decryptList = [];
-            currentIndex = 0;
-            pwdDec.value = "";
-            slideBox.innerHTML = '<div class="slide-item">请先解密加载媒体</div>';
-        };
-        prevBtn.onclick = () => slidePrev(slideBox);
-        nextBtn.onclick = () => slideNext(slideBox);
-    </script>
+<script>
+function copyQQ(){
+  var t=document.createElement('textarea');
+  t.value='3647677118';
+  document.body.appendChild(t);
+  t.select();
+  try{document.execCommand('copy');alert('QQ 号已复制：3647677118');}catch(e){prompt('请手动复制 QQ 号：', '3647677118');}
+  document.body.removeChild(t);
+}
+</script>
 </body>
 </html>
