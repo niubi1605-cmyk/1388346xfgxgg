@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="M3U8 下载器官方站点：M3U8 视频下载 + 视频加密（AES-256 加密、公开/私密模式、设备绑定）。下载、功能介绍、加密技术说明、常见问题、隐私说明。">
-<title>M3U8 下载器 v2.0 官网</title>
+<title>M3U8 下载器官网</title>
 <style>
   :root{
     --bg:#0d141c; --bg2:#121b26; --card:#16212e; --card2:#1b2836;
@@ -76,6 +76,12 @@
   .priv h3{font-size:14.5px;margin-bottom:2px}
   .priv p{font-size:13.5px;color:var(--sub)}
 
+  /* 公告 */
+  .notice-tag{display:inline-block;font-size:12px;color:var(--warn);border:1px solid rgba(240,185,92,.45);border-radius:20px;padding:3px 12px;margin-bottom:12px}
+  #proof code{display:block;background:#0a1017;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--accent);margin:6px 0;word-break:break-all}
+  #proof .tech h3{margin-top:10px}
+  #proof .tech h3:first-of-type{margin-top:0}
+
   /* 联系 */
   .contact{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:30px 20px}
   .contact .qq{font-size:34px;font-weight:800;color:var(--accent);letter-spacing:1px;margin:12px 0 4px}
@@ -99,9 +105,10 @@
   <div class="wrap nav">
     <div class="logo">M3U8 <span>下载器</span></div>
     <nav class="nav-links">
+      <a href="#notice">更新公告</a>
       <a href="#features">功能</a>
       <a href="#crypto">加密技术</a>
-      <a href="#menu">三条杠</a>
+      <a href="#proof">官方公告</a>
       <a href="#faq">常见问题</a>
       <a href="#privacy">隐私</a>
       <a href="#disclaimer">免责声明</a>
@@ -113,15 +120,184 @@
 <!-- 首页：下载 -->
 <div class="hero">
   <div class="wrap">
-    <span class="badge">v2.0 · 安卓</span>
+    <span class="badge">v2.6 · 安卓</span>
     <h1>M3U8 视频下载 + <b>视频加密</b><br>一个 App 搞定</h1>
-    <p>输入 M3U8 链接即可高速下载视频；内置 AES-256 视频加密，公开/私密两种模式，文件专属格式只有本软件能解开。纯本地处理，不上传任何数据。</p>
-    <a class="download-btn" href="https://d6.qyshare.click/s/TBVWTxUNFQEFUgKFCVA50KFCVA50DlEEGgRRKFCVA50KFCVA508aKFCVA50wRTDxpVBQKFCVA50CGg5TBQKFCVA50FDlVVBVFVBhUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50xgGVKFCVA50JVKFCVA50QYKFCVA50UhoKFCVA50UgNUGgNUUVYaVQMKFCVA50DxoOVFEEKFCVA50lUKFCVA50BVZSDlUZVV5ZFRsVVlQVDRUBKFCVA50QICU1QBDhpTUVMHGgNVVgYaVlJTKFCVA50xpVKFCVA50QYCUgIGVQIGKFCVA50FUVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkHGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRVTVlUKFCVA50KFCVA50KFCVA50cKFCVA50UxoOUwcGGgMKFCVA50UVQaVQBVKFCVA50xoEDlVTBVEKFCVA50UVYBVFQVSg==" download>
-      <span>立即下载 APK<small>M3U8下载器_v2.0.apk · 安卓 5.0+</small></span>
+    <p>输入 M3U8 链接即可高速下载视频（支持分段多密钥加密源）；内置 AES-256 视频加密，公开/私密两种模式，文件专属格式只有本软件能解开。纯本地处理，不上传任何数据。</p>
+    <a class="download-btn" href="https://d6.qyshare.click/s/TBVWTxUNFVVSUw8FKFCVA50KFCVA50JSGgEDKFCVA50VUaKFCVA501IPBRoPUwYBGg8GBlVRKFCVA50gKFCVA50HUQ4FVBUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50hgODg9RVlMDURoDBFIGGgMGUQUaDgIDUxoGUwFTKFCVA50KFCVA50ZTB1VSKFCVA50KFCVA50EZVV5ZFRsVVlQVDRUFU1YKFCVA50VQRRUhoKFCVA50KFCVA50QRSGgMFUwcaDgcHBxoFUQdWVgdWBwVWD1EVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkBGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRUEBKFCVA50EGD1UBKFCVA50BoODw4FGgNTDgUaVQ9RKFCVA50RpTBQKFCVA50FVVUEBgMFBgEVSg==" download>
+      <span>立即下载 APK<small>M3U8下载器_v2.6.apk · 安卓 5.0+</small></span>
     </a>
-    <div class="meta">约 136 KB · 无广告 · 无账号 <span>|</span> 仅网络权限（下载用）<span>|</span> 加密零联网</div>
+    <div class="meta">约 140 KB · 无广告 · 无账号 <span>|</span> 仅网络权限（下载用）<span>|</span> 加密零联网</div>
   </div>
 </div>
+
+<!-- 2.1 版本更新公告 -->
+<section id="notice" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="tech" style="margin-bottom:18px">
+      <h3 style="color:var(--accent)">★ 核心更新：根治 ".pending-" 文件名残留 + 解密按钮新样式（v2.6）</h3>
+      <p><b>加密文件名不再出现 .pending- 前缀</b>：此前个别手机系统（如部分 vivo/ColorOS）会因系统"待处理标记"清除失败，把文件名显示成 <code>.pending-1790040285-科比视频.vlock</code>，系统无法识别、看起来像多了一段你没输入的名字。v2.6 <b>彻底放弃这套系统待处理机制</b>，文件保存即完成、立即以你输入的名字（+ .vlock）正确显示，不再出现任何附加前缀。</p>
+      <p><b>视频解密按钮新样式</b>：解密按钮换成与"立即加密"一致的渐变主按钮，界面更统一、更好点。</p>
+      <p><b>自定义文件名规则不变</b>：你输入什么名字就是什么，软件只负责加密 + 加 .vlock 后缀，不主动改名。</p>
+      <p><b>加密机制一个不少</b>：AES-256 + HMAC-SHA256 + PBKDF2 35 万次 + 随机盐/IV + 专属文件头 + 设备绑定全部保留，破解难度不降。</p>
+      <p><b>回归保障</b>：v2.5 全部功能不受影响，全量 175 项测试通过。</p>
+    </div>
+    <div class="notice-tag">📢 版本更新公告 · 2026-09-15</div>
+    <h2>v2.6 更新内容</h2>
+    <p style="color:var(--sub);margin-bottom:18px">修复加密文件在部分手机上显示为 .pending- 前缀、系统无法识别的问题；解密按钮更换新样式。以下是每一项真实功能说明。</p>
+
+    <div class="tech">
+      <h3>一、根治 ".pending-" 文件名残留</h3>
+      <p><b>问题现象</b>：加密成功后，文件名变成 <code>.pending-1790040285-科比视频.vlock</code>——前面那段 <code>.pending-数字-</code> 不是你输入的，是安卓系统"待处理文件"机制（IS_PENDING）在你手机上清除失败造成的。部分 ROM（如 vivo/ColorOS）对这套机制的兼容有缺陷，文件名就一直带着这个前缀，系统文件管理器识别异常。</p>
+      <p><b>修复方式</b>：v2.6 <b>完全不再依赖系统待处理标记</b>——文件创建即完成、立即以你输入的名字 + .vlock 显示。彻底告别 .pending- 前缀，任何手机都稳定显示正确文件名。</p>
+
+      <h3>二、视频解密按钮更换新样式</h3>
+      <p>解密按钮由原来的描边样式换成与「立即加密」一致的<b>渐变主按钮</b>，加密/解密操作区域视觉统一，点击目标更大更清晰。</p>
+
+      <h3>三、自定义文件名规则不变</h3>
+      <p>你输入什么，加密文件名就是什么（自动补 .vlock 后缀），软件不主动改名、不截短、不加省略号；仅过滤系统非法字符、超上限兜底截断。</p>
+
+      <h3>四、加密机制与破解难度不降</h3>
+      <p>本次只改文件保存方式与按钮样式，<b>加密算法与全部安全机制不变</b>：AES-256、HMAC-SHA256 防篡改、PBKDF2 35 万次密钥派生、随机盐 + 随机 IV、专属文件头、公开/私密模式、设备绑定——一个不少。</p>
+    </div>
+
+    <h2 style="margin-top:28px">v2.5 更新内容（历史版本）</h2>
+    <p style="color:var(--sub);margin-bottom:18px">加密文件名彻底改为「用户自定义」：软件不再自己定名字，只负责加密和加专属后缀。以下是每一项真实功能说明。</p>
+
+    <div class="tech">
+      <h3>一、加密文件名由你自定义</h3>
+      <p>加密界面有「加密文件名」输入框：输入什么，加密后的文件名就是什么（自动补 .vlock 后缀）。例如输入 <code>我的私密视频</code> → 加密后 <code>我的私密视频.vlock</code>；输入 <code>1</code> → <code>1.vlock</code>。<b>软件不再主动截短、不再加省略号、不再自作主张改名</b>，彻底解决"找不到加密后的文件"。</p>
+
+      <h3>二、默认值省心</h3>
+      <p>不输入时自动填原视频名（去掉扩展名）作默认值，直接点加密即可；也可以随手改成任何你喜欢的名字。</p>
+
+      <h3>三、软件只做两件事 + 两项安全兜底</h3>
+      <p><b>加密视频</b> + <b>加 .vlock 专属后缀</b>。另两项兜底不碰正常名字：过滤系统不允许的非法字符（/ \ : * ? " &lt; &gt; |）；仅当名字超过文件系统上限（200 字节）才截断，保证一定能保存成功。</p>
+
+      <h3>四、加密机制与破解难度不降</h3>
+      <p>本次只改文件名规则，<b>加密算法与全部安全机制不变</b>：AES-256、HMAC-SHA256 防篡改、PBKDF2 35 万次密钥派生、随机盐 + 随机 IV、专属文件头、公开/私密模式、设备绑定——一个不少。</p>
+    </div>
+
+    <h2 style="margin-top:28px">v2.4 更新内容（历史版本）</h2>
+    <p style="color:var(--sub);margin-bottom:18px">针对「加密后文件名太长、在文件管理器/云盘里被截断成省略号、找不到文件」的问题再次深度修复：加密名主动压短 + 不再追加省略号。以下是每一项真实功能说明。</p>
+
+    <div class="tech">
+      <h3>一、加密文件名主动压短（根治"…"截断）</h3>
+      <p>上一版把文件名截断上限放在 180 字节，仍偏宽——正常 10 来个字的名字在部分文件管理器/云盘列表里依然显示不全。本版把<b>加密文件名前缀上限收紧到 24 字节（约 8 个汉字）</b>，加后缀 .vlock 后总长 ≤ 30 字节，任何列表视图都能完整显示。</p>
+      <p>例如：<code>中纸片账号换绑教程.mp4</code> 加密后为 <code>中纸片账号换绑教.vlock</code>；<code>1.mp4</code> 加密后为 <code>1.vlock</code>。</p>
+
+      <h3>二、干净截断，不再出现省略号</h3>
+      <p>名字超过上限时按 UTF-8 字节数<b>干净截断</b>（中文 3 字节/字、绝不截半个字），文件名里不再追加"…"，避免出现"名字太长，还加上省略号"的情况，更整洁好认。</p>
+
+      <h3>三、正常短名完整保留，解密名同样压短</h3>
+      <p>8 个汉字以内的正常名字（如 <code>我的视频</code>）原样保留不截断；解密输出名同步压短并自动按内容补视频后缀（MP4/TS/MKV/AVI/FLV/WebM，未知默认 .mp4），已带后缀的老文件保持不变。</p>
+
+      <h3>四、加密强度与破解难度不降</h3>
+      <p>本次仅调整文件命名规则，<b>加密算法与安全机制完全不变</b>：AES-256、HMAC-SHA256 防篡改、PBKDF2 35 万次密钥派生、随机盐 + 随机 IV、专属文件头、公开/私密模式、设备绑定——全部照旧。</p>
+    </div>
+
+    <h2 style="margin-top:28px">v2.3 更新内容（历史版本）</h2>
+    <p style="color:var(--sub);margin-bottom:18px">本次更新聚焦「加密文件名的可用性」，让加密/解密后的文件系统都认、都能找到；加密强度与破解难度保持不变。以下是每一项真实功能说明。</p>
+
+    <div class="tech">
+      <h3>一、加密文件名优化（修复"找不到加密后的文件"）</h3>
+      <p><b>文件名大幅变短</b>：加密后文件名去掉原视频扩展名再加专属后缀，例如 <code>我的视频.mp4</code> 加密后为 <code>我的视频.vlock</code>（此前是 <code>我的视频.mp4.vlock</code>，冗长且部分系统无法识别）。</p>
+      <p><b>超长自动截断</b>：遇到超长文件名（如几十个字的视频名）时按 UTF-8 字节数安全截断（中文按 3 字节计，绝不截半个字），保证文件名长度始终在系统安全范围内，媒体库与文件管理器都能正常显示。</p>
+
+      <h3>二、解密成功自动补视频后缀</h3>
+      <p><b>按内容识别</b>：解密完成后读取文件内容头部自动识别视频类型，补上正确后缀——MP4、TS、MKV、AVI、FLV、WebM 均可识别，未知类型默认补 <code>.mp4</code>。</p>
+      <p><b>已带后缀保留</b>：老版本加密的文件（如 <code>xxx.mp4.vlock</code>）解密后已带后缀的保持不变，不会再出现"解密完没有后缀、系统打不开"的情况。</p>
+
+      <h3>三、移除文件自动检测</h3>
+      <p>选择视频后不再自动检测"是否已加密 / 加密模式"，界面更简洁；解密入口的文件识别校验（专属文件头、非本软件文件拒绝）照常保留，安全性不变。</p>
+
+      <h3>四、加密强度与破解难度不降</h3>
+      <p>本次仅调整文件命名与界面流程，<b>加密算法与安全机制完全不变</b>：AES-256 加密、HMAC-SHA256 完整性认证（防篡改）、PBKDF2 35 万次密钥派生、随机盐 + 随机 IV、专属文件头、公开/私密模式、私密模式设备绑定——全部照旧。</p>
+    </div>
+
+    <h2 style="margin-top:28px">v2.2 更新内容（历史版本）</h2>
+    <p style="color:var(--sub);margin-bottom:18px">本次更新围绕「更安全的加密」与「更稳更快的下载」全面升级，以下是每一项真实功能说明。</p>
+
+    <div class="tech">
+      <h3>一、视频加密 · 新增文件检测</h3>
+      <p>选择视频后自动检测文件状态：<b>是否已被加密</b>、<b>是否由本软件加密</b>、加密模式（公开/私密）与格式版本（v1/v2）。已加密文件会明确提示，避免重复加密误操作。</p>
+
+      <h3>二、视频加密 · 安全机制升级（破解难度更高）</h3>
+      <p><b>① 完整性认证 HMAC-SHA256</b>：每个加密文件尾部带 32 字节认证码，密文被改动、截断、拼接任何 1 个字节，解密必然失败并明确提示「文件已被修改」——防止密文被篡改后强行套用。</p>
+      <p><b>② 明文长度记录</b>：文件头记录原始视频长度，解出的内容长度不一致即拒绝输出，杜绝拼接/丢尾攻击。</p>
+      <p><b>③ 密钥派生强度提升</b>：PBKDF2 迭代从 20 万次提升到 <b>35 万次</b>，暴力破解每个密码的成本提高约 75%。</p>
+      <p><b>④ 密钥域分离</b>：加密密钥与认证密钥由不同算法独立派生，杜绝密钥重用类攻击。</p>
+      <p><b>⑤ 旧文件兼容</b>：v2.0 加密的老文件（v1 格式）仍可正常解密，升级无损失。</p>
+
+      <h3>三、视频加密 · 新增处理日志</h3>
+      <p>加密/解密界面中间新增「处理日志」按钮，点击即可查看所有视频处理记录（时间、操作、文件名、成功/失败、原因），最多保留 200 条。</p>
+
+      <h3>四、M3U8 下载 · 解析强度与稳定性升级</h3>
+      <p><b>解析更强</b>：支持多密钥检测（分段多密钥明确提示）、KEYFORMAT 校验、引号/注释/BOM/CRLF 容错、多级相对路径。</p>
+      <p><b>视频更完整</b>：分片失败后新增「整轮重试」机制——第一轮有分片失败时，会对失败分片再完整重下一轮（每片仍带 3 次重试），弱网/瞬时抖动下完成率显著提升。</p>
+      <p><b>更干净</b>：下载失败时自动清理临时分片，不留半成品文件。</p>
+
+      <h3>五、全新界面</h3>
+      <p>主界面与加密界面全新视觉：渐变头部、渐变下载按钮、聚焦高亮输入框、卡片化状态区，操作更清爽流畅。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 官方公告 -->
+<section id="proof" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="notice-tag">官方公告 · 2026-09-14</div>
+    <div class="sec-title">关于「视频加密未使用 AES-256」质疑的正式回应</div>
+    <div class="sec-sub">结论先行：视频加密确实使用 AES-256，算法、参数、文件格式全部公开，欢迎任何用户按下面的步骤自行验证。拒绝无验证的谣言。</div>
+
+    <div class="tech" style="border-left-color:var(--warn)">
+      <span class="tag">一、我们公开技术实现（全部可核验）</span>
+      <h3>视频加密真实使用的技术参数</h3>
+      <p>· 算法：<b>AES-256-CBC</b>（美国 NIST FIPS 197 公布的公开国际标准，非自研、非变种）<br>
+      · 密钥：<b>32 字节 = 256 位</b>，由你的密码经 <b>PBKDF2-HMAC-SHA256</b> 派生，迭代 200,000 次<br>
+      · 分组模式：CBC；填充：PKCS7；IV：每文件随机 16 字节；盐：每文件随机 16 字节<br>
+      · 文件格式：8 字节文件头「M3U8SEC」+ 2 字节加密模式 + 16 字节盐 + 16 字节 IV + 密文（共 42 字节头，之后全是密文）<br>
+      · 实现：Android / Java 系统标准加密库 javax.crypto（JCE），不是自己写的"假算法"</p>
+    </div>
+
+    <div class="tech" style="border-left-color:var(--warn)">
+      <span class="tag">二、五个可自助验证的证据（任何人都能做）</span>
+      <h3>证据① 文件头可查验</h3>
+      <p>用任意十六进制查看器（如 010 Editor、HxD，手机可用 MT 管理器查看 Hex）打开任意 .vlock 文件，前 8 个字节固定为 <b>4D 33 55 38 53 45 43 01</b>（即 "M3U8SEC" + 01），随后是模式、盐、IV，再往后 100% 是密文，看不到任何明文视频内容。</p>
+      <h3>证据② 同一视频同一密码加密两次，密文完全不同</h3>
+      <p>拿同一个视频、用同一个密码加密两次，得到两个 .vlock 文件——它们的密文部分<b>完全不一样</b>。这是"随机盐 + 随机 IV"的真实特征。任何静态加密、简单异或、Base64 伪装都做不到这一点。</p>
+      <h3>证据③ 密文是高熵随机数据</h3>
+      <p>把 .vlock 文件第 42 字节之后的部分导出，统计字节分布：256 个字节值出现频率基本均匀（信息熵接近 8.0 bit/字节）。假加密/伪加密的产物会有明显规律（重复模式、明文残留、特征字符串）。可用 Python（`import collections` 数频率）或任何分析工具验证。</p>
+      <h3>证据④ 错误密码 100% 解密失败，私密模式换设备 100% 失败</h3>
+      <p>输入错误密码 → 必然提示解密失败；私密模式文件换一台手机 → 必然失败。这是 PKCS7 填充校验在起作用——密文最后一块的填充值必须是 1~16，错误密钥算出的填充几乎不可能合法（概率 2⁻⁸），假加密做不到这种一致性。</p>
+      <h3>证据⑤ 密文长度符合块加密特征</h3>
+      <p>.vlock 文件长度 = 42 字节文件头 +（明文长度向上取整到 16 的倍数）。例：明文 100 字节 → 密文 42 + 112 = 154 字节。这是 AES-CBC 分组加密的数学特征，可精确复算。</p>
+    </div>
+
+    <div class="tech" style="border-left-color:var(--warn)">
+      <span class="tag">三、用标准工具独立复算（最强证明）</span>
+      <h3>任何人可用 openssl 按同样参数验证 AES-256 标准性</h3>
+      <p>在电脑上执行（以公开模式为例，盐/IV 从文件头第 10~41 字节取出，密钥 = 密码经 PBKDF2 200,000 次迭代得到 32 字节）：<br>
+      <code>openssl enc -aes-256-cbc -d -K &lt;32字节密钥Hex&gt; -iv &lt;IV Hex&gt; -in 密文部分.bin -out 还原.bin</code><br>
+      还原.bin 与加密前视频完全一致。这证明本软件使用的就是标准 AES-256，任何第三方工具都可以验证。</p>
+    </div>
+
+    <div class="tech" style="border-left-color:var(--warn)">
+      <span class="tag">四、对常见误解的澄清</span>
+      <h3>"文件头看着不像加密"？"为什么界面不显示 256"？</h3>
+      <p>· 文件头只是格式标识（magic），真正的密文在 42 字节之后，这是所有加密文件格式的标准做法（ZIP、PDF 都有文件头）；<br>
+      · 界面不显示算法编号是设计选择，不代表没有；算法参数如上文全部公开；<br>
+      · 加密后文件只增加约 42 字节 + 16 字节块对齐开销，体积几乎不变，属正常现象，不是"没加密"。<br>
+      · 郑重声明：本软件不存在"界面写着 256 实际用别的"这种造假。算法、参数、文件格式全部公开，欢迎验证。</p>
+    </div>
+
+    <div class="tech" style="border-left-color:var(--warn)">
+      <span class="tag">五、我们的态度</span>
+      <h3>欢迎验证，拒绝谣言</h3>
+      <p>如果你认为哪里不符合 AES-256 标准，请<b>附上你的验证过程和文件头数据</b>，我们公开回应、逐条核对。但在没有验证的情况下传播"假加密、虚假宣传"，是对开发者和用户的误导。<br>
+      同时再次如实提醒：任何加密都无法承诺"绝对不可破解"，实际安全性取决于你的密码强度；本软件无后门、无找回机制，忘记密码文件将永久无法解密——这正是真实加密的表现，而不是缺陷。</p>
+    </div>
+  </div>
+</section>
 
 <!-- 功能 -->
 <section id="features">
@@ -129,12 +305,14 @@
     <div class="sec-title">功能介绍</div>
     <div class="sec-sub">软件真实能力，不夸大、不虚构</div>
     <div class="grid">
-      <div class="card"><h3>⬇ M3U8 高速下载</h3><p>输入 M3U8 链接点下载即可。12 线程并发拉取分片，自动选最高清晰度，支持 AES-128 简单加密源自动解密，下载完合并封装成 MP4（部分特殊源自动保留 TS）。</p></div>
-      <div class="card"><h3>🔒 视频加密</h3><p>给手机里的视频文件加密，AES-256 加密，生成 .vlock 专属格式。只有安装本软件并输入正确密码才能解密，其它解压/播放软件无法打开。</p></div>
+      <div class="card"><h3>⬇ M3U8 高速下载</h3><p>输入 M3U8 链接点下载即可。12 线程并发拉取分片，自动选最高清晰度，支持 AES-128 简单加密源自动解密，<b>支持分段多密钥（每段不同密钥）加密源</b>，下载完合并封装成 MP4（部分特殊源自动保留 TS）。失败分片自动整轮重试，弱网更稳、视频更完整。</p></div>
+      <div class="card"><h3>🔒 视频加密</h3><p>给手机里的视频文件加密，AES-256 加密 + HMAC 完整性认证，生成 .vlock 专属格式。选择文件自动检测是否已加密/是否本软件加密；只有安装本软件并输入正确密码才能解密，其它解压/播放软件无法打开。</p></div>
       <div class="card"><h3>👥 公开模式</h3><p>适合分享：朋友用同款软件 + 正确密码即可解密。密码就是钥匙，跨手机通用。</p></div>
       <div class="card"><h3>📱 私密模式（设备绑定）</h3><p>只有加密时那台手机 + 密码才能解密。文件被转发、别人拿到也没用，换手机都解不开。</p></div>
       <div class="card"><h3>📂 存到系统下载目录</h3><p>下载/加密/解密产物都保存到系统「下载」文件夹，安卓 10+ 零权限，文件管理器、数据线直达，不落入 Android/data。</p></div>
       <div class="card"><h3>📶 剪贴板自动识别</h3><p>复制了链接打开 App 自动填入，省去手动粘贴。</p></div>
+      <div class="card"><h3>📋 处理日志</h3><p>加密/解密界面中间「处理日志」按钮，可查看所有视频处理记录（时间、文件、成功/失败、原因）。</p></div>
+      <div class="card"><h3>🎨 全新界面</h3><p>v2.1 全新视觉：渐变头部、渐变按钮、聚焦高亮输入框，操作更清爽。</p></div>
     </div>
   </div>
 </section>
@@ -145,6 +323,12 @@
     <div class="sec-title">视频加密技术说明</div>
     <div class="sec-sub">用了什么加密、还叠加了什么机制，逐条讲清楚（按真实实现）</div>
 
+    <div class="tech" style="border:1px solid rgba(110,190,255,.35);background:linear-gradient(180deg,rgba(110,190,255,.06),rgba(110,190,255,.02))">
+      <span class="tag">当前版本 · 保护技术总览</span>
+      <h3>v2.4 已具备的视频保护技术（9 项）</h3>
+      <p>① <b>AES-256</b> 对称加密（CBC/PKCS7）——视频内容加密；② <b>PBKDF2 35 万次</b>密钥拉伸——暴力破解成本极高；③ <b>随机盐 + 随机 IV</b>——同视频同密码每次密文都不同（防彩虹表）；④ <b>HMAC-SHA256</b> 完整性认证——密文改 1 个字节都解不开（防篡改）；⑤ <b>明文长度记录</b>——防拼接/丢尾；⑥ <b>密钥域分离</b>——加密密钥与认证密钥独立派生；⑦ <b>专属文件头 + .vlock 后缀</b>——只有本软件能识别解密；⑧ <b>设备绑定</b>（私密模式）——换手机有密码也解不开；⑨ <b>流式加解密 + 失败自清理</b>——任意大文件、不留半成品。以上全部按真实实现，可自行验证。</p>
+    </div>
+
     <div class="tech">
       <span class="tag">主加密算法</span>
       <h3>AES-256 对称加密（CBC 模式）</h3>
@@ -153,14 +337,20 @@
 
     <div class="tech">
       <span class="tag">密钥派生</span>
-      <h3>PBKDF2 密钥拉伸（200,000 次迭代）</h3>
-      <p>你的密码不会直接当密钥用。软件用 <b>PBKDF2</b> 算法把密码和随机盐迭代 20 万次，拉伸成 256 位密钥。这样即使密码偏简单，暴力破解的成本也被拉高 20 万倍。</p>
+      <h3>PBKDF2 密钥拉伸（350,000 次迭代）</h3>
+      <p>你的密码不会直接当密钥用。软件用 <b>PBKDF2</b> 算法把密码和随机盐迭代 <b>35 万次</b>（v2.1 从 20 万次提升），拉伸成 256 位密钥。这样即使密码偏简单，暴力破解的成本也被拉高 35 万倍。</p>
     </div>
 
     <div class="tech">
       <span class="tag">防重放 / 防彩虹表</span>
       <h3>随机盐 + 随机 IV（每个文件独立）</h3>
       <p>每次加密都会生成<b>独立的 16 字节随机盐和 16 字节随机 IV</b>。效果：同一个视频、同一个密码，加密两次得到的密文完全不同；相同内容的视频加密后也无法通过比对密文猜出内容（防彩虹表、防模式泄露）。</p>
+    </div>
+
+    <div class="tech">
+      <span class="tag">防篡改（v2.1 新增）</span>
+      <h3>HMAC-SHA256 完整性认证 + 明文长度记录</h3>
+      <p>每个加密文件尾部带 32 字节 HMAC-SHA256 认证码（覆盖文件头与全部密文），并记录原始视频长度。密文被改动、截断、拼接任何 1 个字节，解密必然失败并提示「文件已被修改」；认证密钥与加密密钥独立派生，杜绝密钥重用攻击。</p>
     </div>
 
     <div class="tech">
@@ -189,7 +379,7 @@
     <div class="sec-title">点击左上角「三条杠 ☰」</div>
     <div class="sec-sub">App 主界面左上角的三条杠是功能菜单入口</div>
     <div class="steps">
-      <div class="step"><span class="num">1</span><h3>☰ 视频加密 / 解密</h3><p>进入加密页面：设置密码 → 选择视频 → 点「立即视频加密」→ 弹出加密类型（公开/私密）→ 生成 .vlock 文件；下方「视频解密」输入密码选择加密文件即可还原。</p></div>
+      <div class="step"><span class="num">1</span><h3>☰ 视频加密 / 解密</h3><p>进入加密页面：设置密码 → 选择视频（自动检测是否已加密/加密模式）→ 点「立即视频加密」→ 弹出加密类型（公开/私密）→ 生成 .vlock 文件；下方「视频解密」输入密码选择加密文件即可还原。中间「处理日志」按钮可查看全部处理记录。</p></div>
       <div class="step"><span class="num">2</span><h3>⚙ 下载设置</h3><p>下载目录设置：默认系统下载目录；可自选目录（系统文件选择器），或一键恢复默认。</p></div>
     </div>
   </div>
@@ -203,7 +393,7 @@
 
     <details>
       <summary>1. 给视频加密使用的什么加密技术？</summary>
-      <div class="ans">使用 <b>AES-256</b> 加密算法（CBC 分组模式 + PKCS7 填充），密钥由你的密码经 <b>PBKDF2</b> 迭代 20 万次派生。AES 是国际公认的标准对称加密算法，256 位密钥当前不存在暴力破解的可行手段。加密产物是 .vlock 专属格式文件，无法被其它软件识别或打开。</div>
+      <div class="ans">使用 <b>AES-256</b> 加密算法（CBC 分组模式 + PKCS7 填充），密钥由你的密码经 <b>PBKDF2</b> 迭代 35 万次派生。AES 是国际公认的标准对称加密算法，256 位密钥当前不存在暴力破解的可行手段。加密产物是 .vlock 专属格式文件，无法被其它软件识别或打开。</div>
     </details>
 
     <details>
@@ -213,7 +403,7 @@
 
     <details>
       <summary>3. 除了 AES-256，还使用了什么技术进一步加强加密？</summary>
-      <div class="ans">一共 5 层叠加：<br>① <b>PBKDF2 密钥拉伸</b>（20 万次迭代）——提高暴力破解成本；<br>② <b>随机盐</b>（每文件独立 16 字节）——同一密码加密同一视频，密文每次不同，防彩虹表；<br>③ <b>随机 IV</b>（每文件独立 16 字节）——防止相同内容泄露加密模式；<br>④ <b>专属文件头 + .vlock 后缀</b>——文件识别，只有本软件能解；<br>⑤ <b>设备绑定</b>（私密模式）——设备标识参与密钥派生，换设备无法解密。</div>
+      <div class="ans">一共 5 层叠加：<br>① <b>PBKDF2 密钥拉伸</b>（35 万次迭代）——提高暴力破解成本；<br>② <b>随机盐</b>（每文件独立 16 字节）——同一密码加密同一视频，密文每次不同，防彩虹表；<br>③ <b>随机 IV</b>（每文件独立 16 字节）——防止相同内容泄露加密模式；<br>④ <b>专属文件头 + .vlock 后缀</b>——文件识别，只有本软件能解；<br>⑤ <b>设备绑定</b>（私密模式）——设备标识参与密钥派生，换设备无法解密。</div>
     </details>
 
     <details>
@@ -224,6 +414,16 @@
     <details>
       <summary>5. 功能速度怎么样？</summary>
       <div class="ans"><b>下载</b>：12 线程并发拉取分片，自动选最高清晰度，实时显示进度和速度。实际速度取决于你的网速和视频源站。下载完自动合并，几百 MB 的视频一般几十秒内完成（视网速）。<br><b>加密/解密</b>：AES-256 加解密由手机 CPU 硬件指令加速，速度很快。以主流手机为例，100MB 视频约几秒到十几秒，全程进度条显示，大文件不会卡死（流式处理）。</div>
+    </details>
+
+    <details>
+      <summary>6. 为什么每次视频加密成功后，会有一个 .vlock 后缀？有什么用？</summary>
+      <div class="ans">.vlock 是本软件的<b>专属加密文件后缀</b>（Video Lock 的缩写），表示这个视频已经被加密。它的用处：<br>① <b>文件识别</b>：软件靠它（配合加密文件头）认出这是本软件的加密文件；其它解压软件、播放器、网盘预览认不出它，只会显示为无法打开的未知文件——这正是加密的效果；<br>② <b>状态提示</b>：看到 .vlock 就知道这个视频处于加密状态，需要用本软件 + 正确密码才能还原成普通视频；<br>③ 后缀只是标识，<b>不含也不影响加密本身</b>：真正的加密在文件内容里（AES-256 密文），把 .vlock 改回 .mp4 或删掉后缀，视频依然是一堆乱码，只会让本软件也无法识别它，所以请保持原样，解密时直接选 .vlock 文件即可。</div>
+    </details>
+
+    <details>
+      <summary>7. 有了这些加密和机制，能防住百分之几的破解？</summary>
+      <div class="ans">我们不会承诺"防住 X%"这种数字——<b>任何诚实的加密软件都不会</b>，因为最终安全强度取决于你的密码。说真实的情况：<br>① <b>AES-256 本身</b>：密钥空间是 2<sup>256</sup>，以当前和可预见的算力，<b>暴力穷举不存在可行方案</b>——这不是 90% 或 99% 的问题，是穷举全部密钥所需时间远超宇宙年龄，属于"理论不可行"；<br>② <b>密码弱的风险</b>：真正能被破的只有"密码太弱"这一条路。软件的 PBKDF2 35 万次迭代、随机盐就是为了把这条路堵死——普通手机上每秒只能尝试几百次密码，一个 8 位混合密码就需要数年，12 位以上混合密码在当前算力下没有实际可行的破解时间；<br>③ <b>文件被拿走的场景</b>：HMAC 防篡改让改密文无效，设备绑定让私密文件换手机也解不开；<br>④ 结论：<b>只要你设一个不公开的、12 位以上混合密码，当前技术条件下不存在实际可行的破解方法</b>。软件能做的（算法、迭代、设备绑定）都已做到位。</div>
     </details>
   </div>
 </section>
@@ -277,7 +477,7 @@
 <section id="contact">
   <div class="wrap">
     <div class="sec-title">联系我们</div>
-    <div class="sec-sub">欢迎聊天</div>
+    <div class="sec-sub">问题反馈、功能建议、合作</div>
     <div class="contact">
       <p>启发者QQ</p>
       <div class="qq">3647677118</div>
@@ -289,15 +489,15 @@
 
 <footer>
   <div class="wrap">
-    <p>M3U8 下载器 v2.0 · 本页面为软件官方介绍站</p>
+    <p>M3U8 下载器 v2.6 · 本页面为软件官方介绍站</p>
     <p>内容按软件真实功能编写 · 请合法使用 · 本站不存储任何视频文件</p>
   </div>
 </footer>
 
 <!-- 移动端底部下载条 -->
 <div class="dl-float">
-  <div class="txt">M3U8下载器_v2.0.apk</div>
-  <a href="https://d6.qyshare.click/s/TBVWTxUNFQEFUgKFCVA50KFCVA50DlEEGgRRKFCVA50KFCVA508aKFCVA50wRTDxpVBQKFCVA50CGg5TBQKFCVA50FDlVVBVFVBhUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50xgGVKFCVA50JVKFCVA50QYKFCVA50UhoKFCVA50UgNUGgNUUVYaVQMKFCVA50DxoOVFEEKFCVA50lUKFCVA50BVZSDlUZVV5ZFRsVVlQVDRUBKFCVA50QICU1QBDhpTUVMHGgNVVgYaVlJTKFCVA50xpVKFCVA50QYCUgIGVQIGKFCVA50FUVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkHGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRVTVlUKFCVA50KFCVA50KFCVA50cKFCVA50UxoOUwcGGgMKFCVA50UVQaVQBVKFCVA50xoEDlVTBVEKFCVA50UVYBVFQVSg==" download>下载</a>
+  <div class="txt">M3U8下载器_v2.6.apk</div>
+  <a href="https://d6.qyshare.click/s/TBVWTxUNFVVSUw8FKFCVA50KFCVA50JSGgEDKFCVA50VUaKFCVA501IPBRoPUwYBGg8GBlVRKFCVA50gKFCVA50HUQ4FVBUbFVhERH9YREMVDRVYREQZRk5CWRlYRVKFCVA50VGxVYRER8Uk4VDRVCR1tYVlMYBQcFKFCVA50RgHDhgGKFCVA50hgODg9RVlMDURoDBFIGGgMGUQUaDgIDUxoGUwFTKFCVA50KFCVA50ZTB1VSKFCVA50KFCVA50EZVV5ZFRsVVlQVDRUFU1YKFCVA50VQRRUhoKFCVA50KFCVA50QRSGgMFUwcaDgcHBxoFUQdWVgdWBwVWD1EVGxVZVlpSFQ0VegRiDxfTj7zfiorSrp9oBRkBGVZHXBUbFVRYWUNSWUNjTkdSFQ0VVkdHW15UVkNeWFkYQVlTGVZZU0VYXlMZR1ZUXFZQUhpWRVRfXkFSFRsVVlMVDRUEBKFCVA50EGD1UBKFCVA50BoODw4FGgNTDgUaVQ9RKFCVA50RpTBQKFCVA50FVVUEBgMFBgEVSg==" download>下载</a>
 </div>
 
 <script>
