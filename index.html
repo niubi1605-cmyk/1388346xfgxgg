@@ -10,7 +10,6 @@
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
-
 .app{display:flex;min-height:100vh}
 .sidebar{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:hidden}
 .brand{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
@@ -26,14 +25,12 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .nav-item .ic{font-size:15px;width:18px;text-align:center;flex:0 0 18px}
 .footer{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
-
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
 .topbar{height:56px;padding:0 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(10,13,20,.85);position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)}
 #menuBtn{display:none;background:none;border:none;font-size:20px;cursor:pointer;padding:6px}
 .crumb{flex:1;font-size:15px;font-weight:600}
 .badge{font-size:11.5px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#7ee2a8}
 .content{padding:24px;max-width:1000px;width:100%;margin:0 auto;flex:1}
-
 .hero{background:linear-gradient(135deg,rgba(79,140,255,.15),rgba(168,85,247,.1));border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px}
 .hero h2{font-size:24px;font-weight:700;margin-bottom:8px}
 .hero h2 span{background:linear-gradient(135deg,#5ac8fa,#bf5af2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
@@ -43,13 +40,12 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .stat span{font-size:11px;color:var(--muted);margin-top:2px}
 .section-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:24px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:.18s}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:.18s;position:relative}
 .card:hover{background:var(--panel2);border-color:#33405a;transform:translateY(-2px)}
 .card .icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:10px;background:linear-gradient(135deg,rgba(79,140,255,.2),rgba(168,85,247,.2))}
 .card .name{font-size:13.5px;font-weight:600;margin-bottom:4px}
 .card .desc{font-size:11.5px;color:var(--muted);line-height:1.5}
-.card .new-badge{position:absolute;font-size:9px;padding:2px 7px;border-radius:20px;background:linear-gradient(135deg,#ff375f,#ff9f0a);color:#fff;font-weight:700;margin-left:6px}
-
+.card .new-badge{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 7px;border-radius:20px;background:linear-gradient(135deg,#ff375f,#ff9f0a);color:#fff;font-weight:700}
 .panel{position:fixed;inset:0;background:rgba(10,13,20,.9);backdrop-filter:blur(20px);z-index:100;display:none;overflow-y:auto}
 .panel.on{display:block}
 .panel-inner{max-width:820px;margin:0 auto;padding:20px 20px 80px}
@@ -58,7 +54,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .btn-back:hover{background:var(--panel2)}
 .panel-title{font-size:16px;font-weight:700;flex:1}
 .panel-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px}
-
 .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
 .box-title{font-size:13.5px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .label{display:block;font-size:12.5px;color:#a8b3c7;margin-bottom:6px;font-weight:500}
@@ -105,7 +100,15 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90}
 .mask.on{display:block}
 .mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
-.tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:20px;background:rgba(79,140,255,.15);color:#9fc2ff;margin-left:6px}
+.pod-card{background:#0a0e16;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
+.pod-card .pc-title{font-size:14px;font-weight:600;margin-bottom:6px}
+.pod-card .pc-desc{font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.pod-card .pc-actions{display:flex;gap:6px;flex-wrap:wrap}
+.ep-item{background:#0a0e16;border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
+.ep-item .ei-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.ep-item .ei-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:6px}
+.ep-item .ei-content{font-size:11px;color:var(--muted);line-height:1.5;max-height:60px;overflow:hidden;margin-bottom:6px}
+.ep-item .ei-actions{display:flex;gap:6px;flex-wrap:wrap}
 @media(max-width:860px){
   .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .25s;width:250px;z-index:95}
   .sidebar.on{transform:none}
@@ -130,7 +133,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
     <div class="footer"><span class="dot"></span>100% 本地 · 数据不上传</div>
   </aside>
   <div class="mask" id="mask"></div>
-
   <main class="main">
     <div class="topbar">
       <button id="menuBtn">☰</button>
@@ -156,8 +158,8 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 /* =========================================================
    基础工具
    ========================================================= */
-function $(sel){ return document.querySelector(sel); }
-function $$(sel){ return Array.prototype.slice.call(document.querySelectorAll(sel)); }
+function $(sel, root){ return (root || document).querySelector(sel); }
+function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
@@ -186,11 +188,8 @@ function showToast(msg, type){
 function downloadBlob(blob, filename){
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
   setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
 }
 function copyToClipboard(text){
@@ -201,11 +200,8 @@ function copyToClipboard(text){
   } else { fallback(text); }
   function fallback(t){
     var ta = document.createElement('textarea');
-    ta.value = t;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); showToast('已复制', 'ok'); }
     catch(e){ showToast('复制失败', 'err'); }
     ta.remove();
@@ -220,8 +216,7 @@ function setupDrop(zone, input, onFiles){
   zone.ondragover = function(e){ e.preventDefault(); zone.style.borderColor = 'var(--blue)'; };
   zone.ondragleave = function(){ zone.style.borderColor = ''; };
   zone.ondrop = function(e){
-    e.preventDefault();
-    zone.style.borderColor = '';
+    e.preventDefault(); zone.style.borderColor = '';
     var f = Array.prototype.slice.call(e.dataTransfer.files || []);
     if(f.length) onFiles(f);
   };
@@ -238,12 +233,10 @@ function compressImage(file, maxSize, quality){
       var w = img.width, h = img.height;
       if(Math.max(w, h) > maxSize){
         var s = maxSize / Math.max(w, h);
-        w = Math.round(w * s);
-        h = Math.round(h * s);
+        w = Math.round(w * s); h = Math.round(h * s);
       }
       var cv = document.createElement('canvas');
-      cv.width = w;
-      cv.height = h;
+      cv.width = w; cv.height = h;
       cv.getContext('2d').drawImage(img, 0, 0, w, h);
       cv.toBlob(function(blob){
         if(!blob){ reject(new Error('压缩失败')); return; }
@@ -251,15 +244,14 @@ function compressImage(file, maxSize, quality){
         r.onload = function(){ resolve(r.result); };
         r.onerror = function(){ reject(new Error('读取失败')); };
         r.readAsDataURL(blob);
-      }, 'image/jpeg', quality || 0.7);
+      }, 'image/jpeg', quality || 0.75);
     };
     img.onerror = function(){ reject(new Error('图片解析失败')); };
     img.src = URL.createObjectURL(file);
   });
 }
 function fetchTimeout(url, options, ms){
-  options = options || {};
-  ms = ms || 15000;
+  options = options || {}; ms = ms || 15000;
   return new Promise(function(resolve, reject){
     var ctrl = new AbortController();
     var timer = setTimeout(function(){ ctrl.abort(); reject(new Error('请求超时')); }, ms);
@@ -269,8 +261,7 @@ function fetchTimeout(url, options, ms){
   });
 }
 function bytesToBase64(bytes){
-  var bin = '';
-  var CHUNK = 0x8000;
+  var bin = ''; var CHUNK = 0x8000;
   for(var i = 0; i < bytes.length; i += CHUNK){
     bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
   }
@@ -290,6 +281,73 @@ function genId(){
 }
 
 /* =========================================================
+   ★★★ 播客云存储：文件存 catbox，元数据存 jsonblob ★★★
+   ========================================================= */
+
+// 上传数据 JSON 到 catbox（永久），返回文件 URL
+async function uploadPodcastFile(data){
+  var json = JSON.stringify(data);
+  var blob = new Blob([json], { type: 'application/json' });
+  var fd = new FormData();
+  fd.append('reqtype', 'fileupload');
+  fd.append('fileToUpload', blob, 'podcast_data_' + Date.now() + '.json');
+  var res = await fetchTimeout('https://catbox.moe/user/api.php', { method: 'POST', body: fd }, 180000);
+  if(!res.ok) throw new Error('上传文件失败 HTTP ' + res.status);
+  var url = (await res.text()).trim();
+  if(url.indexOf('http') !== 0) throw new Error('返回异常：' + url.slice(0, 100));
+  return url;
+}
+
+// 从 URL 下载数据 JSON
+async function downloadPodcastFile(url){
+  var res = await fetchTimeout(url, {}, 90000);
+  if(!res.ok) throw new Error('下载文件失败 HTTP ' + res.status);
+  var text = await res.text();
+  try { return JSON.parse(text); }
+  catch(e){ throw new Error('数据解析失败，文件可能损坏'); }
+}
+
+// 创建播客：返回 metaId（固定不变）
+async function createPodcast(secret, data){
+  // 1. 先上传数据文件
+  var dataUrl = await uploadPodcastFile(data);
+  // 2. 创建元数据 blob
+  var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
+  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(meta)
+  }, 20000);
+  if(!res.ok) throw new Error('创建元数据失败 ' + res.status);
+  var loc = res.headers.get('Location') || res.headers.get('location');
+  if(!loc) throw new Error('未获取到元数据 ID');
+  return loc.split('/').pop();
+}
+
+// 更新播客：上传新数据文件，更新元数据里的 URL
+async function updatePodcast(metaId, secret, data){
+  var dataUrl = await uploadPodcastFile(data);
+  var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
+  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(meta)
+  }, 20000);
+  if(!res.ok) throw new Error('更新元数据失败 ' + res.status);
+  return dataUrl;
+}
+
+// 读取播客：先读元数据，再下载数据文件
+async function readPodcast(metaId){
+  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000);
+  if(!res.ok) throw new Error('读取元数据失败 ' + res.status);
+  var meta = await res.json();
+  if(!meta.u) throw new Error('元数据不完整');
+  var data = await downloadPodcastFile(meta.u);
+  return { meta: meta, data: data };
+}
+
+/* =========================================================
    工具定义
    ========================================================= */
 var TOOLS = [];
@@ -302,10 +360,9 @@ var CATEGORIES = {
 };
 
 /* =========================================================
-   工具 1: 私人播客生成器
+   工具 1: 私人播客生成器（无限制版）
    ========================================================= */
-var POD_KEY = 'toolbox_podcast_draft';
-var POD_LIST = 'toolbox_podcast_list';
+var POD_LIST = 'toolbox_podcast_list_v2';
 
 function loadPodList(){
   try { return JSON.parse(localStorage.getItem(POD_LIST) || '{}'); }
@@ -320,17 +377,14 @@ TOOLS.push({
   name: '私人播客生成器',
   icon: '🎙️',
   category: 'crypto',
-  desc: '生成专属链接，实时可编辑',
+  desc: '无大小限制 · 实时可编辑',
   isNew: true,
   render: function(root){
     var hash = location.hash;
-
-    // 查看模式
     if(hash.indexOf('#podcast=') === 0){
       renderPodcastView(root, hash.slice(9));
       return;
     }
-    // 编辑模式
     if(hash.indexOf('#podcast-edit=') === 0){
       var rest = hash.slice(14);
       var dashIdx = rest.lastIndexOf('-');
@@ -339,260 +393,171 @@ TOOLS.push({
         return;
       }
     }
-    // 创建模式
     renderPodcastCreate(root);
   }
 });
 
 function renderPodcastCreate(root){
-  var html = '';
-  html += '<div class="box" style="background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(79,140,255,.08));border-color:rgba(168,85,247,.3)">';
-  html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span></div>';
-  html += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<br><b style="color:var(--text)">浏览链接</b>给朋友看，<b style="color:var(--text)">管理链接</b>你自己留着改。改完保存，朋友刷新自动同步。</div>';
-  html += '</div>';
+  var h = '';
+  h += '<div class="box" style="background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(79,140,255,.08));border-color:rgba(168,85,247,.3)">';
+  h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span><span style="font-size:10px;padding:3px 8px;border-radius:20px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.4);color:#7ee2a8;font-weight:700">无限制</span></div>';
+  h += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<br><b style="color:var(--text)">浏览链接</b>给朋友看，<b style="color:var(--text)">管理链接</b>你自己留着改。改完保存，朋友刷新自动同步。<br><span style="color:#7ee2a8">✅ 数据以文件形式存储，单文件支持 200MB，基本无限制。</span></div>';
+  h += '</div>';
 
-  html += '<div class="box">';
-  html += '<div class="box-title">📻 播客基础信息</div>';
-  html += '<div class="grid2">';
-  html += '<div class="field"><label class="label">播客名称（必填）</label><input type="text" class="input" id="podName" placeholder="例如：我的电台"></div>';
-  html += '<div class="field"><label class="label">播客作者（可选）</label><input type="text" class="input" id="podAuthor" placeholder="你的名字"></div>';
-  html += '</div>';
-  html += '<div class="field"><label class="label">播客简介（可选）</label><textarea class="textarea" id="podDesc" rows="3" placeholder="简单介绍一下…"></textarea></div>';
-  html += '<div class="field"><label class="label">播客封面（可选，会自动压缩）</label>';
-  html += '<input type="file" id="podCover" accept="image/*" hidden>';
-  html += '<div class="row"><button class="btn" id="pickCoverBtn">📷 选择封面</button><button class="btn btn-ghost" id="removeCoverBtn" style="display:none">🗑️ 移除</button><span class="hint" id="coverName" style="margin-top:0">不选也行</span></div>';
-  html += '</div>';
-  html += '</div>';
+  h += '<div class="box">';
+  h += '<div class="box-title">📻 播客基础信息</div>';
+  h += '<div class="grid2">';
+  h += '<div class="field"><label class="label">播客名称（必填）</label><input type="text" class="input" id="podName" placeholder="例如：我的电台"></div>';
+  h += '<div class="field"><label class="label">播客作者（可选）</label><input type="text" class="input" id="podAuthor" placeholder="你的名字"></div>';
+  h += '</div>';
+  h += '<div class="field"><label class="label">播客简介（可选）</label><textarea class="textarea" id="podDesc" rows="3" placeholder="简单介绍一下…"></textarea></div>';
+  h += '<div class="field"><label class="label">播客封面（可选，会自动压缩便于快速显示）</label>';
+  h += '<input type="file" id="podCover" accept="image/*" hidden>';
+  h += '<div class="row"><button class="btn" id="pickCoverBtn">📷 选择封面</button><button class="btn btn-ghost" id="removeCoverBtn" style="display:none">🗑️ 移除</button><span class="hint" id="coverName" style="margin-top:0">不选也行</span></div>';
+  h += '</div>';
+  h += '</div>';
 
-  html += '<div class="box">';
-  html += '<div class="box-title">📝 添加单集</div>';
-  html += '<div class="grid2">';
-  html += '<div class="field"><label class="label">单集标题（必填）</label><input type="text" class="input" id="epTitle" placeholder="例如：第 1 期 · 开场"></div>';
-  html += '<div class="field"><label class="label">单集简介（可选）</label><input type="text" class="input" id="epDesc" placeholder="可留空"></div>';
-  html += '</div>';
-  html += '<div class="field"><label class="label">单集文字稿（可选）</label><textarea class="textarea" id="epContent" rows="5" placeholder="像写文章一样写你的播客内容…"></textarea></div>';
-  html += '<div class="field"><label class="label">视频链接（可选）</label><input type="text" class="input" id="epVideo" placeholder="支持 .mp4 / .m3u8 / 云盘直链等"></div>';
-  html += '<div class="hint">💡 M3U8 链接只有几十字符，不会撑爆数据。数据上限 900KB，通常是文字稿太多会超。</div>';
-  html += '<div id="sizeInfo" style="margin-top:12px"></div>';
-  html += '<div class="row" style="margin-top:12px"><button class="btn btn-primary" id="addEpBtn">➕ 添加单集</button></div>';
-  html += '</div>';
+  h += '<div class="box">';
+  h += '<div class="box-title">📝 添加单集</div>';
+  h += '<div class="grid2">';
+  h += '<div class="field"><label class="label">单集标题（必填）</label><input type="text" class="input" id="epTitle" placeholder="例如：第 1 期 · 开场"></div>';
+  h += '<div class="field"><label class="label">单集简介（可选）</label><input type="text" class="input" id="epDesc" placeholder="可留空"></div>';
+  h += '</div>';
+  h += '<div class="field"><label class="label">单集文字稿（可选，不限长度）</label><textarea class="textarea" id="epContent" rows="5" placeholder="像写文章一样写你的播客内容…"></textarea></div>';
+  h += '<div class="field"><label class="label">视频链接（可选）</label><input type="text" class="input" id="epVideo" placeholder="支持 .mp4 / .m3u8 / 云盘直链等"></div>';
+  h += '<div class="row" style="margin-top:12px"><button class="btn btn-primary" id="addEpBtn">➕ 添加单集</button></div>';
+  h += '</div>';
 
-  html += '<div class="box">';
-  html += '<div class="box-title">📋 单集列表 <span id="epCount" style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto"></span></div>';
-  html += '<div id="epList"></div>';
-  html += '<div id="epEmpty" class="hint" style="text-align:center;padding:20px">还没有单集，添加第一期吧</div>';
-  html += '</div>';
+  h += '<div class="box">';
+  h += '<div class="box-title">📋 单集列表 <span id="epCount" style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto"></span></div>';
+  h += '<div id="epList"></div>';
+  h += '<div id="epEmpty" class="hint" style="text-align:center;padding:20px">还没有单集，添加第一期吧</div>';
+  h += '</div>';
 
-  html += '<div class="box">';
-  html += '<div class="box-title">🔗 生成专属链接</div>';
-  html += '<div class="hint" style="margin-bottom:12px">生成后会给你两个链接：<b style="color:#7ee2a8">浏览链接</b>（给朋友）和 <b style="color:#ffd28a">管理链接</b>（自己改）。</div>';
-  html += '<div class="row"><button class="btn btn-primary" id="genLinkBtn">🔗 生成专属链接</button></div>';
-  html += '<div id="linkResult"></div>';
-  html += '</div>';
+  h += '<div class="box">';
+  h += '<div class="box-title">🔗 生成专属链接</div>';
+  h += '<div class="hint" style="margin-bottom:12px">生成后会给你两个链接：<b style="color:#7ee2a8">浏览链接</b>（给朋友）和 <b style="color:#ffd28a">管理链接</b>（自己改）。<b>链接永久不变</b>，无论内容多大。</div>';
+  h += '<div class="row"><button class="btn btn-primary" id="genLinkBtn">🔗 生成专属链接</button></div>';
+  h += '<div class="bar" id="genBar"><div class="bar-fill" id="genBarFill"></div></div>';
+  h += '<div id="linkResult"></div>';
+  h += '</div>';
 
-  html += '<div class="box">';
-  html += '<div class="box-title">📚 我的播客</div>';
-  html += '<div id="myPodList"></div>';
-  html += '</div>';
+  h += '<div class="box">';
+  h += '<div class="box-title">📚 我的播客</div>';
+  h += '<div id="myPodList"></div>';
+  h += '</div>';
 
-  root.innerHTML = html;
+  root.innerHTML = h;
 
   var episodes = [];
   var coverData = null;
 
-  // 加载草稿
-  try {
-    var draft = JSON.parse(localStorage.getItem(POD_KEY) || 'null');
-    if(draft){
-      root.querySelector('#podName').value = draft.name || '';
-      root.querySelector('#podAuthor').value = draft.author || '';
-      root.querySelector('#podDesc').value = draft.desc || '';
-      episodes = draft.episodes || [];
-      coverData = draft.coverData || null;
-      if(coverData){
-        root.querySelector('#coverName').textContent = '已保存封面';
-        root.querySelector('#removeCoverBtn').style.display = '';
-      }
-    }
-  } catch(e){}
-
-  function calcSize(data){
-    function sz(s){ return s ? new Blob([s]).size : 0; }
-    var total = sz(data.name) + sz(data.author) + sz(data.desc);
-    if(data.coverData) total += data.coverData.length;
-    (data.episodes || []).forEach(function(ep){
-      total += sz(ep.title) + sz(ep.desc) + sz(ep.content) + sz(ep.videoUrl);
-    });
-    return total;
-  }
-
-  function updateSize(){
-    var data = {
-      name: root.querySelector('#podName').value,
-      author: root.querySelector('#podAuthor').value,
-      desc: root.querySelector('#podDesc').value,
-      coverData: coverData,
-      episodes: episodes
-    };
-    var sz = calcSize(data);
-    var pct = Math.min(100, sz / (900 * 1024) * 100);
-    var col = sz > 800 * 1024 ? '#ef4444' : sz > 600 * 1024 ? '#f59e0b' : '#22c55e';
-    var sizeInfo = root.querySelector('#sizeInfo');
-    if(sizeInfo){
-      sizeInfo.innerHTML = '<div style="font-size:11.5px;color:var(--muted);margin-bottom:6px">📊 数据占用：' + formatSize(sz) + ' / 900 KB</div><div style="height:5px;background:#1a2130;border-radius:3px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + col + ';border-radius:3px;transition:width .2s"></div></div>';
-    }
+  function updateEpCount(){
+    var c = $('#epCount', root);
+    if(c) c.textContent = episodes.length ? '共 ' + episodes.length + ' 期' : '';
+    var empty = $('#epEmpty', root);
+    if(empty) empty.style.display = episodes.length ? 'none' : 'block';
   }
 
   function renderEpList(){
-    var listEl = root.querySelector('#epList');
-    var emptyEl = root.querySelector('#epEmpty');
-    var countEl = root.querySelector('#epCount');
+    var listEl = $('#epList', root);
     if(!listEl) return;
-    countEl.textContent = episodes.length ? '共 ' + episodes.length + ' 期' : '';
     if(episodes.length === 0){
       listEl.innerHTML = '';
-      if(emptyEl) emptyEl.style.display = 'block';
-      updateSize();
+      updateEpCount();
       return;
     }
-    if(emptyEl) emptyEl.style.display = 'none';
-    var h = '';
+    var h2 = '';
     for(var i = 0; i < episodes.length; i++){
       var ep = episodes[i];
-      h += '<div class="file-item" style="padding:12px 14px;align-items:flex-start">';
-      h += '<div style="width:36px;height:36px;border-radius:9px;background:rgba(168,85,247,.15);display:grid;place-items:center;flex:0 0 36px">🎙️</div>';
-      h += '<div style="flex:1;min-width:0">';
-      h += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.title) + '</div>';
-      if(ep.desc) h += '<div style="font-size:11.5px;color:var(--muted);margin-bottom:4px">' + escapeHtml(ep.desc) + '</div>';
-      if(ep.content) h += '<div style="font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(ep.content.slice(0, 60)) + (ep.content.length > 60 ? '…' : '') + '</div>';
-      if(ep.videoUrl) h += '<div style="font-size:11px;color:#9fc2ff;margin-top:4px">🎬 ' + escapeHtml(ep.videoUrl.slice(0, 50)) + (ep.videoUrl.length > 50 ? '…' : '') + '</div>';
-      h += '<div style="margin-top:6px"><button class="btn btn-sm btn-danger" data-del="' + i + '">🗑️ 删除</button></div>';
-      h += '</div>';
-      h += '</div>';
+      h2 += '<div class="ep-item">';
+      h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
+      if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
+      if(ep.c) h2 += '<div class="ei-content">' + escapeHtml(ep.c.slice(0, 100)) + (ep.c.length > 100 ? '…' : '') + '</div>';
+      if(ep.v) h2 += '<div class="ei-desc" style="color:#9fc2ff">🎬 ' + escapeHtml(ep.v.slice(0, 60)) + (ep.v.length > 60 ? '…' : '') + '</div>';
+      h2 += '<div class="ei-actions"><button class="btn btn-sm btn-danger" data-del="' + i + '">🗑️ 删除</button></div>';
+      h2 += '</div>';
     }
-    listEl.innerHTML = h;
+    listEl.innerHTML = h2;
     var delBtns = listEl.querySelectorAll('[data-del]');
     for(var j = 0; j < delBtns.length; j++){
       delBtns[j].onclick = function(e){
-        var idx = parseInt(e.target.getAttribute('data-del'), 10);
-        episodes.splice(idx, 1);
-        saveDraft();
+        episodes.splice(parseInt(e.target.getAttribute('data-del'), 10), 1);
         renderEpList();
       };
     }
-    updateSize();
+    updateEpCount();
   }
 
-  function saveDraft(){
-    try {
-      localStorage.setItem(POD_KEY, JSON.stringify({
-        name: root.querySelector('#podName').value,
-        author: root.querySelector('#podAuthor').value,
-        desc: root.querySelector('#podDesc').value,
-        coverData: coverData,
-        episodes: episodes
-      }));
-    } catch(e){}
-  }
-
-  root.querySelector('#pickCoverBtn').onclick = function(){
-    root.querySelector('#podCover').click();
-  };
-  root.querySelector('#podCover').onchange = function(e){
+  $('#pickCoverBtn', root).onclick = function(){ $('#podCover', root).click(); };
+  $('#podCover', root).onchange = function(e){
     var f = e.target.files[0];
     if(!f) return;
-    root.querySelector('#coverName').textContent = '压缩中…';
-    compressImage(f, 400, 0.7).then(function(d){
+    $('#coverName', root).textContent = '压缩中…';
+    compressImage(f, 600, 0.8).then(function(d){
       coverData = d;
-      root.querySelector('#coverName').textContent = '已选择';
-      root.querySelector('#removeCoverBtn').style.display = '';
-      updateSize();
+      $('#coverName', root).textContent = '已选择';
+      $('#removeCoverBtn', root).style.display = '';
     }).catch(function(err){
-      root.querySelector('#coverName').textContent = '处理失败';
+      $('#coverName', root).textContent = '处理失败';
       showToast('封面处理失败：' + err.message, 'err');
     });
   };
-  root.querySelector('#removeCoverBtn').onclick = function(){
+  $('#removeCoverBtn', root).onclick = function(){
     coverData = null;
-    root.querySelector('#coverName').textContent = '不选也行';
-    root.querySelector('#removeCoverBtn').style.display = 'none';
-    updateSize();
+    $('#coverName', root).textContent = '不选也行';
+    $('#removeCoverBtn', root).style.display = 'none';
   };
 
-  ['podName', 'podAuthor', 'podDesc'].forEach(function(id){
-    var el = root.querySelector('#' + id);
-    if(el) el.addEventListener('input', updateSize);
-  });
-
-  root.querySelector('#addEpBtn').onclick = function(){
-    var title = root.querySelector('#epTitle').value.trim();
+  $('#addEpBtn', root).onclick = function(){
+    var title = $('#epTitle', root).value.trim();
     if(!title){ showToast('请输入单集标题', 'err'); return; }
     episodes.push({
-      title: title,
-      desc: root.querySelector('#epDesc').value.trim(),
-      content: root.querySelector('#epContent').value.trim(),
-      videoUrl: root.querySelector('#epVideo').value.trim()
+      t: title,
+      d: $('#epDesc', root).value.trim(),
+      c: $('#epContent', root).value.trim(),
+      v: $('#epVideo', root).value.trim()
     });
-    root.querySelector('#epTitle').value = '';
-    root.querySelector('#epDesc').value = '';
-    root.querySelector('#epContent').value = '';
-    root.querySelector('#epVideo').value = '';
-    saveDraft();
+    $('#epTitle', root).value = '';
+    $('#epDesc', root).value = '';
+    $('#epContent', root).value = '';
+    $('#epVideo', root).value = '';
     renderEpList();
     showToast('已添加', 'ok');
   };
 
-  root.querySelector('#genLinkBtn').onclick = function(){
+  $('#genLinkBtn', root).onclick = function(){
     if(episodes.length === 0){ showToast('请至少添加一期内容', 'err'); return; }
-    var btn = root.querySelector('#genLinkBtn');
+    var btn = $('#genLinkBtn', root);
     btn.disabled = true;
     btn.textContent = '⏳ 上传中…';
+    var bar = $('#genBar', root);
+    var barFill = $('#genBarFill', root);
+    bar.classList.add('on');
+    barFill.style.width = '20%';
 
     var secret = genId();
     var data = {
-      n: root.querySelector('#podName').value || '我的播客',
-      a: root.querySelector('#podAuthor').value,
-      d: root.querySelector('#podDesc').value,
+      n: $('#podName', root).value || '我的播客',
+      a: $('#podAuthor', root).value,
+      d: $('#podDesc', root).value,
       c: coverData,
-      s: secret,
-      e: episodes,
-      u: Date.now()
+      e: episodes
     };
-    var json = JSON.stringify(data);
-    var sizeKB = (json.length / 1024).toFixed(1);
 
-    if(json.length > 900 * 1024){
-      btn.disabled = false;
-      btn.textContent = '🔗 生成专属链接';
-      showToast('数据过大：' + sizeKB + 'KB，请减少文字稿或期数', 'err');
-      root.querySelector('#linkResult').innerHTML = '<div class="result err">❌ 数据过大：' + sizeKB + 'KB / 上限 900KB<br><br>建议：<br>• 减少每期文字稿字数<br>• 减少单集数量<br>• 移除封面<br><br>提示：视频链接只有几十字符，不占空间</div>';
-      return;
-    }
-
-    // 尝试上传到 jsonblob
-    fetchTimeout('https://jsonblob.com/api/jsonBlob', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: json
-    }, 20000).then(function(res){
-      if(!res.ok) throw new Error('服务器返回 ' + res.status);
-      var loc = res.headers.get('Location') || res.headers.get('location');
-      if(!loc) throw new Error('未获取到存储 ID');
-      return loc.split('/').pop();
-    }).then(function(blobId){
+    barFill.style.width = '40%';
+    createPodcast(secret, data).then(function(metaId){
+      barFill.style.width = '100%';
       var base = location.origin + location.pathname;
-      var viewLink = base + '#podcast=' + blobId;
-      var editLink = base + '#podcast-edit=' + blobId + '-' + secret;
+      var viewLink = base + '#podcast=' + metaId;
+      var editLink = base + '#podcast-edit=' + metaId + '-' + secret;
 
       var my = loadPodList();
-      my[blobId] = { name: data.n, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
+      my[metaId] = { name: data.n, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
       savePodList(my);
 
-      root.querySelector('#linkResult').innerHTML =
-        '<div class="result ok" style="margin-top:14px">✅ 生成成功（' + sizeKB + 'KB / 900KB）</div>' +
+      $('#linkResult', root).innerHTML =
+        '<div class="result ok" style="margin-top:14px">✅ 生成成功！数据已上传，无大小限制</div>' +
         '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
         '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">📤 浏览链接（发朋友）</div>' +
         '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>' +
@@ -604,27 +569,26 @@ function renderPodcastCreate(root){
         '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpEdit">📋 复制</button><button class="btn btn-sm" id="opEdit">✏️ 打开管理</button></div>' +
         '</div>';
 
-      root.querySelector('#cpView').onclick = function(){ copyToClipboard(viewLink); };
-      root.querySelector('#opView').onclick = function(){ window.open(viewLink, '_blank'); };
-      root.querySelector('#cpEdit').onclick = function(){ copyToClipboard(editLink); };
-      root.querySelector('#opEdit').onclick = function(){ location.hash = '#podcast-edit=' + blobId + '-' + secret; };
+      $('#cpView', root).onclick = function(){ copyToClipboard(viewLink); };
+      $('#opView', root).onclick = function(){ window.open(viewLink, '_blank'); };
+      $('#cpEdit', root).onclick = function(){ copyToClipboard(editLink); };
+      $('#opEdit', root).onclick = function(){ location.hash = '#podcast-edit=' + metaId + '-' + secret; };
 
       renderMyPodList(root);
       showToast('生成成功', 'ok');
     }).catch(function(e){
       console.error(e);
       showToast('上传失败：' + e.message, 'err');
-      root.querySelector('#linkResult').innerHTML =
+      $('#linkResult', root).innerHTML =
         '<div class="result err">❌ 生成失败：' + escapeHtml(e.message) + '<br><br>' +
         '<b>可能原因：</b><br>' +
-        '① 网络问题（无法连接 jsonblob.com）<br>' +
+        '① 网络问题（无法连接 catbox.moe 或 jsonblob.com）<br>' +
         '② 浏览器拦截了跨域请求<br>' +
         '③ 存储服务暂时不可用<br><br>' +
-        '<b>建议：</b><br>' +
-        '• 检查网络连接<br>' +
-        '• 稍后重试<br>' +
-        '• 如果一直失败，可能是网络环境屏蔽了该服务</div>';
+        '<b>建议：</b>检查网络、稍后重试</div>';
     }).then(function(){
+      barFill.style.width = '0';
+      setTimeout(function(){ bar.classList.remove('on'); }, 500);
       btn.disabled = false;
       btn.textContent = '🔗 生成专属链接';
     });
@@ -632,11 +596,10 @@ function renderPodcastCreate(root){
 
   renderEpList();
   renderMyPodList(root);
-  updateSize();
 }
 
 function renderMyPodList(root){
-  var el = root.querySelector('#myPodList');
+  var el = $('#myPodList', root);
   if(!el) return;
   var my = loadPodList();
   var ids = Object.keys(my);
@@ -649,17 +612,14 @@ function renderMyPodList(root){
   for(var i = 0; i < ids.length; i++){
     var id = ids[i];
     var m = my[id];
-    h += '<div class="file-item" style="padding:12px 14px;align-items:flex-start">';
-    h += '<div style="width:36px;height:36px;border-radius:9px;background:rgba(79,140,255,.15);display:grid;place-items:center;flex:0 0 36px">🎙️</div>';
-    h += '<div style="flex:1;min-width:0">';
-    h += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">' + escapeHtml(m.name) + '</div>';
-    h += '<div style="font-size:11px;color:var(--muted);margin-bottom:8px">创建于 ' + new Date(m.created).toLocaleString('zh-CN') + '</div>';
-    h += '<div class="row">';
+    h += '<div class="pod-card">';
+    h += '<div class="pc-title">' + escapeHtml(m.name) + '</div>';
+    h += '<div class="pc-desc">创建于 ' + new Date(m.created).toLocaleString('zh-CN') + '</div>';
+    h += '<div class="pc-actions">';
     h += '<button class="btn btn-sm btn-primary" data-act="open" data-url="' + escapeHtml(m.viewLink) + '">📤 打开</button>';
     h += '<button class="btn btn-sm" data-act="edit" data-url="' + escapeHtml(m.editLink) + '">✏️ 管理</button>';
     h += '<button class="btn btn-sm" data-act="copy" data-url="' + escapeHtml(m.viewLink) + '">📋 复制</button>';
     h += '<button class="btn btn-sm btn-danger" data-act="del" data-id="' + id + '">🗑️ 删除</button>';
-    h += '</div>';
     h += '</div>';
     h += '</div>';
   }
@@ -683,23 +643,24 @@ function renderMyPodList(root){
   }
 }
 
-function renderPodcastView(root, blobId){
+function renderPodcastView(root, metaId){
   root.innerHTML = '<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">🎙️</div><div style="font-size:14px;color:var(--muted)">正在加载播客…</div></div>';
 
-  fetchTimeout('https://jsonblob.com/api/jsonBlob/' + blobId, {}, 15000).then(function(r){
-    if(!r.ok) throw new Error('读取失败 ' + r.status);
-    return r.json();
-  }).then(function(data){
-    drawPodcastView(root, blobId, data);
+  readPodcast(metaId).then(function(result){
+    var data = result.data;
+    drawPodcastView(root, metaId, data, result.meta);
     // 轮询更新
+    var lastTs = result.meta.t;
     var timer = setInterval(function(){
-      fetchTimeout('https://jsonblob.com/api/jsonBlob/' + blobId, {}, 15000)
+      fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000)
         .then(function(r){ return r.json(); })
-        .then(function(nd){
-          if(nd.u !== data.u){
-            data = nd;
-            drawPodcastView(root, blobId, nd);
-            showToast('内容已更新', 'ok');
+        .then(function(meta){
+          if(meta.t !== lastTs){
+            lastTs = meta.t;
+            return downloadPodcastFile(meta.u).then(function(newData){
+              drawPodcastView(root, metaId, newData, meta);
+              showToast('内容已更新', 'ok');
+            });
           }
         })
         .catch(function(){});
@@ -711,7 +672,7 @@ function renderPodcastView(root, blobId){
   });
 }
 
-function drawPodcastView(root, blobId, data){
+function drawPodcastView(root, metaId, data, meta){
   var h = '';
   h += '<div style="max-width:820px;margin:0 auto">';
   h += '<div style="text-align:center;padding:36px 24px;border-radius:16px;background:linear-gradient(135deg,rgba(79,140,255,.15),rgba(168,85,247,.12));border:1px solid var(--border);margin-bottom:20px">';
@@ -724,7 +685,7 @@ function drawPodcastView(root, blobId, data){
   h += '<div style="font-size:28px;font-weight:700;margin-bottom:8px">' + escapeHtml(data.n || '未命名') + '</div>';
   if(data.a) h += '<div style="font-size:14px;color:var(--muted);margin-bottom:8px">by ' + escapeHtml(data.a) + '</div>';
   if(data.d) h += '<div style="font-size:13px;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.75">' + escapeHtml(data.d) + '</div>';
-  h += '<div class="hint" style="margin-top:14px;font-size:11px">更新于 ' + (data.u ? new Date(data.u).toLocaleString('zh-CN') : '未知') + '</div>';
+  h += '<div class="hint" style="margin-top:14px;font-size:11px">更新于 ' + (meta && meta.t ? new Date(meta.t).toLocaleString('zh-CN') : '未知') + '</div>';
   h += '</div>';
 
   var eps = data.e || [];
@@ -766,34 +727,31 @@ function drawPodcastView(root, blobId, data){
   }
 }
 
-function renderPodcastEdit(root, blobId, secret){
+function renderPodcastEdit(root, metaId, secret){
   root.innerHTML = '<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">✏️</div><div style="font-size:14px;color:var(--muted)">正在打开管理台…</div></div>';
 
-  fetchTimeout('https://jsonblob.com/api/jsonBlob/' + blobId, {}, 15000).then(function(r){
-    if(!r.ok) throw new Error('读取失败 ' + r.status);
-    return r.json();
-  }).then(function(data){
-    if(data.s !== secret){
+  readPodcast(metaId).then(function(result){
+    if(result.meta.s !== secret){
       root.innerHTML = '<div class="box"><div class="result err">❌ 管理密钥错误，无法进入</div></div>';
       return;
     }
-    drawPodcastEdit(root, blobId, secret, data);
+    drawPodcastEdit(root, metaId, secret, result.data);
   }).catch(function(e){
     root.innerHTML = '<div class="box"><div class="result err">❌ 打开失败：' + escapeHtml(e.message) + '</div></div>';
   });
 }
 
-function drawPodcastEdit(root, blobId, secret, data){
+function drawPodcastEdit(root, metaId, secret, data){
   var episodes = (data.e || []).map(function(ep){ return JSON.parse(JSON.stringify(ep)); });
   var coverData = data.c || null;
   var podName = data.n || '';
   var podAuthor = data.a || '';
   var podDesc = data.d || '';
-  var viewLink = location.origin + location.pathname + '#podcast=' + blobId;
+  var viewLink = location.origin + location.pathname + '#podcast=' + metaId;
 
   var h = '';
   h += '<div style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.12));border:1px solid rgba(245,158,11,.35);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#ffd08a;line-height:1.6">';
-  h += '<b>✏️ 管理台模式</b>：修改保存后朋友刷新就能看到。';
+  h += '<b>✏️ 管理台模式</b>：修改保存后朋友刷新就能看到。数据无大小限制。';
   h += '</div>';
 
   h += '<div class="box">';
@@ -826,7 +784,7 @@ function drawPodcastEdit(root, blobId, secret, data){
   h += '<div class="field"><label class="label">标题</label><input type="text" class="input" id="edEpTitle"></div>';
   h += '<div class="field"><label class="label">简介</label><input type="text" class="input" id="edEpDesc"></div>';
   h += '</div>';
-  h += '<div class="field"><label class="label">内容</label><textarea class="textarea" id="edEpContent" rows="5"></textarea></div>';
+  h += '<div class="field"><label class="label">内容（不限长度）</label><textarea class="textarea" id="edEpContent" rows="5"></textarea></div>';
   h += '<div class="field"><label class="label">视频链接</label><input type="text" class="input" id="edEpVideo" placeholder=".mp4 / .m3u8 等"></div>';
   h += '<div class="row"><button class="btn" id="edAddEp">➕ 添加</button></div>';
   h += '</div>';
@@ -841,14 +799,15 @@ function drawPodcastEdit(root, blobId, secret, data){
   h += '<div class="row" style="align-items:center"><div style="flex:1;font-size:12.5px;color:var(--muted)">💡 修改完成后点击右侧按钮保存</div>';
   h += '<button class="btn btn-primary" id="edSaveBtn" style="padding:12px 26px">💾 保存并发布</button>';
   h += '</div>';
+  h += '<div class="bar" id="edBar"><div class="bar-fill" id="edBarFill"></div></div>';
   h += '</div>';
 
   root.innerHTML = h;
 
   function renderEpList(){
-    var el = root.querySelector('#edEpList');
-    var emptyEl = root.querySelector('#edEpEmpty');
-    var countEl = root.querySelector('#edEpCount');
+    var el = $('#edEpList', root);
+    var emptyEl = $('#edEpEmpty', root);
+    var countEl = $('#edEpCount', root);
     countEl.textContent = episodes.length ? '共 ' + episodes.length + ' 期' : '';
     if(episodes.length === 0){
       el.innerHTML = '';
@@ -859,15 +818,12 @@ function drawPodcastEdit(root, blobId, secret, data){
     var h2 = '';
     for(var i = 0; i < episodes.length; i++){
       var ep = episodes[i];
-      h2 += '<div class="file-item" style="padding:12px 14px;align-items:flex-start">';
-      h2 += '<div style="width:36px;height:36px;border-radius:9px;background:rgba(168,85,247,.15);display:grid;place-items:center;flex:0 0 36px">🎙️</div>';
-      h2 += '<div style="flex:1;min-width:0">';
-      h2 += '<div style="font-size:13px;font-weight:600;margin-bottom:4px">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
-      if(ep.d) h2 += '<div style="font-size:11.5px;color:var(--muted);margin-bottom:4px">' + escapeHtml(ep.d) + '</div>';
-      h2 += '<div class="row" style="margin-top:6px">';
+      h2 += '<div class="ep-item">';
+      h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
+      if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
+      h2 += '<div class="ei-actions">';
       h2 += '<button class="btn btn-sm" data-edit="' + i + '">✏️ 编辑</button>';
       h2 += '<button class="btn btn-sm btn-danger" data-del="' + i + '">🗑️ 删除</button>';
-      h2 += '</div>';
       h2 += '</div>';
       h2 += '</div>';
     }
@@ -886,10 +842,10 @@ function drawPodcastEdit(root, blobId, secret, data){
       editBtns[k].onclick = function(e){
         var idx = parseInt(e.target.getAttribute('data-edit'), 10);
         var ep = episodes[idx];
-        root.querySelector('#edEpTitle').value = ep.t || '';
-        root.querySelector('#edEpDesc').value = ep.d || '';
-        root.querySelector('#edEpContent').value = ep.c || '';
-        root.querySelector('#edEpVideo').value = ep.v || '';
+        $('#edEpTitle', root).value = ep.t || '';
+        $('#edEpDesc', root).value = ep.d || '';
+        $('#edEpContent', root).value = ep.c || '';
+        $('#edEpVideo', root).value = ep.v || '';
         episodes.splice(idx, 1);
         renderEpList();
         showToast('已载入编辑区', 'ok');
@@ -898,80 +854,72 @@ function drawPodcastEdit(root, blobId, secret, data){
     }
   }
 
-  root.querySelector('#edPickCover').onclick = function(){
-    root.querySelector('#edCover').click();
-  };
-  root.querySelector('#edCover').onchange = function(e){
+  $('#edPickCover', root).onclick = function(){ $('#edCover', root).click(); };
+  $('#edCover', root).onchange = function(e){
     var f = e.target.files[0];
     if(!f) return;
-    root.querySelector('#edCoverName').textContent = '压缩中…';
-    compressImage(f, 400, 0.7).then(function(d){
+    $('#edCoverName', root).textContent = '压缩中…';
+    compressImage(f, 600, 0.8).then(function(d){
       coverData = d;
-      root.querySelector('#edCoverName').textContent = '已更换';
+      $('#edCoverName', root).textContent = '已更换';
     }).catch(function(err){
       showToast('处理失败：' + err.message, 'err');
     });
   };
-  root.querySelector('#edRemoveCover').onclick = function(){
+  $('#edRemoveCover', root).onclick = function(){
     coverData = null;
-    root.querySelector('#edCoverName').textContent = '已移除';
+    $('#edCoverName', root).textContent = '已移除';
   };
 
-  root.querySelector('#edAddEp').onclick = function(){
-    var t = root.querySelector('#edEpTitle').value.trim();
+  $('#edAddEp', root).onclick = function(){
+    var t = $('#edEpTitle', root).value.trim();
     if(!t){ showToast('请输入标题', 'err'); return; }
     episodes.push({
       t: t,
-      d: root.querySelector('#edEpDesc').value.trim(),
-      c: root.querySelector('#edEpContent').value.trim(),
-      v: root.querySelector('#edEpVideo').value.trim()
+      d: $('#edEpDesc', root).value.trim(),
+      c: $('#edEpContent', root).value.trim(),
+      v: $('#edEpVideo', root).value.trim()
     });
-    root.querySelector('#edEpTitle').value = '';
-    root.querySelector('#edEpDesc').value = '';
-    root.querySelector('#edEpContent').value = '';
-    root.querySelector('#edEpVideo').value = '';
+    $('#edEpTitle', root).value = '';
+    $('#edEpDesc', root).value = '';
+    $('#edEpContent', root).value = '';
+    $('#edEpVideo', root).value = '';
     renderEpList();
   };
 
-  root.querySelector('#edSaveBtn').onclick = function(){
-    var btn = root.querySelector('#edSaveBtn');
+  $('#edSaveBtn', root).onclick = function(){
+    var btn = $('#edSaveBtn', root);
     btn.disabled = true;
-    btn.textContent = '⏳ 保存中…';
+    btn.textContent = '⏳ 上传中…';
+    var bar = $('#edBar', root);
+    var barFill = $('#edBarFill', root);
+    bar.classList.add('on');
+    barFill.style.width = '20%';
 
     var payload = {
-      n: root.querySelector('#edName').value || '我的播客',
-      a: root.querySelector('#edAuthor').value,
-      d: root.querySelector('#edDesc').value,
+      n: $('#edName', root).value || '我的播客',
+      a: $('#edAuthor', root).value,
+      d: $('#edDesc', root).value,
       c: coverData,
-      s: secret,
-      e: episodes,
-      u: Date.now()
+      e: episodes
     };
-    var json = JSON.stringify(payload);
-    if(json.length > 900 * 1024){
-      showToast('数据过大（' + (json.length/1024).toFixed(1) + 'KB）', 'err');
-      btn.disabled = false;
-      btn.textContent = '💾 保存并发布';
-      return;
-    }
 
-    fetchTimeout('https://jsonblob.com/api/jsonBlob/' + blobId, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: json
-    }, 20000).then(function(r){
-      if(!r.ok) throw new Error('保存失败 ' + r.status);
+    barFill.style.width = '40%';
+    updatePodcast(metaId, secret, payload).then(function(){
+      barFill.style.width = '100%';
       showToast('已保存，朋友刷新即可看到', 'ok');
     }).catch(function(e){
       showToast('保存失败：' + e.message, 'err');
     }).then(function(){
+      barFill.style.width = '0';
+      setTimeout(function(){ bar.classList.remove('on'); }, 500);
       btn.disabled = false;
       btn.textContent = '💾 保存并发布';
     });
   };
 
-  root.querySelector('#editCopyView').onclick = function(){ copyToClipboard(viewLink); };
-  root.querySelector('#editOpenView').onclick = function(){ window.open(viewLink, '_blank'); };
+  $('#editCopyView', root).onclick = function(){ copyToClipboard(viewLink); };
+  $('#editOpenView', root).onclick = function(){ window.open(viewLink, '_blank'); };
 
   renderEpList();
 }
@@ -998,10 +946,9 @@ TOOLS.push({
 
 function renderHostCreate(root){
   if(!window.crypto || !window.crypto.subtle){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）。<br><br>请通过 HTTPS 访问本网站再使用东西托管。</div></div>';
+    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）。</div></div>';
     return;
   }
-
   var h = '';
   h += '<div class="box" style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(239,68,68,.08));border-color:rgba(245,158,11,.3)">';
   h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🐮</span><span style="font-size:15px;font-weight:700">一头牛东西托管</span></div>';
@@ -1017,9 +964,7 @@ function renderHostCreate(root){
 
   h += '<div class="box">';
   h += '<div class="box-title">⏱️ 有效期</div>';
-  h += '<div class="grid3">';
   h += '<div class="field"><label class="label">选择时长</label><select class="select" id="hostExp"><option value="1h" selected>1 小时</option><option value="24h">24 小时</option><option value="72h">72 小时</option><option value="forever">永久</option></select></div>';
-  h += '</div>';
   h += '<div class="hint">💡 临时文件由 litterbox 提供，永久文件由 catbox 提供。</div>';
   h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="hostRun" disabled>🚀 上传并生成链接</button><button class="btn" id="hostClear" disabled>清空</button></div>';
   h += '<div class="bar" id="hostBar"><div class="bar-fill" id="hostBarFill"></div></div>';
@@ -1029,163 +974,121 @@ function renderHostCreate(root){
   root.innerHTML = h;
 
   var files = [];
-  var drop = root.querySelector('#hostDrop');
-  var fileInput = root.querySelector('#hostFile');
-  var fileList = root.querySelector('#hostFileList');
-  var expSel = root.querySelector('#hostExp');
-  var runBtn = root.querySelector('#hostRun');
-  var clearBtn = root.querySelector('#hostClear');
-  var resultArea = root.querySelector('#hostResult');
-  var bar = root.querySelector('#hostBar');
-  var barFill = root.querySelector('#hostBarFill');
-
   function refresh(){
-    fileList.innerHTML = fileListHtml(files);
-    runBtn.disabled = files.length === 0;
-    clearBtn.disabled = files.length === 0;
-    var xs = fileList.querySelectorAll('.fx');
+    $('#hostFileList', root).innerHTML = fileListHtml(files);
+    $('#hostRun', root).disabled = files.length === 0;
+    $('#hostClear', root).disabled = files.length === 0;
+    var xs = $$('.fx', $('#hostFileList', root));
     for(var i = 0; i < xs.length; i++){
       (function(idx){
-        xs[i].onclick = function(){
-          files.splice(idx, 1);
-          refresh();
-        };
+        xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
       })(i);
     }
   }
-
-  setupDrop(drop, fileInput, function(newFiles){
+  setupDrop($('#hostDrop', root), $('#hostFile', root), function(newFiles){
     files = files.concat(newFiles);
     refresh();
   });
-
-  clearBtn.onclick = function(){
+  $('#hostClear', root).onclick = function(){
     files = [];
-    resultArea.innerHTML = '';
+    $('#hostResult', root).innerHTML = '';
     refresh();
   };
 
-  runBtn.onclick = function(){
+  $('#hostRun', root).onclick = function(){
     if(files.length === 0) return;
     var file = files[0];
-    var expiry = expSel.value;
-    runBtn.disabled = true;
-    runBtn.textContent = '⏳ 加密中…';
+    var expiry = $('#hostExp', root).value;
+    var btn = $('#hostRun', root);
+    btn.disabled = true;
+    btn.textContent = '⏳ 加密中…';
+    var bar = $('#hostBar', root);
+    var barFill = $('#hostBarFill', root);
     bar.classList.add('on');
     barFill.style.width = '10%';
+    var resultArea = $('#hostResult', root);
     resultArea.innerHTML = '';
 
     var keyBytes = new Uint8Array(32);
     crypto.getRandomValues(keyBytes);
     var keyB64 = bytesToBase64(keyBytes);
-    barFill.style.width = '20%';
+    var iv;
 
     file.arrayBuffer().then(function(ab){
-      var buf = new Uint8Array(ab);
-      barFill.style.width = '40%';
-      return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt'])
-        .then(function(key){
-          var iv = crypto.getRandomValues(new Uint8Array(12));
-          return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, buf);
-        });
+      barFill.style.width = '30%';
+      return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']).then(function(key){
+        iv = crypto.getRandomValues(new Uint8Array(12));
+        return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, ab);
+      });
     }).then(function(ct){
-      barFill.style.width = '55%';
+      barFill.style.width = '50%';
       var ctArr = new Uint8Array(ct);
       var out = new Uint8Array(12 + ctArr.length);
-      out.set(new Uint8Array(0), 0);
-      // 提取 iv（前 12 字节来自 encrypt 返回值之外的 iv 变量）
-      // 由于这里用了闭包，改用在 importKey 内保存 iv
-      // 重新组织：
-      return null;
+      out.set(iv, 0);
+      out.set(ctArr, 12);
+      return out;
+    }).then(function(encBytes){
+      barFill.style.width = '60%';
+      btn.textContent = '⏳ 上传中…';
+      var encBlob = new Blob([encBytes], { type: 'application/octet-stream' });
+      var fd = new FormData();
+      fd.append('reqtype', 'fileupload');
+      fd.append('fileToUpload', encBlob, 'enc_' + Date.now() + '.bin');
+      var uploadUrl;
+      if(expiry === 'forever'){
+        uploadUrl = 'https://catbox.moe/user/api.php';
+      } else {
+        uploadUrl = 'https://litterbox.catbox.moe/resources/internals/api.php';
+        fd.append('time', expiry);
+      }
+      return fetchTimeout(uploadUrl, { method: 'POST', body: fd }, 180000).then(function(res){
+        if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
+        return res.text();
+      });
+    }).then(function(fileUrl){
+      fileUrl = fileUrl.trim();
+      if(fileUrl.indexOf('http') !== 0) throw new Error('返回异常：' + fileUrl.slice(0, 100));
+      barFill.style.width = '95%';
+      var expiryMs = 0;
+      if(expiry !== 'forever'){
+        var msMap = { '1h': 3600000, '24h': 86400000, '72h': 259200000 };
+        expiryMs = Date.now() + (msMap[expiry] || 3600000);
+      }
+      var payload = { u: fileUrl, k: keyB64, e: expiryMs, n: file.name, s: file.size, t: Date.now() };
+      var payloadB64 = bytesToBase64(new TextEncoder().encode(JSON.stringify(payload)));
+      var shareUrl = location.origin + location.pathname + '#host=' + payloadB64;
+      barFill.style.width = '100%';
+
+      var expLabel = { '1h': '1 小时', '24h': '24 小时', '72h': '72 小时', 'forever': '永久' }[expiry];
+
+      resultArea.innerHTML =
+        '<div class="result ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div>' +
+        '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
+        '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">🔗 专属分享链接</div>' +
+        '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(shareUrl) + '</div>' +
+        '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="hostCopy">📋 复制链接</button><button class="btn btn-sm" id="hostOpen">👁️ 打开看看</button></div>' +
+        '</div>' +
+        '<div class="result info" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。</div>';
+
+      $('#hostCopy', root).onclick = function(){ copyToClipboard(shareUrl); };
+      $('#hostOpen', root).onclick = function(){ window.open(shareUrl, '_blank'); };
+      showToast('生成成功', 'ok');
     }).catch(function(e){
       console.error(e);
+      resultArea.innerHTML = '<div class="result err">❌ 失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 文件过大<br>② 网络问题<br>③ 上传服务暂时不可用</div>';
+      showToast('失败', 'err');
+    }).then(function(){
+      barFill.style.width = '0';
+      setTimeout(function(){ bar.classList.remove('on'); }, 500);
+      btn.disabled = false;
+      btn.textContent = '🚀 上传并生成链接';
     });
-
-    // 简化重写：整体逻辑重新组织
-    (function(){
-      var keyBytes = new Uint8Array(32);
-      crypto.getRandomValues(keyBytes);
-      var keyB64 = bytesToBase64(keyBytes);
-      barFill.style.width = '20%';
-      var iv;
-      file.arrayBuffer().then(function(ab){
-        var buf = new Uint8Array(ab);
-        barFill.style.width = '40%';
-        return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']).then(function(key){
-          iv = crypto.getRandomValues(new Uint8Array(12));
-          return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, buf);
-        });
-      }).then(function(ct){
-        barFill.style.width = '55%';
-        var ctArr = new Uint8Array(ct);
-        var out = new Uint8Array(12 + ctArr.length);
-        out.set(iv, 0);
-        out.set(ctArr, 12);
-        return out;
-      }).then(function(encBytes){
-        runBtn.textContent = '⏳ 上传中…';
-        barFill.style.width = '65%';
-        var encBlob = new Blob([encBytes], { type: 'application/octet-stream' });
-        var fd = new FormData();
-        fd.append('reqtype', 'fileupload');
-        fd.append('fileToUpload', encBlob, 'enc_' + Date.now() + '.bin');
-        var uploadUrl;
-        if(expiry === 'forever'){
-          uploadUrl = 'https://catbox.moe/user/api.php';
-        } else {
-          uploadUrl = 'https://litterbox.catbox.moe/resources/internals/api.php';
-          fd.append('time', expiry);
-        }
-        return fetchTimeout(uploadUrl, { method: 'POST', body: fd }, 90000).then(function(res){
-          if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
-          return res.text();
-        });
-      }).then(function(fileUrl){
-        fileUrl = fileUrl.trim();
-        if(!/^https?:\/\//.test(fileUrl)) throw new Error('返回异常：' + fileUrl);
-        barFill.style.width = '95%';
-        var expiryMs = 0;
-        if(expiry !== 'forever'){
-          var msMap = { '1h': 3600000, '24h': 86400000, '72h': 259200000 };
-          expiryMs = Date.now() + (msMap[expiry] || 3600000);
-        }
-        var payload = { u: fileUrl, k: keyB64, e: expiryMs, n: file.name, s: file.size, t: Date.now() };
-        var payloadB64 = bytesToBase64(new TextEncoder().encode(JSON.stringify(payload)));
-        var shareUrl = location.origin + location.pathname + '#host=' + payloadB64;
-        barFill.style.width = '100%';
-
-        var expLabel = { '1h': '1 小时', '24h': '24 小时', '72h': '72 小时', 'forever': '永久' }[expiry];
-
-        resultArea.innerHTML =
-          '<div class="result ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div>' +
-          '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-          '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">🔗 专属分享链接</div>' +
-          '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(shareUrl) + '</div>' +
-          '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="hostCopy">📋 复制链接</button><button class="btn btn-sm" id="hostOpen">👁️ 打开看看</button></div>' +
-          '</div>' +
-          '<div class="result info" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。<b>服务端只有密文，无法解密</b>。</div>';
-
-        root.querySelector('#hostCopy').onclick = function(){ copyToClipboard(shareUrl); };
-        root.querySelector('#hostOpen').onclick = function(){ window.open(shareUrl, '_blank'); };
-
-        showToast('生成成功', 'ok');
-      }).catch(function(e){
-        console.error(e);
-        resultArea.innerHTML = '<div class="result err">❌ 失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 文件过大<br>② 网络问题<br>③ 上传服务暂时不可用<br><br>建议：换个文件或稍后重试</div>';
-        showToast('失败', 'err');
-      }).then(function(){
-        barFill.style.width = '0';
-        bar.classList.remove('on');
-        runBtn.disabled = false;
-        runBtn.textContent = '🚀 上传并生成链接';
-      });
-    })();
   };
 }
 
 function renderHostView(root, payloadB64){
   if(!window.crypto || !window.crypto.subtle){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto，无法解密。请通过 HTTPS 访问。</div></div>';
+    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto。请通过 HTTPS 访问。</div></div>';
     return;
   }
   var payload;
@@ -1195,7 +1098,6 @@ function renderHostView(root, payloadB64){
     root.innerHTML = '<div class="box"><div class="result err">❌ 链接无效或已损坏</div></div>';
     return;
   }
-
   if(payload.e && Date.now() > payload.e){
     root.innerHTML = '<div style="max-width:600px;margin:60px auto;text-align:center"><div style="font-size:52px;margin-bottom:16px">⏰</div><div style="font-size:28px;font-weight:700;margin-bottom:10px">链接已过期</div><div style="font-size:14px;color:var(--muted)">此链接的有效期已结束</div></div>';
     return;
@@ -1227,15 +1129,15 @@ function renderHostView(root, payloadB64){
 
   root.innerHTML = h;
 
-  var btn = root.querySelector('#hostDownload');
-  var status = root.querySelector('#hostDlStatus');
+  var btn = $('#hostDownload', root);
+  var status = $('#hostDlStatus', root);
 
   btn.onclick = function(){
     btn.disabled = true;
     btn.textContent = '⏳ 下载中…';
     status.textContent = '正在下载密文…';
 
-    fetchTimeout(payload.u, {}, 60000).then(function(r){
+    fetchTimeout(payload.u, {}, 90000).then(function(r){
       if(!r.ok) throw new Error('下载失败 HTTP ' + r.status);
       return r.arrayBuffer();
     }).then(function(ab){
@@ -1285,83 +1187,13 @@ TOOLS.push({
     h += '</div>';
     root.innerHTML = h;
 
-    var input = root.querySelector('#vdInput');
-    var runBtn = root.querySelector('#vdRun');
-    var testBtn = root.querySelector('#vdTest');
-    var clearBtn = root.querySelector('#vdClear');
-    var resultArea = root.querySelector('#vdResult');
-    var statusArea = root.querySelector('#vdStatus');
-    var bar = root.querySelector('#vdBar');
-    var barFill = root.querySelector('#vdBarFill');
-
     var APIs = [
-      {
-        name: 'BugPk 主节点',
-        build: function(link){
-          return { url: 'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' };
-        }
-      },
-      {
-        name: 'BugPk 海外',
-        build: function(link){
-          return { url: 'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' };
-        }
-      },
-      {
-        name: '山海云端',
-        build: function(link){
-          return { url: 'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts: { method: 'GET' } };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' };
-        }
-      },
-      {
-        name: '星之阁',
-        build: function(link){
-          return {
-            url: 'https://api.xingzhige.com/API/parse/',
-            opts: {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ url: link })
-            }
-          };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' };
-        }
-      },
-      {
-        name: 'redfox',
-        build: function(link){
-          return { url: 'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts: { method: 'GET' } };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' };
-        }
-      },
-      {
-        name: '皮克',
-        build: function(link){
-          return { url: 'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts: { method: 'GET' } };
-        },
-        parse: function(d){
-          var r = d.data || d;
-          return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' };
-        }
-      }
+      { name: 'BugPk 主节点', build: function(link){ return { url: 'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+      { name: 'BugPk 海外', build: function(link){ return { url: 'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+      { name: '山海云端', build: function(link){ return { url: 'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+      { name: '星之阁', build: function(link){ return { url: 'https://api.xingzhige.com/API/parse/', opts: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: link }) } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+      { name: 'redfox', build: function(link){ return { url: 'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' }; } },
+      { name: '皮克', build: function(link){ return { url: 'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } }
     ];
 
     function renderStatus(states){
@@ -1378,7 +1210,7 @@ TOOLS.push({
         h2 += '</div>';
       }
       h2 += '</div>';
-      statusArea.innerHTML = h2;
+      $('#vdStatus', root).innerHTML = h2;
     }
     renderStatus();
 
@@ -1396,12 +1228,10 @@ TOOLS.push({
       h2 += '<button class="btn btn-sm btn-primary" id="vdDownload">⬇️ 下载</button>';
       h2 += '<button class="btn btn-sm" id="vdCopy">📋 复制链接</button>';
       h2 += '<button class="btn btn-sm" id="vdOpen">🔗 打开</button>';
-      h2 += '</div>';
-      h2 += '</div>';
-      h2 += '</div>';
-      resultArea.innerHTML = h2;
+      h2 += '</div></div></div>';
+      $('#vdResult', root).innerHTML = h2;
 
-      root.querySelector('#vdDownload').onclick = function(){
+      $('#vdDownload', root).onclick = function(){
         var btn = this;
         btn.disabled = true;
         btn.textContent = '下载中…';
@@ -1420,19 +1250,21 @@ TOOLS.push({
             btn.textContent = '⬇️ 下载';
           });
       };
-      root.querySelector('#vdCopy').onclick = function(){ copyToClipboard(info.video); };
-      root.querySelector('#vdOpen').onclick = function(){ window.open(info.video, '_blank'); };
+      $('#vdCopy', root).onclick = function(){ copyToClipboard(info.video); };
+      $('#vdOpen', root).onclick = function(){ window.open(info.video, '_blank'); };
     }
 
-    runBtn.onclick = function(){
-      var v = input.value.trim();
+    $('#vdRun', root).onclick = function(){
+      var v = $('#vdInput', root).value.trim();
       if(!v){ showToast('请输入链接', 'err'); return; }
       var m = v.match(/https?:\/\/[^\s]+/);
       var link = m ? m[0] : v;
 
+      var bar = $('#vdBar', root);
+      var barFill = $('#vdBarFill', root);
       bar.classList.add('on');
       barFill.style.width = '5%';
-      resultArea.innerHTML = '';
+      $('#vdResult', root).innerHTML = '';
       var states = [];
       for(var i = 0; i < APIs.length; i++) states.push('checking');
       renderStatus(states);
@@ -1445,7 +1277,7 @@ TOOLS.push({
             bar.classList.remove('on');
             barFill.style.width = '0';
           }, 600);
-          resultArea.innerHTML = '<div class="result err">❌ 所有 ' + APIs.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b><br>① API 集体失效（社区维护，可能变化）<br>② 链接不被支持<br>③ 网络问题<br><br><b>建议：</b><br>• 稍后重试<br>• 复制链接到浏览器手动打开<br>• 换其他平台链接</div>';
+          $('#vdResult', root).innerHTML = '<div class="result err">❌ 所有 ' + APIs.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b><br>① API 集体失效<br>② 链接不被支持<br>③ 网络问题<br><br><b>建议：</b><br>• 稍后重试<br>• 复制链接到浏览器手动打开<br>• 换其他平台链接</div>';
           return;
         }
         var api = APIs[i];
@@ -1475,7 +1307,7 @@ TOOLS.push({
       next();
     };
 
-    testBtn.onclick = function(){
+    $('#vdTest', root).onclick = function(){
       var states = [];
       for(var i = 0; i < APIs.length; i++) states.push('checking');
       renderStatus(states);
@@ -1504,25 +1336,20 @@ TOOLS.push({
       nextTest();
     };
 
-    clearBtn.onclick = function(){
-      input.value = '';
-      resultArea.innerHTML = '';
+    $('#vdClear', root).onclick = function(){
+      $('#vdInput', root).value = '';
+      $('#vdResult', root).innerHTML = '';
     };
   }
 });
 
 /* =========================================================
-   工具 4: 图片压缩
+   工具 4-8: 其他工具（简洁版）
    ========================================================= */
 TOOLS.push({
-  id: 'img-compress',
-  name: '图片压缩',
-  icon: '🗜️',
-  category: 'image',
-  desc: '本地压缩图片体积',
+  id: 'img-compress', name: '图片压缩', icon: '🗜️', category: 'image', desc: '本地压缩图片体积',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
+    var h = '<div class="box">';
     h += '<div class="drop" id="icDrop"><div class="di">🗜️</div><div class="dt">点击选择图片，或拖拽到这里</div><div class="ds">支持批量 · 可多选</div></div>';
     h += '<input type="file" id="icFile" accept="image/*" multiple hidden>';
     h += '<div id="icList" style="margin-top:14px"></div>';
@@ -1538,18 +1365,9 @@ TOOLS.push({
     root.innerHTML = h;
 
     var files = [];
-    var drop = root.querySelector('#icDrop');
-    var fileInput = root.querySelector('#icFile');
-    var fileList = root.querySelector('#icList');
-    var qInput = root.querySelector('#icQ');
-    var qVal = root.querySelector('#icQVal');
-    var fmtInput = root.querySelector('#icFmt');
-    var maxInput = root.querySelector('#icMax');
-    var runBtn = root.querySelector('#icRun');
-    var clearBtn = root.querySelector('#icClear');
-    var resultArea = root.querySelector('#icResult');
-    var bar = root.querySelector('#icBar');
-    var barFill = root.querySelector('#icBarFill');
+    var fileList = $('#icList', root);
+    var runBtn = $('#icRun', root);
+    var clearBtn = $('#icClear', root);
 
     function refresh(){
       fileList.innerHTML = fileListHtml(files);
@@ -1558,52 +1376,38 @@ TOOLS.push({
       var xs = fileList.querySelectorAll('.fx');
       for(var i = 0; i < xs.length; i++){
         (function(idx){
-          xs[i].onclick = function(){
-            files.splice(idx, 1);
-            refresh();
-          };
+          xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
         })(i);
       }
     }
-
-    setupDrop(drop, fileInput, function(newFiles){
+    setupDrop($('#icDrop', root), $('#icFile', root), function(newFiles){
       files = files.concat(newFiles);
       refresh();
     });
-
-    qInput.oninput = function(){ qVal.textContent = qInput.value + '%'; };
-    clearBtn.onclick = function(){
-      files = [];
-      resultArea.innerHTML = '';
-      refresh();
-    };
-
+    $('#icQ', root).oninput = function(){ $('#icQVal', root).textContent = $('#icQ', root).value + '%'; };
+    clearBtn.onclick = function(){ files = []; $('#icResult', root).innerHTML = ''; refresh(); };
     runBtn.onclick = function(){
       if(files.length === 0) return;
       runBtn.disabled = true;
       clearBtn.disabled = true;
+      var resultArea = $('#icResult', root);
       resultArea.innerHTML = '';
+      var bar = $('#icBar', root);
+      var barFill = $('#icBarFill', root);
       bar.classList.add('on');
 
-      var mime = fmtInput.value;
-      var quality = parseInt(qInput.value, 10) / 100;
-      var maxSide = parseInt(maxInput.value, 10) || 0;
+      var mime = $('#icFmt', root).value;
+      var quality = parseInt($('#icQ', root).value, 10) / 100;
+      var maxSide = parseInt($('#icMax', root).value, 10) || 0;
       var extMap = { 'image/jpeg': 'jpg', 'image/webp': 'webp' };
-      var totalBefore = 0;
-      var totalAfter = 0;
-      var idx = 0;
+      var totalBefore = 0, totalAfter = 0, idx = 0;
 
       function processNext(){
         if(idx >= files.length){
           barFill.style.width = '100%';
           var saved = totalBefore > 0 ? ((1 - totalAfter / totalBefore) * 100).toFixed(1) : 0;
-          resultArea.insertAdjacentHTML('afterbegin',
-            '<div class="result ok">✅ 完成！共 ' + files.length + ' 张，' + formatSize(totalBefore) + ' → ' + formatSize(totalAfter) + '（节省 ' + saved + '%）</div>'
-          );
-          setTimeout(function(){
-            bar.classList.remove('on');
-            barFill.style.width = '0';
-          }, 500);
+          resultArea.insertAdjacentHTML('afterbegin', '<div class="result ok">✅ 完成！共 ' + files.length + ' 张，' + formatSize(totalBefore) + ' → ' + formatSize(totalAfter) + '（节省 ' + saved + '%）</div>');
+          setTimeout(function(){ bar.classList.remove('on'); barFill.style.width = '0'; }, 500);
           runBtn.disabled = false;
           clearBtn.disabled = false;
           showToast('压缩完成', 'ok');
@@ -1611,41 +1415,32 @@ TOOLS.push({
         }
         var f = files[idx];
         barFill.style.width = Math.round((idx / files.length) * 100) + '%';
-
         createImageBitmap(f).then(function(bmp){
           var w = bmp.width, h = bmp.height;
           if(maxSide && Math.max(w, h) > maxSide){
             var s = maxSide / Math.max(w, h);
-            w = Math.round(w * s);
-            h = Math.round(h * s);
+            w = Math.round(w * s); h = Math.round(h * s);
           }
           var cv = document.createElement('canvas');
-          cv.width = w;
-          cv.height = h;
+          cv.width = w; cv.height = h;
           var ctx = cv.getContext('2d');
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
           ctx.drawImage(bmp, 0, 0, w, h);
           bmp.close();
-
           cv.toBlob(function(blob){
             if(!blob){
               resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：处理失败</div>');
-              idx++;
-              processNext();
-              return;
+              idx++; processNext(); return;
             }
             totalBefore += f.size;
             totalAfter += blob.size;
             downloadBlob(blob, f.name.replace(/\.[^.]+$/, '') + '_min.' + extMap[mime]);
             resultArea.insertAdjacentHTML('beforeend', '<div class="result ok">✅ ' + escapeHtml(f.name) + '　' + formatSize(f.size) + ' → ' + formatSize(blob.size) + '</div>');
-            idx++;
-            processNext();
+            idx++; processNext();
           }, mime, quality);
         }).catch(function(err){
           resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：' + escapeHtml(err.message) + '</div>');
-          idx++;
-          processNext();
+          idx++; processNext();
         });
       }
       processNext();
@@ -1653,28 +1448,17 @@ TOOLS.push({
   }
 });
 
-/* =========================================================
-   工具 5: 文本加密解密
-   ========================================================= */
 TOOLS.push({
-  id: 'text-crypto',
-  name: '文本加密解密',
-  icon: '✉️',
-  category: 'crypto',
-  desc: 'AES-256-GCM 加解密',
+  id: 'text-crypto', name: '文本加密解密', icon: '✉️', category: 'crypto', desc: 'AES-256-GCM 加解密',
   render: function(root){
     if(!window.crypto || !window.crypto.subtle){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）</div></div>';
+      root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto</div></div>';
       return;
     }
-    var h = '';
-    h += '<div class="box">';
-    h += '<div class="row" style="margin-bottom:14px">';
-    h += '<button class="btn btn-primary" id="tcTabEnc">加密</button>';
-    h += '<button class="btn" id="tcTabDec">解密</button>';
-    h += '</div>';
+    var h = '<div class="box">';
+    h += '<div class="row" style="margin-bottom:14px"><button class="btn btn-primary" id="tcTabEnc">加密</button><button class="btn" id="tcTabDec">解密</button></div>';
     h += '<div class="field"><label class="label">文本内容</label><textarea class="textarea" id="tcText" rows="5" placeholder="输入要加密的文本…"></textarea></div>';
-    h += '<div class="field"><label class="label">密码</label><input type="password" class="input" id="tcPw" placeholder="请输入密码"></div>';
+    h += '<div class="field"><label class="label">密码</label><input type="password" class="input" id="tcPw"></div>';
     h += '<div class="row"><button class="btn btn-primary" id="tcRun">加密</button><button class="btn" id="tcCopy">复制结果</button></div>';
     h += '<div class="field" style="margin-top:14px"><label class="label">结果</label><textarea class="textarea" id="tcOut" rows="5" readonly></textarea></div>';
     h += '<div id="tcMsg"></div>';
@@ -1682,54 +1466,36 @@ TOOLS.push({
     root.innerHTML = h;
 
     var mode = 'enc';
-    var tabEnc = root.querySelector('#tcTabEnc');
-    var tabDec = root.querySelector('#tcTabDec');
-    var textInput = root.querySelector('#tcText');
-    var pwInput = root.querySelector('#tcPw');
-    var runBtn = root.querySelector('#tcRun');
-    var copyBtn = root.querySelector('#tcCopy');
-    var outArea = root.querySelector('#tcOut');
-    var msgArea = root.querySelector('#tcMsg');
-
-    function setMode(m){
-      mode = m;
-      if(m === 'enc'){
-        tabEnc.className = 'btn btn-primary';
-        tabDec.className = 'btn';
-        runBtn.textContent = '加密';
-        textInput.placeholder = '输入要加密的文本…';
-      } else {
-        tabEnc.className = 'btn';
-        tabDec.className = 'btn btn-primary';
-        runBtn.textContent = '解密';
-        textInput.placeholder = '粘贴要解密的密文…';
-      }
-      outArea.value = '';
-      msgArea.innerHTML = '';
-    }
-    tabEnc.onclick = function(){ setMode('enc'); };
-    tabDec.onclick = function(){ setMode('dec'); };
+    $('#tcTabEnc', root).onclick = function(){
+      mode = 'enc';
+      $('#tcTabEnc', root).className = 'btn btn-primary';
+      $('#tcTabDec', root).className = 'btn';
+      $('#tcRun', root).textContent = '加密';
+      $('#tcOut', root).value = '';
+      $('#tcMsg', root).innerHTML = '';
+    };
+    $('#tcTabDec', root).onclick = function(){
+      mode = 'dec';
+      $('#tcTabEnc', root).className = 'btn';
+      $('#tcTabDec', root).className = 'btn btn-primary';
+      $('#tcRun', root).textContent = '解密';
+      $('#tcOut', root).value = '';
+      $('#tcMsg', root).innerHTML = '';
+    };
 
     function deriveKey(password, salt){
       return crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
         .then(function(km){
-          return crypto.subtle.deriveKey(
-            { name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' },
-            km,
-            { name: 'AES-GCM', length: 256 },
-            false,
-            ['encrypt', 'decrypt']
-          );
+          return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
         });
     }
 
-    runBtn.onclick = function(){
-      var text = textInput.value;
-      var pw = pwInput.value;
-      msgArea.innerHTML = '';
+    $('#tcRun', root).onclick = function(){
+      var text = $('#tcText', root).value;
+      var pw = $('#tcPw', root).value;
       if(!text){ showToast('请输入内容', 'err'); return; }
       if(!pw){ showToast('请输入密码', 'err'); return; }
-      runBtn.disabled = true;
+      $('#tcMsg', root).innerHTML = '';
 
       if(mode === 'enc'){
         var salt = crypto.getRandomValues(new Uint8Array(16));
@@ -1739,66 +1505,35 @@ TOOLS.push({
         }).then(function(ct){
           var ctArr = new Uint8Array(ct);
           var out = new Uint8Array(28 + ctArr.length);
-          out.set(salt, 0);
-          out.set(iv, 16);
-          out.set(ctArr, 28);
-          outArea.value = bytesToBase64(out);
-          msgArea.innerHTML = '<div class="result ok">✅ 加密完成</div>';
-          showToast('加密完成', 'ok');
-        }).catch(function(e){
-          msgArea.innerHTML = '<div class="result err">❌ ' + escapeHtml(e.message) + '</div>';
-        }).then(function(){
-          runBtn.disabled = false;
-        });
+          out.set(salt, 0); out.set(iv, 16); out.set(ctArr, 28);
+          $('#tcOut', root).value = bytesToBase64(out);
+          $('#tcMsg', root).innerHTML = '<div class="result ok">✅ 加密完成</div>';
+        }).catch(function(e){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ ' + escapeHtml(e.message) + '</div>'; });
       } else {
         var raw;
         try { raw = base64ToBytes(text.trim()); }
-        catch(e){
-          msgArea.innerHTML = '<div class="result err">❌ 密文格式不正确</div>';
-          runBtn.disabled = false;
-          return;
-        }
-        if(raw.length < 28){
-          msgArea.innerHTML = '<div class="result err">❌ 密文太短</div>';
-          runBtn.disabled = false;
-          return;
-        }
-        var salt2 = raw.slice(0, 16);
-        var iv2 = raw.slice(16, 28);
-        var ct2 = raw.slice(28);
+        catch(e){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密文格式不正确</div>'; return; }
+        if(raw.length < 28){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密文太短</div>'; return; }
+        var salt2 = raw.slice(0, 16), iv2 = raw.slice(16, 28), ct2 = raw.slice(28);
         deriveKey(pw, salt2).then(function(key){
           return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv2 }, key, ct2);
         }).then(function(pt){
-          outArea.value = new TextDecoder().decode(pt);
-          msgArea.innerHTML = '<div class="result ok">✅ 解密完成</div>';
-          showToast('解密完成', 'ok');
-        }).catch(function(e){
-          msgArea.innerHTML = '<div class="result err">❌ 密码错误或密文已损坏</div>';
-        }).then(function(){
-          runBtn.disabled = false;
-        });
+          $('#tcOut', root).value = new TextDecoder().decode(pt);
+          $('#tcMsg', root).innerHTML = '<div class="result ok">✅ 解密完成</div>';
+        }).catch(function(){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密码错误或密文已损坏</div>'; });
       }
     };
-
-    copyBtn.onclick = function(){
-      if(!outArea.value){ showToast('结果为空', 'err'); return; }
-      copyToClipboard(outArea.value);
+    $('#tcCopy', root).onclick = function(){
+      if(!$('#tcOut', root).value){ showToast('结果为空', 'err'); return; }
+      copyToClipboard($('#tcOut', root).value);
     };
   }
 });
 
-/* =========================================================
-   工具 6: 密码生成器
-   ========================================================= */
 TOOLS.push({
-  id: 'pwd-gen',
-  name: '密码生成器',
-  icon: '🔑',
-  category: 'crypto',
-  desc: '生成随机密码',
+  id: 'pwd-gen', name: '密码生成器', icon: '🔑', category: 'crypto', desc: '生成随机密码',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
+    var h = '<div class="box">';
     h += '<div style="font-family:ui-monospace,monospace;font-size:15px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;word-break:break-all;line-height:1.6" id="pwdOut">点击下方按钮生成</div>';
     h += '<div class="field" style="margin-top:14px"><label class="label">长度：<b id="pwdLenVal">20</b></label><input type="range" id="pwdLen" min="4" max="64" value="20" style="width:100%"></div>';
     h += '<div class="row" style="margin-bottom:14px">';
@@ -1811,39 +1546,28 @@ TOOLS.push({
     h += '</div>';
     root.innerHTML = h;
 
-    var pwdOut = root.querySelector('#pwdOut');
-    var lenInput = root.querySelector('#pwdLen');
-    var lenVal = root.querySelector('#pwdLenVal');
-    var cLower = root.querySelector('#pwdLower');
-    var cUpper = root.querySelector('#pwdUpper');
-    var cDigit = root.querySelector('#pwdDigit');
-    var cSymbol = root.querySelector('#pwdSymbol');
-
     function generate(){
       var pool = '';
-      if(cLower.checked) pool += 'abcdefghijkmnpqrstuvwxyz';
-      if(cUpper.checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-      if(cDigit.checked) pool += '23456789';
-      if(cSymbol.checked) pool += '!@#$%^&*()-_=+';
-      if(!pool){ pwdOut.textContent = '请至少选择一种字符类型'; return; }
-      var len = parseInt(lenInput.value, 10);
+      if($('#pwdLower', root).checked) pool += 'abcdefghijkmnpqrstuvwxyz';
+      if($('#pwdUpper', root).checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+      if($('#pwdDigit', root).checked) pool += '23456789';
+      if($('#pwdSymbol', root).checked) pool += '!@#$%^&*()-_=+';
+      if(!pool){ $('#pwdOut', root).textContent = '请至少选择一种字符类型'; return; }
+      var len = parseInt($('#pwdLen', root).value, 10);
       var result = '';
       var buf = new Uint8Array(len);
       crypto.getRandomValues(buf);
-      for(var i = 0; i < len; i++){
-        result += pool[buf[i] % pool.length];
-      }
-      pwdOut.textContent = result;
+      for(var i = 0; i < len; i++) result += pool[buf[i] % pool.length];
+      $('#pwdOut', root).textContent = result;
     }
-
-    lenInput.oninput = function(){ lenVal.textContent = lenInput.value; generate(); };
-    cLower.onchange = generate;
-    cUpper.onchange = generate;
-    cDigit.onchange = generate;
-    cSymbol.onchange = generate;
-    root.querySelector('#pwdGen').onclick = generate;
-    root.querySelector('#pwdCopy').onclick = function(){
-      var t = pwdOut.textContent;
+    $('#pwdLen', root).oninput = function(){ $('#pwdLenVal', root).textContent = $('#pwdLen', root).value; generate(); };
+    $('#pwdLower', root).onchange = generate;
+    $('#pwdUpper', root).onchange = generate;
+    $('#pwdDigit', root).onchange = generate;
+    $('#pwdSymbol', root).onchange = generate;
+    $('#pwdGen', root).onclick = generate;
+    $('#pwdCopy', root).onclick = function(){
+      var t = $('#pwdOut', root).textContent;
       if(!t || t.indexOf('请至少') === 0 || t.indexOf('点击') === 0) return;
       copyToClipboard(t);
     };
@@ -1851,18 +1575,10 @@ TOOLS.push({
   }
 });
 
-/* =========================================================
-   工具 7: 待办清单
-   ========================================================= */
 TOOLS.push({
-  id: 'todo',
-  name: '待办清单',
-  icon: '✅',
-  category: 'life',
-  desc: '本地保存待办事项',
+  id: 'todo', name: '待办清单', icon: '✅', category: 'life', desc: '本地保存待办事项',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
+    var h = '<div class="box">';
     h += '<div class="row" style="margin-bottom:14px"><input type="text" class="input" id="todoInput" placeholder="输入待办事项，回车添加…" style="flex:1"><button class="btn btn-primary" id="todoAdd">添加</button></div>';
     h += '<div id="todoList"></div>';
     h += '</div>';
@@ -1872,18 +1588,9 @@ TOOLS.push({
     var todos = [];
     try { todos = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ todos = []; }
 
-    var todoInput = root.querySelector('#todoInput');
-    var addBtn = root.querySelector('#todoAdd');
-    var todoList = root.querySelector('#todoList');
-
-    function save(){
-      try { localStorage.setItem(KEY, JSON.stringify(todos)); } catch(e){}
-    }
+    function save(){ try { localStorage.setItem(KEY, JSON.stringify(todos)); } catch(e){} }
     function render(){
-      if(todos.length === 0){
-        todoList.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有待办</div>';
-        return;
-      }
+      if(todos.length === 0){ $('#todoList', root).innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有待办</div>'; return; }
       var h2 = '';
       for(var i = 0; i < todos.length; i++){
         var t = todos[i];
@@ -1893,48 +1600,35 @@ TOOLS.push({
         h2 += '<button class="fx" data-idx="' + i + '" data-act="del">✕</button>';
         h2 += '</div>';
       }
-      todoList.innerHTML = h2;
-      var btns = todoList.querySelectorAll('[data-act]');
+      $('#todoList', root).innerHTML = h2;
+      var btns = $('#todoList', root).querySelectorAll('[data-act]');
       for(var j = 0; j < btns.length; j++){
         btns[j].onclick = function(e){
           var idx = parseInt(e.target.getAttribute('data-idx'), 10);
           var act = e.target.getAttribute('data-act');
-          if(act === 'del'){
-            todos.splice(idx, 1);
-          } else if(act === 'toggle'){
-            todos[idx].done = e.target.checked;
-          }
-          save();
-          render();
+          if(act === 'del') todos.splice(idx, 1);
+          else if(act === 'toggle') todos[idx].done = e.target.checked;
+          save(); render();
         };
       }
     }
     function add(){
-      var v = todoInput.value.trim();
+      var v = $('#todoInput', root).value.trim();
       if(!v) return;
       todos.unshift({ text: v, done: false });
-      todoInput.value = '';
-      save();
-      render();
+      $('#todoInput', root).value = '';
+      save(); render();
     }
-    addBtn.onclick = add;
-    todoInput.onkeydown = function(e){ if(e.key === 'Enter') add(); };
+    $('#todoAdd', root).onclick = add;
+    $('#todoInput', root).onkeydown = function(e){ if(e.key === 'Enter') add(); };
     render();
   }
 });
 
-/* =========================================================
-   工具 8: 便签
-   ========================================================= */
 TOOLS.push({
-  id: 'notes',
-  name: '便签',
-  icon: '📌',
-  category: 'life',
-  desc: '本地保存便签',
+  id: 'notes', name: '便签', icon: '📌', category: 'life', desc: '本地保存便签',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
+    var h = '<div class="box">';
     h += '<div class="field"><label class="label">新建便签</label><textarea class="textarea" id="noteInput" rows="4" placeholder="输入便签内容…"></textarea></div>';
     h += '<button class="btn btn-primary" id="noteAdd">保存便签</button>';
     h += '</div>';
@@ -1945,18 +1639,9 @@ TOOLS.push({
     var notes = [];
     try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ notes = []; }
 
-    var noteInput = root.querySelector('#noteInput');
-    var addBtn = root.querySelector('#noteAdd');
-    var noteList = root.querySelector('#noteList');
-
-    function save(){
-      try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch(e){}
-    }
+    function save(){ try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch(e){} }
     function render(){
-      if(notes.length === 0){
-        noteList.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有便签</div>';
-        return;
-      }
+      if(notes.length === 0){ $('#noteList', root).innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有便签</div>'; return; }
       var h2 = '';
       for(var i = 0; i < notes.length; i++){
         var n = notes[i];
@@ -1966,78 +1651,57 @@ TOOLS.push({
         h2 += '<button class="fx" data-idx="' + i + '" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>';
         h2 += '</div>';
       }
-      noteList.innerHTML = h2;
-      var btns = noteList.querySelectorAll('.fx');
+      $('#noteList', root).innerHTML = h2;
+      var btns = $('#noteList', root).querySelectorAll('.fx');
       for(var j = 0; j < btns.length; j++){
         btns[j].onclick = function(e){
-          var idx = parseInt(e.target.getAttribute('data-idx'), 10);
-          notes.splice(idx, 1);
-          save();
-          render();
+          notes.splice(parseInt(e.target.getAttribute('data-idx'), 10), 1);
+          save(); render();
         };
       }
     }
-    addBtn.onclick = function(){
-      var v = noteInput.value.trim();
+    $('#noteAdd', root).onclick = function(){
+      var v = $('#noteInput', root).value.trim();
       if(!v){ showToast('请输入内容', 'err'); return; }
       notes.unshift({ text: v, time: Date.now() });
-      noteInput.value = '';
-      save();
-      render();
+      $('#noteInput', root).value = '';
+      save(); render();
       showToast('已保存', 'ok');
     };
     render();
   }
 });
 
-/* =========================================================
-   工具 9: 计算器
-   ========================================================= */
 TOOLS.push({
-  id: 'calc',
-  name: '计算器',
-  icon: '🧮',
-  category: 'life',
-  desc: '简单计算器',
+  id: 'calc', name: '计算器', icon: '🧮', category: 'life', desc: '简单计算器',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
+    var h = '<div class="box">';
     h += '<input type="text" class="input" id="calcDisplay" readonly value="0" style="font-size:24px;text-align:right;padding:16px;font-family:ui-monospace,monospace">';
     h += '<div id="calcPad" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px"></div>';
     h += '</div>';
     root.innerHTML = h;
-
-    var display = root.querySelector('#calcDisplay');
-    var pad = root.querySelector('#calcPad');
     var keys = ['C','(',')','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','⌫','='];
     var expr = '';
-
     var h2 = '';
-    for(var i = 0; i < keys.length; i++){
-      h2 += '<button class="btn" data-k="' + keys[i] + '" style="padding:14px;font-size:16px">' + keys[i] + '</button>';
-    }
-    pad.innerHTML = h2;
-
-    var btns = pad.querySelectorAll('button');
+    for(var i = 0; i < keys.length; i++) h2 += '<button class="btn" data-k="' + keys[i] + '" style="padding:14px;font-size:16px">' + keys[i] + '</button>';
+    $('#calcPad', root).innerHTML = h2;
+    var btns = $('#calcPad', root).querySelectorAll('button');
     for(var j = 0; j < btns.length; j++){
       btns[j].onclick = function(e){
         var k = e.target.getAttribute('data-k');
-        if(k === 'C'){ expr = ''; display.value = '0'; return; }
-        if(k === '⌫'){ expr = expr.slice(0, -1); display.value = expr || '0'; return; }
+        if(k === 'C'){ expr = ''; $('#calcDisplay', root).value = '0'; return; }
+        if(k === '⌫'){ expr = expr.slice(0, -1); $('#calcDisplay', root).value = expr || '0'; return; }
         if(k === '='){
           try {
             var e2 = expr.replace(/×/g, '*').replace(/÷/g, '/');
             var r = Function('"use strict";return (' + e2 + ')')();
-            display.value = r;
+            $('#calcDisplay', root).value = r;
             expr = String(r);
-          } catch(err){
-            display.value = '错误';
-            expr = '';
-          }
+          } catch(err){ $('#calcDisplay', root).value = '错误'; expr = ''; }
           return;
         }
         expr += k;
-        display.value = expr;
+        $('#calcDisplay', root).value = expr;
       };
     }
   }
@@ -2065,12 +1729,10 @@ function renderNav(){
     h += '</div>';
   }
   nav.innerHTML = h;
-
   var items = nav.querySelectorAll('.nav-item');
   for(var k = 0; k < items.length; k++){
     items[k].onclick = function(e){
-      var id = e.currentTarget.getAttribute('data-id');
-      openTool(id);
+      openTool(e.currentTarget.getAttribute('data-id'));
       document.getElementById('sidebar').classList.remove('on');
       document.getElementById('mask').classList.remove('on');
     };
@@ -2083,15 +1745,13 @@ function renderHome(){
   var h = '';
   h += '<div class="hero">';
   h += '<h2>万能小工具箱 <span>Pro</span></h2>';
-  h += '<p>全部功能本地运行，数据不上传。共 ' + TOOLS.length + ' 个精选工具，持续可用。</p>';
+  h += '<p>全部功能本地运行，数据不上传。共 ' + TOOLS.length + ' 个精选工具。</p>';
   h += '<div class="stats">';
   h += '<div class="stat"><b>' + TOOLS.length + '</b><span>精选工具</span></div>';
   h += '<div class="stat"><b>' + Object.keys(CATEGORIES).length + '</b><span>分类</span></div>';
   h += '<div class="stat"><b>100%</b><span>本地处理</span></div>';
   h += '<div class="stat"><b>0</b><span>数据上传</span></div>';
-  h += '</div>';
-  h += '</div>';
-
+  h += '</div></div>';
   var cats = Object.keys(CATEGORIES);
   for(var i = 0; i < cats.length; i++){
     var c = cats[i];
@@ -2102,7 +1762,7 @@ function renderHome(){
     h += '<div class="grid">';
     for(var j = 0; j < tools.length; j++){
       var t = tools[j];
-      h += '<div class="card" data-id="' + t.id + '" style="position:relative">';
+      h += '<div class="card" data-id="' + t.id + '">';
       h += '<div class="icon">' + t.icon + '</div>';
       h += '<div class="name">' + escapeHtml(t.name) + (t.isNew ? '<span class="new-badge">NEW</span>' : '') + '</div>';
       h += '<div class="desc">' + escapeHtml(t.desc || '') + '</div>';
@@ -2111,17 +1771,11 @@ function renderHome(){
     h += '</div>';
   }
   content.innerHTML = h;
-
   var cards = content.querySelectorAll('.card');
   for(var k = 0; k < cards.length; k++){
-    cards[k].onclick = function(e){
-      var id = e.currentTarget.getAttribute('data-id');
-      openTool(id);
-    };
+    cards[k].onclick = function(e){ openTool(e.currentTarget.getAttribute('data-id')); };
   }
 }
-
-var currentToolId = null;
 
 function openTool(id){
   var tool = null;
@@ -2129,34 +1783,27 @@ function openTool(id){
     if(TOOLS[i].id === id){ tool = TOOLS[i]; break; }
   }
   if(!tool) return;
-
-  currentToolId = id;
   var panel = document.getElementById('panel');
   var panelBody = document.getElementById('panelBody');
-  var panelTitle = document.getElementById('panelTitle');
-  var panelIcon = document.getElementById('panelIcon');
-  var crumb = document.getElementById('crumb');
-
-  panelTitle.textContent = tool.name;
-  panelIcon.textContent = tool.icon;
-  crumb.textContent = tool.name;
+  document.getElementById('panelTitle').textContent = tool.name;
+  document.getElementById('panelIcon').textContent = tool.icon;
+  document.getElementById('crumb').textContent = tool.name;
   panelBody.innerHTML = '';
-
   panel.classList.add('on');
   document.body.style.overflow = 'hidden';
-
   try {
     tool.render(panelBody);
   } catch(err){
-    console.error('工具渲染出错:', err);
+    console.error(err);
     panelBody.innerHTML = '<div class="box"><div class="result err">❌ 工具加载失败：' + escapeHtml(err.message) + '</div></div>';
   }
-
   panel.scrollTop = 0;
 }
 
 function closeTool(){
-  currentToolId = null;
+  if(document.getElementById('panelBody') && document.getElementById('panelBody')._podTimer){
+    clearInterval(document.getElementById('panelBody')._podTimer);
+  }
   document.getElementById('panel').classList.remove('on');
   document.body.style.overflow = '';
   document.getElementById('crumb').textContent = '首页';
@@ -2166,23 +1813,15 @@ function closeTool(){
 }
 
 function bindEvents(){
-  var back = document.getElementById('panelBack');
-  if(back) back.onclick = closeTool;
-
-  var menu = document.getElementById('menuBtn');
-  if(menu){
-    menu.onclick = function(){
-      document.getElementById('sidebar').classList.add('on');
-      document.getElementById('mask').classList.add('on');
-    };
-  }
-  var mask = document.getElementById('mask');
-  if(mask){
-    mask.onclick = function(){
-      document.getElementById('sidebar').classList.remove('on');
-      document.getElementById('mask').classList.remove('on');
-    };
-  }
+  document.getElementById('panelBack').onclick = closeTool;
+  document.getElementById('menuBtn').onclick = function(){
+    document.getElementById('sidebar').classList.add('on');
+    document.getElementById('mask').classList.add('on');
+  };
+  document.getElementById('mask').onclick = function(){
+    document.getElementById('sidebar').classList.remove('on');
+    document.getElementById('mask').classList.remove('on');
+  };
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') closeTool();
   });
@@ -2194,17 +1833,15 @@ function start(){
     renderHome();
     bindEvents();
 
-    // 检测 hash 路由
     var hash = location.hash;
     if(hash.indexOf('#podcast=') === 0 || hash.indexOf('#podcast-edit=') === 0){
       openTool('podcast');
     } else if(hash.indexOf('#host=') === 0){
       openTool('hosting');
     }
-
     console.log('✅ 万能小工具箱已就绪 · 共 ' + TOOLS.length + ' 个工具');
   } catch(err){
-    console.error('启动失败:', err);
+    console.error(err);
     document.getElementById('content').innerHTML = '<div class="box"><div class="result err">❌ 启动失败：' + escapeHtml(err.message) + '</div></div>';
   }
 }
@@ -2216,4 +1853,4 @@ if(document.readyState === 'loading'){
 }
 </script>
 </body>
-    </html>
+  </html>
