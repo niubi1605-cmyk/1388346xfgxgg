@@ -9,7 +9,7 @@
 :root{--bg:#0a0d14;--panel:#12161f;--panel2:#171c28;--border:#232a38;--text:#e8ecf4;--muted:#7a8499;--blue:#4f8cff;--purple:#a855f7;--green:#22c55e;--red:#ef4444;--orange:#f59e0b}
 html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;outline:none}
 .app{display:flex;min-height:100vh}
 .sidebar{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:hidden}
 .brand{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
@@ -21,7 +21,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .nav-title{font-size:10.5px;color:var(--muted);padding:8px 10px;letter-spacing:1px;font-weight:600}
 .nav-item{padding:9px 12px;border-radius:8px;font-size:13px;color:#b8c2d6;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:2px;transition:.15s}
 .nav-item:hover{background:#1a2130;color:#fff}
-.nav-item.active{background:linear-gradient(90deg,rgba(79,140,255,.18),transparent);color:#fff;box-shadow:inset 2px 0 0 var(--blue)}
 .nav-item .ic{font-size:15px;width:18px;text-align:center;flex:0 0 18px}
 .footer{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
@@ -57,7 +56,7 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
 .box-title{font-size:13.5px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .label{display:block;font-size:12.5px;color:#a8b3c7;margin-bottom:6px;font-weight:500}
-.input,.select,.textarea{width:100%;background:#0a0e16;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13.5px;outline:none;transition:.15s}
+.input,.select,.textarea{width:100%;background:#0a0e16;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13.5px}
 .input:focus,.select:focus,.textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,140,255,.12)}
 .textarea{resize:vertical;line-height:1.6;min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
 .field{margin-bottom:14px}
@@ -87,7 +86,6 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 .result.ok{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.06);color:#a8f0bd}
 .result.err{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.06);color:#ffb0b0}
 .result.info{border-color:rgba(79,140,255,.35);background:rgba(79,140,255,.06);color:#9fc2ff}
-.result.warn{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.06);color:#ffd08a}
 .hint{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:8px}
 .bar{height:4px;background:#1a2130;border-radius:2px;overflow:hidden;margin-top:12px;display:none}
 .bar.on{display:block}
@@ -156,105 +154,124 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 
 <script>
 /* =========================================================
-   基础工具
+   基础工具函数
    ========================================================= */
-function $(sel, root){ return (root || document).querySelector(sel); }
-function $$(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+function $(sel, root){ try { return (root || document).querySelector(sel); } catch(e){ return null; } }
+function $$(sel, root){ try { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); } catch(e){ return []; } }
 function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
-  });
+  try { return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  catch(e){ return ''; }
 }
 function formatSize(n){
+  if(n === undefined || n === null || isNaN(n)) return '0 B';
   if(n < 1024) return n + ' B';
   if(n < 1048576) return (n/1024).toFixed(1) + ' KB';
   if(n < 1073741824) return (n/1048576).toFixed(2) + ' MB';
   return (n/1073741824).toFixed(2) + ' GB';
 }
 function showToast(msg, type){
-  var wrap = document.getElementById('toastWrap');
-  if(!wrap){
-    wrap = document.createElement('div');
-    wrap.id = 'toastWrap';
-    wrap.className = 'toast-wrap';
-    document.body.appendChild(wrap);
-  }
-  var t = document.createElement('div');
-  t.className = 'toast ' + (type || '');
-  t.textContent = msg;
-  wrap.appendChild(t);
-  setTimeout(function(){ t.remove(); }, 3000);
+  try {
+    var wrap = document.getElementById('toastWrap');
+    if(!wrap){
+      wrap = document.createElement('div');
+      wrap.id = 'toastWrap';
+      wrap.className = 'toast-wrap';
+      document.body.appendChild(wrap);
+    }
+    var t = document.createElement('div');
+    t.className = 'toast ' + (type || '');
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function(){ try { t.remove(); } catch(e){} }, 3000);
+  } catch(e){ console.log('toast:', msg); }
 }
 function downloadBlob(blob, filename){
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = filename;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+  try {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ try { URL.revokeObjectURL(url); } catch(e){} }, 60000);
+  } catch(e){ showToast('下载失败：' + e.message, 'err'); }
 }
 function copyToClipboard(text){
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(function(){
-      showToast('已复制', 'ok');
-    }).catch(function(){ fallback(text); });
-  } else { fallback(text); }
+  try {
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showToast('已复制', 'ok');
+      }).catch(function(){ fallback(text); });
+    } else { fallback(text); }
+  } catch(e){ fallback(text); }
   function fallback(t){
-    var ta = document.createElement('textarea');
-    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); showToast('已复制', 'ok'); }
-    catch(e){ showToast('复制失败', 'err'); }
-    ta.remove();
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      showToast('已复制', 'ok');
+      ta.remove();
+    } catch(e){ showToast('复制失败', 'err'); }
   }
 }
 function setupDrop(zone, input, onFiles){
-  zone.onclick = function(){ input.click(); };
+  if(!zone || !input) return;
+  zone.onclick = function(){ try { input.click(); } catch(e){} };
   input.onchange = function(){
-    if(input.files.length) onFiles(Array.prototype.slice.call(input.files));
-    input.value = '';
+    try {
+      if(input.files && input.files.length) onFiles(Array.prototype.slice.call(input.files));
+      input.value = '';
+    } catch(e){}
   };
   zone.ondragover = function(e){ e.preventDefault(); zone.style.borderColor = 'var(--blue)'; };
   zone.ondragleave = function(){ zone.style.borderColor = ''; };
   zone.ondrop = function(e){
     e.preventDefault(); zone.style.borderColor = '';
-    var f = Array.prototype.slice.call(e.dataTransfer.files || []);
-    if(f.length) onFiles(f);
+    try {
+      var f = Array.prototype.slice.call(e.dataTransfer.files || []);
+      if(f.length) onFiles(f);
+    } catch(err){}
   };
 }
 function fileListHtml(files){
   return files.map(function(f, i){
-    return '<div class="file-item"><span class="fn">' + escapeHtml(f.name) + '</span><span class="fs">' + formatSize(f.size) + '</span><button class="fx" data-i="' + i + '">✕</button></div>';
+    return '<div class="file-item"><span class="fn">' + escapeHtml(f.name) + '</span><span class="fs">' + formatSize(f.size) + '</span><button class="fx" data-del-idx="' + i + '">✕</button></div>';
   }).join('');
 }
 function compressImage(file, maxSize, quality){
   return new Promise(function(resolve, reject){
-    var img = new Image();
-    img.onload = function(){
-      var w = img.width, h = img.height;
-      if(Math.max(w, h) > maxSize){
-        var s = maxSize / Math.max(w, h);
-        w = Math.round(w * s); h = Math.round(h * s);
-      }
-      var cv = document.createElement('canvas');
-      cv.width = w; cv.height = h;
-      cv.getContext('2d').drawImage(img, 0, 0, w, h);
-      cv.toBlob(function(blob){
-        if(!blob){ reject(new Error('压缩失败')); return; }
-        var r = new FileReader();
-        r.onload = function(){ resolve(r.result); };
-        r.onerror = function(){ reject(new Error('读取失败')); };
-        r.readAsDataURL(blob);
-      }, 'image/jpeg', quality || 0.75);
-    };
-    img.onerror = function(){ reject(new Error('图片解析失败')); };
-    img.src = URL.createObjectURL(file);
+    try {
+      var img = new Image();
+      img.onload = function(){
+        try {
+          var w = img.width, h = img.height;
+          if(Math.max(w, h) > maxSize){
+            var s = maxSize / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          var cv = document.createElement('canvas');
+          cv.width = w; cv.height = h;
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+          cv.toBlob(function(blob){
+            if(!blob){ reject(new Error('压缩失败')); return; }
+            var r = new FileReader();
+            r.onload = function(){ resolve(r.result); };
+            r.onerror = function(){ reject(new Error('读取失败')); };
+            r.readAsDataURL(blob);
+          }, 'image/jpeg', quality || 0.75);
+        } catch(e){ reject(e); }
+      };
+      img.onerror = function(){ reject(new Error('图片解析失败')); };
+      img.src = URL.createObjectURL(file);
+    } catch(e){ reject(e); }
   });
 }
 function fetchTimeout(url, options, ms){
   options = options || {}; ms = ms || 15000;
   return new Promise(function(resolve, reject){
     var ctrl = new AbortController();
-    var timer = setTimeout(function(){ ctrl.abort(); reject(new Error('请求超时')); }, ms);
+    var timer = setTimeout(function(){ try { ctrl.abort(); } catch(e){} reject(new Error('请求超时')); }, ms);
     fetch(url, Object.assign({}, options, { signal: ctrl.signal }))
       .then(function(r){ clearTimeout(timer); resolve(r); })
       .catch(function(e){ clearTimeout(timer); reject(e); });
@@ -279,39 +296,42 @@ function genId(){
   var r2 = Math.random().toString(16).slice(2, 10);
   return t + r1 + r2;
 }
+function safeLocalGet(key, def){
+  try {
+    var v = localStorage.getItem(key);
+    if(v === null) return def;
+    return JSON.parse(v);
+  } catch(e){ return def; }
+}
+function safeLocalSet(key, val){
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; }
+  catch(e){ return false; }
+}
 
 /* =========================================================
-   ★★★ 播客云存储：文件存 catbox，元数据存 jsonblob ★★★
+   播客云存储
    ========================================================= */
-
-// 上传数据 JSON 到 catbox（永久），返回文件 URL
 async function uploadPodcastFile(data){
   var json = JSON.stringify(data);
   var blob = new Blob([json], { type: 'application/json' });
   var fd = new FormData();
   fd.append('reqtype', 'fileupload');
-  fd.append('fileToUpload', blob, 'podcast_data_' + Date.now() + '.json');
+  fd.append('fileToUpload', blob, 'podcast_' + Date.now() + '.json');
   var res = await fetchTimeout('https://catbox.moe/user/api.php', { method: 'POST', body: fd }, 180000);
-  if(!res.ok) throw new Error('上传文件失败 HTTP ' + res.status);
+  if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
   var url = (await res.text()).trim();
   if(url.indexOf('http') !== 0) throw new Error('返回异常：' + url.slice(0, 100));
   return url;
 }
-
-// 从 URL 下载数据 JSON
 async function downloadPodcastFile(url){
   var res = await fetchTimeout(url, {}, 90000);
-  if(!res.ok) throw new Error('下载文件失败 HTTP ' + res.status);
+  if(!res.ok) throw new Error('下载失败 HTTP ' + res.status);
   var text = await res.text();
   try { return JSON.parse(text); }
-  catch(e){ throw new Error('数据解析失败，文件可能损坏'); }
+  catch(e){ throw new Error('数据解析失败'); }
 }
-
-// 创建播客：返回 metaId（固定不变）
 async function createPodcast(secret, data){
-  // 1. 先上传数据文件
   var dataUrl = await uploadPodcastFile(data);
-  // 2. 创建元数据 blob
   var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
   var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob', {
     method: 'POST',
@@ -323,8 +343,6 @@ async function createPodcast(secret, data){
   if(!loc) throw new Error('未获取到元数据 ID');
   return loc.split('/').pop();
 }
-
-// 更新播客：上传新数据文件，更新元数据里的 URL
 async function updatePodcast(metaId, secret, data){
   var dataUrl = await uploadPodcastFile(data);
   var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
@@ -336,8 +354,6 @@ async function updatePodcast(metaId, secret, data){
   if(!res.ok) throw new Error('更新元数据失败 ' + res.status);
   return dataUrl;
 }
-
-// 读取播客：先读元数据，再下载数据文件
 async function readPodcast(metaId){
   var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000);
   if(!res.ok) throw new Error('读取元数据失败 ' + res.status);
@@ -360,17 +376,9 @@ var CATEGORIES = {
 };
 
 /* =========================================================
-   工具 1: 私人播客生成器（无限制版）
+   工具 1: 私人播客生成器
    ========================================================= */
 var POD_LIST = 'toolbox_podcast_list_v2';
-
-function loadPodList(){
-  try { return JSON.parse(localStorage.getItem(POD_LIST) || '{}'); }
-  catch(e){ return {}; }
-}
-function savePodList(obj){
-  try { localStorage.setItem(POD_LIST, JSON.stringify(obj)); } catch(e){}
-}
 
 TOOLS.push({
   id: 'podcast',
@@ -380,20 +388,24 @@ TOOLS.push({
   desc: '无大小限制 · 实时可编辑',
   isNew: true,
   render: function(root){
-    var hash = location.hash;
-    if(hash.indexOf('#podcast=') === 0){
-      renderPodcastView(root, hash.slice(9));
-      return;
-    }
-    if(hash.indexOf('#podcast-edit=') === 0){
-      var rest = hash.slice(14);
-      var dashIdx = rest.lastIndexOf('-');
-      if(dashIdx > 0){
-        renderPodcastEdit(root, rest.slice(0, dashIdx), rest.slice(dashIdx + 1));
+    try {
+      var hash = location.hash;
+      if(hash.indexOf('#podcast=') === 0){
+        renderPodcastView(root, hash.slice(9));
         return;
       }
+      if(hash.indexOf('#podcast-edit=') === 0){
+        var rest = hash.slice(14);
+        var dashIdx = rest.lastIndexOf('-');
+        if(dashIdx > 0){
+          renderPodcastEdit(root, rest.slice(0, dashIdx), rest.slice(dashIdx + 1));
+          return;
+        }
+      }
+      renderPodcastCreate(root);
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 播客工具初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-    renderPodcastCreate(root);
   }
 });
 
@@ -401,7 +413,7 @@ function renderPodcastCreate(root){
   var h = '';
   h += '<div class="box" style="background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(79,140,255,.08));border-color:rgba(168,85,247,.3)">';
   h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span><span style="font-size:10px;padding:3px 8px;border-radius:20px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.4);color:#7ee2a8;font-weight:700">无限制</span></div>';
-  h += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<br><b style="color:var(--text)">浏览链接</b>给朋友看，<b style="color:var(--text)">管理链接</b>你自己留着改。改完保存，朋友刷新自动同步。<br><span style="color:#7ee2a8">✅ 数据以文件形式存储，单文件支持 200MB，基本无限制。</span></div>';
+  h += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<br><b style="color:var(--text)">浏览链接</b>给朋友看，<b style="color:var(--text)">管理链接</b>你自己留着改。<br><span style="color:#7ee2a8">✅ 数据以文件形式存储，单文件支持 200MB，基本无限制。</span></div>';
   h += '</div>';
 
   h += '<div class="box">';
@@ -411,7 +423,7 @@ function renderPodcastCreate(root){
   h += '<div class="field"><label class="label">播客作者（可选）</label><input type="text" class="input" id="podAuthor" placeholder="你的名字"></div>';
   h += '</div>';
   h += '<div class="field"><label class="label">播客简介（可选）</label><textarea class="textarea" id="podDesc" rows="3" placeholder="简单介绍一下…"></textarea></div>';
-  h += '<div class="field"><label class="label">播客封面（可选，会自动压缩便于快速显示）</label>';
+  h += '<div class="field"><label class="label">播客封面（可选）</label>';
   h += '<input type="file" id="podCover" accept="image/*" hidden>';
   h += '<div class="row"><button class="btn" id="pickCoverBtn">📷 选择封面</button><button class="btn btn-ghost" id="removeCoverBtn" style="display:none">🗑️ 移除</button><span class="hint" id="coverName" style="margin-top:0">不选也行</span></div>';
   h += '</div>';
@@ -423,7 +435,7 @@ function renderPodcastCreate(root){
   h += '<div class="field"><label class="label">单集标题（必填）</label><input type="text" class="input" id="epTitle" placeholder="例如：第 1 期 · 开场"></div>';
   h += '<div class="field"><label class="label">单集简介（可选）</label><input type="text" class="input" id="epDesc" placeholder="可留空"></div>';
   h += '</div>';
-  h += '<div class="field"><label class="label">单集文字稿（可选，不限长度）</label><textarea class="textarea" id="epContent" rows="5" placeholder="像写文章一样写你的播客内容…"></textarea></div>';
+  h += '<div class="field"><label class="label">单集文字稿（可选，不限长度）</label><textarea class="textarea" id="epContent" rows="5" placeholder="像写文章一样写…"></textarea></div>';
   h += '<div class="field"><label class="label">视频链接（可选）</label><input type="text" class="input" id="epVideo" placeholder="支持 .mp4 / .m3u8 / 云盘直链等"></div>';
   h += '<div class="row" style="margin-top:12px"><button class="btn btn-primary" id="addEpBtn">➕ 添加单集</button></div>';
   h += '</div>';
@@ -436,7 +448,7 @@ function renderPodcastCreate(root){
 
   h += '<div class="box">';
   h += '<div class="box-title">🔗 生成专属链接</div>';
-  h += '<div class="hint" style="margin-bottom:12px">生成后会给你两个链接：<b style="color:#7ee2a8">浏览链接</b>（给朋友）和 <b style="color:#ffd28a">管理链接</b>（自己改）。<b>链接永久不变</b>，无论内容多大。</div>';
+  h += '<div class="hint" style="margin-bottom:12px">生成后会给你两个链接：<b style="color:#7ee2a8">浏览链接</b>（给朋友）和 <b style="color:#ffd28a">管理链接</b>（自己改）。<b>链接永久不变</b>。</div>';
   h += '<div class="row"><button class="btn btn-primary" id="genLinkBtn">🔗 生成专属链接</button></div>';
   h += '<div class="bar" id="genBar"><div class="bar-fill" id="genBarFill"></div></div>';
   h += '<div id="linkResult"></div>';
@@ -449,150 +461,191 @@ function renderPodcastCreate(root){
 
   root.innerHTML = h;
 
-  var episodes = [];
-  var coverData = null;
+  var state = { episodes: [], coverData: null };
+
+  try {
+    var draft = safeLocalGet('toolbox_podcast_draft', null);
+    if(draft && typeof draft === 'object'){
+      if(draft.name && $('#podName', root)) $('#podName', root).value = draft.name;
+      if(draft.author && $('#podAuthor', root)) $('#podAuthor', root).value = draft.author;
+      if(draft.desc && $('#podDesc', root)) $('#podDesc', root).value = draft.desc;
+      if(Array.isArray(draft.episodes)) state.episodes = draft.episodes;
+      if(draft.coverData) state.coverData = draft.coverData;
+      if(state.coverData && $('#coverName', root)){
+        $('#coverName', root).textContent = '已保存封面';
+        if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = '';
+      }
+    }
+  } catch(e){}
 
   function updateEpCount(){
     var c = $('#epCount', root);
-    if(c) c.textContent = episodes.length ? '共 ' + episodes.length + ' 期' : '';
+    if(c) c.textContent = state.episodes.length ? '共 ' + state.episodes.length + ' 期' : '';
     var empty = $('#epEmpty', root);
-    if(empty) empty.style.display = episodes.length ? 'none' : 'block';
+    if(empty) empty.style.display = state.episodes.length ? 'none' : 'block';
   }
 
   function renderEpList(){
     var listEl = $('#epList', root);
     if(!listEl) return;
-    if(episodes.length === 0){
-      listEl.innerHTML = '';
-      updateEpCount();
-      return;
-    }
+    if(state.episodes.length === 0){ listEl.innerHTML = ''; updateEpCount(); return; }
     var h2 = '';
-    for(var i = 0; i < episodes.length; i++){
-      var ep = episodes[i];
+    for(var i = 0; i < state.episodes.length; i++){
+      var ep = state.episodes[i];
       h2 += '<div class="ep-item">';
       h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
       if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
       if(ep.c) h2 += '<div class="ei-content">' + escapeHtml(ep.c.slice(0, 100)) + (ep.c.length > 100 ? '…' : '') + '</div>';
       if(ep.v) h2 += '<div class="ei-desc" style="color:#9fc2ff">🎬 ' + escapeHtml(ep.v.slice(0, 60)) + (ep.v.length > 60 ? '…' : '') + '</div>';
-      h2 += '<div class="ei-actions"><button class="btn btn-sm btn-danger" data-del="' + i + '">🗑️ 删除</button></div>';
+      h2 += '<div class="ei-actions"><button class="btn btn-sm btn-danger" data-del-ep="' + i + '">🗑️ 删除</button></div>';
       h2 += '</div>';
     }
     listEl.innerHTML = h2;
-    var delBtns = listEl.querySelectorAll('[data-del]');
+    var delBtns = $$('[data-del-ep]', listEl);
     for(var j = 0; j < delBtns.length; j++){
       delBtns[j].onclick = function(e){
-        episodes.splice(parseInt(e.target.getAttribute('data-del'), 10), 1);
+        var idx = parseInt(e.target.getAttribute('data-del-ep'), 10);
+        state.episodes.splice(idx, 1);
+        saveDraft();
         renderEpList();
       };
     }
     updateEpCount();
   }
 
-  $('#pickCoverBtn', root).onclick = function(){ $('#podCover', root).click(); };
-  $('#podCover', root).onchange = function(e){
-    var f = e.target.files[0];
-    if(!f) return;
-    $('#coverName', root).textContent = '压缩中…';
-    compressImage(f, 600, 0.8).then(function(d){
-      coverData = d;
-      $('#coverName', root).textContent = '已选择';
-      $('#removeCoverBtn', root).style.display = '';
-    }).catch(function(err){
-      $('#coverName', root).textContent = '处理失败';
-      showToast('封面处理失败：' + err.message, 'err');
+  function saveDraft(){
+    safeLocalSet('toolbox_podcast_draft', {
+      name: $('#podName', root) ? $('#podName', root).value : '',
+      author: $('#podAuthor', root) ? $('#podAuthor', root).value : '',
+      desc: $('#podDesc', root) ? $('#podDesc', root).value : '',
+      coverData: state.coverData,
+      episodes: state.episodes
     });
-  };
-  $('#removeCoverBtn', root).onclick = function(){
-    coverData = null;
-    $('#coverName', root).textContent = '不选也行';
-    $('#removeCoverBtn', root).style.display = 'none';
-  };
+  }
 
-  $('#addEpBtn', root).onclick = function(){
-    var title = $('#epTitle', root).value.trim();
-    if(!title){ showToast('请输入单集标题', 'err'); return; }
-    episodes.push({
-      t: title,
-      d: $('#epDesc', root).value.trim(),
-      c: $('#epContent', root).value.trim(),
-      v: $('#epVideo', root).value.trim()
-    });
-    $('#epTitle', root).value = '';
-    $('#epDesc', root).value = '';
-    $('#epContent', root).value = '';
-    $('#epVideo', root).value = '';
-    renderEpList();
-    showToast('已添加', 'ok');
-  };
-
-  $('#genLinkBtn', root).onclick = function(){
-    if(episodes.length === 0){ showToast('请至少添加一期内容', 'err'); return; }
-    var btn = $('#genLinkBtn', root);
-    btn.disabled = true;
-    btn.textContent = '⏳ 上传中…';
-    var bar = $('#genBar', root);
-    var barFill = $('#genBarFill', root);
-    bar.classList.add('on');
-    barFill.style.width = '20%';
-
-    var secret = genId();
-    var data = {
-      n: $('#podName', root).value || '我的播客',
-      a: $('#podAuthor', root).value,
-      d: $('#podDesc', root).value,
-      c: coverData,
-      e: episodes
+  var pickBtn = $('#pickCoverBtn', root);
+  var coverInput = $('#podCover', root);
+  if(pickBtn && coverInput){
+    pickBtn.onclick = function(){ try { coverInput.click(); } catch(e){} };
+    coverInput.onchange = function(e){
+      var f = e.target.files[0];
+      if(!f) return;
+      if($('#coverName', root)) $('#coverName', root).textContent = '压缩中…';
+      compressImage(f, 600, 0.8).then(function(d){
+        state.coverData = d;
+        if($('#coverName', root)) $('#coverName', root).textContent = '已选择';
+        if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = '';
+        saveDraft();
+      }).catch(function(err){
+        if($('#coverName', root)) $('#coverName', root).textContent = '处理失败';
+        showToast('封面处理失败：' + err.message, 'err');
+      });
     };
+  }
+  var rmCover = $('#removeCoverBtn', root);
+  if(rmCover){
+    rmCover.onclick = function(){
+      state.coverData = null;
+      if($('#coverName', root)) $('#coverName', root).textContent = '不选也行';
+      if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = 'none';
+      saveDraft();
+    };
+  }
 
-    barFill.style.width = '40%';
-    createPodcast(secret, data).then(function(metaId){
-      barFill.style.width = '100%';
-      var base = location.origin + location.pathname;
-      var viewLink = base + '#podcast=' + metaId;
-      var editLink = base + '#podcast-edit=' + metaId + '-' + secret;
+  var addBtn = $('#addEpBtn', root);
+  if(addBtn){
+    addBtn.onclick = function(){
+      try {
+        var title = $('#epTitle', root) ? $('#epTitle', root).value.trim() : '';
+        if(!title){ showToast('请输入单集标题', 'err'); return; }
+        state.episodes.push({
+          t: title,
+          d: $('#epDesc', root) ? $('#epDesc', root).value.trim() : '',
+          c: $('#epContent', root) ? $('#epContent', root).value.trim() : '',
+          v: $('#epVideo', root) ? $('#epVideo', root).value.trim() : ''
+        });
+        if($('#epTitle', root)) $('#epTitle', root).value = '';
+        if($('#epDesc', root)) $('#epDesc', root).value = '';
+        if($('#epContent', root)) $('#epContent', root).value = '';
+        if($('#epVideo', root)) $('#epVideo', root).value = '';
+        saveDraft();
+        renderEpList();
+        showToast('已添加', 'ok');
+      } catch(e){ showToast('添加失败：' + e.message, 'err'); }
+    };
+  }
 
-      var my = loadPodList();
-      my[metaId] = { name: data.n, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
-      savePodList(my);
+  var genBtn = $('#genLinkBtn', root);
+  if(genBtn){
+    genBtn.onclick = function(){
+      if(state.episodes.length === 0){ showToast('请至少添加一期内容', 'err'); return; }
+      genBtn.disabled = true;
+      genBtn.textContent = '⏳ 上传中…';
+      var bar = $('#genBar', root);
+      var barFill = $('#genBarFill', root);
+      if(bar) bar.classList.add('on');
+      if(barFill) barFill.style.width = '20%';
 
-      $('#linkResult', root).innerHTML =
-        '<div class="result ok" style="margin-top:14px">✅ 生成成功！数据已上传，无大小限制</div>' +
-        '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-        '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">📤 浏览链接（发朋友）</div>' +
-        '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>' +
-        '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpView">📋 复制</button><button class="btn btn-sm" id="opView">👁️ 预览</button></div>' +
-        '</div>' +
-        '<div style="background:#0a0e16;border:1px solid rgba(245,158,11,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-        '<div style="font-size:11.5px;color:#ffd08a;font-weight:700;margin-bottom:6px">✏️ 管理链接（自己留）</div>' +
-        '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(editLink) + '</div>' +
-        '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpEdit">📋 复制</button><button class="btn btn-sm" id="opEdit">✏️ 打开管理</button></div>' +
-        '</div>';
+      var secret = genId();
+      var data = {
+        n: $('#podName', root) ? ($('#podName', root).value || '我的播客') : '我的播客',
+        a: $('#podAuthor', root) ? $('#podAuthor', root).value : '',
+        d: $('#podDesc', root) ? $('#podDesc', root).value : '',
+        c: state.coverData,
+        e: state.episodes
+      };
 
-      $('#cpView', root).onclick = function(){ copyToClipboard(viewLink); };
-      $('#opView', root).onclick = function(){ window.open(viewLink, '_blank'); };
-      $('#cpEdit', root).onclick = function(){ copyToClipboard(editLink); };
-      $('#opEdit', root).onclick = function(){ location.hash = '#podcast-edit=' + metaId + '-' + secret; };
+      if(barFill) barFill.style.width = '40%';
+      createPodcast(secret, data).then(function(metaId){
+        if(barFill) barFill.style.width = '100%';
+        var base = location.origin + location.pathname;
+        var viewLink = base + '#podcast=' + metaId;
+        var editLink = base + '#podcast-edit=' + metaId + '-' + secret;
 
-      renderMyPodList(root);
-      showToast('生成成功', 'ok');
-    }).catch(function(e){
-      console.error(e);
-      showToast('上传失败：' + e.message, 'err');
-      $('#linkResult', root).innerHTML =
-        '<div class="result err">❌ 生成失败：' + escapeHtml(e.message) + '<br><br>' +
-        '<b>可能原因：</b><br>' +
-        '① 网络问题（无法连接 catbox.moe 或 jsonblob.com）<br>' +
-        '② 浏览器拦截了跨域请求<br>' +
-        '③ 存储服务暂时不可用<br><br>' +
-        '<b>建议：</b>检查网络、稍后重试</div>';
-    }).then(function(){
-      barFill.style.width = '0';
-      setTimeout(function(){ bar.classList.remove('on'); }, 500);
-      btn.disabled = false;
-      btn.textContent = '🔗 生成专属链接';
-    });
-  };
+        var my = safeLocalGet(POD_LIST, {});
+        my[metaId] = { name: data.n, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
+        safeLocalSet(POD_LIST, my);
+
+        var lr = $('#linkResult', root);
+        if(lr){
+          lr.innerHTML =
+            '<div class="result ok" style="margin-top:14px">✅ 生成成功！</div>' +
+            '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
+            '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">📤 浏览链接（发朋友）</div>' +
+            '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>' +
+            '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpView">📋 复制</button><button class="btn btn-sm" id="opView">👁️ 预览</button></div>' +
+            '</div>' +
+            '<div style="background:#0a0e16;border:1px solid rgba(245,158,11,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
+            '<div style="font-size:11.5px;color:#ffd08a;font-weight:700;margin-bottom:6px">✏️ 管理链接（自己留）</div>' +
+            '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(editLink) + '</div>' +
+            '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpEdit">📋 复制</button><button class="btn btn-sm" id="opEdit">✏️ 打开管理</button></div>' +
+            '</div>';
+          var cpView = $('#cpView', root);
+          var opView = $('#opView', root);
+          var cpEdit = $('#cpEdit', root);
+          var opEdit = $('#opEdit', root);
+          if(cpView) cpView.onclick = function(){ copyToClipboard(viewLink); };
+          if(opView) opView.onclick = function(){ window.open(viewLink, '_blank'); };
+          if(cpEdit) cpEdit.onclick = function(){ copyToClipboard(editLink); };
+          if(opEdit) opEdit.onclick = function(){ location.hash = '#podcast-edit=' + metaId + '-' + secret; };
+        }
+        renderMyPodList(root);
+        showToast('生成成功', 'ok');
+      }).catch(function(e){
+        console.error(e);
+        showToast('上传失败：' + e.message, 'err');
+        var lr = $('#linkResult', root);
+        if(lr){
+          lr.innerHTML = '<div class="result err">❌ 生成失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 网络问题（无法连接 catbox.moe 或 jsonblob.com）<br>② 浏览器拦截了跨域请求<br>③ 存储服务暂时不可用<br><br><b>建议：</b>检查网络、稍后重试</div>';
+        }
+      }).then(function(){
+        if(barFill) barFill.style.width = '0';
+        setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
+        genBtn.disabled = false;
+        genBtn.textContent = '🔗 生成专属链接';
+      });
+    };
+  }
 
   renderEpList();
   renderMyPodList(root);
@@ -601,44 +654,58 @@ function renderPodcastCreate(root){
 function renderMyPodList(root){
   var el = $('#myPodList', root);
   if(!el) return;
-  var my = loadPodList();
+  var my = safeLocalGet(POD_LIST, {});
   var ids = Object.keys(my);
   if(ids.length === 0){
     el.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有创建过播客</div>';
     return;
   }
-  ids.sort(function(a, b){ return my[b].created - my[a].created; });
+  ids.sort(function(a, b){ return (my[b].created || 0) - (my[a].created || 0); });
   var h = '';
   for(var i = 0; i < ids.length; i++){
     var id = ids[i];
     var m = my[id];
     h += '<div class="pod-card">';
-    h += '<div class="pc-title">' + escapeHtml(m.name) + '</div>';
-    h += '<div class="pc-desc">创建于 ' + new Date(m.created).toLocaleString('zh-CN') + '</div>';
+    h += '<div class="pc-title">' + escapeHtml(m.name || '未命名') + '</div>';
+    h += '<div class="pc-desc">创建于 ' + (m.created ? new Date(m.created).toLocaleString('zh-CN') : '未知') + '</div>';
     h += '<div class="pc-actions">';
-    h += '<button class="btn btn-sm btn-primary" data-act="open" data-url="' + escapeHtml(m.viewLink) + '">📤 打开</button>';
-    h += '<button class="btn btn-sm" data-act="edit" data-url="' + escapeHtml(m.editLink) + '">✏️ 管理</button>';
-    h += '<button class="btn btn-sm" data-act="copy" data-url="' + escapeHtml(m.viewLink) + '">📋 复制</button>';
-    h += '<button class="btn btn-sm btn-danger" data-act="del" data-id="' + id + '">🗑️ 删除</button>';
-    h += '</div>';
-    h += '</div>';
+    h += '<button class="btn btn-sm btn-primary" data-open="' + escapeHtml(m.viewLink || '') + '">📤 打开</button>';
+    h += '<button class="btn btn-sm" data-edit="' + escapeHtml(m.editLink || '') + '">✏️ 管理</button>';
+    h += '<button class="btn btn-sm" data-copy="' + escapeHtml(m.viewLink || '') + '">📋 复制</button>';
+    h += '<button class="btn btn-sm btn-danger" data-delpod="' + id + '">🗑️ 删除</button>';
+    h += '</div></div>';
   }
   el.innerHTML = h;
 
-  var btns = el.querySelectorAll('button[data-act]');
-  for(var j = 0; j < btns.length; j++){
-    btns[j].onclick = function(e){
-      var act = e.target.getAttribute('data-act');
-      if(act === 'open') window.open(e.target.getAttribute('data-url'), '_blank');
-      else if(act === 'edit') location.hash = e.target.getAttribute('data-url').replace(/^[^#]*/, '');
-      else if(act === 'copy') copyToClipboard(e.target.getAttribute('data-url'));
-      else if(act === 'del'){
-        if(!confirm('从本机删除这条记录？')) return;
-        var my = loadPodList();
-        delete my[e.target.getAttribute('data-id')];
-        savePodList(my);
-        renderMyPodList(root);
+  var openBtns = $$('[data-open]', el);
+  for(var j = 0; j < openBtns.length; j++){
+    openBtns[j].onclick = function(e){
+      var url = e.target.getAttribute('data-open');
+      if(url) window.open(url, '_blank');
+    };
+  }
+  var editBtns = $$('[data-edit]', el);
+  for(var k = 0; k < editBtns.length; k++){
+    editBtns[k].onclick = function(e){
+      var url = e.target.getAttribute('data-edit');
+      if(url){
+        var idx = url.indexOf('#');
+        if(idx >= 0) location.hash = url.slice(idx);
       }
+    };
+  }
+  var copyBtns = $$('[data-copy]', el);
+  for(var l = 0; l < copyBtns.length; l++){
+    copyBtns[l].onclick = function(e){ copyToClipboard(e.target.getAttribute('data-copy')); };
+  }
+  var delBtns = $$('[data-delpod]', el);
+  for(var m = 0; m < delBtns.length; m++){
+    delBtns[m].onclick = function(e){
+      if(!confirm('从本机删除这条记录？')) return;
+      var my = safeLocalGet(POD_LIST, {});
+      delete my[e.target.getAttribute('data-delpod')];
+      safeLocalSet(POD_LIST, my);
+      renderMyPodList(root);
     };
   }
 }
@@ -647,9 +714,7 @@ function renderPodcastView(root, metaId){
   root.innerHTML = '<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">🎙️</div><div style="font-size:14px;color:var(--muted)">正在加载播客…</div></div>';
 
   readPodcast(metaId).then(function(result){
-    var data = result.data;
-    drawPodcastView(root, metaId, data, result.meta);
-    // 轮询更新
+    drawPodcastView(root, metaId, result.data, result.meta);
     var lastTs = result.meta.t;
     var timer = setInterval(function(){
       fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000)
@@ -719,11 +784,9 @@ function drawPodcastView(root, metaId, data, meta){
 
   root.innerHTML = h;
 
-  var cpBtns = root.querySelectorAll('[data-cpv]');
+  var cpBtns = $$('[data-cpv]', root);
   for(var k = 0; k < cpBtns.length; k++){
-    cpBtns[k].onclick = function(e){
-      copyToClipboard(e.target.getAttribute('data-cpv'));
-    };
+    cpBtns[k].onclick = function(e){ copyToClipboard(e.target.getAttribute('data-cpv')); };
   }
 }
 
@@ -732,7 +795,7 @@ function renderPodcastEdit(root, metaId, secret){
 
   readPodcast(metaId).then(function(result){
     if(result.meta.s !== secret){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 管理密钥错误，无法进入</div></div>';
+      root.innerHTML = '<div class="box"><div class="result err">❌ 管理密钥错误</div></div>';
       return;
     }
     drawPodcastEdit(root, metaId, secret, result.data);
@@ -742,40 +805,34 @@ function renderPodcastEdit(root, metaId, secret){
 }
 
 function drawPodcastEdit(root, metaId, secret, data){
-  var episodes = (data.e || []).map(function(ep){ return JSON.parse(JSON.stringify(ep)); });
-  var coverData = data.c || null;
-  var podName = data.n || '';
-  var podAuthor = data.a || '';
-  var podDesc = data.d || '';
+  var state = {
+    episodes: (data.e || []).map(function(ep){ return JSON.parse(JSON.stringify(ep)); }),
+    coverData: data.c || null
+  };
   var viewLink = location.origin + location.pathname + '#podcast=' + metaId;
 
   var h = '';
-  h += '<div style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.12));border:1px solid rgba(245,158,11,.35);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#ffd08a;line-height:1.6">';
-  h += '<b>✏️ 管理台模式</b>：修改保存后朋友刷新就能看到。数据无大小限制。';
-  h += '</div>';
+  h += '<div style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.12));border:1px solid rgba(245,158,11,.35);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#ffd08a;line-height:1.6"><b>✏️ 管理台模式</b>：修改保存后朋友刷新就能看到。数据无大小限制。</div>';
 
   h += '<div class="box">';
   h += '<div class="box-title">🔗 当前浏览链接</div>';
   h += '<div style="background:#0a0e16;border:1px solid var(--border);border-radius:9px;padding:12px 14px;word-break:break-all">';
   h += '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>';
-  h += '<div class="row" style="margin-top:8px"><button class="btn btn-sm" id="editCopyView">📋 复制</button><button class="btn btn-sm" id="editOpenView">👁️ 预览</button></div>';
-  h += '</div>';
-  h += '</div>';
+  h += '<div class="row" style="margin-top:8px"><button class="btn btn-sm" id="edCopy">📋 复制</button><button class="btn btn-sm" id="edOpen">👁️ 预览</button></div>';
+  h += '</div></div>';
 
   h += '<div class="box">';
   h += '<div class="box-title">📻 基础信息</div>';
   h += '<div class="grid2">';
-  h += '<div class="field"><label class="label">播客名称</label><input type="text" class="input" id="edName" value="' + escapeHtml(podName) + '"></div>';
-  h += '<div class="field"><label class="label">作者</label><input type="text" class="input" id="edAuthor" value="' + escapeHtml(podAuthor) + '"></div>';
+  h += '<div class="field"><label class="label">播客名称</label><input type="text" class="input" id="edName" value="' + escapeHtml(data.n || '') + '"></div>';
+  h += '<div class="field"><label class="label">作者</label><input type="text" class="input" id="edAuthor" value="' + escapeHtml(data.a || '') + '"></div>';
   h += '</div>';
-  h += '<div class="field"><label class="label">简介</label><textarea class="textarea" id="edDesc" rows="3">' + escapeHtml(podDesc) + '</textarea></div>';
+  h += '<div class="field"><label class="label">简介</label><textarea class="textarea" id="edDesc" rows="3">' + escapeHtml(data.d || '') + '</textarea></div>';
   h += '<div class="field"><label class="label">封面</label>';
   h += '<input type="file" id="edCover" accept="image/*" hidden>';
-  h += '<div class="row"><button class="btn" id="edPickCover">📷 更换</button><button class="btn btn-ghost" id="edRemoveCover">🗑️ 移除</button><span class="hint" style="margin-top:0" id="edCoverName">' + (coverData ? '已有封面' : '未设置') + '</span></div>';
+  h += '<div class="row"><button class="btn" id="edPickCover">📷 更换</button><button class="btn btn-ghost" id="edRemoveCover">🗑️ 移除</button><span class="hint" style="margin-top:0" id="edCoverName">' + (state.coverData ? '已有封面' : '未设置') + '</span></div>';
   h += '</div>';
-  if(coverData){
-    h += '<img src="' + coverData + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">';
-  }
+  if(state.coverData) h += '<img src="' + state.coverData + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">';
   h += '</div>';
 
   h += '<div class="box">';
@@ -808,45 +865,44 @@ function drawPodcastEdit(root, metaId, secret, data){
     var el = $('#edEpList', root);
     var emptyEl = $('#edEpEmpty', root);
     var countEl = $('#edEpCount', root);
-    countEl.textContent = episodes.length ? '共 ' + episodes.length + ' 期' : '';
-    if(episodes.length === 0){
+    if(countEl) countEl.textContent = state.episodes.length ? '共 ' + state.episodes.length + ' 期' : '';
+    if(!el) return;
+    if(state.episodes.length === 0){
       el.innerHTML = '';
       if(emptyEl) emptyEl.style.display = 'block';
       return;
     }
     if(emptyEl) emptyEl.style.display = 'none';
     var h2 = '';
-    for(var i = 0; i < episodes.length; i++){
-      var ep = episodes[i];
+    for(var i = 0; i < state.episodes.length; i++){
+      var ep = state.episodes[i];
       h2 += '<div class="ep-item">';
       h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
       if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
       h2 += '<div class="ei-actions">';
-      h2 += '<button class="btn btn-sm" data-edit="' + i + '">✏️ 编辑</button>';
-      h2 += '<button class="btn btn-sm btn-danger" data-del="' + i + '">🗑️ 删除</button>';
-      h2 += '</div>';
-      h2 += '</div>';
+      h2 += '<button class="btn btn-sm" data-ededit="' + i + '">✏️ 编辑</button>';
+      h2 += '<button class="btn btn-sm btn-danger" data-eddel="' + i + '">🗑️ 删除</button>';
+      h2 += '</div></div>';
     }
     el.innerHTML = h2;
-
-    var delBtns = el.querySelectorAll('[data-del]');
+    var delBtns = $$('[data-eddel]', el);
     for(var j = 0; j < delBtns.length; j++){
       delBtns[j].onclick = function(e){
         if(!confirm('删除这期？')) return;
-        episodes.splice(parseInt(e.target.getAttribute('data-del'), 10), 1);
+        state.episodes.splice(parseInt(e.target.getAttribute('data-eddel'), 10), 1);
         renderEpList();
       };
     }
-    var editBtns = el.querySelectorAll('[data-edit]');
+    var editBtns = $$('[data-ededit]', el);
     for(var k = 0; k < editBtns.length; k++){
       editBtns[k].onclick = function(e){
-        var idx = parseInt(e.target.getAttribute('data-edit'), 10);
-        var ep = episodes[idx];
-        $('#edEpTitle', root).value = ep.t || '';
-        $('#edEpDesc', root).value = ep.d || '';
-        $('#edEpContent', root).value = ep.c || '';
-        $('#edEpVideo', root).value = ep.v || '';
-        episodes.splice(idx, 1);
+        var idx = parseInt(e.target.getAttribute('data-ededit'), 10);
+        var ep = state.episodes[idx];
+        if($('#edEpTitle', root)) $('#edEpTitle', root).value = ep.t || '';
+        if($('#edEpDesc', root)) $('#edEpDesc', root).value = ep.d || '';
+        if($('#edEpContent', root)) $('#edEpContent', root).value = ep.c || '';
+        if($('#edEpVideo', root)) $('#edEpVideo', root).value = ep.v || '';
+        state.episodes.splice(idx, 1);
         renderEpList();
         showToast('已载入编辑区', 'ok');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -854,72 +910,80 @@ function drawPodcastEdit(root, metaId, secret, data){
     }
   }
 
-  $('#edPickCover', root).onclick = function(){ $('#edCover', root).click(); };
-  $('#edCover', root).onchange = function(e){
-    var f = e.target.files[0];
-    if(!f) return;
-    $('#edCoverName', root).textContent = '压缩中…';
-    compressImage(f, 600, 0.8).then(function(d){
-      coverData = d;
-      $('#edCoverName', root).textContent = '已更换';
-    }).catch(function(err){
-      showToast('处理失败：' + err.message, 'err');
-    });
-  };
-  $('#edRemoveCover', root).onclick = function(){
-    coverData = null;
-    $('#edCoverName', root).textContent = '已移除';
-  };
-
-  $('#edAddEp', root).onclick = function(){
-    var t = $('#edEpTitle', root).value.trim();
-    if(!t){ showToast('请输入标题', 'err'); return; }
-    episodes.push({
-      t: t,
-      d: $('#edEpDesc', root).value.trim(),
-      c: $('#edEpContent', root).value.trim(),
-      v: $('#edEpVideo', root).value.trim()
-    });
-    $('#edEpTitle', root).value = '';
-    $('#edEpDesc', root).value = '';
-    $('#edEpContent', root).value = '';
-    $('#edEpVideo', root).value = '';
-    renderEpList();
+  var pickCover = $('#edPickCover', root);
+  var coverInput = $('#edCover', root);
+  if(pickCover && coverInput){
+    pickCover.onclick = function(){ try { coverInput.click(); } catch(e){} };
+    coverInput.onchange = function(e){
+      var f = e.target.files[0]; if(!f) return;
+      if($('#edCoverName', root)) $('#edCoverName', root).textContent = '压缩中…';
+      compressImage(f, 600, 0.8).then(function(d){
+        state.coverData = d;
+        if($('#edCoverName', root)) $('#edCoverName', root).textContent = '已更换';
+      }).catch(function(err){ showToast('处理失败：' + err.message, 'err'); });
+    };
+  }
+  var rmCover = $('#edRemoveCover', root);
+  if(rmCover) rmCover.onclick = function(){
+    state.coverData = null;
+    if($('#edCoverName', root)) $('#edCoverName', root).textContent = '已移除';
   };
 
-  $('#edSaveBtn', root).onclick = function(){
-    var btn = $('#edSaveBtn', root);
-    btn.disabled = true;
-    btn.textContent = '⏳ 上传中…';
+  var addBtn = $('#edAddEp', root);
+  if(addBtn) addBtn.onclick = function(){
+    try {
+      var t = $('#edEpTitle', root) ? $('#edEpTitle', root).value.trim() : '';
+      if(!t){ showToast('请输入标题', 'err'); return; }
+      state.episodes.push({
+        t: t,
+        d: $('#edEpDesc', root) ? $('#edEpDesc', root).value.trim() : '',
+        c: $('#edEpContent', root) ? $('#edEpContent', root).value.trim() : '',
+        v: $('#edEpVideo', root) ? $('#edEpVideo', root).value.trim() : ''
+      });
+      if($('#edEpTitle', root)) $('#edEpTitle', root).value = '';
+      if($('#edEpDesc', root)) $('#edEpDesc', root).value = '';
+      if($('#edEpContent', root)) $('#edEpContent', root).value = '';
+      if($('#edEpVideo', root)) $('#edEpVideo', root).value = '';
+      renderEpList();
+      showToast('已添加', 'ok');
+    } catch(e){ showToast('添加失败：' + e.message, 'err'); }
+  };
+
+  var saveBtn = $('#edSaveBtn', root);
+  if(saveBtn) saveBtn.onclick = function(){
+    saveBtn.disabled = true;
+    saveBtn.textContent = '⏳ 上传中…';
     var bar = $('#edBar', root);
     var barFill = $('#edBarFill', root);
-    bar.classList.add('on');
-    barFill.style.width = '20%';
+    if(bar) bar.classList.add('on');
+    if(barFill) barFill.style.width = '20%';
 
     var payload = {
-      n: $('#edName', root).value || '我的播客',
-      a: $('#edAuthor', root).value,
-      d: $('#edDesc', root).value,
-      c: coverData,
-      e: episodes
+      n: $('#edName', root) ? ($('#edName', root).value || '我的播客') : '我的播客',
+      a: $('#edAuthor', root) ? $('#edAuthor', root).value : '',
+      d: $('#edDesc', root) ? $('#edDesc', root).value : '',
+      c: state.coverData,
+      e: state.episodes
     };
 
-    barFill.style.width = '40%';
+    if(barFill) barFill.style.width = '40%';
     updatePodcast(metaId, secret, payload).then(function(){
-      barFill.style.width = '100%';
+      if(barFill) barFill.style.width = '100%';
       showToast('已保存，朋友刷新即可看到', 'ok');
     }).catch(function(e){
       showToast('保存失败：' + e.message, 'err');
     }).then(function(){
-      barFill.style.width = '0';
-      setTimeout(function(){ bar.classList.remove('on'); }, 500);
-      btn.disabled = false;
-      btn.textContent = '💾 保存并发布';
+      if(barFill) barFill.style.width = '0';
+      setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
+      saveBtn.disabled = false;
+      saveBtn.textContent = '💾 保存并发布';
     });
   };
 
-  $('#editCopyView', root).onclick = function(){ copyToClipboard(viewLink); };
-  $('#editOpenView', root).onclick = function(){ window.open(viewLink, '_blank'); };
+  var edCopy = $('#edCopy', root);
+  var edOpen = $('#edOpen', root);
+  if(edCopy) edCopy.onclick = function(){ copyToClipboard(viewLink); };
+  if(edOpen) edOpen.onclick = function(){ window.open(viewLink, '_blank'); };
 
   renderEpList();
 }
@@ -935,12 +999,16 @@ TOOLS.push({
   desc: '加密上传 · 生成专属链接',
   isNew: true,
   render: function(root){
-    var hash = location.hash;
-    if(hash.indexOf('#host=') === 0){
-      renderHostView(root, hash.slice(6));
-      return;
+    try {
+      var hash = location.hash;
+      if(hash.indexOf('#host=') === 0){
+        renderHostView(root, hash.slice(6));
+        return;
+      }
+      renderHostCreate(root);
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 东西托管初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-    renderHostCreate(root);
   }
 });
 
@@ -974,40 +1042,49 @@ function renderHostCreate(root){
   root.innerHTML = h;
 
   var files = [];
+
   function refresh(){
-    $('#hostFileList', root).innerHTML = fileListHtml(files);
-    $('#hostRun', root).disabled = files.length === 0;
-    $('#hostClear', root).disabled = files.length === 0;
-    var xs = $$('.fx', $('#hostFileList', root));
+    var fl = $('#hostFileList', root);
+    if(fl) fl.innerHTML = fileListHtml(files);
+    var runBtn = $('#hostRun', root);
+    var clearBtn = $('#hostClear', root);
+    if(runBtn) runBtn.disabled = files.length === 0;
+    if(clearBtn) clearBtn.disabled = files.length === 0;
+    var xs = $$('.fx', fl);
     for(var i = 0; i < xs.length; i++){
       (function(idx){
         xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
       })(i);
     }
   }
+
   setupDrop($('#hostDrop', root), $('#hostFile', root), function(newFiles){
     files = files.concat(newFiles);
     refresh();
   });
-  $('#hostClear', root).onclick = function(){
+
+  var clearBtn = $('#hostClear', root);
+  if(clearBtn) clearBtn.onclick = function(){
     files = [];
-    $('#hostResult', root).innerHTML = '';
+    var r = $('#hostResult', root);
+    if(r) r.innerHTML = '';
     refresh();
   };
 
-  $('#hostRun', root).onclick = function(){
+  var runBtn = $('#hostRun', root);
+  if(runBtn) runBtn.onclick = function(){
     if(files.length === 0) return;
     var file = files[0];
-    var expiry = $('#hostExp', root).value;
-    var btn = $('#hostRun', root);
-    btn.disabled = true;
-    btn.textContent = '⏳ 加密中…';
+    var expSel = $('#hostExp', root);
+    var expiry = expSel ? expSel.value : '1h';
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳ 加密中…';
     var bar = $('#hostBar', root);
     var barFill = $('#hostBarFill', root);
-    bar.classList.add('on');
-    barFill.style.width = '10%';
+    if(bar) bar.classList.add('on');
+    if(barFill) barFill.style.width = '10%';
     var resultArea = $('#hostResult', root);
-    resultArea.innerHTML = '';
+    if(resultArea) resultArea.innerHTML = '';
 
     var keyBytes = new Uint8Array(32);
     crypto.getRandomValues(keyBytes);
@@ -1015,21 +1092,21 @@ function renderHostCreate(root){
     var iv;
 
     file.arrayBuffer().then(function(ab){
-      barFill.style.width = '30%';
+      if(barFill) barFill.style.width = '30%';
       return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']).then(function(key){
         iv = crypto.getRandomValues(new Uint8Array(12));
         return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, ab);
       });
     }).then(function(ct){
-      barFill.style.width = '50%';
+      if(barFill) barFill.style.width = '50%';
       var ctArr = new Uint8Array(ct);
       var out = new Uint8Array(12 + ctArr.length);
       out.set(iv, 0);
       out.set(ctArr, 12);
       return out;
     }).then(function(encBytes){
-      barFill.style.width = '60%';
-      btn.textContent = '⏳ 上传中…';
+      if(barFill) barFill.style.width = '60%';
+      runBtn.textContent = '⏳ 上传中…';
       var encBlob = new Blob([encBytes], { type: 'application/octet-stream' });
       var fd = new FormData();
       fd.append('reqtype', 'fileupload');
@@ -1048,7 +1125,7 @@ function renderHostCreate(root){
     }).then(function(fileUrl){
       fileUrl = fileUrl.trim();
       if(fileUrl.indexOf('http') !== 0) throw new Error('返回异常：' + fileUrl.slice(0, 100));
-      barFill.style.width = '95%';
+      if(barFill) barFill.style.width = '95%';
       var expiryMs = 0;
       if(expiry !== 'forever'){
         var msMap = { '1h': 3600000, '24h': 86400000, '72h': 259200000 };
@@ -1057,38 +1134,41 @@ function renderHostCreate(root){
       var payload = { u: fileUrl, k: keyB64, e: expiryMs, n: file.name, s: file.size, t: Date.now() };
       var payloadB64 = bytesToBase64(new TextEncoder().encode(JSON.stringify(payload)));
       var shareUrl = location.origin + location.pathname + '#host=' + payloadB64;
-      barFill.style.width = '100%';
+      if(barFill) barFill.style.width = '100%';
 
       var expLabel = { '1h': '1 小时', '24h': '24 小时', '72h': '72 小时', 'forever': '永久' }[expiry];
 
-      resultArea.innerHTML =
-        '<div class="result ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div>' +
-        '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-        '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">🔗 专属分享链接</div>' +
-        '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(shareUrl) + '</div>' +
-        '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="hostCopy">📋 复制链接</button><button class="btn btn-sm" id="hostOpen">👁️ 打开看看</button></div>' +
-        '</div>' +
-        '<div class="result info" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。</div>';
-
-      $('#hostCopy', root).onclick = function(){ copyToClipboard(shareUrl); };
-      $('#hostOpen', root).onclick = function(){ window.open(shareUrl, '_blank'); };
+      if(resultArea){
+        resultArea.innerHTML =
+          '<div class="result ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div>' +
+          '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
+          '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">🔗 专属分享链接</div>' +
+          '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(shareUrl) + '</div>' +
+          '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="hostCopy">📋 复制链接</button><button class="btn btn-sm" id="hostOpen">👁️ 打开看看</button></div>' +
+          '</div>' +
+          '<div class="result info" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。</div>';
+        var hc = $('#hostCopy', root);
+        var ho = $('#hostOpen', root);
+        if(hc) hc.onclick = function(){ copyToClipboard(shareUrl); };
+        if(ho) ho.onclick = function(){ window.open(shareUrl, '_blank'); };
+      }
       showToast('生成成功', 'ok');
     }).catch(function(e){
       console.error(e);
-      resultArea.innerHTML = '<div class="result err">❌ 失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 文件过大<br>② 网络问题<br>③ 上传服务暂时不可用</div>';
+      if(resultArea) resultArea.innerHTML = '<div class="result err">❌ 失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 文件过大<br>② 网络问题<br>③ 上传服务暂时不可用</div>';
       showToast('失败', 'err');
     }).then(function(){
-      barFill.style.width = '0';
-      setTimeout(function(){ bar.classList.remove('on'); }, 500);
-      btn.disabled = false;
-      btn.textContent = '🚀 上传并生成链接';
+      if(barFill) barFill.style.width = '0';
+      setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
+      runBtn.disabled = false;
+      runBtn.textContent = '🚀 上传并生成链接';
     });
   };
 }
 
 function renderHostView(root, payloadB64){
   if(!window.crypto || !window.crypto.subtle){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto。请通过 HTTPS 访问。</div></div>';
+    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto。</div></div>';
     return;
   }
   var payload;
@@ -1114,9 +1194,9 @@ function renderHostView(root, payloadB64){
 
   var h = '';
   h += '<div style="max-width:600px;margin:40px auto;text-align:center">';
-  h += '<div style="width:100px;height:100px;border-radius:26px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);display:grid;place-items:center;font-size:52px;margin:0 auto 22px;box-shadow:0 20px 60px rgba(168,85,247,.5)">🐮</div>';
+  h += '<div style="width:100px;height:100px;border-radius:26px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);display:grid;place-items:center;font-size:52px;margin:0 auto 22px">🐮</div>';
   h += '<div style="font-size:32px;font-weight:700;margin-bottom:10px">一头牛东西托管</div>';
-  h += '<div style="font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.7">有人给你分享了一个文件</div>';
+  h += '<div style="font-size:14px;color:var(--muted);margin-bottom:28px">有人给你分享了一个文件</div>';
   h += '<div style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#7ee2a8;font-size:11.5px;font-weight:600;margin-bottom:20px"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e"></span>端到端加密 · 服务器无法查看</div>';
   h += '<div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;text-align:left">';
   h += '<div style="font-size:15px;font-weight:600;margin-bottom:6px;word-break:break-all">📎 ' + escapeHtml(payload.n) + '</div>';
@@ -1132,16 +1212,16 @@ function renderHostView(root, payloadB64){
   var btn = $('#hostDownload', root);
   var status = $('#hostDlStatus', root);
 
-  btn.onclick = function(){
+  if(btn) btn.onclick = function(){
     btn.disabled = true;
     btn.textContent = '⏳ 下载中…';
-    status.textContent = '正在下载密文…';
+    if(status) status.textContent = '正在下载密文…';
 
     fetchTimeout(payload.u, {}, 90000).then(function(r){
       if(!r.ok) throw new Error('下载失败 HTTP ' + r.status);
       return r.arrayBuffer();
     }).then(function(ab){
-      status.textContent = '正在本地解密…';
+      if(status) status.textContent = '正在本地解密…';
       var encBytes = new Uint8Array(ab);
       var keyRaw = base64ToBytes(payload.k);
       return crypto.subtle.importKey('raw', keyRaw, { name: 'AES-GCM' }, false, ['decrypt'])
@@ -1153,11 +1233,11 @@ function renderHostView(root, payloadB64){
     }).then(function(pt){
       var blob = new Blob([pt]);
       downloadBlob(blob, payload.n);
-      status.textContent = '✅ 解密完成，已开始下载';
+      if(status) status.textContent = '✅ 解密完成，已开始下载';
       showToast('下载成功', 'ok');
     }).catch(function(e){
       console.error(e);
-      status.innerHTML = '<span style="color:#ff8080">❌ ' + escapeHtml(e.message) + '</span>';
+      if(status) status.innerHTML = '<span style="color:#ff8080">❌ ' + escapeHtml(e.message) + '</span>';
       showToast('失败', 'err');
     }).then(function(){
       btn.disabled = false;
@@ -1176,533 +1256,639 @@ TOOLS.push({
   category: 'video',
   desc: '多平台 · 自动切换 API',
   render: function(root){
-    var h = '';
-    h += '<div class="box">';
-    h += '<div class="field"><label class="label">粘贴短视频分享链接</label><textarea class="textarea" id="vdInput" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></div>';
-    h += '<div class="hint">💡 支持抖音、快手、小红书、视频号、B站、微博等。整段分享文案直接粘贴。</div>';
-    h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="vdRun">🔍 解析视频</button><button class="btn" id="vdTest">🧪 测试节点</button><button class="btn btn-ghost" id="vdClear">清空</button></div>';
-    h += '<div class="bar" id="vdBar"><div class="bar-fill" id="vdBarFill"></div></div>';
-    h += '<div id="vdStatus" style="margin-top:14px"></div>';
-    h += '<div id="vdResult"></div>';
-    h += '</div>';
-    root.innerHTML = h;
+    try {
+      var h = '';
+      h += '<div class="box">';
+      h += '<div class="field"><label class="label">粘贴短视频分享链接</label><textarea class="textarea" id="vdInput" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></div>';
+      h += '<div class="hint">💡 支持抖音、快手、小红书、视频号、B站、微博等。整段分享文案直接粘贴。</div>';
+      h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="vdRun">🔍 解析视频</button><button class="btn" id="vdTest">🧪 测试节点</button><button class="btn btn-ghost" id="vdClear">清空</button></div>';
+      h += '<div class="bar" id="vdBar"><div class="bar-fill" id="vdBarFill"></div></div>';
+      h += '<div id="vdStatus" style="margin-top:14px"></div>';
+      h += '<div id="vdResult"></div>';
+      h += '</div>';
+      root.innerHTML = h;
 
-    var APIs = [
-      { name: 'BugPk 主节点', build: function(link){ return { url: 'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-      { name: 'BugPk 海外', build: function(link){ return { url: 'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-      { name: '山海云端', build: function(link){ return { url: 'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-      { name: '星之阁', build: function(link){ return { url: 'https://api.xingzhige.com/API/parse/', opts: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: link }) } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-      { name: 'redfox', build: function(link){ return { url: 'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' }; } },
-      { name: '皮克', build: function(link){ return { url: 'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } }
-    ];
+      var APIs = [
+        { name: 'BugPk 主节点', build: function(link){ return { url: 'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+        { name: 'BugPk 海外', build: function(link){ return { url: 'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+        { name: '山海云端', build: function(link){ return { url: 'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+        { name: '星之阁', build: function(link){ return { url: 'https://api.xingzhige.com/API/parse/', opts: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: link }) } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+        { name: 'redfox', build: function(link){ return { url: 'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' }; } },
+        { name: '皮克', build: function(link){ return { url: 'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } }
+      ];
 
-    function renderStatus(states){
-      var h2 = '<div style="font-size:12.5px;color:var(--muted);margin-bottom:8px">📡 API 节点：' + APIs.length + ' 个</div>';
-      h2 += '<div style="display:flex;flex-direction:column;gap:6px">';
-      for(var i = 0; i < APIs.length; i++){
-        var s = states ? states[i] : 'idle';
-        var col = s === 'ok' ? '#22c55e' : s === 'fail' ? '#ef4444' : s === 'checking' ? '#f59e0b' : '#666';
-        var lab = s === 'ok' ? '可用' : s === 'fail' ? '不可用' : s === 'checking' ? '检测中…' : '待检测';
-        h2 += '<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:#0a0e16;border:1px solid var(--border);border-radius:8px">';
-        h2 += '<span style="width:8px;height:8px;border-radius:50%;background:' + col + ';box-shadow:0 0 6px ' + col + ';flex:0 0 8px"></span>';
-        h2 += '<span style="flex:1">' + escapeHtml(APIs[i].name) + '</span>';
-        h2 += '<span style="color:var(--muted);font-size:11px">' + lab + '</span>';
+      function renderStatus(states){
+        var st = $('#vdStatus', root);
+        if(!st) return;
+        var h2 = '<div style="font-size:12.5px;color:var(--muted);margin-bottom:8px">📡 API 节点：' + APIs.length + ' 个</div>';
+        h2 += '<div style="display:flex;flex-direction:column;gap:6px">';
+        for(var i = 0; i < APIs.length; i++){
+          var s = states ? states[i] : 'idle';
+          var col = s === 'ok' ? '#22c55e' : s === 'fail' ? '#ef4444' : s === 'checking' ? '#f59e0b' : '#666';
+          var lab = s === 'ok' ? '可用' : s === 'fail' ? '不可用' : s === 'checking' ? '检测中…' : '待检测';
+          h2 += '<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:#0a0e16;border:1px solid var(--border);border-radius:8px">';
+          h2 += '<span style="width:8px;height:8px;border-radius:50%;background:' + col + ';flex:0 0 8px"></span>';
+          h2 += '<span style="flex:1">' + escapeHtml(APIs[i].name) + '</span>';
+          h2 += '<span style="color:var(--muted);font-size:11px">' + lab + '</span>';
+          h2 += '</div>';
+        }
         h2 += '</div>';
+        st.innerHTML = h2;
       }
-      h2 += '</div>';
-      $('#vdStatus', root).innerHTML = h2;
-    }
-    renderStatus();
+      renderStatus();
 
-    function renderResult(info){
-      var h2 = '<div class="result ok" style="margin-top:14px">✅ 解析成功！</div>';
-      h2 += '<div style="display:flex;gap:14px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:10px;margin-top:12px">';
-      if(info.cover){
-        h2 += '<img src="' + escapeHtml(info.cover) + '" style="width:100px;height:100px;border-radius:10px;object-fit:cover;flex:0 0 100px;background:#1a2130">';
-      } else {
-        h2 += '<div style="width:100px;height:100px;border-radius:10px;background:#1a2130;display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>';
+      function renderResult(info){
+        var rs = $('#vdResult', root);
+        if(!rs) return;
+        var h2 = '<div class="result ok" style="margin-top:14px">✅ 解析成功！</div>';
+        h2 += '<div style="display:flex;gap:14px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:10px;margin-top:12px">';
+        if(info.cover){
+          h2 += '<img src="' + escapeHtml(info.cover) + '" style="width:100px;height:100px;border-radius:10px;object-fit:cover;flex:0 0 100px;background:#1a2130">';
+        } else {
+          h2 += '<div style="width:100px;height:100px;border-radius:10px;background:#1a2130;display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>';
+        }
+        h2 += '<div style="flex:1;min-width:0">';
+        h2 += '<div style="font-size:13.5px;font-weight:600;margin-bottom:8px;line-height:1.4">' + escapeHtml(info.title) + '</div>';
+        h2 += '<div class="row">';
+        h2 += '<button class="btn btn-sm btn-primary" id="vdDownload">⬇️ 下载</button>';
+        h2 += '<button class="btn btn-sm" id="vdCopy">📋 复制链接</button>';
+        h2 += '<button class="btn btn-sm" id="vdOpen">🔗 打开</button>';
+        h2 += '</div></div></div>';
+        rs.innerHTML = h2;
+
+        var dl = $('#vdDownload', root);
+        var cp = $('#vdCopy', root);
+        var op = $('#vdOpen', root);
+        if(dl) dl.onclick = function(){
+          dl.disabled = true;
+          dl.textContent = '下载中…';
+          fetchTimeout(info.video, { mode: 'cors' }, 60000)
+            .then(function(r){ return r.blob(); })
+            .then(function(blob){
+              var name = (info.title || 'video').replace(/[\\/:*?"<>|]/g, '_').slice(0, 50);
+              downloadBlob(blob, name + '_' + Date.now() + '.mp4');
+              showToast('下载完成', 'ok');
+            })
+            .catch(function(e){ showToast('下载失败：' + e.message, 'err'); })
+            .then(function(){ dl.disabled = false; dl.textContent = '⬇️ 下载'; });
+        };
+        if(cp) cp.onclick = function(){ copyToClipboard(info.video); };
+        if(op) op.onclick = function(){ window.open(info.video, '_blank'); };
       }
-      h2 += '<div style="flex:1;min-width:0">';
-      h2 += '<div style="font-size:13.5px;font-weight:600;margin-bottom:8px;line-height:1.4">' + escapeHtml(info.title) + '</div>';
-      h2 += '<div class="row">';
-      h2 += '<button class="btn btn-sm btn-primary" id="vdDownload">⬇️ 下载</button>';
-      h2 += '<button class="btn btn-sm" id="vdCopy">📋 复制链接</button>';
-      h2 += '<button class="btn btn-sm" id="vdOpen">🔗 打开</button>';
-      h2 += '</div></div></div>';
-      $('#vdResult', root).innerHTML = h2;
 
-      $('#vdDownload', root).onclick = function(){
-        var btn = this;
-        btn.disabled = true;
-        btn.textContent = '下载中…';
-        fetchTimeout(info.video, { mode: 'cors' }, 60000)
-          .then(function(r){ return r.blob(); })
-          .then(function(blob){
-            var name = (info.title || 'video').replace(/[\\/:*?"<>|]/g, '_').slice(0, 50);
-            downloadBlob(blob, name + '_' + Date.now() + '.mp4');
-            showToast('下载完成', 'ok');
-          })
-          .catch(function(e){
-            showToast('下载失败：' + e.message, 'err');
-          })
-          .then(function(){
-            btn.disabled = false;
-            btn.textContent = '⬇️ 下载';
+      var runBtn = $('#vdRun', root);
+      if(runBtn) runBtn.onclick = function(){
+        var input = $('#vdInput', root);
+        var v = input ? input.value.trim() : '';
+        if(!v){ showToast('请输入链接', 'err'); return; }
+        var m = v.match(/https?:\/\/[^\s]+/);
+        var link = m ? m[0] : v;
+
+        var bar = $('#vdBar', root);
+        var barFill = $('#vdBarFill', root);
+        if(bar) bar.classList.add('on');
+        if(barFill) barFill.style.width = '5%';
+        var rs = $('#vdResult', root);
+        if(rs) rs.innerHTML = '';
+        var states = [];
+        for(var i = 0; i < APIs.length; i++) states.push('checking');
+        renderStatus(states);
+
+        var i = 0;
+        function next(){
+          if(i >= APIs.length){
+            if(barFill) barFill.style.width = '100%';
+            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 600);
+            if(rs) rs.innerHTML = '<div class="result err">❌ 所有 ' + APIs.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b><br>① API 集体失效<br>② 链接不被支持<br>③ 网络问题<br><br><b>建议：</b><br>• 稍后重试<br>• 复制链接到浏览器手动打开<br>• 换其他平台链接</div>';
+            return;
+          }
+          var api = APIs[i];
+          if(barFill) barFill.style.width = ((i + 0.5) / APIs.length * 90) + '%';
+          var built = api.build(link);
+          fetchTimeout(built.url, built.opts, 12000).then(function(res){
+            if(!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          }).then(function(data){
+            var info = api.parse(data);
+            if(!info.video) throw new Error('无视频链接');
+            states[i] = 'ok';
+            renderStatus(states);
+            renderResult(info);
+            if(barFill) barFill.style.width = '100%';
+            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 600);
+          }).catch(function(){
+            states[i] = 'fail';
+            renderStatus(states);
+            i++;
+            next();
           });
+        }
+        next();
       };
-      $('#vdCopy', root).onclick = function(){ copyToClipboard(info.video); };
-      $('#vdOpen', root).onclick = function(){ window.open(info.video, '_blank'); };
+
+      var testBtn = $('#vdTest', root);
+      if(testBtn) testBtn.onclick = function(){
+        var states = [];
+        for(var i = 0; i < APIs.length; i++) states.push('checking');
+        renderStatus(states);
+        var okCount = 0;
+        var j = 0;
+        function nextTest(){
+          if(j >= APIs.length){
+            showToast(okCount + ' / ' + APIs.length + ' 个节点可用', okCount > 0 ? 'ok' : 'err');
+            return;
+          }
+          var api = APIs[j];
+          var built = api.build('https://v.douyin.com/test');
+          fetchTimeout(built.url, built.opts, 5000).then(function(res){
+            states[j] = res.ok ? 'ok' : 'fail';
+            if(res.ok) okCount++;
+            renderStatus(states);
+            j++;
+            nextTest();
+          }).catch(function(){
+            states[j] = 'fail';
+            renderStatus(states);
+            j++;
+            nextTest();
+          });
+        }
+        nextTest();
+      };
+
+      var clearBtn = $('#vdClear', root);
+      if(clearBtn) clearBtn.onclick = function(){
+        var input = $('#vdInput', root);
+        if(input) input.value = '';
+        var rs = $('#vdResult', root);
+        if(rs) rs.innerHTML = '';
+      };
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 短视频工具初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-
-    $('#vdRun', root).onclick = function(){
-      var v = $('#vdInput', root).value.trim();
-      if(!v){ showToast('请输入链接', 'err'); return; }
-      var m = v.match(/https?:\/\/[^\s]+/);
-      var link = m ? m[0] : v;
-
-      var bar = $('#vdBar', root);
-      var barFill = $('#vdBarFill', root);
-      bar.classList.add('on');
-      barFill.style.width = '5%';
-      $('#vdResult', root).innerHTML = '';
-      var states = [];
-      for(var i = 0; i < APIs.length; i++) states.push('checking');
-      renderStatus(states);
-
-      var i = 0;
-      function next(){
-        if(i >= APIs.length){
-          barFill.style.width = '100%';
-          setTimeout(function(){
-            bar.classList.remove('on');
-            barFill.style.width = '0';
-          }, 600);
-          $('#vdResult', root).innerHTML = '<div class="result err">❌ 所有 ' + APIs.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b><br>① API 集体失效<br>② 链接不被支持<br>③ 网络问题<br><br><b>建议：</b><br>• 稍后重试<br>• 复制链接到浏览器手动打开<br>• 换其他平台链接</div>';
-          return;
-        }
-        var api = APIs[i];
-        barFill.style.width = ((i + 0.5) / APIs.length * 90) + '%';
-        var built = api.build(link);
-        fetchTimeout(built.url, built.opts, 12000).then(function(res){
-          if(!res.ok) throw new Error('HTTP ' + res.status);
-          return res.json();
-        }).then(function(data){
-          var info = api.parse(data);
-          if(!info.video) throw new Error('无视频链接');
-          states[i] = 'ok';
-          renderStatus(states);
-          renderResult(info);
-          barFill.style.width = '100%';
-          setTimeout(function(){
-            bar.classList.remove('on');
-            barFill.style.width = '0';
-          }, 600);
-        }).catch(function(){
-          states[i] = 'fail';
-          renderStatus(states);
-          i++;
-          next();
-        });
-      }
-      next();
-    };
-
-    $('#vdTest', root).onclick = function(){
-      var states = [];
-      for(var i = 0; i < APIs.length; i++) states.push('checking');
-      renderStatus(states);
-      var okCount = 0;
-      var j = 0;
-      function nextTest(){
-        if(j >= APIs.length){
-          showToast(okCount + ' / ' + APIs.length + ' 个节点可用', okCount > 0 ? 'ok' : 'err');
-          return;
-        }
-        var api = APIs[j];
-        var built = api.build('https://v.douyin.com/test');
-        fetchTimeout(built.url, built.opts, 5000).then(function(res){
-          states[j] = res.ok ? 'ok' : 'fail';
-          if(res.ok) okCount++;
-          renderStatus(states);
-          j++;
-          nextTest();
-        }).catch(function(){
-          states[j] = 'fail';
-          renderStatus(states);
-          j++;
-          nextTest();
-        });
-      }
-      nextTest();
-    };
-
-    $('#vdClear', root).onclick = function(){
-      $('#vdInput', root).value = '';
-      $('#vdResult', root).innerHTML = '';
-    };
   }
 });
 
 /* =========================================================
-   工具 4-8: 其他工具（简洁版）
+   工具 4: 图片压缩
    ========================================================= */
 TOOLS.push({
-  id: 'img-compress', name: '图片压缩', icon: '🗜️', category: 'image', desc: '本地压缩图片体积',
+  id: 'img-compress',
+  name: '图片压缩',
+  icon: '🗜️',
+  category: 'image',
+  desc: '本地压缩图片体积',
   render: function(root){
-    var h = '<div class="box">';
-    h += '<div class="drop" id="icDrop"><div class="di">🗜️</div><div class="dt">点击选择图片，或拖拽到这里</div><div class="ds">支持批量 · 可多选</div></div>';
-    h += '<input type="file" id="icFile" accept="image/*" multiple hidden>';
-    h += '<div id="icList" style="margin-top:14px"></div>';
-    h += '<div class="grid3" style="margin-top:14px">';
-    h += '<div><label class="label">质量：<b id="icQVal">70%</b></label><input type="range" id="icQ" min="10" max="100" value="70" style="width:100%"></div>';
-    h += '<div><label class="label">格式</label><select class="select" id="icFmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>';
-    h += '<div><label class="label">最大边长</label><input type="number" class="input" id="icMax" value="0" min="0"></div>';
-    h += '</div>';
-    h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="icRun" disabled>开始压缩</button><button class="btn" id="icClear" disabled>清空</button></div>';
-    h += '<div class="bar" id="icBar"><div class="bar-fill" id="icBarFill"></div></div>';
-    h += '<div id="icResult"></div>';
-    h += '</div>';
-    root.innerHTML = h;
+    try {
+      var h = '<div class="box">';
+      h += '<div class="drop" id="icDrop"><div class="di">🗜️</div><div class="dt">点击选择图片，或拖拽到这里</div><div class="ds">支持批量 · 可多选</div></div>';
+      h += '<input type="file" id="icFile" accept="image/*" multiple hidden>';
+      h += '<div id="icList" style="margin-top:14px"></div>';
+      h += '<div class="grid3" style="margin-top:14px">';
+      h += '<div><label class="label">质量：<b id="icQVal">70%</b></label><input type="range" id="icQ" min="10" max="100" value="70" style="width:100%"></div>';
+      h += '<div><label class="label">格式</label><select class="select" id="icFmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>';
+      h += '<div><label class="label">最大边长</label><input type="number" class="input" id="icMax" value="0" min="0"></div>';
+      h += '</div>';
+      h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="icRun" disabled>开始压缩</button><button class="btn" id="icClear" disabled>清空</button></div>';
+      h += '<div class="bar" id="icBar"><div class="bar-fill" id="icBarFill"></div></div>';
+      h += '<div id="icResult"></div>';
+      h += '</div>';
+      root.innerHTML = h;
 
-    var files = [];
-    var fileList = $('#icList', root);
-    var runBtn = $('#icRun', root);
-    var clearBtn = $('#icClear', root);
+      var files = [];
+      var fileList = $('#icList', root);
+      var runBtn = $('#icRun', root);
+      var clearBtn = $('#icClear', root);
 
-    function refresh(){
-      fileList.innerHTML = fileListHtml(files);
-      runBtn.disabled = files.length === 0;
-      clearBtn.disabled = files.length === 0;
-      var xs = fileList.querySelectorAll('.fx');
-      for(var i = 0; i < xs.length; i++){
-        (function(idx){
-          xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
-        })(i);
-      }
-    }
-    setupDrop($('#icDrop', root), $('#icFile', root), function(newFiles){
-      files = files.concat(newFiles);
-      refresh();
-    });
-    $('#icQ', root).oninput = function(){ $('#icQVal', root).textContent = $('#icQ', root).value + '%'; };
-    clearBtn.onclick = function(){ files = []; $('#icResult', root).innerHTML = ''; refresh(); };
-    runBtn.onclick = function(){
-      if(files.length === 0) return;
-      runBtn.disabled = true;
-      clearBtn.disabled = true;
-      var resultArea = $('#icResult', root);
-      resultArea.innerHTML = '';
-      var bar = $('#icBar', root);
-      var barFill = $('#icBarFill', root);
-      bar.classList.add('on');
-
-      var mime = $('#icFmt', root).value;
-      var quality = parseInt($('#icQ', root).value, 10) / 100;
-      var maxSide = parseInt($('#icMax', root).value, 10) || 0;
-      var extMap = { 'image/jpeg': 'jpg', 'image/webp': 'webp' };
-      var totalBefore = 0, totalAfter = 0, idx = 0;
-
-      function processNext(){
-        if(idx >= files.length){
-          barFill.style.width = '100%';
-          var saved = totalBefore > 0 ? ((1 - totalAfter / totalBefore) * 100).toFixed(1) : 0;
-          resultArea.insertAdjacentHTML('afterbegin', '<div class="result ok">✅ 完成！共 ' + files.length + ' 张，' + formatSize(totalBefore) + ' → ' + formatSize(totalAfter) + '（节省 ' + saved + '%）</div>');
-          setTimeout(function(){ bar.classList.remove('on'); barFill.style.width = '0'; }, 500);
-          runBtn.disabled = false;
-          clearBtn.disabled = false;
-          showToast('压缩完成', 'ok');
-          return;
+      function refresh(){
+        if(fileList) fileList.innerHTML = fileListHtml(files);
+        if(runBtn) runBtn.disabled = files.length === 0;
+        if(clearBtn) clearBtn.disabled = files.length === 0;
+        var xs = $$('.fx', fileList);
+        for(var i = 0; i < xs.length; i++){
+          (function(idx){
+            xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
+          })(i);
         }
-        var f = files[idx];
-        barFill.style.width = Math.round((idx / files.length) * 100) + '%';
-        createImageBitmap(f).then(function(bmp){
-          var w = bmp.width, h = bmp.height;
-          if(maxSide && Math.max(w, h) > maxSide){
-            var s = maxSide / Math.max(w, h);
-            w = Math.round(w * s); h = Math.round(h * s);
-          }
-          var cv = document.createElement('canvas');
-          cv.width = w; cv.height = h;
-          var ctx = cv.getContext('2d');
-          ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
-          ctx.drawImage(bmp, 0, 0, w, h);
-          bmp.close();
-          cv.toBlob(function(blob){
-            if(!blob){
-              resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：处理失败</div>');
-              idx++; processNext(); return;
-            }
-            totalBefore += f.size;
-            totalAfter += blob.size;
-            downloadBlob(blob, f.name.replace(/\.[^.]+$/, '') + '_min.' + extMap[mime]);
-            resultArea.insertAdjacentHTML('beforeend', '<div class="result ok">✅ ' + escapeHtml(f.name) + '　' + formatSize(f.size) + ' → ' + formatSize(blob.size) + '</div>');
-            idx++; processNext();
-          }, mime, quality);
-        }).catch(function(err){
-          resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：' + escapeHtml(err.message) + '</div>');
-          idx++; processNext();
-        });
       }
-      processNext();
-    };
+      setupDrop($('#icDrop', root), $('#icFile', root), function(newFiles){
+        files = files.concat(newFiles);
+        refresh();
+      });
+      var qInput = $('#icQ', root);
+      if(qInput) qInput.oninput = function(){ var qv = $('#icQVal', root); if(qv) qv.textContent = qInput.value + '%'; };
+      if(clearBtn) clearBtn.onclick = function(){
+        files = [];
+        var r = $('#icResult', root);
+        if(r) r.innerHTML = '';
+        refresh();
+      };
+      if(runBtn) runBtn.onclick = function(){
+        if(files.length === 0) return;
+        runBtn.disabled = true;
+        if(clearBtn) clearBtn.disabled = true;
+        var resultArea = $('#icResult', root);
+        if(resultArea) resultArea.innerHTML = '';
+        var bar = $('#icBar', root);
+        var barFill = $('#icBarFill', root);
+        if(bar) bar.classList.add('on');
+
+        var fmtSel = $('#icFmt', root);
+        var maxInput = $('#icMax', root);
+        var qInput2 = $('#icQ', root);
+        var mime = fmtSel ? fmtSel.value : 'image/jpeg';
+        var quality = qInput2 ? parseInt(qInput2.value, 10) / 100 : 0.7;
+        var maxSide = maxInput ? parseInt(maxInput.value, 10) || 0 : 0;
+        var extMap = { 'image/jpeg': 'jpg', 'image/webp': 'webp' };
+        var totalBefore = 0, totalAfter = 0, idx = 0;
+
+        function processNext(){
+          if(idx >= files.length){
+            if(barFill) barFill.style.width = '100%';
+            var saved = totalBefore > 0 ? ((1 - totalAfter / totalBefore) * 100).toFixed(1) : 0;
+            if(resultArea) resultArea.insertAdjacentHTML('afterbegin', '<div class="result ok">✅ 完成！共 ' + files.length + ' 张，' + formatSize(totalBefore) + ' → ' + formatSize(totalAfter) + '（节省 ' + saved + '%）</div>');
+            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 500);
+            runBtn.disabled = false;
+            if(clearBtn) clearBtn.disabled = false;
+            showToast('压缩完成', 'ok');
+            return;
+          }
+          var f = files[idx];
+          if(barFill) barFill.style.width = Math.round((idx / files.length) * 100) + '%';
+          createImageBitmap(f).then(function(bmp){
+            var w = bmp.width, h = bmp.height;
+            if(maxSide && Math.max(w, h) > maxSide){
+              var s = maxSide / Math.max(w, h);
+              w = Math.round(w * s); h = Math.round(h * s);
+            }
+            var cv = document.createElement('canvas');
+            cv.width = w; cv.height = h;
+            var ctx = cv.getContext('2d');
+            ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(bmp, 0, 0, w, h);
+            bmp.close();
+            cv.toBlob(function(blob){
+              if(!blob){
+                if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：处理失败</div>');
+                idx++; processNext(); return;
+              }
+              totalBefore += f.size;
+              totalAfter += blob.size;
+              downloadBlob(blob, f.name.replace(/\.[^.]+$/, '') + '_min.' + extMap[mime]);
+              if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result ok">✅ ' + escapeHtml(f.name) + '　' + formatSize(f.size) + ' → ' + formatSize(blob.size) + '</div>');
+              idx++; processNext();
+            }, mime, quality);
+          }).catch(function(err){
+            if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：' + escapeHtml(err.message) + '</div>');
+            idx++; processNext();
+          });
+        }
+        processNext();
+      };
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 图片压缩初始化失败：' + escapeHtml(e.message) + '</div></div>';
+    }
   }
 });
 
+/* =========================================================
+   工具 5: 文本加密解密
+   ========================================================= */
 TOOLS.push({
   id: 'text-crypto', name: '文本加密解密', icon: '✉️', category: 'crypto', desc: 'AES-256-GCM 加解密',
   render: function(root){
-    if(!window.crypto || !window.crypto.subtle){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto</div></div>';
-      return;
-    }
-    var h = '<div class="box">';
-    h += '<div class="row" style="margin-bottom:14px"><button class="btn btn-primary" id="tcTabEnc">加密</button><button class="btn" id="tcTabDec">解密</button></div>';
-    h += '<div class="field"><label class="label">文本内容</label><textarea class="textarea" id="tcText" rows="5" placeholder="输入要加密的文本…"></textarea></div>';
-    h += '<div class="field"><label class="label">密码</label><input type="password" class="input" id="tcPw"></div>';
-    h += '<div class="row"><button class="btn btn-primary" id="tcRun">加密</button><button class="btn" id="tcCopy">复制结果</button></div>';
-    h += '<div class="field" style="margin-top:14px"><label class="label">结果</label><textarea class="textarea" id="tcOut" rows="5" readonly></textarea></div>';
-    h += '<div id="tcMsg"></div>';
-    h += '</div>';
-    root.innerHTML = h;
-
-    var mode = 'enc';
-    $('#tcTabEnc', root).onclick = function(){
-      mode = 'enc';
-      $('#tcTabEnc', root).className = 'btn btn-primary';
-      $('#tcTabDec', root).className = 'btn';
-      $('#tcRun', root).textContent = '加密';
-      $('#tcOut', root).value = '';
-      $('#tcMsg', root).innerHTML = '';
-    };
-    $('#tcTabDec', root).onclick = function(){
-      mode = 'dec';
-      $('#tcTabEnc', root).className = 'btn';
-      $('#tcTabDec', root).className = 'btn btn-primary';
-      $('#tcRun', root).textContent = '解密';
-      $('#tcOut', root).value = '';
-      $('#tcMsg', root).innerHTML = '';
-    };
-
-    function deriveKey(password, salt){
-      return crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
-        .then(function(km){
-          return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
-        });
-    }
-
-    $('#tcRun', root).onclick = function(){
-      var text = $('#tcText', root).value;
-      var pw = $('#tcPw', root).value;
-      if(!text){ showToast('请输入内容', 'err'); return; }
-      if(!pw){ showToast('请输入密码', 'err'); return; }
-      $('#tcMsg', root).innerHTML = '';
-
-      if(mode === 'enc'){
-        var salt = crypto.getRandomValues(new Uint8Array(16));
-        var iv = crypto.getRandomValues(new Uint8Array(12));
-        deriveKey(pw, salt).then(function(key){
-          return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(text));
-        }).then(function(ct){
-          var ctArr = new Uint8Array(ct);
-          var out = new Uint8Array(28 + ctArr.length);
-          out.set(salt, 0); out.set(iv, 16); out.set(ctArr, 28);
-          $('#tcOut', root).value = bytesToBase64(out);
-          $('#tcMsg', root).innerHTML = '<div class="result ok">✅ 加密完成</div>';
-        }).catch(function(e){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ ' + escapeHtml(e.message) + '</div>'; });
-      } else {
-        var raw;
-        try { raw = base64ToBytes(text.trim()); }
-        catch(e){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密文格式不正确</div>'; return; }
-        if(raw.length < 28){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密文太短</div>'; return; }
-        var salt2 = raw.slice(0, 16), iv2 = raw.slice(16, 28), ct2 = raw.slice(28);
-        deriveKey(pw, salt2).then(function(key){
-          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv2 }, key, ct2);
-        }).then(function(pt){
-          $('#tcOut', root).value = new TextDecoder().decode(pt);
-          $('#tcMsg', root).innerHTML = '<div class="result ok">✅ 解密完成</div>';
-        }).catch(function(){ $('#tcMsg', root).innerHTML = '<div class="result err">❌ 密码错误或密文已损坏</div>'; });
+    try {
+      if(!window.crypto || !window.crypto.subtle){
+        root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）</div></div>';
+        return;
       }
-    };
-    $('#tcCopy', root).onclick = function(){
-      if(!$('#tcOut', root).value){ showToast('结果为空', 'err'); return; }
-      copyToClipboard($('#tcOut', root).value);
-    };
+      var h = '<div class="box">';
+      h += '<div class="row" style="margin-bottom:14px"><button class="btn btn-primary" id="tcTabEnc">加密</button><button class="btn" id="tcTabDec">解密</button></div>';
+      h += '<div class="field"><label class="label">文本内容</label><textarea class="textarea" id="tcText" rows="5" placeholder="输入要加密的文本…"></textarea></div>';
+      h += '<div class="field"><label class="label">密码</label><input type="password" class="input" id="tcPw"></div>';
+      h += '<div class="row"><button class="btn btn-primary" id="tcRun">加密</button><button class="btn" id="tcCopy">复制结果</button></div>';
+      h += '<div class="field" style="margin-top:14px"><label class="label">结果</label><textarea class="textarea" id="tcOut" rows="5" readonly></textarea></div>';
+      h += '<div id="tcMsg"></div>';
+      h += '</div>';
+      root.innerHTML = h;
+
+      var mode = 'enc';
+      var tabEnc = $('#tcTabEnc', root);
+      var tabDec = $('#tcTabDec', root);
+      var runBtn = $('#tcRun', root);
+
+      function setMode(m){
+        mode = m;
+        if(tabEnc) tabEnc.className = m === 'enc' ? 'btn btn-primary' : 'btn';
+        if(tabDec) tabDec.className = m === 'dec' ? 'btn btn-primary' : 'btn';
+        if(runBtn) runBtn.textContent = m === 'enc' ? '加密' : '解密';
+        var out = $('#tcOut', root);
+        var msg = $('#tcMsg', root);
+        if(out) out.value = '';
+        if(msg) msg.innerHTML = '';
+      }
+      if(tabEnc) tabEnc.onclick = function(){ setMode('enc'); };
+      if(tabDec) tabDec.onclick = function(){ setMode('dec'); };
+
+      function deriveKey(password, salt){
+        return crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
+          .then(function(km){
+            return crypto.subtle.deriveKey(
+              { name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' },
+              km,
+              { name: 'AES-GCM', length: 256 },
+              false,
+              ['encrypt', 'decrypt']
+            );
+          });
+      }
+
+      if(runBtn) runBtn.onclick = function(){
+        var textInput = $('#tcText', root);
+        var pwInput = $('#tcPw', root);
+        var text = textInput ? textInput.value : '';
+        var pw = pwInput ? pwInput.value : '';
+        var msg = $('#tcMsg', root);
+        var out = $('#tcOut', root);
+        if(msg) msg.innerHTML = '';
+        if(!text){ showToast('请输入内容', 'err'); return; }
+        if(!pw){ showToast('请输入密码', 'err'); return; }
+
+        if(mode === 'enc'){
+          var salt = crypto.getRandomValues(new Uint8Array(16));
+          var iv = crypto.getRandomValues(new Uint8Array(12));
+          deriveKey(pw, salt).then(function(key){
+            return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(text));
+          }).then(function(ct){
+            var ctArr = new Uint8Array(ct);
+            var outArr = new Uint8Array(28 + ctArr.length);
+            outArr.set(salt, 0);
+            outArr.set(iv, 16);
+            outArr.set(ctArr, 28);
+            if(out) out.value = bytesToBase64(outArr);
+            if(msg) msg.innerHTML = '<div class="result ok">✅ 加密完成</div>';
+          }).catch(function(e){
+            if(msg) msg.innerHTML = '<div class="result err">❌ ' + escapeHtml(e.message) + '</div>';
+          });
+        } else {
+          var raw;
+          try { raw = base64ToBytes(text.trim()); }
+          catch(e){ if(msg) msg.innerHTML = '<div class="result err">❌ 密文格式不正确</div>'; return; }
+          if(raw.length < 28){ if(msg) msg.innerHTML = '<div class="result err">❌ 密文太短</div>'; return; }
+          var salt2 = raw.slice(0, 16), iv2 = raw.slice(16, 28), ct2 = raw.slice(28);
+          deriveKey(pw, salt2).then(function(key){
+            return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv2 }, key, ct2);
+          }).then(function(pt){
+            if(out) out.value = new TextDecoder().decode(pt);
+            if(msg) msg.innerHTML = '<div class="result ok">✅ 解密完成</div>';
+          }).catch(function(){
+            if(msg) msg.innerHTML = '<div class="result err">❌ 密码错误或密文已损坏</div>';
+          });
+        }
+      };
+
+      var copyBtn = $('#tcCopy', root);
+      if(copyBtn) copyBtn.onclick = function(){
+        var out = $('#tcOut', root);
+        if(!out || !out.value){ showToast('结果为空', 'err'); return; }
+        copyToClipboard(out.value);
+      };
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 文本加密初始化失败：' + escapeHtml(e.message) + '</div></div>';
+    }
   }
 });
 
+/* =========================================================
+   工具 6: 密码生成器
+   ========================================================= */
 TOOLS.push({
   id: 'pwd-gen', name: '密码生成器', icon: '🔑', category: 'crypto', desc: '生成随机密码',
   render: function(root){
-    var h = '<div class="box">';
-    h += '<div style="font-family:ui-monospace,monospace;font-size:15px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;word-break:break-all;line-height:1.6" id="pwdOut">点击下方按钮生成</div>';
-    h += '<div class="field" style="margin-top:14px"><label class="label">长度：<b id="pwdLenVal">20</b></label><input type="range" id="pwdLen" min="4" max="64" value="20" style="width:100%"></div>';
-    h += '<div class="row" style="margin-bottom:14px">';
-    h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdLower" checked> 小写</label>';
-    h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdUpper" checked> 大写</label>';
-    h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdDigit" checked> 数字</label>';
-    h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdSymbol" checked> 符号</label>';
-    h += '</div>';
-    h += '<div class="row"><button class="btn btn-primary" id="pwdGen">重新生成</button><button class="btn" id="pwdCopy">复制</button></div>';
-    h += '</div>';
-    root.innerHTML = h;
+    try {
+      var h = '<div class="box">';
+      h += '<div style="font-family:ui-monospace,monospace;font-size:15px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;word-break:break-all;line-height:1.6" id="pwdOut">点击下方按钮生成</div>';
+      h += '<div class="field" style="margin-top:14px"><label class="label">长度：<b id="pwdLenVal">20</b></label><input type="range" id="pwdLen" min="4" max="64" value="20" style="width:100%"></div>';
+      h += '<div class="row" style="margin-bottom:14px">';
+      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdLower" checked> 小写</label>';
+      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdUpper" checked> 大写</label>';
+      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdDigit" checked> 数字</label>';
+      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdSymbol" checked> 符号</label>';
+      h += '</div>';
+      h += '<div class="row"><button class="btn btn-primary" id="pwdGen">重新生成</button><button class="btn" id="pwdCopy">复制</button></div>';
+      h += '</div>';
+      root.innerHTML = h;
 
-    function generate(){
-      var pool = '';
-      if($('#pwdLower', root).checked) pool += 'abcdefghijkmnpqrstuvwxyz';
-      if($('#pwdUpper', root).checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-      if($('#pwdDigit', root).checked) pool += '23456789';
-      if($('#pwdSymbol', root).checked) pool += '!@#$%^&*()-_=+';
-      if(!pool){ $('#pwdOut', root).textContent = '请至少选择一种字符类型'; return; }
-      var len = parseInt($('#pwdLen', root).value, 10);
-      var result = '';
-      var buf = new Uint8Array(len);
-      crypto.getRandomValues(buf);
-      for(var i = 0; i < len; i++) result += pool[buf[i] % pool.length];
-      $('#pwdOut', root).textContent = result;
+      function generate(){
+        try {
+          var pool = '';
+          var cLower = $('#pwdLower', root);
+          var cUpper = $('#pwdUpper', root);
+          var cDigit = $('#pwdDigit', root);
+          var cSymbol = $('#pwdSymbol', root);
+          if(cLower && cLower.checked) pool += 'abcdefghijkmnpqrstuvwxyz';
+          if(cUpper && cUpper.checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+          if(cDigit && cDigit.checked) pool += '23456789';
+          if(cSymbol && cSymbol.checked) pool += '!@#$%^&*()-_=+';
+          if(!pool){ var o = $('#pwdOut', root); if(o) o.textContent = '请至少选择一种字符类型'; return; }
+          var lenInput = $('#pwdLen', root);
+          var len = lenInput ? parseInt(lenInput.value, 10) : 20;
+          var result = '';
+          var buf = new Uint8Array(len);
+          crypto.getRandomValues(buf);
+          for(var i = 0; i < len; i++) result += pool[buf[i] % pool.length];
+          var out = $('#pwdOut', root);
+          if(out) out.textContent = result;
+        } catch(e){ console.error(e); }
+      }
+      var lenInput = $('#pwdLen', root);
+      if(lenInput) lenInput.oninput = function(){ var lv = $('#pwdLenVal', root); if(lv) lv.textContent = lenInput.value; generate(); };
+      ['pwdLower','pwdUpper','pwdDigit','pwdSymbol'].forEach(function(id){
+        var el = $('#' + id, root);
+        if(el) el.onchange = generate;
+      });
+      var genBtn = $('#pwdGen', root);
+      if(genBtn) genBtn.onclick = generate;
+      var copyBtn = $('#pwdCopy', root);
+      if(copyBtn) copyBtn.onclick = function(){
+        var t = $('#pwdOut', root);
+        if(!t) return;
+        var v = t.textContent;
+        if(!v || v.indexOf('请至少') === 0 || v.indexOf('点击') === 0) return;
+        copyToClipboard(v);
+      };
+      generate();
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 密码生成器初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-    $('#pwdLen', root).oninput = function(){ $('#pwdLenVal', root).textContent = $('#pwdLen', root).value; generate(); };
-    $('#pwdLower', root).onchange = generate;
-    $('#pwdUpper', root).onchange = generate;
-    $('#pwdDigit', root).onchange = generate;
-    $('#pwdSymbol', root).onchange = generate;
-    $('#pwdGen', root).onclick = generate;
-    $('#pwdCopy', root).onclick = function(){
-      var t = $('#pwdOut', root).textContent;
-      if(!t || t.indexOf('请至少') === 0 || t.indexOf('点击') === 0) return;
-      copyToClipboard(t);
-    };
-    generate();
   }
 });
 
+/* =========================================================
+   工具 7: 待办清单
+   ========================================================= */
 TOOLS.push({
   id: 'todo', name: '待办清单', icon: '✅', category: 'life', desc: '本地保存待办事项',
   render: function(root){
-    var h = '<div class="box">';
-    h += '<div class="row" style="margin-bottom:14px"><input type="text" class="input" id="todoInput" placeholder="输入待办事项，回车添加…" style="flex:1"><button class="btn btn-primary" id="todoAdd">添加</button></div>';
-    h += '<div id="todoList"></div>';
-    h += '</div>';
-    root.innerHTML = h;
+    try {
+      var h = '<div class="box">';
+      h += '<div class="row" style="margin-bottom:14px"><input type="text" class="input" id="todoInput" placeholder="输入待办事项，回车添加…" style="flex:1"><button class="btn btn-primary" id="todoAdd">添加</button></div>';
+      h += '<div id="todoList"></div>';
+      h += '</div>';
+      root.innerHTML = h;
 
-    var KEY = 'toolbox_todos';
-    var todos = [];
-    try { todos = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ todos = []; }
+      var KEY = 'toolbox_todos';
+      var todos = safeLocalGet(KEY, []);
+      if(!Array.isArray(todos)) todos = [];
 
-    function save(){ try { localStorage.setItem(KEY, JSON.stringify(todos)); } catch(e){} }
-    function render(){
-      if(todos.length === 0){ $('#todoList', root).innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有待办</div>'; return; }
-      var h2 = '';
-      for(var i = 0; i < todos.length; i++){
-        var t = todos[i];
-        h2 += '<div class="file-item" style="padding:12px 14px">';
-        h2 += '<input type="checkbox" data-idx="' + i + '" data-act="toggle" ' + (t.done ? 'checked' : '') + ' style="cursor:pointer">';
-        h2 += '<span class="fn" style="' + (t.done ? 'text-decoration:line-through;color:var(--muted)' : '') + '">' + escapeHtml(t.text) + '</span>';
-        h2 += '<button class="fx" data-idx="' + i + '" data-act="del">✕</button>';
-        h2 += '</div>';
+      function save(){ safeLocalSet(KEY, todos); }
+      function render(){
+        var listEl = $('#todoList', root);
+        if(!listEl) return;
+        if(todos.length === 0){ listEl.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有待办</div>'; return; }
+        var h2 = '';
+        for(var i = 0; i < todos.length; i++){
+          var t = todos[i];
+          h2 += '<div class="file-item" style="padding:12px 14px">';
+          h2 += '<input type="checkbox" data-idx="' + i + '" data-act="toggle" ' + (t.done ? 'checked' : '') + ' style="cursor:pointer">';
+          h2 += '<span class="fn" style="' + (t.done ? 'text-decoration:line-through;color:var(--muted)' : '') + '">' + escapeHtml(t.text) + '</span>';
+          h2 += '<button class="fx" data-idx="' + i + '" data-act="del">✕</button>';
+          h2 += '</div>';
+        }
+        listEl.innerHTML = h2;
+        var btns = $$('[data-act]', listEl);
+        for(var j = 0; j < btns.length; j++){
+          btns[j].onclick = function(e){
+            var idx = parseInt(e.target.getAttribute('data-idx'), 10);
+            var act = e.target.getAttribute('data-act');
+            if(act === 'del') todos.splice(idx, 1);
+            else if(act === 'toggle') todos[idx].done = e.target.checked;
+            save(); render();
+          };
+        }
       }
-      $('#todoList', root).innerHTML = h2;
-      var btns = $('#todoList', root).querySelectorAll('[data-act]');
-      for(var j = 0; j < btns.length; j++){
-        btns[j].onclick = function(e){
-          var idx = parseInt(e.target.getAttribute('data-idx'), 10);
-          var act = e.target.getAttribute('data-act');
-          if(act === 'del') todos.splice(idx, 1);
-          else if(act === 'toggle') todos[idx].done = e.target.checked;
-          save(); render();
-        };
+      function add(){
+        var input = $('#todoInput', root);
+        if(!input) return;
+        var v = input.value.trim();
+        if(!v) return;
+        todos.unshift({ text: v, done: false });
+        input.value = '';
+        save(); render();
       }
+      var addBtn = $('#todoAdd', root);
+      if(addBtn) addBtn.onclick = add;
+      var input = $('#todoInput', root);
+      if(input) input.onkeydown = function(e){ if(e.key === 'Enter') add(); };
+      render();
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 待办初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-    function add(){
-      var v = $('#todoInput', root).value.trim();
-      if(!v) return;
-      todos.unshift({ text: v, done: false });
-      $('#todoInput', root).value = '';
-      save(); render();
-    }
-    $('#todoAdd', root).onclick = add;
-    $('#todoInput', root).onkeydown = function(e){ if(e.key === 'Enter') add(); };
-    render();
   }
 });
 
+/* =========================================================
+   工具 8: 便签
+   ========================================================= */
 TOOLS.push({
   id: 'notes', name: '便签', icon: '📌', category: 'life', desc: '本地保存便签',
   render: function(root){
-    var h = '<div class="box">';
-    h += '<div class="field"><label class="label">新建便签</label><textarea class="textarea" id="noteInput" rows="4" placeholder="输入便签内容…"></textarea></div>';
-    h += '<button class="btn btn-primary" id="noteAdd">保存便签</button>';
-    h += '</div>';
-    h += '<div class="box"><div id="noteList"></div></div>';
-    root.innerHTML = h;
+    try {
+      var h = '<div class="box">';
+      h += '<div class="field"><label class="label">新建便签</label><textarea class="textarea" id="noteInput" rows="4" placeholder="输入便签内容…"></textarea></div>';
+      h += '<button class="btn btn-primary" id="noteAdd">保存便签</button>';
+      h += '</div>';
+      h += '<div class="box"><div id="noteList"></div></div>';
+      root.innerHTML = h;
 
-    var KEY = 'toolbox_notes';
-    var notes = [];
-    try { notes = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ notes = []; }
+      var KEY = 'toolbox_notes';
+      var notes = safeLocalGet(KEY, []);
+      if(!Array.isArray(notes)) notes = [];
 
-    function save(){ try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch(e){} }
-    function render(){
-      if(notes.length === 0){ $('#noteList', root).innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有便签</div>'; return; }
-      var h2 = '';
-      for(var i = 0; i < notes.length; i++){
-        var n = notes[i];
-        h2 += '<div style="padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;margin-bottom:10px;position:relative">';
-        h2 += '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;padding-right:30px">' + escapeHtml(n.text) + '</div>';
-        h2 += '<div style="font-size:10.5px;color:var(--muted);margin-top:8px">' + new Date(n.time).toLocaleString('zh-CN') + '</div>';
-        h2 += '<button class="fx" data-idx="' + i + '" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>';
-        h2 += '</div>';
+      function save(){ safeLocalSet(KEY, notes); }
+      function render(){
+        var listEl = $('#noteList', root);
+        if(!listEl) return;
+        if(notes.length === 0){ listEl.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有便签</div>'; return; }
+        var h2 = '';
+        for(var i = 0; i < notes.length; i++){
+          var n = notes[i];
+          h2 += '<div style="padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;margin-bottom:10px;position:relative">';
+          h2 += '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;padding-right:30px">' + escapeHtml(n.text) + '</div>';
+          h2 += '<div style="font-size:10.5px;color:var(--muted);margin-top:8px">' + (n.time ? new Date(n.time).toLocaleString('zh-CN') : '') + '</div>';
+          h2 += '<button class="fx" data-idx="' + i + '" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>';
+          h2 += '</div>';
+        }
+        listEl.innerHTML = h2;
+        var btns = $$('.fx', listEl);
+        for(var j = 0; j < btns.length; j++){
+          btns[j].onclick = function(e){
+            notes.splice(parseInt(e.target.getAttribute('data-idx'), 10), 1);
+            save(); render();
+          };
+        }
       }
-      $('#noteList', root).innerHTML = h2;
-      var btns = $('#noteList', root).querySelectorAll('.fx');
-      for(var j = 0; j < btns.length; j++){
-        btns[j].onclick = function(e){
-          notes.splice(parseInt(e.target.getAttribute('data-idx'), 10), 1);
-          save(); render();
-        };
-      }
+      var addBtn = $('#noteAdd', root);
+      if(addBtn) addBtn.onclick = function(){
+        var input = $('#noteInput', root);
+        if(!input) return;
+        var v = input.value.trim();
+        if(!v){ showToast('请输入内容', 'err'); return; }
+        notes.unshift({ text: v, time: Date.now() });
+        input.value = '';
+        save(); render();
+        showToast('已保存', 'ok');
+      };
+      render();
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 便签初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
-    $('#noteAdd', root).onclick = function(){
-      var v = $('#noteInput', root).value.trim();
-      if(!v){ showToast('请输入内容', 'err'); return; }
-      notes.unshift({ text: v, time: Date.now() });
-      $('#noteInput', root).value = '';
-      save(); render();
-      showToast('已保存', 'ok');
-    };
-    render();
   }
 });
 
+/* =========================================================
+   工具 9: 计算器
+   ========================================================= */
 TOOLS.push({
   id: 'calc', name: '计算器', icon: '🧮', category: 'life', desc: '简单计算器',
   render: function(root){
-    var h = '<div class="box">';
-    h += '<input type="text" class="input" id="calcDisplay" readonly value="0" style="font-size:24px;text-align:right;padding:16px;font-family:ui-monospace,monospace">';
-    h += '<div id="calcPad" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px"></div>';
-    h += '</div>';
-    root.innerHTML = h;
-    var keys = ['C','(',')','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','⌫','='];
-    var expr = '';
-    var h2 = '';
-    for(var i = 0; i < keys.length; i++) h2 += '<button class="btn" data-k="' + keys[i] + '" style="padding:14px;font-size:16px">' + keys[i] + '</button>';
-    $('#calcPad', root).innerHTML = h2;
-    var btns = $('#calcPad', root).querySelectorAll('button');
-    for(var j = 0; j < btns.length; j++){
-      btns[j].onclick = function(e){
-        var k = e.target.getAttribute('data-k');
-        if(k === 'C'){ expr = ''; $('#calcDisplay', root).value = '0'; return; }
-        if(k === '⌫'){ expr = expr.slice(0, -1); $('#calcDisplay', root).value = expr || '0'; return; }
-        if(k === '='){
-          try {
-            var e2 = expr.replace(/×/g, '*').replace(/÷/g, '/');
-            var r = Function('"use strict";return (' + e2 + ')')();
-            $('#calcDisplay', root).value = r;
-            expr = String(r);
-          } catch(err){ $('#calcDisplay', root).value = '错误'; expr = ''; }
-          return;
-        }
-        expr += k;
-        $('#calcDisplay', root).value = expr;
-      };
+    try {
+      var h = '<div class="box">';
+      h += '<input type="text" class="input" id="calcDisplay" readonly value="0" style="font-size:24px;text-align:right;padding:16px;font-family:ui-monospace,monospace">';
+      h += '<div id="calcPad" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px"></div>';
+      h += '</div>';
+      root.innerHTML = h;
+
+      var keys = ['C','(',')','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','⌫','='];
+      var expr = '';
+      var pad = $('#calcPad', root);
+      if(!pad) return;
+      var h2 = '';
+      for(var i = 0; i < keys.length; i++) h2 += '<button class="btn" data-k="' + keys[i] + '" style="padding:14px;font-size:16px">' + keys[i] + '</button>';
+      pad.innerHTML = h2;
+      var btns = $$('button', pad);
+      for(var j = 0; j < btns.length; j++){
+        btns[j].onclick = function(e){
+          var k = e.target.getAttribute('data-k');
+          var display = $('#calcDisplay', root);
+          if(!display) return;
+          if(k === 'C'){ expr = ''; display.value = '0'; return; }
+          if(k === '⌫'){ expr = expr.slice(0, -1); display.value = expr || '0'; return; }
+          if(k === '='){
+            try {
+              var e2 = expr.replace(/×/g, '*').replace(/÷/g, '/');
+              var r = Function('"use strict";return (' + e2 + ')')();
+              display.value = r;
+              expr = String(r);
+            } catch(err){ display.value = '错误'; expr = ''; }
+            return;
+          }
+          expr += k;
+          display.value = expr;
+        };
+      }
+    } catch(e){
+      root.innerHTML = '<div class="box"><div class="result err">❌ 计算器初始化失败：' + escapeHtml(e.message) + '</div></div>';
     }
   }
 });
@@ -1711,128 +1897,155 @@ TOOLS.push({
    页面渲染
    ========================================================= */
 function renderNav(){
-  var nav = document.getElementById('nav');
-  if(!nav) return;
-  var h = '';
-  var cats = Object.keys(CATEGORIES);
-  for(var i = 0; i < cats.length; i++){
-    var c = cats[i];
-    var cat = CATEGORIES[c];
-    var tools = TOOLS.filter(function(t){ return t.category === c; });
-    if(tools.length === 0) continue;
-    h += '<div class="nav-group">';
-    h += '<div class="nav-title">' + cat.icon + ' ' + cat.name + '</div>';
-    for(var j = 0; j < tools.length; j++){
-      var t = tools[j];
-      h += '<div class="nav-item" data-id="' + t.id + '"><span class="ic">' + t.icon + '</span>' + escapeHtml(t.name) + '</div>';
+  try {
+    var nav = document.getElementById('nav');
+    if(!nav) return;
+    var h = '';
+    var cats = Object.keys(CATEGORIES);
+    for(var i = 0; i < cats.length; i++){
+      var c = cats[i];
+      var cat = CATEGORIES[c];
+      var tools = TOOLS.filter(function(t){ return t.category === c; });
+      if(tools.length === 0) continue;
+      h += '<div class="nav-group">';
+      h += '<div class="nav-title">' + cat.icon + ' ' + cat.name + '</div>';
+      for(var j = 0; j < tools.length; j++){
+        var t = tools[j];
+        h += '<div class="nav-item" data-id="' + t.id + '"><span class="ic">' + t.icon + '</span>' + escapeHtml(t.name) + '</div>';
+      }
+      h += '</div>';
     }
-    h += '</div>';
-  }
-  nav.innerHTML = h;
-  var items = nav.querySelectorAll('.nav-item');
-  for(var k = 0; k < items.length; k++){
-    items[k].onclick = function(e){
-      openTool(e.currentTarget.getAttribute('data-id'));
-      document.getElementById('sidebar').classList.remove('on');
-      document.getElementById('mask').classList.remove('on');
-    };
-  }
+    nav.innerHTML = h;
+    var items = nav.querySelectorAll('.nav-item');
+    for(var k = 0; k < items.length; k++){
+      items[k].onclick = function(e){
+        var id = e.currentTarget.getAttribute('data-id');
+        openTool(id);
+        var sb = document.getElementById('sidebar');
+        var mask = document.getElementById('mask');
+        if(sb) sb.classList.remove('on');
+        if(mask) mask.classList.remove('on');
+      };
+    }
+  } catch(e){ console.error('renderNav:', e); }
 }
 
 function renderHome(){
-  var content = document.getElementById('content');
-  if(!content) return;
-  var h = '';
-  h += '<div class="hero">';
-  h += '<h2>万能小工具箱 <span>Pro</span></h2>';
-  h += '<p>全部功能本地运行，数据不上传。共 ' + TOOLS.length + ' 个精选工具。</p>';
-  h += '<div class="stats">';
-  h += '<div class="stat"><b>' + TOOLS.length + '</b><span>精选工具</span></div>';
-  h += '<div class="stat"><b>' + Object.keys(CATEGORIES).length + '</b><span>分类</span></div>';
-  h += '<div class="stat"><b>100%</b><span>本地处理</span></div>';
-  h += '<div class="stat"><b>0</b><span>数据上传</span></div>';
-  h += '</div></div>';
-  var cats = Object.keys(CATEGORIES);
-  for(var i = 0; i < cats.length; i++){
-    var c = cats[i];
-    var cat = CATEGORIES[c];
-    var tools = TOOLS.filter(function(t){ return t.category === c; });
-    if(tools.length === 0) continue;
-    h += '<div class="section-title">' + cat.icon + ' ' + cat.name + '</div>';
-    h += '<div class="grid">';
-    for(var j = 0; j < tools.length; j++){
-      var t = tools[j];
-      h += '<div class="card" data-id="' + t.id + '">';
-      h += '<div class="icon">' + t.icon + '</div>';
-      h += '<div class="name">' + escapeHtml(t.name) + (t.isNew ? '<span class="new-badge">NEW</span>' : '') + '</div>';
-      h += '<div class="desc">' + escapeHtml(t.desc || '') + '</div>';
+  try {
+    var content = document.getElementById('content');
+    if(!content) return;
+    var h = '';
+    h += '<div class="hero">';
+    h += '<h2>万能小工具箱 <span>Pro</span></h2>';
+    h += '<p>全部功能本地运行，数据不上传。共 ' + TOOLS.length + ' 个精选工具。</p>';
+    h += '<div class="stats">';
+    h += '<div class="stat"><b>' + TOOLS.length + '</b><span>精选工具</span></div>';
+    h += '<div class="stat"><b>' + Object.keys(CATEGORIES).length + '</b><span>分类</span></div>';
+    h += '<div class="stat"><b>100%</b><span>本地处理</span></div>';
+    h += '<div class="stat"><b>0</b><span>数据上传</span></div>';
+    h += '</div></div>';
+    var cats = Object.keys(CATEGORIES);
+    for(var i = 0; i < cats.length; i++){
+      var c = cats[i];
+      var cat = CATEGORIES[c];
+      var tools = TOOLS.filter(function(t){ return t.category === c; });
+      if(tools.length === 0) continue;
+      h += '<div class="section-title">' + cat.icon + ' ' + cat.name + '</div>';
+      h += '<div class="grid">';
+      for(var j = 0; j < tools.length; j++){
+        var t = tools[j];
+        h += '<div class="card" data-id="' + t.id + '">';
+        h += '<div class="icon">' + t.icon + '</div>';
+        h += '<div class="name">' + escapeHtml(t.name) + (t.isNew ? '<span class="new-badge">NEW</span>' : '') + '</div>';
+        h += '<div class="desc">' + escapeHtml(t.desc || '') + '</div>';
+        h += '</div>';
+      }
       h += '</div>';
     }
-    h += '</div>';
-  }
-  content.innerHTML = h;
-  var cards = content.querySelectorAll('.card');
-  for(var k = 0; k < cards.length; k++){
-    cards[k].onclick = function(e){ openTool(e.currentTarget.getAttribute('data-id')); };
-  }
+    content.innerHTML = h;
+    var cards = content.querySelectorAll('.card');
+    for(var k = 0; k < cards.length; k++){
+      cards[k].onclick = function(e){ openTool(e.currentTarget.getAttribute('data-id')); };
+    }
+  } catch(e){ console.error('renderHome:', e); }
 }
 
 function openTool(id){
-  var tool = null;
-  for(var i = 0; i < TOOLS.length; i++){
-    if(TOOLS[i].id === id){ tool = TOOLS[i]; break; }
-  }
-  if(!tool) return;
-  var panel = document.getElementById('panel');
-  var panelBody = document.getElementById('panelBody');
-  document.getElementById('panelTitle').textContent = tool.name;
-  document.getElementById('panelIcon').textContent = tool.icon;
-  document.getElementById('crumb').textContent = tool.name;
-  panelBody.innerHTML = '';
-  panel.classList.add('on');
-  document.body.style.overflow = 'hidden';
   try {
-    tool.render(panelBody);
-  } catch(err){
-    console.error(err);
-    panelBody.innerHTML = '<div class="box"><div class="result err">❌ 工具加载失败：' + escapeHtml(err.message) + '</div></div>';
+    var tool = null;
+    for(var i = 0; i < TOOLS.length; i++){
+      if(TOOLS[i].id === id){ tool = TOOLS[i]; break; }
+    }
+    if(!tool){ showToast('工具未找到：' + id, 'err'); return; }
+    var panel = document.getElementById('panel');
+    var panelBody = document.getElementById('panelBody');
+    var panelTitle = document.getElementById('panelTitle');
+    var panelIcon = document.getElementById('panelIcon');
+    var crumb = document.getElementById('crumb');
+    if(!panel || !panelBody) return;
+    if(panelTitle) panelTitle.textContent = tool.name;
+    if(panelIcon) panelIcon.textContent = tool.icon;
+    if(crumb) crumb.textContent = tool.name;
+    panelBody.innerHTML = '';
+    panel.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    try {
+      tool.render(panelBody);
+    } catch(err){
+      console.error('Tool render error:', err);
+      panelBody.innerHTML = '<div class="box"><div class="result err">❌ 工具加载失败：' + escapeHtml(err.message) + '<br><br><b>详细信息：</b><br>' + escapeHtml(String(err.stack || '').slice(0, 500)) + '</div></div>';
+    }
+    panel.scrollTop = 0;
+  } catch(e){
+    console.error('openTool:', e);
+    showToast('打开工具失败：' + e.message, 'err');
   }
-  panel.scrollTop = 0;
 }
 
 function closeTool(){
-  if(document.getElementById('panelBody') && document.getElementById('panelBody')._podTimer){
-    clearInterval(document.getElementById('panelBody')._podTimer);
-  }
-  document.getElementById('panel').classList.remove('on');
-  document.body.style.overflow = '';
-  document.getElementById('crumb').textContent = '首页';
-  if(location.hash.indexOf('#podcast') === 0 || location.hash.indexOf('#host') === 0){
-    try { history.replaceState(null, '', location.pathname); } catch(e){}
-  }
+  try {
+    var panelBody = document.getElementById('panelBody');
+    if(panelBody && panelBody._podTimer){ clearInterval(panelBody._podTimer); }
+    var panel = document.getElementById('panel');
+    if(panel) panel.classList.remove('on');
+    document.body.style.overflow = '';
+    var crumb = document.getElementById('crumb');
+    if(crumb) crumb.textContent = '首页';
+    if(location.hash.indexOf('#podcast') === 0 || location.hash.indexOf('#host') === 0){
+      try { history.replaceState(null, '', location.pathname); } catch(e){}
+    }
+  } catch(e){}
 }
 
 function bindEvents(){
-  document.getElementById('panelBack').onclick = closeTool;
-  document.getElementById('menuBtn').onclick = function(){
-    document.getElementById('sidebar').classList.add('on');
-    document.getElementById('mask').classList.add('on');
-  };
-  document.getElementById('mask').onclick = function(){
-    document.getElementById('sidebar').classList.remove('on');
-    document.getElementById('mask').classList.remove('on');
-  };
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeTool();
-  });
+  try {
+    var back = document.getElementById('panelBack');
+    if(back) back.onclick = closeTool;
+    var menu = document.getElementById('menuBtn');
+    if(menu) menu.onclick = function(){
+      var sb = document.getElementById('sidebar');
+      var mask = document.getElementById('mask');
+      if(sb) sb.classList.add('on');
+      if(mask) mask.classList.add('on');
+    };
+    var mask = document.getElementById('mask');
+    if(mask) mask.onclick = function(){
+      var sb = document.getElementById('sidebar');
+      if(sb) sb.classList.remove('on');
+      mask.classList.remove('on');
+    };
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeTool();
+    });
+  } catch(e){ console.error('bindEvents:', e); }
 }
 
 function start(){
   try {
+    console.log('启动中，工具数量：' + TOOLS.length);
     renderNav();
     renderHome();
     bindEvents();
-
     var hash = location.hash;
     if(hash.indexOf('#podcast=') === 0 || hash.indexOf('#podcast-edit=') === 0){
       openTool('podcast');
@@ -1841,8 +2054,9 @@ function start(){
     }
     console.log('✅ 万能小工具箱已就绪 · 共 ' + TOOLS.length + ' 个工具');
   } catch(err){
-    console.error(err);
-    document.getElementById('content').innerHTML = '<div class="box"><div class="result err">❌ 启动失败：' + escapeHtml(err.message) + '</div></div>';
+    console.error('启动失败:', err);
+    var content = document.getElementById('content');
+    if(content) content.innerHTML = '<div class="box"><div class="result err">❌ 启动失败：' + escapeHtml(err.message) + '<br><br>' + escapeHtml(String(err.stack || '').slice(0, 500)) + '</div></div>';
   }
 }
 
@@ -1851,6 +2065,14 @@ if(document.readyState === 'loading'){
 } else {
   start();
 }
+
+/* 全局错误捕获，避免白屏 */
+window.addEventListener('error', function(e){
+  console.error('全局错误:', e.error || e.message);
+});
+window.addEventListener('unhandledrejection', function(e){
+  console.error('未处理的 Promise 错误:', e.reason);
+});
 </script>
 </body>
   </html>
