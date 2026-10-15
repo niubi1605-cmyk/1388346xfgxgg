@@ -7,115 +7,109 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#07070c;--glass:rgba(255,255,255,0.06);--glass-strong:rgba(255,255,255,0.09);
-  --border:rgba(255,255,255,0.1);--border-strong:rgba(255,255,255,0.18);
+  --bg:#07070c;--border:rgba(255,255,255,0.1);--border-strong:rgba(255,255,255,0.18);
   --text:#f5f5f7;--text-2:rgba(245,245,247,0.66);--text-3:rgba(245,245,247,0.38);
-  --blue:#0a84ff;--purple:#bf5af2;--pink:#ff375f;--green:#30d158;--orange:#ff9f0a;--yellow:#ffd60a;--teal:#5ac8fa;
-  --r-lg:24px;--r-md:18px;--r-sm:12px;
+  --blue:#0a84ff;--purple:#bf5af2;--pink:#ff375f;--green:#30d158;--orange:#ff9f0a;--teal:#5ac8fa;
 }
 html,body{height:100%}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
   color:var(--text);background:var(--bg);
   background-image:
     radial-gradient(ellipse 900px 700px at 15% -10%, rgba(120,80,255,0.22), transparent 60%),
     radial-gradient(ellipse 900px 700px at 85% 110%, rgba(255,80,150,0.16), transparent 60%),
     radial-gradient(ellipse 700px 500px at 50% 50%, rgba(80,180,255,0.08), transparent 60%);
-  background-attachment:fixed;-webkit-font-smoothing:antialiased;overflow-x:hidden;letter-spacing:-0.01em;
+  background-attachment:fixed;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:5px;border:2px solid transparent;background-clip:padding-box}
-::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.2);background-clip:padding-box}
 
 .app{display:flex;min-height:100vh}
 .sidebar{width:240px;flex:0 0 240px;background:rgba(255,255,255,0.04);backdrop-filter:blur(50px) saturate(180%);-webkit-backdrop-filter:blur(50px) saturate(180%);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;z-index:60}
 .brand{display:flex;align-items:center;gap:11px;padding:22px 20px 18px}
-.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);box-shadow:0 6px 20px rgba(191,90,242,0.4), inset 0 1px 0 rgba(255,255,255,0.25);flex:0 0 auto}
-.brand-name{font-size:15px;font-weight:700;letter-spacing:-0.2px}
+.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);box-shadow:0 6px 20px rgba(191,90,242,0.4);flex:0 0 auto}
+.brand-name{font-size:15px;font-weight:700}
 .brand-sub{font-size:11px;color:var(--text-3);margin-top:2px}
 .side-search{padding:0 14px 14px}
 .side-search input{width:100%;background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:12px;padding:9px 14px;font-size:13px;color:var(--text);outline:none;transition:.2s}
 .side-search input::placeholder{color:var(--text-3)}
-.side-search input:focus{border-color:var(--blue);background:rgba(10,132,255,0.08);box-shadow:0 0 0 3px rgba(10,132,255,0.12)}
+.side-search input:focus{border-color:var(--blue);background:rgba(10,132,255,0.08)}
 .nav{flex:1;overflow-y:auto;padding:4px 12px 20px}
 .nav-group{margin-bottom:6px}
-.nav-label{font-size:11px;color:var(--text-3);padding:12px 10px 6px;font-weight:600;letter-spacing:0.3px}
-.nav-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;font-size:13.5px;color:var(--text-2);cursor:pointer;transition:.16s;user-select:none;font-weight:500}
+.nav-label{font-size:11px;color:var(--text-3);padding:12px 10px 6px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:11px;font-size:13.5px;color:var(--text-2);cursor:pointer;transition:.16s;font-weight:500}
 .nav-item:hover{background:rgba(255,255,255,0.06);color:var(--text)}
-.nav-item.active{background:rgba(10,132,255,0.18);color:#fff;box-shadow:inset 0 0 0 1px rgba(10,132,255,0.3)}
+.nav-item.active{background:rgba(10,132,255,0.18);color:#fff}
 .nav-item .ni{font-size:16px;width:22px;text-align:center;flex:0 0 22px}
-.nav-item .cnt{margin-left:auto;font-size:10.5px;color:var(--text-3);font-weight:500}
+.nav-item .cnt{margin-left:auto;font-size:10.5px;color:var(--text-3)}
 .sidebar-foot{padding:14px 20px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text-3);display:flex;align-items:center;gap:7px}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex:0 0 auto}
 
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
-.topbar{height:64px;display:flex;align-items:center;gap:14px;padding:0 26px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(10,10,15,0.55);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%)}
-.crumb{font-size:16px;font-weight:650;flex:1;letter-spacing:-0.2px}
+.topbar{height:64px;display:flex;align-items:center;gap:14px;padding:0 26px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;background:rgba(10,10,15,0.55);backdrop-filter:blur(40px)}
+.crumb{font-size:16px;font-weight:650;flex:1}
 .top-badge{font-size:11.5px;padding:6px 13px;border-radius:20px;color:var(--text-2);background:rgba(255,255,255,0.06);border:1px solid var(--border);font-weight:500}
-.help-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer;transition:.16s}
-.help-btn:hover{background:rgba(255,255,255,0.12);border-color:var(--border-strong)}
+.help-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer}
+.help-btn:hover{background:rgba(255,255,255,0.12)}
 .icon-btn{display:none;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:6px}
 .view{padding:30px 26px 80px;max-width:1240px;width:100%;margin:0 auto}
 
-.hero{border-radius:var(--r-lg);padding:36px 34px;margin-bottom:26px;background:linear-gradient(135deg, rgba(10,132,255,0.16), rgba(191,90,242,0.14) 55%, rgba(255,55,95,0.1));backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.1);position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);pointer-events:none}
-.hero h1{font-size:32px;font-weight:750;letter-spacing:-0.8px;margin-bottom:10px;line-height:1.15}
+.hero{border-radius:24px;padding:36px 34px;margin-bottom:26px;background:linear-gradient(135deg, rgba(10,132,255,0.16), rgba(191,90,242,0.14) 55%, rgba(255,55,95,0.1));backdrop-filter:blur(40px);border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.35);position:relative;overflow:hidden}
+.hero h1{font-size:32px;font-weight:750;letter-spacing:-0.8px;margin-bottom:10px}
 .hero h1 .grad{background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .hero p{font-size:14.5px;color:var(--text-2);line-height:1.65;max-width:640px}
 .hero-stats{display:flex;gap:32px;margin-top:22px;flex-wrap:wrap}
-.hero-stat b{display:block;font-size:24px;font-weight:750;letter-spacing:-0.4px}
+.hero-stat b{display:block;font-size:24px;font-weight:750}
 .hero-stat span{font-size:11.5px;color:var(--text-3);margin-top:2px;display:block}
 
 .cat-head{display:flex;align-items:center;gap:10px;margin:30px 0 16px}
 .cat-head .ci{font-size:20px}
-.cat-head h2{font-size:18px;font-weight:680;letter-spacing:-0.3px}
+.cat-head h2{font-size:18px;font-weight:680}
 .cat-head .cc{font-size:11.5px;color:var(--text-3);background:rgba(255,255,255,0.06);padding:3px 10px;border-radius:20px;border:1px solid var(--border)}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
-.tool-card{position:relative;border-radius:var(--r-md);padding:18px 16px 16px;background:rgba(255,255,255,0.05);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--border);cursor:pointer;transition:.22s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.06);overflow:hidden}
-.tool-card:hover{transform:translateY(-3px);background:rgba(255,255,255,0.09);border-color:var(--border-strong);box-shadow:0 12px 36px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)}
-.tool-card .tc-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;margin-bottom:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2), 0 4px 14px rgba(0,0,0,0.2)}
-.tool-card .tc-name{font-size:13.5px;font-weight:650;margin-bottom:5px;letter-spacing:-0.1px}
+.tool-card{position:relative;border-radius:18px;padding:18px 16px 16px;background:rgba(255,255,255,0.05);backdrop-filter:blur(30px);border:1px solid var(--border);cursor:pointer;transition:.22s cubic-bezier(.2,.8,.2,1);box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+.tool-card:hover{transform:translateY(-3px);background:rgba(255,255,255,0.09);border-color:var(--border-strong);box-shadow:0 12px 36px rgba(0,0,0,0.35)}
+.tool-card .tc-icon{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;margin-bottom:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.2)}
+.tool-card .tc-name{font-size:13.5px;font-weight:650;margin-bottom:5px}
 .tool-card .tc-desc{font-size:11.5px;color:var(--text-3);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.tool-card .tc-badge{position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:0.4px;background:linear-gradient(135deg,#ff375f,#ff9f0a);color:#fff}
+.tool-card .tc-badge{position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:linear-gradient(135deg,#ff375f,#ff9f0a);color:#fff}
 
-.tool-panel{position:fixed;inset:0;z-index:200;display:none;background:rgba(7,7,12,0.72);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);overflow-y:auto}
+.tool-panel{position:fixed;inset:0;z-index:200;display:none;background:rgba(7,7,12,0.72);backdrop-filter:blur(30px);overflow-y:auto}
 .tool-panel.show{display:block;animation:fadeIn .22s ease}
 @keyframes fadeIn{from{opacity:0}}
 .tp-inner{max-width:900px;margin:0 auto;padding:24px 22px 80px}
 .tp-bar{display:flex;align-items:center;gap:14px;margin-bottom:20px;position:sticky;top:0;padding:12px 0;z-index:10;background:linear-gradient(to bottom, rgba(7,7,12,0.9) 60%, transparent)}
-.tp-back{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:.16s}
+.tp-back{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:600;cursor:pointer}
 .tp-back:hover{background:rgba(255,255,255,0.14)}
 .tp-title{font-size:16px;font-weight:680;flex:1}
 .tp-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:18px}
 
-.card{background:rgba(255,255,255,0.045);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--border);border-radius:var(--r-md);padding:22px;box-shadow:0 8px 30px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.06)}
+.card{background:rgba(255,255,255,0.045);backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 8px 30px rgba(0,0,0,0.22)}
 .card+.card{margin-top:16px}
-.card-title{font-size:14px;font-weight:680;margin-bottom:14px;display:flex;align-items:center;gap:8px;letter-spacing:-0.2px}
+.card-title{font-size:14px;font-weight:680;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 
 .field{display:flex;flex-direction:column;gap:8px;font-size:12.5px;color:var(--text-2);margin-bottom:14px}
 .field>span{font-weight:550}
 .input,.select,.textarea{width:100%;background:rgba(0,0,0,0.28);border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:13.5px;color:var(--text);outline:none;transition:.18s;font-family:inherit}
 .input::placeholder,.textarea::placeholder{color:var(--text-3)}
-.input:focus,.select:focus,.textarea:focus{border-color:var(--blue);background:rgba(10,132,255,0.07);box-shadow:0 0 0 3px rgba(10,132,255,0.13)}
-.textarea{resize:vertical;line-height:1.65;min-height:100px;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px}
-.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--blue);background:rgba(10,132,255,0.07)}
+.textarea{resize:vertical;line-height:1.65;min-height:100px;font-family:ui-monospace,monospace;font-size:12.5px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
 
 .btn{padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.07);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;transition:.16s;white-space:nowrap;font-family:inherit}
-.btn:hover{background:rgba(255,255,255,0.13);border-color:var(--border-strong)}
+.btn:hover{background:rgba(255,255,255,0.13)}
 .btn:active{transform:scale(0.97)}
 .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none}
-.btn.primary{background:linear-gradient(135deg,var(--blue),#5e5ce6);border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(10,132,255,0.4), inset 0 1px 0 rgba(255,255,255,0.2)}
+.btn.primary{background:linear-gradient(135deg,var(--blue),#5e5ce6);border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(10,132,255,0.4)}
 .btn.primary:hover{filter:brightness(1.1)}
 .btn.ghost{background:transparent}
 .btn.sm{padding:7px 13px;font-size:12px;border-radius:9px}
 .btn.danger{background:rgba(255,55,95,0.15);border-color:rgba(255,55,95,0.3);color:#ff8095}
-.btn.tiny{padding:4px 9px;font-size:11px;border-radius:7px}
 
 .result{margin-top:14px;padding:13px 16px;border-radius:12px;background:rgba(0,0,0,0.25);border:1px solid var(--border);font-size:12.5px;line-height:1.7;word-break:break-all}
 .result.ok{border-color:rgba(48,209,88,0.35);background:rgba(48,209,88,0.07);color:#a8f0bd}
@@ -127,31 +121,8 @@ body{
 .barwrap.show{display:block}
 .bar{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .2s}
 
-/* 图床推荐卡片 */
-.host-card{display:flex;align-items:flex-start;gap:14px;padding:14px;border-radius:14px;background:rgba(0,0,0,0.22);border:1px solid var(--border);margin-bottom:10px;transition:.16s}
-.host-card:hover{background:rgba(255,255,255,0.05);border-color:var(--border-strong)}
-.host-card .hc-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:0 0 44px;background:linear-gradient(135deg,rgba(10,132,255,0.2),rgba(191,90,242,0.15));border:1px solid var(--border)}
-.host-card .hc-body{flex:1;min-width:0}
-.host-card .hc-name{font-size:13.5px;font-weight:650;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.host-card .hc-desc{font-size:11.5px;color:var(--text-3);line-height:1.6;margin-bottom:8px}
-.host-card .hc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.host-card .hc-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);color:#7ee2a8;font-weight:600}
-.host-card .hc-tag.blue{background:rgba(10,132,255,0.12);border-color:rgba(10,132,255,0.3);color:#9fc2ff}
-.host-card .hc-tag.orange{background:rgba(255,159,10,0.12);border-color:rgba(255,159,10,0.3);color:#ffd28a}
-.host-card .hc-tag.pink{background:rgba(255,55,95,0.12);border-color:rgba(255,55,95,0.3);color:#ff9aae}
-.host-card .hc-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-/* 折叠面板 */
-.fold{border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;background:rgba(0,0,0,0.15)}
-.fold-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;user-select:none;transition:.15s}
-.fold-head:hover{background:rgba(255,255,255,0.04)}
-.fold-head .fh-icon{font-size:16px}
-.fold-head .fh-title{flex:1;font-size:13.5px;font-weight:650}
-.fold-head .fh-sub{font-size:11px;color:var(--text-3)}
-.fold-head .fh-arrow{font-size:12px;color:var(--text-3);transition:.2s}
-.fold.open .fold-head .fh-arrow{transform:rotate(180deg)}
-.fold-body{padding:0 16px 16px;display:none}
-.fold.open .fold-body{display:block}
+/* 可选标记 */
+.optional{font-size:10px;color:var(--text-3);background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:20px;border:1px solid var(--border);font-weight:500;margin-left:6px}
 
 /* 播客样式 */
 .pod-episode{display:flex;gap:12px;padding:14px;border-radius:14px;background:rgba(0,0,0,0.22);border:1px solid var(--border);margin-bottom:10px}
@@ -164,15 +135,15 @@ body{
 .pod-episode audio,.pod-episode video{width:100%;border-radius:10px;margin-top:6px;background:#000}
 .pod-link-box{background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-top:12px;word-break:break-all}
 .pod-link-box .pl-url{font-family:ui-monospace,monospace;font-size:12.5px;color:#9fc2ff;line-height:1.6}
-.pod-view .pv-header{text-align:center;padding:36px 24px;border-radius:var(--r-lg);background:linear-gradient(135deg, rgba(10,132,255,0.15), rgba(191,90,242,0.12));border:1px solid var(--border);margin-bottom:20px}
+.pod-view .pv-header{text-align:center;padding:36px 24px;border-radius:24px;background:linear-gradient(135deg, rgba(10,132,255,0.15), rgba(191,90,242,0.12));border:1px solid var(--border);margin-bottom:20px}
 .pod-view .pv-cover{width:130px;height:130px;border-radius:24px;object-fit:cover;margin:0 auto 18px;display:block;box-shadow:0 20px 50px rgba(0,0,0,0.4)}
-.pod-view .pv-title{font-size:28px;font-weight:750;letter-spacing:-0.5px;margin-bottom:8px}
+.pod-view .pv-title{font-size:28px;font-weight:750;margin-bottom:8px}
 .pod-view .pv-author{font-size:14px;color:var(--text-2);margin-bottom:8px}
 .pod-view .pv-desc{font-size:13px;color:var(--text-3);max-width:520px;margin:0 auto;line-height:1.75}
-.pod-view .pv-episode{background:rgba(255,255,255,0.045);border:1px solid var(--border);border-radius:var(--r-md);padding:22px;margin-bottom:16px;backdrop-filter:blur(30px)}
+.pod-view .pv-episode{background:rgba(255,255,255,0.045);border:1px solid var(--border);border-radius:18px;padding:22px;margin-bottom:16px}
 .pod-view .pv-ep-title{font-size:17px;font-weight:680;margin-bottom:8px}
 .pod-view .pv-ep-content{font-size:14.5px;line-height:1.9;color:var(--text-2);white-space:pre-wrap;margin-bottom:16px}
-.pod-view .pv-ep-media{width:100%;border-radius:12px;margin-bottom:12px}
+.pod-view .pv-ep-media{width:100%;border-radius:12px;margin-bottom:12px;background:#000}
 .live-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(48,209,88,0.15);border:1px solid rgba(48,209,88,0.35);color:#7ee2a8;font-weight:600}
 .live-badge .live-dot{width:6px;height:6px;border-radius:50%;background:#30d158;box-shadow:0 0 8px #30d158;animation:pulse 1.5s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
@@ -195,22 +166,21 @@ body{
 .dl-card .dl-actions{display:flex;gap:8px;flex-wrap:wrap}
 
 /* 弹窗 */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:9998;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(20px);z-index:9998;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
-.modal{background:rgba(20,20,28,0.9);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border:1px solid var(--border-strong);border-radius:20px;width:100%;max-width:820px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.7);animation:modalIn .24s cubic-bezier(.2,.8,.2,1)}
+.modal{background:rgba(20,20,28,0.9);backdrop-filter:blur(40px);border:1px solid var(--border-strong);border-radius:20px;width:100%;max-width:820px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.7);animation:modalIn .24s cubic-bezier(.2,.8,.2,1)}
 @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}}
 .modal-header{display:flex;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border)}
 .modal-title{flex:1;font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px}
-.modal-close{background:none;border:none;color:var(--text-3);font-size:19px;cursor:pointer;padding:5px 10px;border-radius:8px;transition:.15s}
+.modal-close{background:none;border:none;color:var(--text-3);font-size:19px;cursor:pointer;padding:5px 10px;border-radius:8px}
 .modal-close:hover{color:var(--text);background:rgba(255,255,255,0.08)}
 .modal-tabs{display:flex;gap:6px;padding:16px 24px 0;flex-wrap:wrap}
-.modal-tab{padding:8px 16px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+.modal-tab{padding:8px 16px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--text-3);font-size:13px;font-weight:600;cursor:pointer}
 .modal-tab:hover{color:var(--text);background:rgba(255,255,255,0.06)}
 .modal-tab.active{color:#fff;background:rgba(10,132,255,0.2);border-color:rgba(10,132,255,0.4)}
 .modal-body{flex:1;overflow-y:auto;padding:22px 24px 28px}
 .modal-pane{display:none}
 .modal-pane.active{display:block}
-
 .faq-item{background:rgba(0,0,0,0.22);border:1px solid var(--border);border-radius:13px;margin-bottom:12px;overflow:hidden}
 .faq-q{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;font-size:14px;font-weight:600;background:rgba(10,132,255,0.06);border-bottom:1px solid var(--border);line-height:1.5}
 .faq-q .qn{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:12px;display:grid;place-items:center;font-weight:700;margin-top:1px}
@@ -221,26 +191,48 @@ body{
 .faq-a li{margin-bottom:6px}
 .faq-a table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px}
 .faq-a table th,.faq-a table td{border:1px solid var(--border);padding:7px 10px;text-align:left}
-
 .cl-item{position:relative;padding-left:28px;padding-bottom:24px;border-left:2px solid rgba(255,255,255,0.1)}
 .cl-item:last-child{border-left-color:transparent;padding-bottom:0}
 .cl-item::before{content:"";position:absolute;left:-7px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid #0f0f15;box-shadow:0 0 0 2px rgba(10,132,255,0.25)}
-.cl-item.latest::before{background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 0 0 3px rgba(191,90,242,0.25),0 0 16px rgba(10,132,255,0.55)}
+.cl-item.latest::before{background:linear-gradient(135deg,var(--blue),var(--purple));box-shadow:0 0 0 3px rgba(191,90,242,0.25)}
 .cl-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 .cl-ver{font-size:15px;font-weight:700;color:#fff}
 .cl-date{font-size:11.5px;color:var(--text-3)}
 .cl-badge{font-size:10.5px;padding:2px 10px;border-radius:20px;background:rgba(191,90,242,0.15);border:1px solid rgba(191,90,242,0.35);color:#d8b4fe;font-weight:600}
-.cl-badge.fix{background:rgba(48,209,88,0.15);border-color:rgba(48,209,88,0.35);color:#7ee2a8}
-.cl-badge.new{background:rgba(255,159,10,0.15);border-color:rgba(255,159,10,0.35);color:#ffd28a}
 .cl-list{list-style:none;padding:0;margin:0}
 .cl-list li{font-size:12.5px;color:var(--text-2);line-height:1.8;padding-left:18px;position:relative;margin-bottom:5px}
 .cl-list li::before{content:"•";position:absolute;left:4px;color:var(--blue);font-weight:700}
+
+.host-card{display:flex;align-items:flex-start;gap:14px;padding:14px;border-radius:14px;background:rgba(0,0,0,0.22);border:1px solid var(--border);margin-bottom:10px}
+.host-card:hover{background:rgba(255,255,255,0.05)}
+.host-card .hc-icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex:0 0 44px;background:linear-gradient(135deg,rgba(10,132,255,0.2),rgba(191,90,242,0.15));border:1px solid var(--border)}
+.host-card .hc-body{flex:1;min-width:0}
+.host-card .hc-name{font-size:13.5px;font-weight:650;margin-bottom:4px}
+.host-card .hc-desc{font-size:11.5px;color:var(--text-3);line-height:1.6;margin-bottom:8px}
+.host-card .hc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.host-card .hc-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(48,209,88,0.12);border:1px solid rgba(48,209,88,0.3);color:#7ee2a8;font-weight:600}
+.host-card .hc-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.fold{border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;background:rgba(0,0,0,0.15)}
+.fold-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer}
+.fold-head:hover{background:rgba(255,255,255,0.04)}
+.fold-head .fh-icon{font-size:16px}
+.fold-head .fh-title{flex:1;font-size:13.5px;font-weight:650}
+.fold-head .fh-sub{font-size:11px;color:var(--text-3)}
+.fold-head .fh-arrow{font-size:12px;color:var(--text-3);transition:.2s}
+.fold.open .fold-head .fh-arrow{transform:rotate(180deg)}
+.fold-body{padding:0 16px 16px;display:none}
+.fold.open .fold-body{display:block}
 
 .toasts{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:99999;align-items:center;pointer-events:none}
 .toast{background:rgba(30,30,40,0.92);backdrop-filter:blur(20px);border:1px solid var(--border-strong);color:var(--text);padding:11px 20px;border-radius:14px;font-size:13.5px;font-weight:500;box-shadow:0 10px 36px rgba(0,0,0,0.5);max-width:80vw;text-align:center}
 .toast.ok{border-color:rgba(48,209,88,0.5)}
 .toast.err{border-color:rgba(255,69,58,0.5)}
 .toast.out{opacity:0;transform:translateY(10px);transition:.3s}
+
+/* HLS 播放器 */
+.hls-player video{width:100%;border-radius:12px;background:#000;margin-top:6px}
+.hls-fallback{padding:12px 16px;background:rgba(255,159,10,0.08);border:1px solid rgba(255,159,10,0.3);border-radius:10px;font-size:12.5px;color:#ffd28a;line-height:1.6}
 
 @media(max-width:900px){
   .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .28s;width:270px;flex-basis:270px;box-shadow:0 0 60px rgba(0,0,0,0.7)}
@@ -262,7 +254,7 @@ body{
       <div class="logo">✨</div>
       <div>
         <div class="brand-name">万能小工具箱</div>
-        <div class="brand-sub">Pro · v3.2.0</div>
+        <div class="brand-sub">Pro · v3.3.0</div>
       </div>
     </div>
     <div class="side-search"><input id="search" placeholder="搜索工具…" autocomplete="off"></div>
@@ -302,7 +294,7 @@ body{
     </div>
     <div class="modal-tabs">
       <button class="modal-tab active" data-tab="faq">❓ 关于</button>
-      <button class="modal-tab" data-tab="hosts">☁️ 图床推荐</button>
+      <button class="modal-tab" data-tab="hosts">☁️ 音视频链接说明</button>
       <button class="modal-tab" data-tab="changelog">📝 更新日志</button>
       <button class="modal-tab" data-tab="privacy">🔒 隐私</button>
     </div>
@@ -315,19 +307,18 @@ body{
         <div class="faq-item">
           <div class="faq-q"><span class="qn">2</span><span>私人播客怎么用？</span></div>
           <div class="faq-a">
-            <p>创建播客后会生成<strong>两个链接</strong>：<b>📤 浏览链接</b>（给朋友看）和 <b>✏️ 管理链接</b>（你自己留着改）。修改后保存，朋友那边刷新自动同步，链接不变。</p>
-            <p style="margin-top:10px"><b>💡 关键提醒：</b>改内容请用<b>管理链接</b>，<b>不要重新点生成</b>——重复点会新建储物柜，朋友的老链接就看不到新内容了。</p>
-            <p style="margin-top:10px"><b>📎 关于音频/视频：</b>请先上传到「图床推荐」里的免费平台，拿到直链后粘贴到播客工具里。这样既快又不会卡。</p>
+            <p>创建播客后生成<strong>两个链接</strong>：<b>📤 浏览链接</b>（给朋友看）和 <b>✏️ 管理链接</b>（你自己留着改）。改完保存，朋友刷新自动同步，链接不变。</p>
+            <p style="margin-top:10px"><b>💡 关键提醒：</b>改内容请用<b>管理链接</b>，<b>不要重新点生成</b>——重复点会新建储物柜，朋友老链接就看不到新内容了。</p>
+            <p style="margin-top:10px"><b>📎 关于封面/音频/视频：</b><b>全部可选</b>。不选也能正常使用。<b>音频/视频支持任意可访问的链接</b>：直链（.mp3/.mp4）、<b>M3U8 流媒体</b>、云盘分享直链等。链接不限制来源，只要浏览器能访问即可。</p>
           </div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span class="qn">3</span><span>朋友访问播客链接，有网络限制吗？</span></div>
+          <div class="faq-q"><span class="qn">3</span><span>朋友访问有网络限制吗？</span></div>
           <div class="faq-a">
             <p><b>没有任何网络限制。</b>只要朋友能上网就能打开：</p>
             <ul>
               <li>✅ 4G / 5G / WiFi / 公司网 / 校园网</li>
               <li>✅ 你在北京、朋友在广州</li>
-              <li>✅ 你在国内、朋友在国外</li>
               <li>✅ 你手机关机了，朋友照样能看</li>
             </ul>
             <p style="margin-top:10px"><b>更新同步时间：</b></p>
@@ -336,45 +327,76 @@ body{
               <tr><td>页面开着不动</td><td>最多 20 秒</td></tr>
               <tr><td>刷新/重开</td><td>立即</td></tr>
             </table>
-            <p style="margin-top:10px"><b>唯一例外：</b>极少数公司内网屏蔽了 jsonblob.com。让朋友换网络重试即可。</p>
           </div>
         </div>
         <div class="faq-item">
-          <div class="faq-q"><span class="qn">4</span><span>媒体文件放哪里？</span></div>
+          <div class="faq-q"><span class="qn">4</span><span>媒体链接支持哪些类型？</span></div>
           <div class="faq-a">
-            <p>播客工具不直接上传大文件（会把浏览器卡死）。你需要先把音频/视频/封面图片上传到<strong>免费图床</strong>，拿到直链后粘贴到播客里。</p>
-            <p style="margin-top:8px">点上方「<b>☁️ 图床推荐</b>」标签，里面有 6 个无需登录注册的免费平台推荐。</p>
+            <p><b>音频：</b><code>.mp3</code> <code>.m4a</code> <code>.wav</code> <code>.ogg</code> <code>.aac</code> <code>.flac</code> <code>.m3u8</code>，以及任意可访问的云盘直链。</p>
+            <p><b>视频：</b><code>.mp4</code> <code>.webm</code> <code>.mov</code> <code>.mkv</code> <code>.m3u8</code>（HLS 流媒体），以及任意可访问的云盘直链。</p>
+            <p style="margin-top:8px"><b>关于 M3U8：</b>M3U8 是流媒体格式（常用于直播/在线视频），本工具内置 HLS 播放器，可正常播放。如果浏览器不支持，会给出提示并可复制链接到 VLC 播放。</p>
+            <p style="margin-top:8px"><b>关于封面：</b>封面完全可选。不选时使用默认图标，不影响使用。</p>
           </div>
         </div>
       </div>
 
       <div class="modal-pane" id="pane-hosts">
         <div class="result info" style="margin-bottom:16px">
-          💡 <b>为什么需要图床？</b>播客工具为了不卡死，不在本地存储大文件。你把音频/视频/封面传到图床，拿到直链（通常以 <code>https://</code> 开头，点开就是文件本身）后粘贴到播客工具里。
+          💡 <b>音视频链接可以是任何可访问的地址</b>，不限于图床。只要在浏览器里能打开，就能粘到播客里用。
         </div>
-        <div class="result warn" style="margin-bottom:16px">
-          ⚠️ <b>选择标准：</b>以下平台都是<b>完全免费、无需登录注册、可直链</b>的。但都是第三方公共服务，长期可用性无法 100% 保证。如果某个不好用了，换一个即可。
+        <div class="card-title" style="margin-bottom:12px">📌 常见的几种链接来源</div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="qn">1</span><span>直链（最常用）</span></div>
+          <div class="faq-a">
+            <p>形如 <code>https://example.com/audio.mp3</code> 的地址，点开就是文件本身。任何支持直链的图床、云盘、自建服务器都可以。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="qn">2</span><span>M3U8 流媒体（推荐）</span></div>
+          <div class="faq-a">
+            <p>形如 <code>https://example.com/video.m3u8</code>。常见于直播、在线视频、IPTV。本工具内置 HLS 播放器，无需转码即可播放。</p>
+            <p style="margin-top:6px"><b>注意：</b>Chrome / Edge 已支持 HLS，Safari 原生支持，Firefox 需要 hls.js 补丁（本工具已内置）。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="qn">3</span><span>云盘分享链接（需转直链）</span></div>
+          <div class="faq-a">
+            <p>部分云盘分享链接需要转换为直链才能播放。常见的转换工具可搜索「云盘转直链」。或者直接把文件上传到下面的免费图床获取直链。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span class="qn">4</span><span>免费图床（获取直链用）</span></div>
+          <div class="faq-a">
+            <p>如果手头没有直链，可以用下面的免费图床。上传后拿到 <code>https://</code> 开头的直链，粘贴到播客里即可。</p>
+          </div>
         </div>
         <div id="hostList"></div>
-        <div class="hint" style="margin-top:16px;text-align:center">
-          🔒 你上传的文件只有拿到链接的人才能访问。这些平台不会主动公开你的文件。<br>
-          ⚠️ 但请勿上传违法或他人隐私内容，平台有审核责任。
-        </div>
       </div>
 
       <div class="modal-pane" id="pane-changelog">
         <div class="cl-item latest">
           <div class="cl-head">
-            <span class="cl-ver">v3.2.0</span>
+            <span class="cl-ver">v3.3.0</span>
             <span class="cl-badge">当前版本</span>
             <span class="cl-date">最新</span>
           </div>
           <ul class="cl-list">
-            <li>☁️ <b>新增图床推荐</b>：6 个完全免费、无需登录注册的可靠平台</li>
-            <li>🎙️ 私人播客工具内嵌「推荐图床」可展开面板，边做边查</li>
-            <li>📖 帮助中心新增「图床推荐」独立标签页</li>
-            <li>🔗 每个图床给出直达链接、免费额度、使用说明</li>
-            <li>📋 完善播客使用流程说明（先上传图床，再粘外链）</li>
+            <li>🎨 封面<b>完全可选</b>：不选择也能正常创建播客，使用默认图标</li>
+            <li>🎵 音频/视频链接不再限制类型：支持直链、<b>M3U8 流媒体</b>、云盘直链等</li>
+            <li>📺 <b>新增内置 HLS 播放器</b>：自动识别 m3u8 链接，用 hls.js 播放</li>
+            <li>📖 帮助中心「音视频链接说明」标签页，列出所有支持的链接类型</li>
+            <li>💬 全站文案优化：将"图床"改为更准确的"音视频链接"</li>
+            <li>📋 所有可选字段标注「可选」标记</li>
+          </ul>
+        </div>
+        <div class="cl-item">
+          <div class="cl-head">
+            <span class="cl-ver">v3.2.0</span>
+            <span class="cl-date">早期</span>
+          </div>
+          <ul class="cl-list">
+            <li>☁️ 新增图床推荐：6 个免费免注册平台</li>
+            <li>🎙️ 私人播客工具内嵌推荐图床面板</li>
           </ul>
         </div>
         <div class="cl-item">
@@ -383,9 +405,8 @@ body{
             <span class="cl-date">早期</span>
           </div>
           <ul class="cl-list">
-            <li>🔧 修复短视频下载 API 全部失效问题</li>
-            <li>🔧 修复私人播客生成链接卡死问题（媒体改为外链模式）</li>
-            <li>📖 帮助中心新增：朋友访问的网络限制说明</li>
+            <li>🔧 修复短视频下载 API 失效问题</li>
+            <li>🔧 修复私人播客生成链接卡死问题</li>
           </ul>
         </div>
         <div class="cl-item">
@@ -394,32 +415,8 @@ body{
             <span class="cl-date">早期</span>
           </div>
           <ul class="cl-list">
-            <li>✏️ 私人播客支持实时编辑：浏览链接 + 管理链接</li>
+            <li>✏️ 私人播客支持实时编辑：浏览 + 管理链接</li>
             <li>📡 浏览链接 20 秒自动同步</li>
-            <li>📋 新增「我的播客」管理列表</li>
-          </ul>
-        </div>
-        <div class="cl-item">
-          <div class="cl-head">
-            <span class="cl-ver">v3.0.0</span>
-            <span class="cl-date">早期</span>
-          </div>
-          <ul class="cl-list">
-            <li>🆕 全网短视频无水印下载</li>
-            <li>🆕 私人播客生成器</li>
-            <li>🎨 苹果玻璃风格全新界面</li>
-            <li>🆕 世界时间、秒表、倒计时、抽签、数字转中文等 10 个新工具</li>
-          </ul>
-        </div>
-        <div class="cl-item">
-          <div class="cl-head">
-            <span class="cl-ver">v1.0.0 - v2.0.0</span>
-            <span class="cl-badge new">初始</span>
-            <span class="cl-date">早期</span>
-          </div>
-          <ul class="cl-list">
-            <li>✨ 工具箱框架搭建、全部基础工具上线</li>
-            <li>📁 加密、图片、文本、开发、文件、实用等分类</li>
           </ul>
         </div>
       </div>
@@ -428,9 +425,9 @@ body{
         <div class="faq-item">
           <div class="faq-q"><span class="qn">🔒</span><span>隐私承诺</span></div>
           <div class="faq-a">
-            <p>核心处理工具<strong>全部本地运行</strong>：文本加密、图像处理、阅读器、种子制作等。</p>
-            <p><b>播客数据说明</b>：为了让朋友能实时看到更新，播客文字内容存储在 jsonblob.com（公开 JSON 服务）。访问链接由随机 ID 生成，不可猜测。管理链接含独立密钥，只有你知道。播客数据不会被公开索引。</p>
-            <p><b>媒体文件说明</b>：音视频/封面图片由你自己上传到第三方图床。文件只有拿到链接的人才能访问，但请勿上传违法或他人隐私内容。</p>
+            <p>核心处理工具<strong>全部本地运行</strong>。</p>
+            <p><b>播客数据说明</b>：为了让朋友能实时看到更新，播客文字内容存储在 jsonblob.com（公开 JSON 服务）。访问链接由随机 ID 生成，不可猜测。管理链接含独立密钥。</p>
+            <p><b>媒体文件说明</b>：音视频由你自己提供链接（直链、M3U8、云盘直链等），工具本身不存储、不上传、不代理任何媒体内容。</p>
           </div>
         </div>
       </div>
@@ -461,8 +458,7 @@ function fmtSize(n) {
 }
 function download(blob, filename) {
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename;
+  const a = document.createElement('a'); a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
@@ -502,8 +498,8 @@ function setupDrop(zone, input, onFiles) {
     if (input.files.length) onFiles(Array.from(input.files));
     input.value = '';
   });
-  ['dragenter', 'dragover'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); zone.classList.add('over'); }));
-  ['dragleave', 'drop'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove('over'); }));
+  ['dragenter','dragover'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); zone.classList.add('over'); }));
+  ['dragleave','drop'].forEach(ev => zone.addEventListener(ev, e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove('over'); }));
   zone.addEventListener('drop', e => {
     e.preventDefault(); e.stopPropagation();
     const f = Array.from(e.dataTransfer.files || []);
@@ -545,73 +541,88 @@ function fetchWithTimeout(url, opts = {}, timeout = 12000) {
 }
 
 /* =========================================================
-   图床数据（核心新增）
+   ★ HLS 播放器（用于 M3U8）★
    ========================================================= */
-const IMAGE_HOSTS = [
-  {
-    name: 'Catbox.moe',
-    icon: '🐱',
-    url: 'https://catbox.moe/',
-    desc: '老牌免费文件托管，支持图片、视频、音频、压缩包。上传后自动生成永久直链，无广告，无审核。',
-    tags: ['最推荐', '永久保存', '支持所有类型'],
-    tagTypes: ['green', 'green', 'green'],
-    limit: '单文件 200MB'
-  },
-  {
-    name: '0x0.st',
-    icon: '0️⃣',
-    url: 'https://0x0.st/',
-    desc: '简洁的临时文件托管，支持所有类型。文件保留时间根据大小动态决定（小文件保留更久）。',
-    tags: ['无广告', '支持所有类型', '大文件友好'],
-    tagTypes: ['green', 'green', 'blue'],
-    limit: '单文件 512MB'
-  },
-  {
-    name: 'Postimages.org',
-    icon: '🖼️',
-    url: 'https://postimages.org/',
-    desc: '专业图片托管平台，支持 JPG/PNG/GIF/WebP 等。上传后可选多种尺寸直链，永久保存。',
-    tags: ['图片专用', '永久保存', '多尺寸'],
-    tagTypes: ['blue', 'green', 'blue'],
-    limit: '单张 24MB（建议压缩）'
-  },
-  {
-    name: 'Telegra.ph',
-    icon: '📝',
-    url: 'https://telegra.ph/',
-    desc: 'Telegram 出品的极简发布页。上传图片后会自动生成永久 CDN 直链，速度极快。',
-    tags: ['图片专用', '永久保存', 'CDN 加速'],
-    tagTypes: ['blue', 'green', 'blue'],
-    limit: '单张 5MB'
-  },
-  {
-    name: 'Litterbox',
-    icon: '📦',
-    url: 'https://litterbox.catbox.moe/',
-    desc: 'Catbox 的临时版本。适合不需要长期保存的文件。可选保留 1 小时 / 12 小时 / 24 小时 / 72 小时。',
-    tags: ['临时存储', '大文件友好', '速度快'],
-    tagTypes: ['orange', 'blue', 'green'],
-    limit: '单文件 1GB'
-  },
-  {
-    name: 'ImgBB',
-    icon: '🅱️',
-    url: 'https://imgbb.com/',
-    desc: '国际知名图床，无需注册即可上传。支持自动生成缩略图、中等尺寸、原图三种直链。',
-    tags: ['图片专用', '多种尺寸', '稳定'],
-    tagTypes: ['blue', 'blue', 'green'],
-    limit: '单张 32MB'
+function detectMediaType(url) {
+  if (!url) return 'none';
+  const u = url.toLowerCase().split('?')[0];
+  if (/\.m3u8$/.test(u)) return 'hls';
+  if (/\.(mp3|m4a|wav|ogg|aac|flac|opus)$/.test(u)) return 'audio';
+  if (/\.(mp4|webm|mov|mkv|avi)$/.test(u)) return 'video';
+  // 无扩展名：猜测视频
+  return 'video';
+}
+
+function renderMediaHTML(url, opts = {}) {
+  const type = detectMediaType(url);
+  const cls = opts.cls || 'pv-ep-media';
+  if (!url) return '';
+  if (type === 'hls') {
+    // M3U8：用 hls.js 播放
+    return `<div class="${cls}-hls hls-player" data-src="${esc(url)}">
+      <div style="padding:14px 16px;background:rgba(10,132,255,0.08);border:1px solid rgba(10,132,255,0.3);border-radius:10px;font-size:12.5px;color:#9fc2ff;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span>📺 M3U8 流媒体</span>
+        <button class="btn sm primary" data-hls-play="${esc(url)}">▶ 播放</button>
+        <button class="btn sm" data-hls-copy="${esc(url)}">📋 复制链接</button>
+      </div>
+    </div>`;
   }
-];
+  if (type === 'audio') return `<audio class="${cls}" src="${esc(url)}" controls preload="metadata"></audio>`;
+  return `<video class="${cls}" src="${esc(url)}" controls preload="metadata"></video>`;
+}
+
+function bindMediaEvents(container) {
+  $$('[data-hls-play]', container).forEach(btn => btn.onclick = () => {
+    const src = btn.dataset.hlsPlay;
+    playHLS(btn.closest('.hls-player'), src);
+  });
+  $$('[data-hls-copy]', container).forEach(btn => btn.onclick = () => copyText(btn.dataset.hlsCopy));
+}
+
+function playHLS(container, src) {
+  // 清空原提示
+  container.innerHTML = '';
+  const video = document.createElement('video');
+  video.controls = true;
+  video.style.width = '100%';
+  video.style.borderRadius = '12px';
+  video.style.background = '#000';
+  video.style.marginTop = '6px';
+  container.appendChild(video);
+
+  // 检测浏览器原生支持
+  const nativeHLS = video.canPlayType('application/vnd.apple.mpegurl');
+  if (nativeHLS) {
+    video.src = src;
+    video.play().catch(() => {});
+    return;
+  }
+  // 动态加载 hls.js
+  if (window.Hls && window.Hls.isSupported()) {
+    const hls = new Hls({ enableWorker: true, lowLatencyMode: false });
+    hls.loadSource(src);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play().catch(() => {}); });
+    hls.on(Hls.Events.ERROR, (e, data) => {
+      if (data.fatal) {
+        container.innerHTML = `<div class="hls-fallback">⚠️ HLS 播放失败：${esc(data.details || '未知错误')}<br>可复制链接到 VLC / IINA 播放：<br><code style="word-break:break-all">${esc(src)}</code></div>`;
+      }
+    });
+    return;
+  }
+  // 尝试原生
+  video.src = src;
+  video.play().catch(() => {
+    container.innerHTML = `<div class="hls-fallback">⚠️ 当前浏览器不支持 HLS 播放。<br>请复制链接到 VLC / IINA / PotPlayer 播放：<br><code style="word-break:break-all">${esc(src)}</code></div>`;
+  });
+}
 
 /* =========================================================
    Blob 存储
    ========================================================= */
 const JSONBLOB_API = 'https://jsonblob.com/api/jsonBlob';
-
 function showUploadProgress(show, percent = 0) {
-  const el = $('#uploadProgress');
-  const bar = $('#upBar');
+  const el = $('#uploadProgress'); const bar = $('#upBar');
   if (show) { el.classList.add('show'); bar.style.width = percent + '%'; }
   else { el.classList.remove('show'); bar.style.width = '0'; }
 }
@@ -650,8 +661,7 @@ async function blobUpdate(id, data) {
   } finally { setTimeout(() => showUploadProgress(false), 500); }
 }
 function genSecret() {
-  const b = new Uint8Array(16);
-  crypto.getRandomValues(b);
+  const b = new Uint8Array(16); crypto.getRandomValues(b);
   return Array.from(b).map(x => x.toString(16).padStart(2, '0')).join('');
 }
 
@@ -660,28 +670,28 @@ function genSecret() {
    ========================================================= */
 const TOOLS = [];
 const CATS = {
-  video:   { name: '影视',   icon: '🎬', color: 'linear-gradient(135deg,#bf5af2,#ff375f)' },
-  music:   { name: '音乐',   icon: '🎵', color: 'linear-gradient(135deg,#ff375f,#ff9f0a)' },
-  image:   { name: '图像',   icon: '🖼️', color: 'linear-gradient(135deg,#5ac8fa,#0a84ff)' },
-  text:    { name: '文本',   icon: '📝', color: 'linear-gradient(135deg,#ffd60a,#ff9f0a)' },
-  dev:     { name: '开发',   icon: '⚙️', color: 'linear-gradient(135deg,#0a84ff,#5e5ce6)' },
-  crypto:  { name: '安全',   icon: '🔐', color: 'linear-gradient(135deg,#bf5af2,#0a84ff)' },
-  file:    { name: '文件',   icon: '📁', color: 'linear-gradient(135deg,#5e5ce6,#bf5af2)' },
-  life:    { name: '实用',   icon: '🧰', color: 'linear-gradient(135deg,#30d158,#ffd60a)' }
+  video: { name: '影视', icon: '🎬', color: 'linear-gradient(135deg,#bf5af2,#ff375f)' },
+  music: { name: '音乐', icon: '🎵', color: 'linear-gradient(135deg,#ff375f,#ff9f0a)' },
+  image: { name: '图像', icon: '🖼️', color: 'linear-gradient(135deg,#5ac8fa,#0a84ff)' },
+  text:  { name: '文本', icon: '📝', color: 'linear-gradient(135deg,#ffd60a,#ff9f0a)' },
+  dev:   { name: '开发', icon: '⚙️', color: 'linear-gradient(135deg,#0a84ff,#5e5ce6)' },
+  crypto:{ name: '安全', icon: '🔐', color: 'linear-gradient(135deg,#bf5af2,#0a84ff)' },
+  file:  { name: '文件', icon: '📁', color: 'linear-gradient(135deg,#5e5ce6,#bf5af2)' },
+  life:  { name: '实用', icon: '🧰', color: 'linear-gradient(135deg,#30d158,#ffd60a)' }
 };
 function tool(def) { TOOLS.push(def); }
 
 /* =========================================================
-   1. 短视频无水印下载
+   1. 短视频下载
    ========================================================= */
 tool({
-  id: 'video-downloader', name: '短视频无水印下载', icon: '📥', cat: 'video', desc: '多平台 · 自动切换 · 超时保护', isNew: true,
+  id: 'video-downloader', name: '短视频无水印下载', icon: '📥', cat: 'video', desc: '多平台 · 自动切换', isNew: true,
   render(root) {
     root.innerHTML = `
       <div class="card">
         <label class="field"><span>粘贴短视频分享链接</span>
           <textarea id="urlIn" class="textarea" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></label>
-        <div class="hint">💡 支持抖音、快手、小红书、视频号、B站、微博等平台。直接粘贴分享口令，自动提取链接。</div>
+        <div class="hint">💡 支持抖音、快手、小红书、视频号、B站、微博等平台。</div>
         <div class="actions">
           <button class="btn primary" id="parse">🔍 解析视频</button>
           <button class="btn ghost" id="clear">清空</button>
@@ -692,10 +702,7 @@ tool({
       <div class="card">
         <div class="card-title">📡 解析节点状态</div>
         <div id="apiStatus" style="display:flex;flex-direction:column;gap:8px"></div>
-        <div class="hint" style="margin-top:10px">💡 内置多个公开解析节点，自动按顺序尝试。</div>
-        <div class="result warn" style="margin-top:12px">
-          ⚠️ 公开解析接口由社区维护，可能随时变化。如果所有节点都失效，请稍后重试，或复制链接到浏览器手动查看。
-        </div>
+        <div class="result warn" style="margin-top:12px">⚠️ 公开解析接口由社区维护，可能随时变化。所有节点失效时请稍后重试。</div>
       </div>`;
 
     const API_ENDPOINTS = [
@@ -705,71 +712,51 @@ tool({
       { name: '节点 D · 51视频', build: url => ({ url: 'https://api.52vmy.cn/api/video/parse?url=' + encodeURIComponent(url), opts: { method: 'GET' } }) },
       { name: '节点 E · 通用代理', build: url => ({ url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url), opts: { method: 'GET' } }) }
     ];
-
     const statusEl = $('#apiStatus', root);
     const renderStatus = (states) => {
       statusEl.innerHTML = API_ENDPOINTS.map((e, i) => {
         const s = states ? states[i] : 'idle';
         const dotColor = s === 'ok' ? '#30d158' : s === 'fail' ? '#ff453a' : s === 'checking' ? '#ffd60a' : '#666';
         const label = s === 'ok' ? '可用' : s === 'fail' ? '不可用' : s === 'checking' ? '检测中…' : '待检测';
-        return `<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid var(--border)">
-          <span style="width:8px;height:8px;border-radius:50%;background:${dotColor};box-shadow:0 0 8px ${dotColor};flex:0 0 8px"></span>
-          <span style="flex:1">${e.name}</span>
-          <span style="color:var(--text-3);font-size:11px">${label}</span>
-        </div>`;
+        return `<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid var(--border)"><span style="width:8px;height:8px;border-radius:50%;background:${dotColor};box-shadow:0 0 8px ${dotColor};flex:0 0 8px"></span><span style="flex:1">${e.name}</span><span style="color:var(--text-3);font-size:11px">${label}</span></div>`;
       }).join('');
     };
     renderStatus();
 
     const bw = $('#bw', root), bar = $('#bar', root), outEl = $('#out', root);
-
     const renderResult = (data) => {
       const raw = data.data || data.result || data;
       const videoUrl = raw.video_url || raw.video || raw.url || raw.play || raw.videoUrl || (Array.isArray(raw.url) ? raw.url[0] : '') || '';
       const title = raw.title || raw.desc || raw.name || '未命名视频';
       const cover = raw.cover || raw.cover_url || raw.pic || raw.poster || '';
       const author = raw.author || raw.nickname || raw.user_name || '';
-      const images = raw.images || raw.image_list || raw.pics || [];
-
       let items = [];
       if (videoUrl) items.push({ type: 'video', url: videoUrl, title, cover, author });
-      if (Array.isArray(images)) {
-        images.forEach((img, i) => {
-          const imgUrl = typeof img === 'string' ? img : (img.url || img);
-          if (imgUrl) items.push({ type: 'image', url: imgUrl, title: title + ' - 图' + (i + 1), cover: imgUrl, author });
-        });
-      }
-
       if (!items.length) {
-        outEl.innerHTML = `<div class="result warn">⚠️ 解析成功但未找到可下载资源。<br><br>原始返回：<pre style="font-size:11px;margin-top:8px;max-height:200px;overflow:auto;white-space:pre-wrap">${esc(JSON.stringify(data, null, 2).slice(0, 800))}</pre></div>`;
-        return;
+        outEl.innerHTML = `<div class="result warn">⚠️ 解析成功但未找到可下载资源。</div>`; return;
       }
-
       outEl.innerHTML = `
-        <div class="result ok" style="margin-top:14px">✅ 解析成功！共找到 ${items.length} 个资源</div>
+        <div class="result ok" style="margin-top:14px">✅ 解析成功！</div>
         <div class="dl-result">${items.map((item, i) => `
           <div class="dl-card">
-            ${item.cover ? `<img src="${esc(item.cover)}" loading="lazy" onerror="this.style.opacity=0.2">` : `<div style="width:100px;height:100px;border-radius:10px;background:rgba(255,255,255,0.05);display:grid;place-items:center;font-size:28px;flex:0 0 100px">${item.type === 'video' ? '🎬' : '🖼️'}</div>`}
+            ${item.cover ? `<img src="${esc(item.cover)}" loading="lazy">` : `<div style="width:100px;height:100px;border-radius:10px;background:rgba(255,255,255,0.05);display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>`}
             <div class="dl-info">
               <div class="dl-title">${esc(item.title)}</div>
               ${item.author ? `<div class="dl-author">作者：${esc(item.author)}</div>` : ''}
               <div class="dl-actions">
                 <button class="btn sm primary" data-dl="${i}">⬇️ 下载</button>
                 <button class="btn sm" data-copy="${i}">📋 复制链接</button>
-                <button class="btn sm" data-open="${i}">🔗 新窗口打开</button>
+                <button class="btn sm" data-open="${i}">🔗 打开</button>
               </div>
             </div>
-          </div>
-        `).join('')}</div>`;
-
+          </div>`).join('')}</div>`;
       $$('[data-dl]', outEl).forEach(btn => btn.onclick = async () => {
         const item = items[+btn.dataset.dl];
         try {
           btn.disabled = true; btn.textContent = '下载中…';
           const res = await fetchWithTimeout(item.url, { mode: 'cors' }, 30000);
-          if (!res.ok) throw new Error('HTTP ' + res.status);
           const blob = await res.blob();
-          download(blob, `${baseName(item.title) || 'video'}_${Date.now()}.${item.type === 'video' ? 'mp4' : 'jpg'}`);
+          download(blob, `${baseName(item.title) || 'video'}_${Date.now()}.mp4`);
           toast('下载完成', 'ok');
         } catch (e) { toast('下载失败：' + e.message, 'err'); }
         finally { btn.disabled = false; btn.textContent = '⬇️ 下载'; }
@@ -777,14 +764,11 @@ tool({
       $$('[data-copy]', outEl).forEach(btn => btn.onclick = () => copyText(items[+btn.dataset.copy].url));
       $$('[data-open]', outEl).forEach(btn => btn.onclick = () => window.open(items[+btn.dataset.open].url, '_blank'));
     };
-
     const parseVideo = async (input) => {
       const urlMatch = input.match(/https?:\/\/[^\s]+/);
       const link = urlMatch ? urlMatch[0] : input.trim();
       if (!link) { toast('请输入链接', 'err'); return; }
-      bw.classList.add('show');
-      outEl.innerHTML = '';
-      bar.style.width = '5%';
+      bw.classList.add('show'); outEl.innerHTML = ''; bar.style.width = '5%';
       const states = API_ENDPOINTS.map(() => 'checking');
       renderStatus(states);
       let success = false;
@@ -796,11 +780,8 @@ tool({
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const data = await res.json();
           const raw = data.data || data.result || data;
-          if (!(raw.video_url || raw.video || raw.url || raw.play || raw.videoUrl || (raw.images && raw.images.length))) {
-            throw new Error('无有效资源');
-          }
-          states[i] = 'ok';
-          renderStatus(states);
+          if (!(raw.video_url || raw.video || raw.url || raw.play || raw.videoUrl)) throw new Error('无有效资源');
+          states[i] = 'ok'; renderStatus(states);
           renderResult(data);
           success = true;
           break;
@@ -809,21 +790,8 @@ tool({
       }
       bar.style.width = '100%';
       setTimeout(() => { bw.classList.remove('show'); bar.style.width = '0'; }, 600);
-      if (!success) {
-        outEl.innerHTML = `<div class="result err">
-          ❌ 所有解析节点均失败<br><br>
-          <b>可能原因：</b><br>
-          1. 公开 API 暂时不可用（社区维护，偶尔集体失效）<br>
-          2. 链接格式不被支持<br>
-          3. 网络问题<br><br>
-          <b>建议：</b><br>
-          ① 稍后重试<br>
-          ② 复制链接到浏览器手动打开<br>
-          ③ 尝试其他平台的分享链接
-        </div>`;
-      }
+      if (!success) outEl.innerHTML = `<div class="result err">❌ 所有解析节点均失败。可能原因：API 集体失效 / 链接不支持 / 网络问题。<br><br><b>建议：</b>① 稍后重试 ② 复制链接到浏览器手动查看 ③ 换其他平台链接</div>`;
     };
-
     $('#parse', root).onclick = () => {
       const v = $('#urlIn', root).value.trim();
       if (!v) { toast('请粘贴链接', 'err'); return; }
@@ -847,7 +815,7 @@ tool({
 });
 
 /* =========================================================
-   2. 私人播客（内嵌图床推荐）
+   2. 私人播客（封面可选 + 支持 M3U8 等任意链接）
    ========================================================= */
 const PODCAST_KEY = 'pro_podcast_v2';
 const PODCAST_LIST_KEY = 'pro_podcast_list_v2';
@@ -871,29 +839,6 @@ tool({
   }
 });
 
-function renderHostList(container) {
-  container.innerHTML = IMAGE_HOSTS.map(h => `
-    <div class="host-card">
-      <div class="hc-icon">${h.icon}</div>
-      <div class="hc-body">
-        <div class="hc-name">${esc(h.name)}</div>
-        <div class="hc-desc">${esc(h.desc)}</div>
-        <div class="hc-tags">
-          ${h.tags.map((t, i) => `<span class="hc-tag ${h.tagTypes[i] === 'blue' ? 'blue' : h.tagTypes[i] === 'orange' ? 'orange' : h.tagTypes[i] === 'pink' ? 'pink' : ''}">${esc(t)}</span>`).join('')}
-          <span class="hc-tag blue">📦 ${esc(h.limit)}</span>
-          <span class="hc-tag">✅ 免注册</span>
-        </div>
-        <div class="hc-actions">
-          <button class="btn sm primary" data-open-host="${esc(h.url)}">🔗 打开 ${esc(h.name)}</button>
-          <button class="btn sm" data-copy-host="${esc(h.url)}">📋 复制网址</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  $$('[data-open-host]', container).forEach(b => b.onclick = () => window.open(b.dataset.openHost, '_blank'));
-  $$('[data-copy-host]', container).forEach(b => b.onclick = () => copyText(b.dataset.copyHost));
-}
-
 /* ---- 创建台 ---- */
 function renderPodcastCreate(root) {
   root.innerHTML = `
@@ -904,39 +849,25 @@ function renderPodcastCreate(root) {
         <span style="font-size:10px;padding:3px 8px;border-radius:20px;background:rgba(48,209,88,0.2);border:1px solid rgba(48,209,88,0.4);color:#7ee2a8;font-weight:700">实时可编辑</span>
       </div>
       <div style="font-size:12.5px;color:var(--text-2);line-height:1.75">
-        编辑你的播客内容 → 生成专属链接 → 发给朋友。<br>
-        <b style="color:var(--text)">浏览链接</b> 给朋友看，<b style="color:var(--text)">管理链接</b> 你自己留着，随时改内容，改完一保存朋友自动同步，链接永不变。
-      </div>
-    </div>
-
-    <!-- 图床推荐（内嵌） -->
-    <div class="fold" id="hostFold">
-      <div class="fold-head">
-        <span class="fh-icon">☁️</span>
-        <span class="fh-title">推荐图床（上传音频/视频/封面用）</span>
-        <span class="fh-sub">6 个免费免注册</span>
-        <span class="fh-arrow">▼</span>
-      </div>
-      <div class="fold-body">
-        <div class="result info" style="margin-bottom:12px">
-          💡 <b>为什么需要图床？</b>播客工具不在本地存大文件（会把浏览器卡死）。你先上传音视频到图床，拿到直链后粘贴到播客里即可。
-        </div>
-        <div id="hostListInline"></div>
+        编辑内容 → 生成专属链接 → 发给朋友。<br>
+        <b>浏览链接</b> 给朋友看，<b>管理链接</b> 你自己留着改，改完保存朋友自动同步。<br>
+        <b style="color:var(--text)">封面、音频、视频全部可选</b>，不选也能用。
       </div>
     </div>
 
     <div class="card">
       <div class="card-title">📻 播客基础信息</div>
       <div class="grid2">
-        <label class="field"><span>播客名称 *</span><input id="podName" class="input" placeholder="例如：我的个人电台"></label>
-        <label class="field"><span>播客作者</span><input id="podAuthor" class="input" placeholder="你的名字"></label>
+        <label class="field"><span>播客名称 <span class="optional">必填</span></span><input id="podName" class="input" placeholder="例如：我的个人电台"></label>
+        <label class="field"><span>播客作者 <span class="optional">可选</span></span><input id="podAuthor" class="input" placeholder="你的名字"></label>
       </div>
-      <label class="field"><span>播客简介</span><textarea id="podDesc" class="textarea" rows="3" placeholder="简单介绍一下你的播客…"></textarea></label>
-      <label class="field"><span>播客封面（可选，会自动压缩）</span>
+      <label class="field"><span>播客简介 <span class="optional">可选</span></span><textarea id="podDesc" class="textarea" rows="3" placeholder="简单介绍一下你的播客…"></textarea></label>
+      <label class="field"><span>播客封面 <span class="optional">可选</span></span>
         <input type="file" id="podCover" accept="image/*" hidden>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <button class="btn" id="pickCover">📷 选择封面图片</button>
-          <span style="font-size:12px;color:var(--text-3)" id="coverName">未选择</span>
+          <button class="btn sm ghost" id="removeCover" style="display:none">🗑️ 移除封面</button>
+          <span style="font-size:12px;color:var(--text-3)" id="coverName">不选择也可以，将使用默认图标</span>
         </div>
       </label>
     </div>
@@ -944,17 +875,17 @@ function renderPodcastCreate(root) {
     <div class="card">
       <div class="card-title">📝 添加单集</div>
       <div class="grid2">
-        <label class="field"><span>单集标题 *</span><input id="epTitle" class="input" placeholder="例如：第 1 期 · 聊聊最近的生活"></label>
-        <label class="field"><span>单集简介</span><input id="epDesc" class="input" placeholder="可选"></label>
+        <label class="field"><span>单集标题 <span class="optional">必填</span></span><input id="epTitle" class="input" placeholder="例如：第 1 期 · 聊聊最近的生活"></label>
+        <label class="field"><span>单集简介 <span class="optional">可选</span></span><input id="epDesc" class="input" placeholder="可留空"></label>
       </div>
-      <label class="field"><span>单集内容（文字稿）</span>
+      <label class="field"><span>单集内容（文字稿） <span class="optional">可选</span></span>
         <textarea id="epContent" class="textarea" rows="6" placeholder="像写文章一样写你的播客内容…"></textarea></label>
-      <label class="field"><span>音频外链（可选）</span>
-        <input id="epAudioUrl" class="input" placeholder="https://…（从图床拿到的直链）"></label>
-      <label class="field"><span>视频外链（可选）</span>
-        <input id="epVideoUrl" class="input" placeholder="https://…（从图床拿到的直链）"></label>
+      <label class="field"><span>音频链接 <span class="optional">可选</span></span>
+        <input id="epAudioUrl" class="input" placeholder="支持 .mp3 / .m4a / .m3u8 / 云盘直链等"></label>
+      <label class="field"><span>视频链接 <span class="optional">可选</span></span>
+        <input id="epVideoUrl" class="input" placeholder="支持 .mp4 / .m3u8 / .webm / 云盘直链等"></label>
       <div class="hint" style="background:rgba(10,132,255,0.06);border:1px solid rgba(10,132,255,0.2);border-radius:10px;padding:10px 14px;color:#9fc2ff">
-        💡 <b>不知道去哪上传？</b>点上方「☁️ 推荐图床」展开查看 6 个免费平台。
+        💡 <b>支持任意可访问的链接：</b>直链（.mp3/.mp4）、<b>M3U8 流媒体</b>、云盘分享直链等。浏览器能打开就能用。不清楚怎么获取？点上方「☁️ 音视频链接说明」。
       </div>
       <div class="actions">
         <button class="btn primary" id="addEpisode">➕ 添加单集</button>
@@ -980,12 +911,6 @@ function renderPodcastCreate(root) {
     </div>
   `;
 
-  /* 图床面板 */
-  renderHostList($('#hostListInline', root));
-  $('#hostFold', root).querySelector('.fold-head').onclick = () => {
-    $('#hostFold', root).classList.toggle('open');
-  };
-
   let episodes = [];
   let coverData = null;
 
@@ -997,7 +922,10 @@ function renderPodcastCreate(root) {
       $('#podDesc', root).value = saved.desc || '';
       episodes = saved.episodes || [];
       coverData = saved.coverData || null;
-      if (coverData) $('#coverName', root).textContent = '已保存封面';
+      if (coverData) {
+        $('#coverName', root).textContent = '已保存封面';
+        $('#removeCover', root).style.display = 'inline-block';
+      }
     }
   } catch {}
 
@@ -1009,8 +937,15 @@ function renderPodcastCreate(root) {
       $('#coverName', root).textContent = '压缩中…';
       coverData = await compressImage(f, 400, 0.7);
       $('#coverName', root).textContent = '已选择（已压缩）';
+      $('#removeCover', root).style.display = 'inline-block';
       toast('封面已压缩', 'ok');
-    } catch (err) { toast('处理失败：' + err.message, 'err'); $('#coverName', root).textContent = '未选择'; }
+    } catch (err) { toast('处理失败：' + err.message, 'err'); $('#coverName', root).textContent = '不选择也可以，将使用默认图标'; }
+  };
+  $('#removeCover', root).onclick = () => {
+    coverData = null;
+    $('#coverName', root).textContent = '不选择也可以，将使用默认图标';
+    $('#removeCover', root).style.display = 'none';
+    savePodcast();
   };
 
   const renderEpisodes = () => {
@@ -1025,14 +960,15 @@ function renderPodcastCreate(root) {
           <div class="pe-title">第 ${i + 1} 期 · ${esc(ep.title)}</div>
           ${ep.desc ? `<div class="pe-desc">${esc(ep.desc)}</div>` : ''}
           ${ep.content ? `<div class="pe-desc">${esc(ep.content.slice(0, 100))}${ep.content.length > 100 ? '…' : ''}</div>` : ''}
-          ${ep.audioUrl ? `<audio src="${esc(ep.audioUrl)}" controls></audio>` : ''}
-          ${ep.videoUrl ? `<video src="${esc(ep.videoUrl)}" controls></video>` : ''}
+          ${renderMediaHTML(ep.audioUrl, { cls: 'pe-media' })}
+          ${renderMediaHTML(ep.videoUrl, { cls: 'pe-media' })}
           <div class="pe-actions" style="margin-top:8px">
             <button class="btn sm ghost" data-del="${i}">🗑️ 删除</button>
           </div>
         </div>
       </div>
     `).join('');
+    bindMediaEvents(el);
     $$('[data-del]', el).forEach(b => b.onclick = () => { episodes.splice(+b.dataset.del, 1); savePodcast(); renderEpisodes(); });
   };
 
@@ -1056,7 +992,7 @@ function renderPodcastCreate(root) {
       videoUrl: $('#epVideoUrl', root).value.trim()
     });
     savePodcast(); renderEpisodes();
-    ['epTitle', 'epDesc', 'epContent', 'epAudioUrl', 'epVideoUrl'].forEach(id => $('#' + id, root).value = '');
+    ['epTitle','epDesc','epContent','epAudioUrl','epVideoUrl'].forEach(id => $('#' + id, root).value = '');
     toast('单集已添加', 'ok');
   };
 
@@ -1074,7 +1010,7 @@ function renderPodcastCreate(root) {
       };
       const jsonStr = JSON.stringify(data);
       const sizeKB = (jsonStr.length / 1024).toFixed(1);
-      if (jsonStr.length > 900 * 1024) throw new Error(`数据过大（${sizeKB}KB，上限约 900KB）。请减少单集数量或移除部分封面。`);
+      if (jsonStr.length > 900 * 1024) throw new Error(`数据过大（${sizeKB}KB，上限约 900KB）。请减少单集数量或移除封面。`);
       const blobId = await blobCreate(data);
       const baseUrl = location.origin + location.pathname;
       const viewLink = `${baseUrl}#podcast=${blobId}`;
@@ -1095,7 +1031,7 @@ function renderPodcastCreate(root) {
           </div>
         </div>
         <div class="pod-link-box" style="border-color:rgba(255,159,10,0.4);background:rgba(255,159,10,0.06)">
-          <div style="font-size:12px;color:#ffd28a;margin-bottom:8px;font-weight:700">✏️ 管理链接（自己留着，可实时修改，请勿外发）</div>
+          <div style="font-size:12px;color:#ffd28a;margin-bottom:8px;font-weight:700">✏️ 管理链接（自己留着，可实时修改）</div>
           <div class="pl-url">${esc(editLink)}</div>
           <div class="actions" style="margin-top:10px">
             <button class="btn sm primary" id="copyEdit">📋 复制管理链接</button>
@@ -1104,7 +1040,7 @@ function renderPodcastCreate(root) {
         </div>
         <div class="result ok" style="margin-top:12px">
           ✅ 生成成功！（数据大小 ${sizeKB}KB）<br>
-          朋友通过浏览链接看到的内容，你随时可以通过管理链接修改。修改后朋友刷新页面就会自动同步，链接不会变。
+          朋友通过浏览链接看到内容，你随时可以通过管理链接修改。修改后朋友刷新页面就会自动同步，链接不会变。
         </div>`;
       $('#copyView', root).onclick = () => copyText(viewLink);
       $('#copyEdit', root).onclick = () => copyText(editLink);
@@ -1113,7 +1049,7 @@ function renderPodcastCreate(root) {
       toast('链接生成成功', 'ok');
     } catch (e) {
       toast('生成失败：' + e.message, 'err');
-      $('#linkResult', root).innerHTML = `<div class="result err">❌ 生成失败：${esc(e.message)}<br><br><b>常见原因：</b><br>① 数据过大（>900KB）<br>② 网络问题<br>③ 浏览器拦截跨域<br><br><b>建议：</b>减少单集数量，或稍后重试。</div>`;
+      $('#linkResult', root).innerHTML = `<div class="result err">❌ 生成失败：${esc(e.message)}<br><br><b>常见原因：</b><br>① 数据过大（>900KB）<br>② 网络问题<br>③ 浏览器拦截跨域<br><br><b>建议：</b>减少单集数量或稍后重试。</div>`;
     } finally { btn.disabled = false; btn.textContent = '🔗 生成专属链接'; }
   };
 
@@ -1150,7 +1086,7 @@ function renderMyPodcasts(root) {
   $$('[data-copyview]', el).forEach(b => b.onclick = () => copyText(b.dataset.copyview));
   $$('[data-copyedit]', el).forEach(b => b.onclick = () => copyText(b.dataset.copyedit));
   $$('[data-delpod]', el).forEach(b => b.onclick = () => {
-    if (!confirm('确定从本机删除这个播客的记录吗？\n（不会删除服务器上的播客数据，只是不再显示在这里）')) return;
+    if (!confirm('确定从本机删除这个播客的记录吗？\n（不会删除服务器上的数据，只是不再显示）')) return;
     const m = loadMyPodcasts(); delete m[b.dataset.delpod]; saveMyPodcasts(m); renderMyPodcasts(root);
   });
 }
@@ -1163,16 +1099,16 @@ async function renderPodcastView(root, blobId) {
       const epHtml = (data.episodes || []).map((ep, i) => `
         <div class="pv-episode">
           <div class="pv-ep-title">第 ${i + 1} 期 · ${esc(ep.title)}</div>
-          ${ep.desc ? `<div class="pv-ep-desc">${esc(ep.desc)}</div>` : ''}
+          ${ep.desc ? `<div style="font-size:12.5px;color:var(--text-3);margin-bottom:14px">${esc(ep.desc)}</div>` : ''}
           ${ep.content ? `<div class="pv-ep-content">${esc(ep.content)}</div>` : ''}
-          ${ep.audioUrl ? `<audio class="pv-ep-media" src="${esc(ep.audioUrl)}" controls></audio>` : ''}
-          ${ep.videoUrl ? `<video class="pv-ep-media" src="${esc(ep.videoUrl)}" controls></video>` : ''}
+          ${renderMediaHTML(ep.audioUrl)}
+          ${renderMediaHTML(ep.videoUrl)}
         </div>`).join('') || '<div class="hint" style="text-align:center;padding:30px">暂无内容</div>';
       root.innerHTML = `
         <div class="pod-view">
           <div class="pv-header">
             <div style="margin-bottom:14px"><span class="live-badge"><span class="live-dot"></span>实时同步</span></div>
-            ${data.coverData ? `<img class="pv-cover" src="${data.coverData}">` : ''}
+            ${data.coverData ? `<img class="pv-cover" src="${data.coverData}">` : `<div style="width:130px;height:130px;border-radius:24px;background:linear-gradient(135deg,rgba(191,90,242,0.4),rgba(10,132,255,0.3));margin:0 auto 18px;display:grid;place-items:center;font-size:56px">🎙️</div>`}
             <div class="pv-title">${esc(data.name)}</div>
             ${data.author ? `<div class="pv-author">by ${esc(data.author)}</div>` : ''}
             ${data.desc ? `<div class="pv-desc">${esc(data.desc)}</div>` : ''}
@@ -1183,6 +1119,7 @@ async function renderPodcastView(root, blobId) {
             <div style="font-size:12px;color:var(--text-3)">🔒 私人播客 · 内容实时同步</div>
           </div>
         </div>`;
+      bindMediaEvents(root);
     };
     const data = await blobRead(blobId);
     lastData = JSON.stringify(data);
@@ -1204,10 +1141,7 @@ async function renderPodcastEdit(root, blobId, secret) {
   root.innerHTML = `<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">✏️</div><div style="font-size:14px;color:var(--text-2)">正在打开管理台…</div></div>`;
   try {
     const data = await blobRead(blobId);
-    if (data.secret !== secret) {
-      root.innerHTML = `<div class="card"><div class="result err">❌ 管理密钥错误，无法进入管理台</div></div>`;
-      return;
-    }
+    if (data.secret !== secret) { root.innerHTML = `<div class="card"><div class="result err">❌ 管理密钥错误，无法进入管理台</div></div>`; return; }
     renderEditUI(root, blobId, secret, data);
   } catch (e) {
     root.innerHTML = `<div class="card"><div class="result err">❌ 打开失败：${esc(e.message)}</div></div>`;
@@ -1235,29 +1169,19 @@ function renderEditUI(root, blobId, secret, data) {
       </div>
     </div>
 
-    <div class="fold" id="hostFoldEdit">
-      <div class="fold-head">
-        <span class="fh-icon">☁️</span>
-        <span class="fh-title">推荐图床（上传音视频用）</span>
-        <span class="fh-sub">6 个免费免注册</span>
-        <span class="fh-arrow">▼</span>
-      </div>
-      <div class="fold-body"><div id="hostListEdit"></div></div>
-    </div>
-
     <div class="card">
       <div class="card-title">📻 播客基础信息</div>
       <div class="grid2">
         <label class="field"><span>播客名称</span><input id="podName" class="input" value="${esc(data.name || '')}"></label>
-        <label class="field"><span>播客作者</span><input id="podAuthor" class="input" value="${esc(data.author || '')}"></label>
+        <label class="field"><span>播客作者 <span class="optional">可选</span></span><input id="podAuthor" class="input" value="${esc(data.author || '')}"></label>
       </div>
-      <label class="field"><span>播客简介</span><textarea id="podDesc" class="textarea" rows="3">${esc(data.desc || '')}</textarea></label>
-      <label class="field"><span>播客封面</span>
+      <label class="field"><span>播客简介 <span class="optional">可选</span></span><textarea id="podDesc" class="textarea" rows="3">${esc(data.desc || '')}</textarea></label>
+      <label class="field"><span>播客封面 <span class="optional">可选</span></span>
         <input type="file" id="podCover" accept="image/*" hidden>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <button class="btn" id="pickCover">📷 更换封面</button>
-          <button class="btn sm ghost" id="removeCover">移除封面</button>
-          <span style="font-size:12px;color:var(--text-3)" id="coverName">${coverData ? '已有封面' : '未设置'}</span>
+          <button class="btn sm ghost" id="removeCover">🗑️ 移除封面</button>
+          <span style="font-size:12px;color:var(--text-3)" id="coverName">${coverData ? '已有封面' : '未设置（使用默认图标）'}</span>
         </div>
       </label>
       ${coverData ? `<img src="${coverData}" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">` : ''}
@@ -1266,12 +1190,12 @@ function renderEditUI(root, blobId, secret, data) {
     <div class="card">
       <div class="card-title">📝 添加新单集</div>
       <div class="grid2">
-        <label class="field"><span>单集标题 *</span><input id="epTitle" class="input"></label>
-        <label class="field"><span>单集简介</span><input id="epDesc" class="input"></label>
+        <label class="field"><span>单集标题 <span class="optional">必填</span></span><input id="epTitle" class="input"></label>
+        <label class="field"><span>单集简介 <span class="optional">可选</span></span><input id="epDesc" class="input"></label>
       </div>
-      <label class="field"><span>单集内容</span><textarea id="epContent" class="textarea" rows="5"></textarea></label>
-      <label class="field"><span>音频外链（可选）</span><input id="epAudioUrl" class="input" placeholder="https://…"></label>
-      <label class="field"><span>视频外链（可选）</span><input id="epVideoUrl" class="input" placeholder="https://…"></label>
+      <label class="field"><span>单集内容 <span class="optional">可选</span></span><textarea id="epContent" class="textarea" rows="5"></textarea></label>
+      <label class="field"><span>音频链接 <span class="optional">可选</span></span><input id="epAudioUrl" class="input" placeholder="支持 .mp3 / .m4a / .m3u8 / 云盘直链等"></label>
+      <label class="field"><span>视频链接 <span class="optional">可选</span></span><input id="epVideoUrl" class="input" placeholder="支持 .mp4 / .m3u8 / .webm / 云盘直链等"></label>
       <div class="actions"><button class="btn" id="addEpisode">➕ 添加单集</button></div>
     </div>
 
@@ -1287,9 +1211,6 @@ function renderEditUI(root, blobId, secret, data) {
         <button class="btn primary" id="saveAll" style="padding:12px 26px;font-size:14px">💾 保存并发布</button>
       </div>
     </div>`;
-
-  renderHostList($('#hostListEdit', root));
-  $('#hostFoldEdit', root).querySelector('.fold-head').onclick = () => $('#hostFoldEdit', root).classList.toggle('open');
 
   const setStatus = (state) => {
     const el = $('#saveStatus', root);
@@ -1310,14 +1231,15 @@ function renderEditUI(root, blobId, secret, data) {
         <div class="pe-info">
           <div class="pe-title">第 ${i + 1} 期 · ${esc(ep.title)}</div>
           ${ep.desc ? `<div class="pe-desc">${esc(ep.desc)}</div>` : ''}
-          ${ep.audioUrl ? `<audio src="${esc(ep.audioUrl)}" controls></audio>` : ''}
-          ${ep.videoUrl ? `<video src="${esc(ep.videoUrl)}" controls></video>` : ''}
+          ${renderMediaHTML(ep.audioUrl, { cls: 'pe-media' })}
+          ${renderMediaHTML(ep.videoUrl, { cls: 'pe-media' })}
           <div class="pe-actions" style="margin-top:8px">
             <button class="btn sm" data-edit-ep="${i}">✏️ 编辑</button>
             <button class="btn sm ghost" data-del="${i}">🗑️ 删除</button>
           </div>
         </div>
       </div>`).join('');
+    bindMediaEvents(el);
     $$('[data-del]', el).forEach(b => b.onclick = () => {
       if (!confirm('确定删除这一期吗？')) return;
       episodes.splice(+b.dataset.del, 1); renderEpisodes(); setStatus('saving');
@@ -1344,7 +1266,7 @@ function renderEditUI(root, blobId, secret, data) {
       setStatus('saving');
     } catch (err) { toast('处理失败：' + err.message, 'err'); }
   };
-  $('#removeCover', root).onclick = () => { coverData = null; $('#coverName', root).textContent = '已移除'; setStatus('saving'); };
+  $('#removeCover', root).onclick = () => { coverData = null; $('#coverName', root).textContent = '未设置（使用默认图标）'; setStatus('saving'); };
 
   $('#addEpisode', root).onclick = () => {
     const title = $('#epTitle', root).value.trim();
@@ -1356,7 +1278,7 @@ function renderEditUI(root, blobId, secret, data) {
       videoUrl: $('#epVideoUrl', root).value.trim()
     });
     renderEpisodes();
-    ['epTitle', 'epDesc', 'epContent', 'epAudioUrl', 'epVideoUrl'].forEach(id => $('#' + id, root).value = '');
+    ['epTitle','epDesc','epContent','epAudioUrl','epVideoUrl'].forEach(id => $('#' + id, root).value = '');
     setStatus('saving');
     toast('单集已添加（未保存）', 'ok');
   };
@@ -1388,7 +1310,7 @@ function renderEditUI(root, blobId, secret, data) {
 }
 
 /* =========================================================
-   3-10. 常用工具（音乐/图片/文本/开发等）
+   3. 在线音乐
    ========================================================= */
 tool({
   id: 'music-search', name: '在线音乐', icon: '🎵', cat: 'music', desc: 'iTunes 30 秒试听',
@@ -1399,7 +1321,6 @@ tool({
           <input id="kw" class="input" placeholder="搜索歌曲 / 歌手…" style="flex:1;padding:13px 16px">
           <button class="btn primary" id="go">搜索</button>
         </div>
-        <div class="hint">💡 结果来自 iTunes 公开 API 的 30 秒试听片段。</div>
         <div id="list" style="margin-top:16px;display:flex;flex-direction:column;gap:8px;max-height:520px;overflow-y:auto"></div>
         <div id="player" style="display:none;margin-top:16px">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
@@ -1448,6 +1369,9 @@ tool({
   }
 });
 
+/* =========================================================
+   4. 图片压缩
+   ========================================================= */
 tool({
   id: 'img-compress', name: '图片压缩', icon: '🗜️', cat: 'image', desc: '本地智能压缩',
   render(root) {
@@ -1506,6 +1430,9 @@ tool({
   }
 });
 
+/* =========================================================
+   5. 二维码生成
+   ========================================================= */
 tool({
   id: 'qrcode', name: '二维码生成', icon: '📱', cat: 'image', desc: '文本/网址转二维码',
   render(root) {
@@ -1517,15 +1444,13 @@ tool({
           <label class="field"><span>容错</span><select id="ec" class="select"><option value="L">L 7%</option><option value="M" selected>M 15%</option><option value="Q">Q 25%</option><option value="H">H 30%</option></select></label>
           <label class="field"><span>前景色</span><input type="color" id="dark" value="#0a0a0f"></label>
         </div>
-        <div class="actions"><button class="btn primary" id="gen">生成</button><button class="btn" id="dl">下载 PNG</button><button class="btn ghost" id="wifi">Wi-Fi 示例</button></div>
+        <div class="actions"><button class="btn primary" id="gen">生成</button><button class="btn" id="dl">下载 PNG</button></div>
         <div id="qrwrap" style="margin-top:18px;display:none"><div style="background:#fff;padding:20px;border-radius:16px;width:fit-content;margin:0 auto"><canvas id="cv"></canvas></div></div>
       </div>`;
     $('#size', root).oninput = e => $('#sv', root).textContent = e.target.value;
-    $('#wifi', root).onclick = () => { $('#ta', root).value = 'WIFI:T:WPA;S:我的WiFi;P:密码123456;;'; };
     const gen = () => {
       const text = $('#ta', root).value;
-      if (!text.trim()) { toast('请输入内容', 'err'); return; }
-      if (typeof QRCode === 'undefined') { toast('库未加载', 'err'); return; }
+      if (!text.trim() || typeof QRCode === 'undefined') return;
       QRCode.toCanvas($('#cv', root), text, {
         width: +$('#size', root).value, margin: 2,
         errorCorrectionLevel: $('#ec', root).value,
@@ -1539,45 +1464,38 @@ tool({
   }
 });
 
+/* =========================================================
+   6. Base64
+   ========================================================= */
 tool({
-  id: 'base64', name: 'Base64', icon: '🧬', cat: 'text', desc: '文本/文件编解码',
+  id: 'base64', name: 'Base64', icon: '🧬', cat: 'text', desc: '文本编解码',
   render(root) {
     root.innerHTML = `
       <div class="card">
-        <div style="display:flex;gap:4px;background:rgba(0,0,0,0.25);padding:4px;border-radius:12px;width:fit-content;border:1px solid var(--border);margin-bottom:16px">
-          <button class="tab active" data-m="enc" style="padding:8px 18px;border-radius:9px;border:none;background:rgba(255,255,255,0.1);color:var(--text);font-size:13px;cursor:pointer;font-weight:600">编码</button>
-          <button class="tab" data-m="dec" style="padding:8px 18px;border-radius:9px;border:none;background:transparent;color:var(--text-3);font-size:13px;cursor:pointer;font-weight:600">解码</button>
+        <label class="field"><span>输入</span><textarea id="ta" class="textarea" rows="6"></textarea></label>
+        <div class="actions">
+          <button class="btn primary" id="enc">编码</button>
+          <button class="btn" id="dec">解码</button>
+          <button class="btn" id="copy">复制结果</button>
         </div>
-        <label class="field"><span>输入</span><textarea id="ta" class="textarea" rows="6" placeholder="输入文本…"></textarea></label>
-        <div class="actions"><button class="btn primary" id="run">执行</button><button class="btn" id="copy">复制结果</button></div>
-        <label class="field" style="margin-top:16px"><span>结果</span><textarea id="out" class="textarea" rows="6" readonly></textarea></label>
+        <label class="field" style="margin-top:14px"><span>结果</span><textarea id="out" class="textarea" rows="6" readonly></textarea></label>
         <div id="msg"></div>
       </div>`;
-    let mode = 'enc';
-    $$('.tab', root).forEach(t => t.onclick = () => {
-      $$('.tab', root).forEach(x => { x.classList.remove('active'); x.style.background = 'transparent'; x.style.color = 'var(--text-3)'; });
-      t.classList.add('active'); t.style.background = 'rgba(255,255,255,0.1)'; t.style.color = 'var(--text)';
-      mode = t.dataset.m;
-    });
-    $('#run', root).onclick = () => {
-      const v = $('#ta', root).value;
-      if (!v) { toast('请输入内容', 'err'); return; }
-      try {
-        if (mode === 'enc') $('#out', root).value = bytesToB64(enc.encode(v));
-        else $('#out', root).value = dec.decode(b64ToBytes(v.trim()));
-        $('#msg', root).innerHTML = '<div class="result ok">✅ 完成</div>';
-      } catch (e) { $('#msg', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; }
-    };
+    $('#enc', root).onclick = () => { try { $('#out', root).value = bytesToB64(enc.encode($('#ta', root).value)); $('#msg', root).innerHTML = '<div class="result ok">✅ 编码完成</div>'; } catch (e) { $('#msg', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; } };
+    $('#dec', root).onclick = () => { try { $('#out', root).value = dec.decode(b64ToBytes($('#ta', root).value.trim())); $('#msg', root).innerHTML = '<div class="result ok">✅ 解码完成</div>'; } catch (e) { $('#msg', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; } };
     $('#copy', root).onclick = () => copyText($('#out', root).value);
   }
 });
 
+/* =========================================================
+   7. JSON
+   ========================================================= */
 tool({
   id: 'json', name: 'JSON 格式化', icon: '🧩', cat: 'text', desc: '美化/压缩/校验',
   render(root) {
     root.innerHTML = `
       <div class="card">
-        <label class="field"><span>JSON 内容</span><textarea id="ta" class="textarea" rows="10" placeholder='{"name":"工具箱"}'></textarea></label>
+        <label class="field"><span>JSON 内容</span><textarea id="ta" class="textarea" rows="10"></textarea></label>
         <div class="actions">
           <button class="btn primary" id="fmt">格式化</button>
           <button class="btn" id="min">压缩</button>
@@ -1595,6 +1513,44 @@ tool({
     $('#copy', root).onclick = () => copyText(out.value);
   }
 });
+
+/* =========================================================
+   8. 哈希
+   ========================================================= */
+const MD5_K = (() => { const k = new Uint32Array(64); for (let i = 0; i < 64; i++) k[i] = Math.floor(Math.abs(Math.sin(i + 1)) * 4294967296); return k; })();
+const MD5_S = [7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22,5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20,4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23,6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21];
+function md5Bytes(bytes) {
+  const len = bytes.length, bitLen = len * 8;
+  const padded = (len + 1 + 8 + 63) & ~63;
+  const msg = new Uint8Array(padded);
+  msg.set(bytes); msg[len] = 0x80;
+  const dv = new DataView(msg.buffer);
+  dv.setUint32(padded - 8, bitLen >>> 0, true);
+  dv.setUint32(padded - 4, Math.floor(bitLen / 4294967296), true);
+  let a0 = 0x67452301, b0 = 0xefcdab89, c0 = 0x98badcfe, d0 = 0x10325476;
+  for (let off = 0; off < padded; off += 64) {
+    const M = new Uint32Array(16);
+    for (let i = 0; i < 16; i++) M[i] = dv.getUint32(off + i * 4, true);
+    let A = a0, B = b0, C = c0, D = d0;
+    for (let i = 0; i < 64; i++) {
+      let F, g;
+      if (i < 16) { F = (B & C) | (~B & D); g = i; }
+      else if (i < 32) { F = (D & B) | (~D & C); g = (5 * i + 1) % 16; }
+      else if (i < 48) { F = B ^ C ^ D; g = (3 * i + 5) % 16; }
+      else { F = C ^ (B | ~D); g = (7 * i) % 16; }
+      F = (F + A + MD5_K[i] + M[g]) >>> 0;
+      A = D; D = C; C = B;
+      B = (B + (((F << MD5_S[i]) | (F >>> (32 - MD5_S[i]))) >>> 0)) >>> 0;
+    }
+    a0 = (a0 + A) >>> 0; b0 = (b0 + B) >>> 0; c0 = (c0 + C) >>> 0; d0 = (d0 + D) >>> 0;
+  }
+  const out = new Uint8Array(16);
+  const ov = new DataView(out.buffer);
+  ov.setUint32(0, a0, true); ov.setUint32(4, b0, true);
+  ov.setUint32(8, c0, true); ov.setUint32(12, d0, true);
+  return Array.from(out).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function md5Text(str) { return md5Bytes(enc.encode(str)); }
 
 tool({
   id: 'hash', name: '哈希计算', icon: '#️⃣', cat: 'dev', desc: 'MD5 / SHA 系列',
@@ -1617,12 +1573,39 @@ tool({
       if (alg === 'MD5') hex = md5Text(v);
       else { const buf = await crypto.subtle.digest(alg, enc.encode(v)); hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join(''); }
       const out = $('#fmtOut', root).value === 'hexup' ? hex.toUpperCase() : hex;
-      $('#out', root).innerHTML = `<div class="result" style="margin-top:14px"><div style="color:var(--text-3);font-size:11.5px;margin-bottom:8px">${alg}</div><div class="mono" style="word-break:break-all;font-size:12.5px;color:#9fc2ff">${out}</div><div class="actions"><button class="btn sm" id="cp">复制</button></div></div>`;
+      $('#out', root).innerHTML = `<div class="result" style="margin-top:14px"><div style="color:var(--text-3);font-size:11.5px;margin-bottom:8px">${alg}</div><div style="word-break:break-all;font-size:12.5px;color:#9fc2ff;font-family:ui-monospace,monospace">${out}</div><div class="actions"><button class="btn sm" id="cp">复制</button></div></div>`;
       $('#cp', root).onclick = () => copyText(out);
     };
   }
 });
 
+/* =========================================================
+   9. UUID
+   ========================================================= */
+tool({
+  id: 'uuid', name: 'UUID 生成', icon: '🆔', cat: 'dev', desc: 'UUID v4',
+  render(root) {
+    root.innerHTML = `
+      <div class="card">
+        <label class="field"><span>数量</span><input type="number" id="count" class="input" value="10" min="1" max="500"></label>
+        <div class="actions"><button class="btn primary" id="gen">生成</button><button class="btn" id="copy">复制全部</button></div>
+        <label class="field" style="margin-top:14px"><span>结果</span><textarea id="out" class="textarea" rows="12" readonly></textarea></label>
+      </div>`;
+    $('#gen', root).onclick = () => {
+      const count = Math.max(1, Math.min(500, +$('#count', root).value || 1));
+      const list = [];
+      for (let i = 0; i < count; i++) list.push(crypto.randomUUID ? crypto.randomUUID() : 'xxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16); }));
+      $('#out', root).value = list.join('\n');
+      toast(`已生成 ${count} 个`, 'ok');
+    };
+    $('#copy', root).onclick = () => copyText($('#out', root).value);
+    $('#gen', root).click();
+  }
+});
+
+/* =========================================================
+   10. 时间戳
+   ========================================================= */
 tool({
   id: 'timestamp', name: '时间戳转换', icon: '⏱️', cat: 'dev', desc: 'Unix 时间戳互转',
   render(root) {
@@ -1630,12 +1613,12 @@ tool({
       <div class="card">
         <div class="result" style="text-align:center;padding:22px">
           <div style="color:var(--text-3);font-size:12px;margin-bottom:8px">当前 Unix 时间戳</div>
-          <div class="mono" style="font-size:26px;font-weight:700;color:#9fc2ff" id="nowSec">—</div>
-          <div class="mono" style="font-size:12.5px;color:var(--text-3);margin-top:6px" id="nowMs">—</div>
+          <div style="font-size:26px;font-weight:700;color:#9fc2ff;font-family:ui-monospace,monospace" id="nowSec">—</div>
+          <div style="font-size:12.5px;color:var(--text-3);margin-top:6px;font-family:ui-monospace,monospace" id="nowMs">—</div>
         </div>
         <div class="grid2" style="margin-top:16px">
           <div>
-            <label class="field"><span>时间戳 → 日期</span><input id="tsIn" class="input mono" placeholder="1700000000"></label>
+            <label class="field"><span>时间戳 → 日期</span><input id="tsIn" class="input" placeholder="1700000000"></label>
             <button class="btn primary" id="toDate">转换</button>
             <div id="dateOut"></div>
           </div>
@@ -1658,37 +1641,19 @@ tool({
       const n = Number($('#tsIn', root).value);
       if (isNaN(n)) return;
       const d = new Date(n * 1000);
-      $('#dateOut', root).innerHTML = `<div class="result" style="margin-top:12px"><div class="kv"><span>本地</span><b>${fmt(d)}</b></div><div class="kv"><span>UTC</span><b>${d.toISOString()}</b></div></div>`;
+      $('#dateOut', root).innerHTML = `<div class="result" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06)"><span style="color:var(--text-3)">本地</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">${fmt(d)}</b></div><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--text-3)">UTC</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">${d.toISOString()}</b></div></div>`;
     };
     $('#toTs', root).onclick = () => {
       const v = $('#dtIn', root).value; if (!v) return;
       const d = new Date(v);
-      $('#tsOut', root).innerHTML = `<div class="result" style="margin-top:12px"><div class="kv"><span>秒级</span><b>${Math.floor(d.getTime()/1000)}</b></div></div>`;
+      $('#tsOut', root).innerHTML = `<div class="result" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--text-3)">秒级</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">${Math.floor(d.getTime()/1000)}</b></div></div>`;
     };
   }
 });
 
-tool({
-  id: 'uuid', name: 'UUID 生成', icon: '🆔', cat: 'dev', desc: 'UUID v4',
-  render(root) {
-    root.innerHTML = `
-      <div class="card">
-        <label class="field"><span>数量</span><input type="number" id="count" class="input" value="10" min="1" max="500"></label>
-        <div class="actions"><button class="btn primary" id="gen">生成</button><button class="btn" id="copy">复制全部</button></div>
-        <label class="field" style="margin-top:14px"><span>结果</span><textarea id="out" class="textarea" rows="12" readonly></textarea></label>
-      </div>`;
-    $('#gen', root).onclick = () => {
-      const count = Math.max(1, Math.min(500, +$('#count', root).value || 1));
-      const list = [];
-      for (let i = 0; i < count; i++) list.push(crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16); }));
-      $('#out', root).value = list.join('\n');
-      toast(`已生成 ${count} 个`, 'ok');
-    };
-    $('#copy', root).onclick = () => copyText($('#out', root).value);
-    $('#gen', root).click();
-  }
-});
-
+/* =========================================================
+   11. 密码生成
+   ========================================================= */
 tool({
   id: 'pwd-gen', name: '密码生成器', icon: '🔑', cat: 'crypto', desc: '密码学安全随机',
   render(root) {
@@ -1713,57 +1678,60 @@ tool({
   }
 });
 
+/* =========================================================
+   12. 文本加密
+   ========================================================= */
 tool({
-  id: 'text-crypto', name: '文本加密', icon: '✉️', cat: 'crypto', desc: 'AES-256-GCM 加解密',
+  id: 'text-crypto', name: '文本加密', icon: '✉️', cat: 'crypto', desc: 'AES-256-GCM',
   render(root) {
     root.innerHTML = `
       <div class="card">
-        <div style="display:flex;gap:4px;background:rgba(0,0,0,0.25);padding:4px;border-radius:12px;width:fit-content;border:1px solid var(--border);margin-bottom:16px">
-          <button class="tab active" data-m="enc" style="padding:8px 18px;border-radius:9px;border:none;background:rgba(255,255,255,0.1);color:var(--text);font-size:13px;cursor:pointer;font-weight:600">加密</button>
-          <button class="tab" data-m="dec" style="padding:8px 18px;border-radius:9px;border:none;background:transparent;color:var(--text-3);font-size:13px;cursor:pointer;font-weight:600">解密</button>
-        </div>
         <label class="field"><span>文本</span><textarea id="ta" class="textarea" rows="5"></textarea></label>
         <label class="field"><span>密码</span><input id="pw" type="password" class="input"></label>
-        <div class="actions"><button class="btn primary" id="run">执行</button><button class="btn" id="copy">复制结果</button></div>
+        <div class="actions">
+          <button class="btn primary" id="enc">加密</button>
+          <button class="btn" id="dec">解密</button>
+          <button class="btn" id="copy">复制结果</button>
+        </div>
         <label class="field" style="margin-top:14px"><span>结果</span><textarea id="out" class="textarea" rows="5" readonly></textarea></label>
         <div id="msg"></div>
       </div>`;
-    let mode = 'enc';
-    $$('.tab', root).forEach(t => t.onclick = () => {
-      $$('.tab', root).forEach(x => { x.classList.remove('active'); x.style.background = 'transparent'; x.style.color = 'var(--text-3)'; });
-      t.classList.add('active'); t.style.background = 'rgba(255,255,255,0.1)'; t.style.color = 'var(--text)';
-      mode = t.dataset.m;
-    });
     async function deriveKey(pw, salt) {
       const km = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
       return crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 200000, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
     }
-    $('#run', root).onclick = async () => {
+    $('#enc', root).onclick = async () => {
       const text = $('#ta', root).value, pw = $('#pw', root).value;
       if (!text || !pw) { toast('请输入', 'err'); return; }
       try {
-        if (mode === 'enc') {
-          const salt = crypto.getRandomValues(new Uint8Array(16));
-          const iv = crypto.getRandomValues(new Uint8Array(12));
-          const key = await deriveKey(pw, salt);
-          const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(text));
-          const out = new Uint8Array(28 + ct.byteLength);
-          out.set(salt, 0); out.set(iv, 16); out.set(new Uint8Array(ct), 28);
-          $('#out', root).value = bytesToB64(out);
-          $('#msg', root).innerHTML = '<div class="result ok">✅ 加密完成</div>';
-        } else {
-          const raw = b64ToBytes(text.trim());
-          const salt = raw.slice(0, 16), iv = raw.slice(16, 28), ct = raw.slice(28);
-          const key = await deriveKey(pw, salt);
-          $('#out', root).value = dec.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct));
-          $('#msg', root).innerHTML = '<div class="result ok">✅ 解密成功</div>';
-        }
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const key = await deriveKey(pw, salt);
+        const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(text));
+        const out = new Uint8Array(28 + ct.byteLength);
+        out.set(salt, 0); out.set(iv, 16); out.set(new Uint8Array(ct), 28);
+        $('#out', root).value = bytesToB64(out);
+        $('#msg', root).innerHTML = '<div class="result ok">✅ 加密完成</div>';
+      } catch (e) { $('#msg', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; }
+    };
+    $('#dec', root).onclick = async () => {
+      const text = $('#ta', root).value.trim(), pw = $('#pw', root).value;
+      if (!text || !pw) { toast('请输入', 'err'); return; }
+      try {
+        const raw = b64ToBytes(text);
+        const salt = raw.slice(0, 16), iv = raw.slice(16, 28), ct = raw.slice(28);
+        const key = await deriveKey(pw, salt);
+        $('#out', root).value = dec.decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct));
+        $('#msg', root).innerHTML = '<div class="result ok">✅ 解密成功</div>';
       } catch (e) { $('#msg', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; }
     };
     $('#copy', root).onclick = () => copyText($('#out', root).value);
   }
 });
 
+/* =========================================================
+   13. ZIP 打包
+   ========================================================= */
 tool({
   id: 'zip', name: 'ZIP 打包', icon: '📦', cat: 'file', desc: '本地打包文件',
   render(root) {
@@ -1772,7 +1740,6 @@ tool({
         <div id="dz" style="border:1.5px dashed rgba(255,255,255,0.18);border-radius:18px;padding:38px 20px;text-align:center;cursor:pointer;background:rgba(0,0,0,0.18)">
           <div style="font-size:34px;margin-bottom:12px">📦</div>
           <div style="font-size:14.5px;font-weight:600;margin-bottom:6px">点击选择文件，或拖拽到这里</div>
-          <div style="font-size:12px;color:var(--text-3)">可多选 · 本地打包为 ZIP</div>
         </div>
         <input type="file" id="fi" multiple hidden>
         <div id="list" style="margin-top:14px;display:flex;flex-direction:column;gap:8px"></div>
@@ -1799,108 +1766,11 @@ tool({
   }
 });
 
+/* =========================================================
+   14. 世界时间
+   ========================================================= */
 tool({
-  id: 'torrent', name: 'BT 种子制作', icon: '🧲', cat: 'file', desc: '本地生成 .torrent',
-  render(root) {
-    root.innerHTML = `
-      <div class="card">
-        <div id="dz" style="border:1.5px dashed rgba(255,255,255,0.18);border-radius:18px;padding:38px 20px;text-align:center;cursor:pointer;background:rgba(0,0,0,0.18)">
-          <div style="font-size:34px;margin-bottom:12px">🧲</div>
-          <div style="font-size:14.5px;font-weight:600;margin-bottom:6px">点击选择文件，或拖拽到这里</div>
-          <div style="font-size:12px;color:var(--text-3)">支持任意文件 · 可多选</div>
-        </div>
-        <input type="file" id="fi" multiple hidden>
-        <div id="list" style="margin-top:14px;display:flex;flex-direction:column;gap:8px"></div>
-        <label class="field" style="margin-top:14px"><span>种子名称</span><input id="tname" class="input" placeholder="例如：我的视频合集"></label>
-        <div class="actions"><button class="btn primary" id="run" disabled>生成种子</button></div>
-        <div id="out"></div>
-      </div>`;
-    let files = [];
-    const list = $('#list', root);
-    const refresh = () => {
-      list.innerHTML = fileListHTML(files);
-      $('#run', root).disabled = files.length === 0;
-      $$('.x', list).forEach(b => b.onclick = () => { files.splice(+b.dataset.i, 1); refresh(); });
-      if (files.length && !$('#tname', root).value) $('#tname', root).value = baseName(files[0].name);
-    };
-    setupDrop($('#dz', root), $('#fi', root), f => { files = files.concat(f); refresh(); });
-    $('#run', root).onclick = async () => {
-      const name = $('#tname', root).value.trim();
-      if (!name) { toast('请输入种子名称', 'err'); return; }
-      try {
-        const r = await createTorrent(files, name);
-        $('#out', root).innerHTML = `
-          <div class="result ok">✅ 种子已生成，共 ${r.pieces} 个片段</div>
-          <div class="result" style="margin-top:10px">
-            <div style="color:var(--text-3);font-size:11.5px;margin-bottom:6px">InfoHash</div>
-            <div class="mono" style="word-break:break-all;color:#9fc2ff">${r.infoHash}</div>
-          </div>
-          <div class="actions"><button class="btn primary" id="dl">下载 .torrent</button><button class="btn" id="cp">复制 InfoHash</button></div>`;
-        $('#dl', root).onclick = () => download(r.blob, `${name.replace(/[\\/:*?"<>|]/g, '_')}.torrent`);
-        $('#cp', root).onclick = () => copyText(r.infoHash);
-      } catch (e) { $('#out', root).innerHTML = `<div class="result err">❌ ${esc(e.message)}</div>`; }
-    };
-  }
-});
-
-async function createTorrent(files, name) {
-  const totalSize = files.reduce((a, f) => a + f.size, 0);
-  let pieceLength = 16384;
-  if (totalSize > 32 * 1024 * 1024) pieceLength = 32768;
-  if (totalSize > 128 * 1024 * 1024) pieceLength = 65536;
-  if (totalSize > 512 * 1024 * 1024) pieceLength = 131072;
-  const buffers = [];
-  for (const f of files) buffers.push(new Uint8Array(await f.arrayBuffer()));
-  const piecesList = [];
-  let curPiece = new Uint8Array(pieceLength);
-  let curOff = 0, fi = 0, fo = 0;
-  const commit = async () => {
-    if (curOff === 0) return;
-    piecesList.push(new Uint8Array(await crypto.subtle.digest('SHA-1', curPiece.subarray(0, curOff))));
-    curOff = 0;
-  };
-  while (fi < buffers.length) {
-    const buf = buffers[fi];
-    const remain = buf.length - fo;
-    if (remain === 0) { fi++; fo = 0; continue; }
-    const copy = Math.min(pieceLength - curOff, remain);
-    curPiece.set(buf.subarray(fo, fo + copy), curOff);
-    curOff += copy; fo += copy;
-    if (curOff === pieceLength) await commit();
-  }
-  await commit();
-  const piecesBytes = new Uint8Array(piecesList.length * 20);
-  piecesList.forEach((h, i) => piecesBytes.set(h, i * 20));
-  const info = { name, 'piece length': pieceLength, pieces: piecesBytes };
-  if (files.length === 1) info.length = files[0].size;
-  else info.files = files.map(f => ({ length: f.size, path: [f.name] }));
-  const torrent = { 'creation date': Math.floor(Date.now() / 1000), 'created by': 'Pro Toolbox', encoding: 'UTF-8', info };
-  const bytes = bencode(torrent);
-  const blob = new Blob([bytes], { type: 'application/x-bittorrent' });
-  const infoHashBuf = await crypto.subtle.digest('SHA-1', bencode(info));
-  const infoHash = Array.from(new Uint8Array(infoHashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
-  return { blob, infoHash, pieceLength, totalSize, pieces: piecesList.length };
-}
-function bencode(obj) {
-  const parts = [];
-  const encS = s => new TextEncoder().encode(s);
-  function enc(o) {
-    if (typeof o === 'number') parts.push(encS('i' + o + 'e'));
-    else if (typeof o === 'string') { const b = encS(o); parts.push(encS(b.length + ':')); parts.push(b); }
-    else if (Array.isArray(o)) { parts.push(encS('l')); for (const v of o) enc(v); parts.push(encS('e')); }
-    else if (o instanceof Uint8Array) { parts.push(encS(o.length + ':')); parts.push(o); }
-    else if (o && typeof o === 'object') { const ks = Object.keys(o).sort(); parts.push(encS('d')); for (const k of ks) { enc(k); enc(o[k]); } parts.push(encS('e')); }
-  }
-  enc(obj);
-  let total = 0; for (const p of parts) total += p.length;
-  const out = new Uint8Array(total); let off = 0;
-  for (const p of parts) { out.set(p, off); off += p.length; }
-  return out;
-}
-
-/* 时间/世界时间 */
-tool({
-  id: 'world-time', name: '世界时间', icon: '🕐', cat: 'life', desc: '全球主要城市时间',
+  id: 'world-time', name: '世界时间', icon: '🕐', cat: 'life', desc: '全球主要城市',
   render(root) {
     const cities = [
       { name: '北京', tz: 'Asia/Shanghai' }, { name: '东京', tz: 'Asia/Tokyo' },
@@ -1922,29 +1792,11 @@ tool({
   }
 });
 
+/* =========================================================
+   15. 待办
+   ========================================================= */
 tool({
-  id: 'stopwatch', name: '秒表', icon: '⏱️', cat: 'life', desc: '分段计次',
-  render(root) {
-    root.innerHTML = `
-      <div class="card" style="text-align:center">
-        <div id="disp" style="font-size:56px;font-weight:200;font-family:ui-monospace,monospace;padding:30px 0">00:00.00</div>
-        <div class="actions" style="justify-content:center">
-          <button class="btn primary" id="start">▶ 开始</button>
-          <button class="btn danger" id="reset">重置</button>
-        </div>
-      </div>`;
-    let running = false, startTime = 0, elapsed = 0, timer = null;
-    const fmt = ms => `${String(Math.floor(ms/60000)).padStart(2,'0')}:${String(Math.floor((ms%60000)/1000)).padStart(2,'0')}.${String(Math.floor((ms%1000)/10)).padStart(2,'0')}`;
-    $('#start', root).onclick = () => {
-      if (running) { elapsed += Date.now() - startTime; running = false; clearInterval(timer); $('#start', root).textContent = '▶ 继续'; }
-      else { running = true; startTime = Date.now(); timer = setInterval(() => { $('#disp', root).textContent = fmt(elapsed + Date.now() - startTime); }, 30); $('#start', root).textContent = '⏸ 暂停'; }
-    };
-    $('#reset', root).onclick = () => { running = false; clearInterval(timer); elapsed = 0; $('#disp', root).textContent = '00:00.00'; $('#start', root).textContent = '▶ 开始'; };
-  }
-});
-
-tool({
-  id: 'todo', name: '待办清单', icon: '✅', cat: 'life', desc: '本地存储待办',
+  id: 'todo', name: '待办清单', icon: '✅', cat: 'life', desc: '本地存储',
   render(root) {
     root.innerHTML = `
       <div class="card">
@@ -1974,8 +1826,11 @@ tool({
   }
 });
 
+/* =========================================================
+   16. 便签
+   ========================================================= */
 tool({
-  id: 'notes', name: '便签', icon: '📌', cat: 'life', desc: '本地保存便签',
+  id: 'notes', name: '便签', icon: '📌', cat: 'life', desc: '本地保存',
   render(root) {
     root.innerHTML = `
       <div class="card">
@@ -1996,60 +1851,16 @@ tool({
     };
     const save = () => localStorage.setItem(KEY, JSON.stringify(notes));
     $('#add', root).onclick = () => {
-      const v = $('#inp', root).value.trim();
-      if (!v) return;
-      notes.unshift({ text: v, t: Date.now() });
-      $('#inp', root).value = ''; save(); render();
+      const v = $('#inp', root).value.trim(); if (!v) return;
+      notes.unshift({ text: v, t: Date.now() }); $('#inp', root).value = ''; save(); render();
     };
     render();
-  }
-});
-
-tool({
-  id: 'units', name: '单位换算', icon: '📏', cat: 'life', desc: '长度/重量/温度',
-  render(root) {
-    const units = { length: { m: 1, km: 1000, cm: 0.01, mi: 1609.344, ft: 0.3048 }, weight: { kg: 1, g: 0.001, lb: 0.453592, oz: 0.0283495 }, temp: { C: 1, F: 1, K: 1 } };
-    const names = { length: { m:'米', km:'千米', cm:'厘米', mi:'英里', ft:'英尺' }, weight: { kg:'千克', g:'克', lb:'磅', oz:'盎司' }, temp: { C:'摄氏度', F:'华氏度', K:'开尔文' } };
-    root.innerHTML = `
-      <div class="card">
-        <label class="field"><span>类别</span><select id="cat" class="select"><option value="length">长度</option><option value="weight">重量</option><option value="temp">温度</option></select></label>
-        <div class="grid3">
-          <label class="field"><span>数值</span><input id="val" type="number" class="input" value="1"></label>
-          <label class="field"><span>从</span><select id="fu" class="select"></select></label>
-          <label class="field"><span>到</span><select id="tu" class="select"></select></label>
-        </div>
-        <button class="btn primary" id="run">换算</button>
-        <div id="out"></div>
-      </div>`;
-    const fill = () => {
-      const c = $('#cat', root).value;
-      const opts = Object.keys(units[c]).map(k => `<option value="${k}">${names[c][k]}</option>`).join('');
-      $('#fu', root).innerHTML = opts; $('#tu', root).innerHTML = opts;
-      $('#tu', root).selectedIndex = 1;
-    };
-    $('#cat', root).onchange = fill; fill();
-    $('#run', root).onclick = () => {
-      const c = $('#cat', root).value;
-      const v = +$('#val', root).value;
-      const fu = $('#fu', root).value, tu = $('#tu', root).value;
-      let r;
-      if (c === 'temp') {
-        let cel = fu === 'C' ? v : fu === 'F' ? (v - 32) * 5 / 9 : v - 273.15;
-        r = tu === 'C' ? cel : tu === 'F' ? cel * 9 / 5 + 32 : cel + 273.15;
-      } else r = v * units[c][fu] / units[c][tu];
-      $('#out', root).innerHTML = `<div class="result ok" style="margin-top:14px;text-align:center;padding:18px;font-size:16px">${v} ${names[c][fu]} = <b style="color:#9fc2ff">${r.toFixed(6).replace(/\.?0+$/, '')}</b> ${names[c][tu]}</div>`;
-    };
   }
 });
 
 /* =========================================================
    应用初始化
    ========================================================= */
-function renderHostListInModal() {
-  const container = $('#hostList');
-  if (container) renderHostList(container);
-}
-
 function renderHome() {
   const view = $('#view');
   const cats = Object.keys(CATS);
@@ -2139,10 +1950,39 @@ function renderNav() {
   });
 }
 
+/* 图床列表（用于帮助中心） */
+function renderHostListInModal() {
+  const container = $('#hostList');
+  if (!container) return;
+  const HOSTS = [
+    { name: 'Catbox.moe', icon: '🐱', url: 'https://catbox.moe/', desc: '老牌免费文件托管，支持所有类型，永久保存，无广告。', tags: ['最推荐', '永久保存', '200MB'] },
+    { name: '0x0.st', icon: '0️⃣', url: 'https://0x0.st/', desc: '简洁临时文件托管，支持所有类型，保留时间根据大小动态决定。', tags: ['大文件', '512MB'] },
+    { name: 'Postimages.org', icon: '🖼️', url: 'https://postimages.org/', desc: '专业图片托管，多种尺寸直链，永久保存。', tags: ['图片', '24MB'] },
+    { name: 'Telegra.ph', icon: '📝', url: 'https://telegra.ph/', desc: 'Telegram 出品，上传图片后自动生成 CDN 直链，速度极快。', tags: ['CDN', '5MB'] },
+    { name: 'Litterbox', icon: '📦', url: 'https://litterbox.catbox.moe/', desc: 'Catbox 临时版，可选 1h / 12h / 24h / 72h 保留。', tags: ['临时', '1GB'] },
+    { name: 'ImgBB', icon: '🅱️', url: 'https://imgbb.com/', desc: '国际知名图床，无需注册，自动生成多种尺寸直链。', tags: ['图片', '32MB'] }
+  ];
+  container.innerHTML = HOSTS.map(h => `
+    <div class="host-card">
+      <div class="hc-icon">${h.icon}</div>
+      <div class="hc-body">
+        <div class="hc-name">${esc(h.name)}</div>
+        <div class="hc-desc">${esc(h.desc)}</div>
+        <div class="hc-tags">${h.tags.map(t => `<span class="hc-tag">${esc(t)}</span>`).join('')}<span class="hc-tag">✅ 免注册</span></div>
+        <div class="hc-actions">
+          <button class="btn sm primary" data-open-host="${esc(h.url)}">🔗 打开</button>
+          <button class="btn sm" data-copy-host="${esc(h.url)}">📋 复制网址</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  $$('[data-open-host]', container).forEach(b => b.onclick = () => window.open(b.dataset.openHost, '_blank'));
+  $$('[data-copy-host]', container).forEach(b => b.onclick = () => copyText(b.dataset.copyHost));
+}
+
 function init() {
   renderNav();
   renderHome();
-  renderHostListInModal();
 
   const hash = location.hash;
   if (hash.startsWith('#podcast=') || hash.startsWith('#podcast-edit=')) {
@@ -2188,11 +2028,25 @@ function init() {
     if (t.dataset.tab === 'hosts') renderHostListInModal();
   });
 
-  console.log('%c✨ 万能小工具箱 Pro v3.2.0', 'color:#0a84ff;font-size:15px;font-weight:bold');
-  console.log('%c☁️ 新增图床推荐：6 个免费免注册平台', 'color:#30d158');
+  console.log('%c✨ 万能小工具箱 Pro v3.3.0', 'color:#0a84ff;font-size:15px;font-weight:bold');
+  console.log('%c📺 支持 M3U8 · 封面可选 · 链接不限制', 'color:#30d158');
 }
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
+<!-- HLS.js：仅在需要播放 m3u8 时动态加载，不影响其他功能 -->
+<script>
+(function() {
+  // 预加载 hls.js（异步，不阻塞）
+  if (!window.Hls) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js';
+    script.async = true;
+    script.onload = () => console.log('%c✓ HLS.js 已加载，M3U8 播放就绪', 'color:#30d158');
+    script.onerror = () => console.warn('HLS.js 加载失败，M3U8 可能无法播放');
+    document.head.appendChild(script);
+  }
+})();
+</script>
 </body>
-      </html>
+  </html>
