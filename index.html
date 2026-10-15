@@ -97,6 +97,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang
 .bw.on{display:block}
 .bwr{height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--blue),var(--pur));transition:width .2s}
 .op{font-size:10px;color:var(--t3);background:rgba(255,255,255,.05);padding:2px 8px;border-radius:20px;border:1px solid var(--bd);font-weight:500;margin-left:6px}
+.pe{display:flex;gap:12px;padding:14px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--bd);margin-bottom:10px}
+.pe .pc{width:64px;height:64px;border-radius:10px;flex:0 0 64px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:24px;overflow:hidden}
+.pe .pc img{width:100%;height:100%;object-fit:cover}
+.pe .pi{flex:1;min-width:0}
+.pe .pt{font-size:13.5px;font-weight:650;margin-bottom:4px}
+.pe .pd{font-size:11.5px;color:var(--t3);line-height:1.5;margin-bottom:6px}
+.pe .pa{display:flex;gap:8px;flex-wrap:wrap}
+.plb{background:rgba(0,0,0,.3);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;margin-top:12px;word-break:break-all}
+.plb .pu{font-family:ui-monospace,monospace;font-size:12.5px;color:#9fc2ff;line-height:1.6}
+.pvw{max-width:820px;margin:0 auto}
+.pvw .ph{text-align:center;padding:36px 24px;border-radius:24px;background:linear-gradient(135deg,rgba(10,132,255,.15),rgba(191,90,242,.12));border:1px solid var(--bd);margin-bottom:20px}
+.pvw .pcv{width:130px;height:130px;border-radius:24px;object-fit:cover;margin:0 auto 18px;display:block;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.pvw .pt{font-size:28px;font-weight:750;margin-bottom:8px}
+.pvw .pa2{font-size:14px;color:var(--t2);margin-bottom:8px}
+.pvw .pd{font-size:13px;color:var(--t3);max-width:520px;margin:0 auto;line-height:1.75}
+.pvw .pe2{background:rgba(255,255,255,.045);border:1px solid var(--bd);border-radius:18px;padding:22px;margin-bottom:16px}
+.pvw .pt2{font-size:17px;font-weight:680;margin-bottom:8px}
+.pvw .pct{font-size:14.5px;line-height:1.9;color:var(--t2);white-space:pre-wrap;margin-bottom:16px}
+.pvw .pv-media{width:100%;border-radius:12px;margin-bottom:12px;background:#000}
+.mbg{background:linear-gradient(135deg,rgba(255,159,10,.15),rgba(255,55,95,.12));border:1px solid rgba(255,159,10,.35);border-radius:14px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mbg .mt{flex:1;font-size:13px;color:#ffd28a;line-height:1.6}
+.mbg .mg{font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(255,159,10,.25);border:1px solid rgba(255,159,10,.5);color:#ffd28a;font-weight:700}
+.bar2{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.bar2 .row{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:10px;border:1px solid var(--bd)}
+.bar2 .row .dot2{width:8px;height:8px;border-radius:50%;flex:0 0 8px}
+.bar2 .row .nm{flex:1}
+.bar2 .row .st{color:var(--t3);font-size:11px}
 .dr{display:flex;flex-direction:column;gap:12px;margin-top:16px}
 .dc{display:flex;gap:14px;padding:14px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--bd)}
 .dc img{width:100px;height:100px;border-radius:10px;object-fit:cover;flex:0 0 100px;background:rgba(255,255,255,.05)}
@@ -111,13 +138,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang
 .mt2{flex:1;font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px}
 .mc{background:none;border:none;color:var(--t3);font-size:19px;cursor:pointer;padding:5px 10px;border-radius:8px}
 .mc:hover{color:var(--t);background:rgba(255,255,255,.08)}
-.mtb{display:flex;gap:6px;padding:16px 24px 0;flex-wrap:wrap}
-.mtk{padding:8px 16px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--t3);font-size:13px;font-weight:600;cursor:pointer}
-.mtk:hover{color:var(--t);background:rgba(255,255,255,.06)}
-.mtk.on{color:#fff;background:rgba(10,132,255,.2);border-color:rgba(10,132,255,.4)}
 .mbo{flex:1;overflow-y:auto;padding:22px 24px 28px}
-.mp{display:none}
-.mp.on{display:block}
 .fi{background:rgba(0,0,0,.22);border:1px solid var(--bd);border-radius:13px;margin-bottom:12px;overflow:hidden}
 .fq{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;font-size:14px;font-weight:600;background:rgba(10,132,255,.06);border-bottom:1px solid var(--bd);line-height:1.5}
 .fq .qn{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--pur));color:#fff;font-size:12px;display:grid;place-items:center;font-weight:700;margin-top:1px}
@@ -131,8 +152,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang
 .ts2.ok{border-color:rgba(48,209,88,.5)}
 .ts2.er{border-color:rgba(255,69,58,.5)}
 .ts2.ou{opacity:0;transform:translateY(10px);transition:.3s}
-.err-banner{position:fixed;top:0;left:0;right:0;padding:12px 20px;background:rgba(255,55,95,.95);color:#fff;font-size:13px;z-index:999999;text-align:center;display:none}
-.err-banner.on{display:block}
 .host-view{max-width:600px;margin:60px auto;text-align:center}
 .host-view .hv-logo{width:100px;height:100px;border-radius:26px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);display:grid;place-items:center;font-size:52px;margin:0 auto 22px;box-shadow:0 20px 60px rgba(191,90,242,.5)}
 .host-view .hv-title{font-size:32px;font-weight:750;margin-bottom:10px;letter-spacing:-.5px}
@@ -142,57 +161,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang
 .host-view .hv-fs{font-size:12px;color:var(--t3);margin-bottom:14px}
 .host-view .hv-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:14px;background:linear-gradient(135deg,var(--blue),#5e5ce6);color:#fff;font-size:15px;font-weight:650;cursor:pointer;border:none;box-shadow:0 8px 24px rgba(10,132,255,.4);transition:.16s}
 .host-view .hv-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.host-view .hv-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .host-view .hv-foot{margin-top:30px;font-size:11.5px;color:var(--t3);line-height:1.7}
 .host-view .hv-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(48,209,88,.12);border:1px solid rgba(48,209,88,.3);color:#7ee2a8;font-size:11.5px;font-weight:600;margin-bottom:20px}
-.pe{display:flex;gap:12px;padding:14px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--bd);margin-bottom:10px}
-.pe .pc{width:64px;height:64px;border-radius:10px;flex:0 0 64px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:24px}
-.pe .pc img{width:100%;height:100%;object-fit:cover;border-radius:10px}
-.pe .pi{flex:1;min-width:0}
-.pe .pt{font-size:13.5px;font-weight:650;margin-bottom:4px}
-.pe .pd{font-size:11.5px;color:var(--t3);line-height:1.5;margin-bottom:6px}
-.pe .pa{display:flex;gap:8px;flex-wrap:wrap}
-.pe audio,.pe video{width:100%;border-radius:10px;margin-top:6px;background:#000}
-.plb{background:rgba(0,0,0,.3);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;margin-top:12px;word-break:break-all}
-.plb .pu{font-family:ui-monospace,monospace;font-size:12.5px;color:#9fc2ff;line-height:1.6}
-.pvw{max-width:820px;margin:0 auto}
-.pvw .ph{text-align:center;padding:36px 24px;border-radius:24px;background:linear-gradient(135deg,rgba(10,132,255,.15),rgba(191,90,242,.12));border:1px solid var(--bd);margin-bottom:20px}
-.pvw .pcv{width:130px;height:130px;border-radius:24px;object-fit:cover;margin:0 auto 18px;display:block;box-shadow:0 20px 50px rgba(0,0,0,.4)}
-.pvw .pt{font-size:28px;font-weight:750;margin-bottom:8px}
-.pvw .pa2{font-size:14px;color:var(--t2);margin-bottom:8px}
-.pvw .pd{font-size:13px;color:var(--t3);max-width:520px;margin:0 auto;line-height:1.75}
-.pvw .pe2{background:rgba(255,255,255,.045);border:1px solid var(--bd);border-radius:18px;padding:22px;margin-bottom:16px}
-.pvw .pt2{font-size:17px;font-weight:680;margin-bottom:8px}
-.pvw .pct{font-size:14.5px;line-height:1.9;color:var(--t2);white-space:pre-wrap;margin-bottom:16px}
-.pvw .pv-media{width:100%;border-radius:12px;margin-bottom:12px;background:#000}
-.ld{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(48,209,88,.15);border:1px solid rgba(48,209,88,.35);color:#7ee2a8;font-weight:600}
-.ld .d{width:6px;height:6px;border-radius:50%;background:#30d158;box-shadow:0 0 8px #30d158}
-.mbg{background:linear-gradient(135deg,rgba(255,159,10,.15),rgba(255,55,95,.12));border:1px solid rgba(255,159,10,.35);border-radius:14px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.mbg .mt{flex:1;font-size:13px;color:#ffd28a;line-height:1.6}
-.mbg .mg{font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(255,159,10,.25);border:1px solid rgba(255,159,10,.5);color:#ffd28a;font-weight:700}
-.up{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(0,0,0,.3);z-index:99999;display:none}
-.up.on{display:block}
-.up .ub{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pur));transition:width .3s}
-.bc2{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--bd);margin-bottom:10px}
-.bc2 .bi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:0 0 44px;background:rgba(255,255,255,.06);border:1px solid var(--bd)}
-.bc2 .bb{flex:1;min-width:0}
-.bc2 .bn2{font-size:13.5px;font-weight:650;margin-bottom:4px}
-.bc2 .bd{font-size:11.5px;color:var(--t3);line-height:1.6;margin-bottom:8px}
-.bc2 .btg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.bc2 .bt2{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600}
-.bc2 .bt2.r{background:rgba(48,209,88,.12);border:1px solid rgba(48,209,88,.3);color:#7ee2a8}
-.bc2 .bt2.h{background:rgba(10,132,255,.12);border:1px solid rgba(10,132,255,.3);color:#9fc2ff}
-.bc2 .bt2.o{background:rgba(255,159,10,.12);border:1px solid rgba(255,159,10,.3);color:#ffd28a}
-.bc2 .bac{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:900px){.sb{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .28s;width:270px;flex-basis:270px;box-shadow:0 0 60px rgba(0,0,0,.7)}.sb.on{transform:none}.ib{display:block}.vw{padding:20px 16px 80px}.tb{padding:0 16px;height:58px}.hero{padding:26px 22px}.hero h1{font-size:24px}.gr{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}}
 </style>
 </head>
 <body>
 
-<div class="err-banner" id="errBanner"></div>
-
 <div class="app">
   <aside class="sb" id="sb">
-    <div class="brand"><div class="logo">✨</div><div><div class="bn">万能小工具箱</div><div class="bs">Pro · v3.6.0</div></div></div>
+    <div class="brand"><div class="logo">✨</div><div><div class="bn">万能小工具箱</div><div class="bs">Pro · 稳定版</div></div></div>
     <div class="ss"><input id="search" placeholder="搜索工具…" autocomplete="off"></div>
     <nav class="nv" id="nav"></nav>
     <div class="sf"><span class="dot"></span>安全第一 · 体验第二</div>
@@ -219,106 +198,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang
   </div>
 </div>
 
-<div class="up" id="up"><div class="ub" id="ub"></div></div>
-
 <div class="mo" id="hm">
   <div class="md">
     <div class="mh"><div class="mt2">📖 帮助中心</div><button class="mc" id="hc">✕</button></div>
-    <div class="mtb">
-      <button class="mtk on" data-t="faq">❓ 关于</button>
-      <button class="mtk" data-t="fix">🔧 修复说明</button>
-      <button class="mtk" data-t="pv">🔒 隐私</button>
-    </div>
     <div class="mbo">
-      <div class="mp on" id="p-faq">
-        <div class="fi"><div class="fq"><span class="qn">1</span><span>这次修复了什么？</span></div><div class="fa">
-          <p><b>核心改动：主页不再依赖任何外部 CDN。</b></p>
-          <p>之前网站打不开，很可能是因为某个 CDN 加载失败导致整个脚本报错。现在外部库（JSZip、QRCode、HLS.js）全部改为<b>按需异步加载</b>，只有真正用到对应工具时才会加载。加载失败也只影响那一个工具，主页和其他工具照常使用。</p>
-        </div></div>
-        <div class="fi"><div class="fq"><span class="qn">2</span><span>为什么之前用不了了？</span></div><div class="fa">
-          <p>可能原因：</p>
-          <ul>
-            <li>CDN 被墙 / 加载超时，导致整个脚本挂掉</li>
-            <li>某个 API 检测请求卡住，阻塞了后续代码</li>
-            <li>某个新 API（如 <code>crypto.randomUUID</code>）在旧环境不存在</li>
-          </ul>
-          <p>现在这些都修了：所有外部依赖按需加载、所有异步操作都有超时、所有不兼容的 API 都做了兼容处理。</p>
-        </div></div>
-        <div class="fi"><div class="fq"><span class="qn">3</span><span>私人播客和东西托管还在吗？</span></div><div class="fa">
-          <p>在。<b>私人播客</b>和<b>东西托管</b>都保留，但做了稳定性优化。</p>
-          <p>私人播客：视频链接仍只存字符串，数据体积实时显示。</p>
-          <p>东西托管：文件在本地用 AES-256-GCM 加密后上传，密钥通过 URL 片段传递，服务器只存密文。</p>
-        </div></div>
-        <div class="fi"><div class="fq"><span class="qn">4</span><span>东西托管的链接能发给朋友吗？</span></div><div class="fa">
-          <p><b>看你怎么打开这个网站。</b></p>
-          <ul>
-            <li>✅ <b>从公网网址打开</b>（GitHub Pages / Vercel / Netlify / 自己的服务器）→ 生成的链接可以分享给朋友，朋友打开就能下载</li>
-            <li>❌ <b>本地双击 HTML 文件打开</b> → 链接是 <code>file://</code> 开头，只有你能打开，朋友打不开</li>
-          </ul>
-          <p>想让朋友能下载，先把这份 HTML 部署到 GitHub Pages 或 Vercel，得到一个公网网址。</p>
-        </div></div>
-      </div>
-      <div class="mp" id="p-fix">
-        <div class="fi"><div class="fq"><span class="qn">🔧</span><span>v3.6.0 修复清单</span></div><div class="fa">
-          <ul>
-            <li><b>主页崩溃问题</b>：所有初始化步骤加 try/catch，一个失败不影响其他</li>
-            <li><b>CDN 依赖问题</b>：JSZip / QRCode / HLS.js 全部改为按需加载</li>
-            <li><b>API 检测阻塞</b>：短视频下载的 API 检测改为手动触发，不再自动检测</li>
-            <li><b>兼容性问题</b>：不再依赖 crypto.randomUUID，改用兼容实现</li>
-            <li><b>工具隔离</b>：单个工具崩溃只影响该工具，主页和其他工具照常</li>
-            <li><b>全局错误显示</b>：出错时页面顶部显示红色提示，不再白屏</li>
-            <li><b>crypto.subtle 检测</b>：东西托管在非 HTTPS 环境会给出友好提示</li>
-          </ul>
-        </div></div>
-      </div>
-      <div class="mp" id="p-pv">
-        <div class="fi"><div class="fq"><span class="qn">🔒</span><span>隐私承诺</span></div><div class="fa">
-          <p>核心处理工具<strong>全部本地运行</strong>。</p>
-          <p><b>播客数据：</b>文字内容存储在 jsonblob.com。访问链接由随机 ID 生成，不可猜测。</p>
-          <p><b>东西托管：</b>文件在<strong>本地加密</strong>后才上传，服务端只见到密文。解密密钥通过 URL 片段（<code>#</code> 之后）传递，浏览器<strong>不会发送 URL 片段给服务器</strong>。所以服务端<b>永远无法解密你的文件</b>。</p>
-        </div></div>
-      </div>
+      <div class="fi"><div class="fq"><span class="qn">1</span><span>私人播客怎么用？</span></div><div class="fa">
+        <p>创建后会生成 <b>两个链接</b>：📤 浏览链接（给朋友看）和 ✏️ 管理链接（自己改）。</p>
+        <p style="margin-top:10px"><b>关键：</b>改内容用管理链接进去改，<b>不要重新点生成</b>。</p>
+        <p style="margin-top:10px">视频链接仅存字符串（几十字符），不会撑爆数据。封面可选。</p>
+      </div></div>
+      <div class="fi"><div class="fq"><span class="qn">2</span><span>东西托管怎么用？</span></div><div class="fa">
+        <p>上传文件 → 本地 <b>AES-256-GCM 加密</b> → 生成专属链接。别人打开链接直接下载，无需登录。</p>
+        <p style="margin-top:10px">密钥通过 URL 的 <code>#</code> 部分传递，<b>永远不会发送到服务器</b>。服务端只有密文。</p>
+        <p style="margin-top:10px"><b>能否分享：</b>如果本页面是从公网网址打开的（GitHub Pages / Vercel 等），链接可以分享；如果是本地双击 HTML 打开，链接是 <code>file://</code> 开头，朋友打不开。</p>
+      </div></div>
+      <div class="fi"><div class="fq"><span class="qn">3</span><span>短视频下载 API 都失败？</span></div><div class="fa">
+        <p>公开 API 由社区维护，可能集体失效。工具已做自动切换和超时保护。</p>
+        <p style="margin-top:10px"><b>建议：</b>① 稍后重试 ② 复制链接到浏览器手动打开 ③ 换其他平台链接</p>
+      </div></div>
+      <div class="fi"><div class="fq"><span class="qn">4</span><span>数据保存在哪里？</span></div><div class="fa">
+        <p>待办、便签用浏览器 localStorage 保存在本机。私人播客文字内容存在 jsonblob.com（公开 JSON 服务），访问链接由随机 ID 生成。</p>
+      </div></div>
     </div>
   </div>
 </div>
 
-<script>
-/* =========================================================
-   全局错误处理：出错时显示红色横幅，不再白屏
-   ========================================================= */
-window.addEventListener('error', function(e){
-  console.error('Global error:', e.error || e.message);
-  try{
-    var b = document.getElementById('errBanner');
-    if(b){
-      b.textContent = '⚠️ 页面出错：' + (e.message || '未知错误') + '（部分功能可能受影响）';
-      b.classList.add('on');
-      setTimeout(function(){ b.classList.remove('on'); }, 8000);
-    }
-  }catch(_){}
-});
-window.addEventListener('unhandledrejection', function(e){
-  console.error('Unhandled promise rejection:', e.reason);
-});
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 
+<script>
 /* =========================================================
    基础工具
    ========================================================= */
-function $(s, r){ return (r||document).querySelector(s); }
-function $$(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); }
+function $(s, r){ return (r || document).querySelector(s); }
+function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
 var enc = new TextEncoder();
 var dec = new TextDecoder();
 
 function esc(s){
   return String(s).replace(/[&<>"']/g, function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
   });
 }
 function fmtSize(n){
-  if(n<1024) return n+' B';
-  if(n<1048576) return (n/1024).toFixed(1)+' KB';
-  if(n<1073741824) return (n/1048576).toFixed(2)+' MB';
-  return (n/1073741824).toFixed(2)+' GB';
+  if(n < 1024) return n + ' B';
+  if(n < 1048576) return (n/1024).toFixed(1) + ' KB';
+  if(n < 1073741824) return (n/1048576).toFixed(2) + ' MB';
+  return (n/1073741824).toFixed(2) + ' GB';
 }
 function download(blob, filename){
   var url = URL.createObjectURL(blob);
@@ -329,7 +256,7 @@ function download(blob, filename){
 }
 function toast(msg, type){
   type = type || '';
-  var wrap = $('#ts');
+  var wrap = document.getElementById('ts');
   if(!wrap){
     wrap = document.createElement('div');
     wrap.id = 'ts'; wrap.className = 'ts';
@@ -345,17 +272,15 @@ function toast(msg, type){
   }, 2800);
 }
 function copyText(text){
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){ toast('已复制','ok'); }).catch(fallbackCopy);
-    } else { fallbackCopy(); }
-  }catch(e){ fallbackCopy(); }
-  function fallbackCopy(){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast('已复制', 'ok'); }).catch(function(){ fallback(); });
+  } else { fallback(); }
+  function fallback(){
     var ta = document.createElement('textarea');
     ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); toast('已复制','ok'); }
-    catch(e){ toast('复制失败','er'); }
+    try{ document.execCommand('copy'); toast('已复制', 'ok'); }
+    catch(e){ toast('复制失败', 'er'); }
     ta.remove();
   }
 }
@@ -367,18 +292,17 @@ function b64b(u8){
   return btoa(bin);
 }
 function b2b(s){
-  var bin = atob(s.replace(/\s/g,''));
+  var bin = atob(s.replace(/\s/g, ''));
   var u = new Uint8Array(bin.length);
   for(var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
   return u;
 }
-function baseName(name){ return name.replace(/\.[^.]+$/,''); }
+function baseName(name){ return name.replace(/\.[^.]+$/, ''); }
 function genId(){
-  // 兼容实现，不依赖 crypto.randomUUID
   var t = Date.now().toString(16);
-  var r = Math.random().toString(16).slice(2, 10);
+  var r1 = Math.random().toString(16).slice(2, 10);
   var r2 = Math.random().toString(16).slice(2, 10);
-  return t + '-' + r + '-' + r2;
+  return t + r1 + r2;
 }
 function setupDrop(zone, input, onFiles){
   zone.addEventListener('click', function(){ input.click(); });
@@ -386,13 +310,9 @@ function setupDrop(zone, input, onFiles){
     if(input.files.length) onFiles(Array.prototype.slice.call(input.files));
     input.value = '';
   });
-  ['dragenter','dragover'].forEach(function(ev){
-    zone.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); zone.style.borderColor = 'var(--blue)'; });
-  });
-  ['dragleave','drop'].forEach(function(ev){
-    zone.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); zone.style.borderColor = 'rgba(255,255,255,.18)'; });
-  });
+  zone.addEventListener('dragover', function(e){ e.preventDefault(); e.stopPropagation(); });
   zone.addEventListener('drop', function(e){
+    e.preventDefault(); e.stopPropagation();
     var f = Array.prototype.slice.call(e.dataTransfer.files || []);
     if(f.length) onFiles(f);
   });
@@ -401,14 +321,14 @@ function fetchT(url, opts, timeout){
   opts = opts || {}; timeout = timeout || 12000;
   return new Promise(function(resolve, reject){
     var ctrl = new AbortController();
-    var tm = setTimeout(function(){ ctrl.abort(); reject(new Error('超时')); }, timeout);
+    var tm = setTimeout(function(){ ctrl.abort(); reject(new Error('请求超时')); }, timeout);
     fetch(url, Object.assign({}, opts, { signal: ctrl.signal }))
       .then(function(r){ clearTimeout(tm); resolve(r); })
       .catch(function(e){ clearTimeout(tm); reject(e); });
   });
 }
 function fileListHTML(files){
-  return files.map(function(f,i){
+  return files.map(function(f, i){
     return '<div style="display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.22);border:1px solid var(--bd);border-radius:11px;padding:10px 14px;font-size:12.5px;margin-bottom:8px"><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(f.name) + '</span><span style="color:var(--t3);font-size:11.5px">' + fmtSize(f.size) + '</span><button class="x" data-i="' + i + '" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px">✕</button></div>';
   }).join('');
 }
@@ -439,276 +359,61 @@ function compressImage(file, maxSize, quality){
 }
 
 /* =========================================================
-   按需加载外部库
-   ========================================================= */
-var LIBS = {};
-function loadLib(name, url){
-  if(LIBS[name]) return LIBS[name];
-  LIBS[name] = new Promise(function(resolve){
-    var s = document.createElement('script');
-    s.src = url; s.async = true;
-    s.onload = function(){ resolve(true); };
-    s.onerror = function(){ resolve(false); };
-    document.head.appendChild(s);
-  });
-  return LIBS[name];
-}
-
-/* =========================================================
    工具注册
    ========================================================= */
 var TOOLS = [];
 var CATS = {
-  video:{name:'影视',icon:'🎬',color:'linear-gradient(135deg,#bf5af2,#ff375f)'},
-  music:{name:'音乐',icon:'🎵',color:'linear-gradient(135deg,#ff375f,#ff9f0a)'},
-  image:{name:'图像',icon:'🖼️',color:'linear-gradient(135deg,#5ac8fa,#0a84ff)'},
-  text:{name:'文本',icon:'📝',color:'linear-gradient(135deg,#ffd60a,#ff9f0a)'},
-  dev:{name:'开发',icon:'⚙️',color:'linear-gradient(135deg,#0a84ff,#5e5ce6)'},
-  crypto:{name:'安全',icon:'🔐',color:'linear-gradient(135deg,#bf5af2,#0a84ff)'},
-  file:{name:'文件',icon:'📁',color:'linear-gradient(135deg,#5e5ce6,#bf5af2)'},
-  life:{name:'实用',icon:'🧰',color:'linear-gradient(135deg,#30d158,#ffd60a)'}
+  video:  { name:'影视', icon:'🎬', color:'linear-gradient(135deg,#bf5af2,#ff375f)' },
+  music:  { name:'音乐', icon:'🎵', color:'linear-gradient(135deg,#ff375f,#ff9f0a)' },
+  image:  { name:'图像', icon:'🖼️', color:'linear-gradient(135deg,#5ac8fa,#0a84ff)' },
+  text:   { name:'文本', icon:'📝', color:'linear-gradient(135deg,#ffd60a,#ff9f0a)' },
+  dev:    { name:'开发', icon:'⚙️', color:'linear-gradient(135deg,#0a84ff,#5e5ce6)' },
+  crypto: { name:'安全', icon:'🔐', color:'linear-gradient(135deg,#bf5af2,#0a84ff)' },
+  file:   { name:'文件', icon:'📁', color:'linear-gradient(135deg,#5e5ce6,#bf5af2)' },
+  life:   { name:'实用', icon:'🧰', color:'linear-gradient(135deg,#30d158,#ffd60a)' }
 };
 function reg(def){ TOOLS.push(def); }
 
 /* =========================================================
-   1. 短视频下载（静态 API 列表，手动检测）
-   ========================================================= */
-var VIDEO_APIS = [
-  {
-    name:'BugPk 主节点',
-    build: function(link){ return { url:'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts:{method:'GET'} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video || raw.video_url || raw.url || '', title: raw.title || raw.desc || '未命名', cover: raw.cover || raw.pic || '' };
-    }
-  },
-  {
-    name:'BugPk 海外',
-    build: function(link){ return { url:'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts:{method:'GET'} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video || raw.video_url || raw.url || '', title: raw.title || raw.desc || '未命名', cover: raw.cover || raw.pic || '' };
-    }
-  },
-  {
-    name:'山海云端',
-    build: function(link){ return { url:'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts:{method:'GET'} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video || raw.url || raw.video_url || '', title: raw.title || raw.desc || '未命名', cover: raw.cover || raw.pic || '' };
-    }
-  },
-  {
-    name:'星之阁',
-    build: function(link){ return { url:'https://api.xingzhige.com/API/parse/', opts:{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({url:link})} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video_url || raw.video || raw.url || '', title: raw.title || raw.desc || '未命名', cover: raw.cover || raw.pic || '' };
-    }
-  },
-  {
-    name:'redfox',
-    build: function(link){ return { url:'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts:{method:'GET'} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video_url || raw.url || raw.video || '', title: raw.title || '未命名', cover: raw.cover || '' };
-    }
-  },
-  {
-    name:'皮克',
-    build: function(link){ return { url:'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts:{method:'GET'} }; },
-    parse: function(data){
-      var raw = data.data || data;
-      return { video: raw.video_url || raw.video || raw.url || raw.play || '', title: raw.title || raw.desc || '未命名', cover: raw.cover || raw.pic || '' };
-    }
-  }
-];
-
-reg({
-  id:'video-dl', name:'短视频无水印下载', icon:'📥', cat:'video', desc:'6 个 API 节点 · 自动切换', isNew:true,
-  render: function(root){
-    root.innerHTML = '<div class="cd"><label class="fd"><span>粘贴短视频分享链接</span><textarea id="u" class="tx" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></label><div class="hn">💡 支持抖音、快手、小红书、视频号、B站、微博等平台。整段分享文案直接粘贴即可。</div><div class="ac"><button class="bt pri" id="run">🔍 解析视频</button><button class="bt" id="test">🧪 测试节点</button><button class="bt gh" id="clr">清空</button></div><div class="bw" id="bw"><div class="bwr" id="bar"></div></div><div id="st" style="margin-top:16px"></div><div id="out"></div></div>';
-
-    var bw = $('#bw', root), bar = $('#bar', root), outEl = $('#out', root), stEl = $('#st', root);
-
-    function renderStatus(states){
-      stEl.innerHTML = '<div style="font-size:12.5px;color:var(--t3);margin-bottom:8px">📡 API 节点：' + VIDEO_APIS.length + ' 个</div>' + VIDEO_APIS.map(function(api, i){
-        var s = states ? states[i] : 'idle';
-        var col = s==='ok' ? '#30d158' : s==='fail' ? '#ff453a' : s==='checking' ? '#ffd60a' : '#666';
-        var lab = s==='ok' ? '可用' : s==='fail' ? '不可用' : s==='checking' ? '检测中…' : '待检测';
-        return '<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:10px;border:1px solid var(--bd);margin-bottom:6px"><span style="width:8px;height:8px;border-radius:50%;background:' + col + ';box-shadow:0 0 8px ' + col + ';flex:0 0 8px"></span><span style="flex:1">' + esc(api.name) + '</span><span style="color:var(--t3);font-size:11px">' + lab + '</span></div>';
-      }).join('');
-    }
-    renderStatus();
-
-    function renderResult(info){
-      outEl.innerHTML = '<div class="rs ok">✅ 解析成功！</div><div class="dr"><div class="dc">' + (info.cover ? '<img src="' + esc(info.cover) + '" loading="lazy" onerror="this.style.opacity=.2">' : '<div style="width:100px;height:100px;border-radius:10px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>') + '<div class="di"><div class="dt2">' + esc(info.title) + '</div><div class="dac"><button class="bt sm pri" id="dl">⬇️ 下载</button><button class="bt sm" id="cp">📋 复制链接</button><button class="bt sm" id="op">🔗 打开</button></div></div></div></div>';
-      $('#dl', root).onclick = function(){
-        var self = this;
-        self.disabled = true; self.textContent = '下载中…';
-        fetchT(info.video, {mode:'cors'}, 60000).then(function(r){ return r.blob(); }).then(function(blob){
-          download(blob, (baseName(info.title) || 'video') + '_' + Date.now() + '.mp4');
-          toast('下载完成','ok');
-        }).catch(function(e){ toast('下载失败：' + e.message,'er'); })
-          .finally(function(){ self.disabled = false; self.textContent = '⬇️ 下载'; });
-      };
-      $('#cp', root).onclick = function(){ copyText(info.video); };
-      $('#op', root).onclick = function(){ window.open(info.video,'_blank'); };
-    }
-
-    async function parse(){
-      var input = $('#u', root).value.trim();
-      if(!input){ toast('请输入链接','er'); return; }
-      var m = input.match(/https?:\/\/[^\s]+/);
-      var link = m ? m[0] : input;
-      bw.classList.add('on'); outEl.innerHTML = ''; bar.style.width = '5%';
-      var states = VIDEO_APIS.map(function(){ return 'checking'; });
-      renderStatus(states);
-      var success = false;
-      for(var i = 0; i < VIDEO_APIS.length; i++){
-        var api = VIDEO_APIS[i];
-        try{
-          bar.style.width = ((i + 0.5) / VIDEO_APIS.length * 90) + '%';
-          var built = api.build(link);
-          var res = await fetchT(built.url, built.opts, 12000);
-          if(!res.ok) throw new Error('HTTP ' + res.status);
-          var data = await res.json();
-          var info = api.parse(data);
-          if(!info.video) throw new Error('无视频链接');
-          states[i] = 'ok'; renderStatus(states);
-          renderResult(info);
-          success = true;
-          break;
-        }catch(e){
-          states[i] = 'fail'; renderStatus(states);
-        }
-        bar.style.width = ((i + 1) / VIDEO_APIS.length * 90) + '%';
-      }
-      bar.style.width = '100%';
-      setTimeout(function(){ bw.classList.remove('on'); bar.style.width = '0'; }, 600);
-      if(!success){
-        outEl.innerHTML = '<div class="rs er">❌ 所有 ' + VIDEO_APIS.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b>① API 集体失效 ② 链接不被支持 ③ 网络问题<br><br><b>建议：</b>① 稍后重试 ② 复制链接到浏览器手动打开 ③ 换其他平台链接</div>';
-      }
-    }
-
-    async function testNodes(){
-      var states = VIDEO_APIS.map(function(){ return 'checking'; });
-      renderStatus(states);
-      var okCount = 0;
-      for(var i = 0; i < VIDEO_APIS.length; i++){
-        try{
-          var built = VIDEO_APIS[i].build('https://v.douyin.com/test');
-          var res = await fetchT(built.url, built.opts, 5000);
-          states[i] = res.ok ? 'ok' : 'fail';
-          if(res.ok) okCount++;
-        }catch(e){ states[i] = 'fail'; }
-        renderStatus(states);
-      }
-      toast(okCount + ' / ' + VIDEO_APIS.length + ' 个节点可用', okCount > 0 ? 'ok' : 'er');
-    }
-
-    $('#run', root).onclick = parse;
-    $('#test', root).onclick = testNodes;
-    $('#clr', root).onclick = function(){ $('#u', root).value = ''; outEl.innerHTML = ''; };
-  }
-});
-
-/* =========================================================
-   2. 私人播客
+   1. 私人播客生成器
    ========================================================= */
 var POD_KEY = 'pro_podcast_v3';
 var POD_LIST = 'pro_podcast_list_v3';
 function loadPods(){ try{ return JSON.parse(localStorage.getItem(POD_LIST) || '{}'); }catch(e){ return {}; } }
 function savePods(l){ try{ localStorage.setItem(POD_LIST, JSON.stringify(l)); }catch(e){} }
 
-function renderMediaHTML(url, cls){
-  cls = cls || 'pv-media';
-  if(!url) return '';
-  var u = url.toLowerCase().split('?')[0];
-  var isHls = /\.m3u8$/.test(u);
-  if(isHls){
-    return '<div class="' + cls + '-hls hls" data-src="' + esc(url) + '"><div style="padding:14px 16px;background:rgba(10,132,255,.08);border:1px solid rgba(10,132,255,.3);border-radius:10px;font-size:12.5px;color:#9fc2ff;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span>📺 M3U8 流媒体</span><button class="bt sm pri" data-hls-play="' + esc(url) + '">▶ 播放</button><button class="bt sm" data-hls-copy="' + esc(url) + '">📋 复制链接</button></div></div>';
-  }
-  var isAudio = /\.(mp3|m4a|wav|ogg|aac|flac|opus)$/.test(u);
-  if(isAudio) return '<audio class="' + cls + '" src="' + esc(url) + '" controls preload="metadata"></audio>';
-  return '<video class="' + cls + '" src="' + esc(url) + '" controls preload="metadata"></video>';
-}
-function bindMedia(c){
-  $$('[data-hls-play]', c).forEach(function(b){
-    b.onclick = function(){
-      var box = b.closest('.hls');
-      if(box) playHLS(box, b.dataset.hlsPlay);
-    };
-  });
-  $$('[data-hls-copy]', c).forEach(function(b){
-    b.onclick = function(){ copyText(b.dataset.hlsCopy); };
-  });
-}
-function playHLS(container, src){
-  container.innerHTML = '<div class="hn" style="text-align:center;padding:16px">⏳ 加载播放器…</div>';
-  loadLib('hls', 'https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js').then(function(ok){
-    container.innerHTML = '';
-    var video = document.createElement('video');
-    video.controls = true;
-    video.style.cssText = 'width:100%;border-radius:12px;background:#000;margin-top:6px';
-    container.appendChild(video);
-    var nativeHLS = video.canPlayType('application/vnd.apple.mpegurl');
-    if(nativeHLS){ video.src = src; video.play().catch(function(){}); return; }
-    if(ok && window.Hls && window.Hls.isSupported()){
-      try{
-        var hls = new window.Hls({ enableWorker:true });
-        hls.loadSource(src);
-        hls.attachMedia(video);
-        hls.on(window.Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
-        hls.on(window.Hls.Events.ERROR, function(e, data){
-          if(data.fatal) showHlsFallback(container, src, data.details);
-        });
-        return;
-      }catch(e){}
-    }
-    video.src = src;
-    video.play().catch(function(){ showHlsFallback(container, src, '当前浏览器不支持 HLS'); });
-  });
-}
-function showHlsFallback(container, src, reason){
-  container.innerHTML = '<div style="padding:12px 16px;background:rgba(255,159,10,.08);border:1px solid rgba(255,159,10,.3);border-radius:10px;font-size:12.5px;color:#ffd28a;line-height:1.6"><div style="font-weight:700;margin-bottom:8px">⚠️ M3U8 播放失败</div><div style="margin-bottom:6px">原因：' + esc(reason || '未知') + '</div><div style="margin-bottom:10px">推荐用 Safari / Edge / Chrome 95+ 打开，或用 VLC / IINA 播放</div><button class="bt sm" data-cp2="' + esc(src) + '">📋 复制链接</button></div>';
-  $$('[data-cp2]', container).forEach(function(b){ b.onclick = function(){ copyText(b.dataset.cp2); }; });
-}
-
 function calcPodSize(data){
   function sz(s){ return s ? new Blob([s]).size : 0; }
-  var a = {
-    cover: data.coverData ? data.coverData.length : 0,
-    epTitles: 0, epDescs: 0, epContents: 0, epVideos: 0,
-    other: sz(data.name) + sz(data.author) + sz(data.desc)
-  };
+  var a = { cover: 0, epTitles: 0, epDescs: 0, epContents: 0, epVideos: 0, other: 0 };
+  a.cover = data.coverData ? data.coverData.length : 0;
+  a.other = sz(data.name) + sz(data.author) + sz(data.desc);
   (data.episodes || []).forEach(function(ep){
     a.epTitles += sz(ep.title);
     a.epDescs += sz(ep.desc);
     a.epContents += sz(ep.content);
     a.epVideos += sz(ep.videoUrl);
   });
-  a.epTotal = a.epTitles + a.epDescs + a.epContents + a.epVideos;
-  a.total = a.cover + a.epTotal + a.other;
+  a.total = a.cover + a.epTitles + a.epDescs + a.epContents + a.epVideos + a.other;
   return a;
 }
 
 reg({
-  id:'podcast', name:'私人播客生成器', icon:'🎙️', cat:'music', desc:'外链视频 · 数据实时显示', isNew:true,
+  id:'podcast', name:'私人播客生成器', icon:'🎙️', cat:'music', desc:'外链视频 · 实时可编辑',
   render: function(root){
     var hash = location.hash;
     var vm = hash.match(/^#podcast=([a-zA-Z0-9_-]+)$/);
     var em = hash.match(/^#podcast-edit=([a-zA-Z0-9_-]+)-([a-f0-9]+)$/i);
-    if(vm) return renderPodView(root, vm[1]);
-    if(em) return renderPodEdit(root, em[1], em[2]);
+    if(vm){ renderPodView(root, vm[1]); return; }
+    if(em){ renderPodEdit(root, em[1], em[2]); return; }
     renderPodCreate(root);
   }
 });
 
 function renderPodCreate(root){
-  root.innerHTML = '<div class="cd" style="background:linear-gradient(135deg,rgba(191,90,242,.1),rgba(10,132,255,.08));border-color:rgba(191,90,242,.3)"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span></div><div style="font-size:12.5px;color:var(--t2);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<b>浏览链接</b>给朋友看，<b>管理链接</b>你自己留着改。视频链接仅存字符串，不会卡。</div></div><div class="cd"><div class="ct">📻 播客基础信息</div><div class="g2"><label class="fd"><span>播客名称 <span class="op">必填</span></span><input id="pn" class="in" placeholder="例如：我的电台"></label><label class="fd"><span>播客作者 <span class="op">可选</span></span><input id="pa" class="in" placeholder="你的名字"></label></div><label class="fd"><span>播客简介 <span class="op">可选</span></span><textarea id="pd" class="tx" rows="3" placeholder="介绍一下…"></textarea></label><label class="fd"><span>播客封面 <span class="op">可选</span></span><input type="file" id="pc" accept="image/*" hidden><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="bt" id="pck">📷 选择封面</button><button class="bt sm gh" id="rmc" style="display:none">🗑️ 移除</button><span style="font-size:12px;color:var(--t3)" id="cn">不选也行，用默认图标</span></div></label></div><div class="cd"><div class="ct">📝 添加单集</div><div class="g2"><label class="fd"><span>单集标题 <span class="op">必填</span></span><input id="et" class="in" placeholder="例如：第 1 期 · 开场"></label><label class="fd"><span>单集简介 <span class="op">可选</span></span><input id="ed" class="in" placeholder="可留空"></label></div><label class="fd"><span>单集文字稿 <span class="op">可选</span></span><textarea id="ec" class="tx" rows="6" placeholder="像写文章一样写…"></textarea></label><label class="fd"><span>视频链接 <span class="op">可选</span></span><input id="ev" class="in" placeholder="支持 .mp4 / .m3u8 / .webm 等"></label><div id="sizeInfo" style="margin-top:12px"></div><div class="ac"><button class="bt pri" id="add">➕ 添加单集</button></div></div><div class="cd"><div class="ct">📋 单集列表 <span id="cnt" style="font-size:11.5px;color:var(--t3);margin-left:auto;font-weight:500"></span></div><div id="eps"></div><div id="em" class="hn" style="text-align:center;padding:20px">还没有单集</div></div><div class="cd"><div class="ct">🔗 生成专属链接</div><div class="ac"><button class="bt pri" id="gen">🔗 生成专属链接</button></div><div id="lr"></div></div><div class="cd"><div class="ct">📚 我的播客</div><div id="mp"></div></div>';
+  root.innerHTML = '<div class="cd" style="background:linear-gradient(135deg,rgba(191,90,242,.1),rgba(10,132,255,.08));border-color:rgba(191,90,242,.3)"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span></div><div style="font-size:12.5px;color:var(--t2);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<b>浏览链接</b>给朋友看，<b>管理链接</b>你自己留着改。</div></div><div class="cd"><div class="ct">📻 播客基础信息</div><div class="g2"><label class="fd"><span>播客名称 <span class="op">必填</span></span><input id="pn" class="in" placeholder="例如：我的电台"></label><label class="fd"><span>播客作者 <span class="op">可选</span></span><input id="pa" class="in" placeholder="你的名字"></label></div><label class="fd"><span>播客简介 <span class="op">可选</span></span><textarea id="pd" class="tx" rows="3" placeholder="介绍一下…"></textarea></label><label class="fd"><span>播客封面 <span class="op">可选</span></span><input type="file" id="pc" accept="image/*" hidden><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="bt" id="pck">📷 选择封面</button><button class="bt sm gh" id="rmc" style="display:none">🗑️ 移除</button><span style="font-size:12px;color:var(--t3)" id="cn">不选也行</span></div></label></div><div class="cd"><div class="ct">📝 添加单集</div><div class="g2"><label class="fd"><span>单集标题 <span class="op">必填</span></span><input id="et" class="in" placeholder="例如：第 1 期 · 开场"></label><label class="fd"><span>单集简介 <span class="op">可选</span></span><input id="ed" class="in" placeholder="可留空"></label></div><label class="fd"><span>单集文字稿 <span class="op">可选</span></span><textarea id="ec" class="tx" rows="6" placeholder="像写文章一样写…"></textarea></label><label class="fd"><span>视频链接 <span class="op">可选</span></span><input id="ev" class="in" placeholder="支持 .mp4 / .m3u8 / .webm 等"></label><div id="sizeInfo" style="margin-top:12px"></div><div class="ac"><button class="bt pri" id="add">➕ 添加单集</button></div></div><div class="cd"><div class="ct">📋 单集列表 <span id="cnt" style="font-size:11.5px;color:var(--t3);margin-left:auto;font-weight:500"></span></div><div id="eps"></div><div id="em" class="hn" style="text-align:center;padding:20px">还没有单集</div></div><div class="cd"><div class="ct">🔗 生成专属链接</div><div class="ac"><button class="bt pri" id="gen">🔗 生成专属链接</button></div><div id="lr"></div></div><div class="cd"><div class="ct">📚 我的播客</div><div id="mp"></div></div>';
 
-  var episodes = [], coverData = null;
+  var episodes = [];
+  var coverData = null;
 
   try{
     var s = JSON.parse(localStorage.getItem(POD_KEY) || 'null');
@@ -736,10 +441,23 @@ function renderPodCreate(root){
     if(!episodes.length){ el.innerHTML = ''; $('#em', root).style.display = 'block'; updateSize(); return; }
     $('#em', root).style.display = 'none';
     el.innerHTML = episodes.map(function(ep, i){
-      return '<div class="pe"><div class="pc">🎙️</div><div class="pi"><div class="pt">第 ' + (i+1) + ' 期 · ' + esc(ep.title) + '</div>' + (ep.desc ? '<div class="pd">' + esc(ep.desc) + '</div>' : '') + (ep.content ? '<div class="pd">' + esc(ep.content.slice(0, 80)) + (ep.content.length > 80 ? '…' : '') + '</div>' : '') + renderMediaHTML(ep.videoUrl, 'pe-media') + '<div class="pa" style="margin-top:8px"><button class="bt sm gh" data-del="' + i + '">🗑️ 删除</button></div></div></div>';
+      var mediaHtml = '';
+      if(ep.videoUrl){
+        var u = ep.videoUrl.toLowerCase().split('?')[0];
+        if(/\.m3u8$/.test(u)){
+          mediaHtml = '<div style="margin-top:6px;padding:8px 12px;background:rgba(10,132,255,.08);border:1px solid rgba(10,132,255,.3);border-radius:8px;font-size:11.5px;color:#9fc2ff">📺 M3U8 链接已保存</div>';
+        } else {
+          mediaHtml = '<video src="' + esc(ep.videoUrl) + '" controls preload="metadata" style="width:100%;border-radius:10px;margin-top:6px;background:#000"></video>';
+        }
+      }
+      return '<div class="pe"><div class="pc">🎙️</div><div class="pi"><div class="pt">第 ' + (i + 1) + ' 期 · ' + esc(ep.title) + '</div>' + (ep.desc ? '<div class="pd">' + esc(ep.desc) + '</div>' : '') + mediaHtml + '<div class="pa" style="margin-top:8px"><button class="bt sm gh" data-del="' + i + '">🗑️ 删除</button></div></div></div>';
     }).join('');
-    bindMedia(el);
-    $$('[data-del]', el).forEach(function(b){ b.onclick = function(){ episodes.splice(+b.dataset.del, 1); renderEps(); }; });
+    $$('[data-del]', el).forEach(function(b){
+      b.onclick = function(){
+        episodes.splice(parseInt(b.getAttribute('data-del'), 10), 1);
+        renderEps();
+      };
+    });
     updateSize();
   }
 
@@ -754,65 +472,69 @@ function renderPodCreate(root){
       updateSize();
     }).catch(function(err){ toast('失败：' + err.message, 'er'); });
   };
-  $('#rmc', root).onclick = function(){ coverData = null; $('#cn', root).textContent = '不选也行，用默认图标'; $('#rmc', root).style.display = 'none'; updateSize(); };
+  $('#rmc', root).onclick = function(){ coverData = null; $('#cn', root).textContent = '不选也行'; $('#rmc', root).style.display = 'none'; updateSize(); };
 
-  ['pn','pa','pd'].forEach(function(id){ $('#' + id, root).addEventListener('input', updateSize); });
+  ['pn', 'pa', 'pd'].forEach(function(id){
+    var el = $('#' + id, root);
+    if(el) el.addEventListener('input', updateSize);
+  });
 
   $('#add', root).onclick = function(){
     var t = $('#et', root).value.trim();
-    if(!t){ toast('请输入单集标题','er'); return; }
+    if(!t){ toast('请输入单集标题', 'er'); return; }
     episodes.push({
       title: t,
       desc: $('#ed', root).value.trim(),
       content: $('#ec', root).value.trim(),
       videoUrl: $('#ev', root).value.trim()
     });
-    ['et','ed','ec','ev'].forEach(function(id){ $('#' + id, root).value = ''; });
+    ['et', 'ed', 'ec', 'ev'].forEach(function(id){ $('#' + id, root).value = ''; });
     renderEps();
-    toast('已添加','ok');
+    toast('已添加', 'ok');
   };
 
-  $('#gen', root).onclick = async function(){
+  $('#gen', root).onclick = function(){
+    if(!episodes.length){ toast('请至少添加一期内容', 'er'); return; }
     var btn = $('#gen', root);
     btn.disabled = true; btn.textContent = '⏳ 上传中…';
-    try{
-      var secret = genId();
-      var data = {
-        name: $('#pn', root).value || '我的播客',
-        author: $('#pa', root).value,
-        desc: $('#pd', root).value,
-        coverData: coverData,
-        secret: secret,
-        episodes: episodes,
-        updatedAt: Date.now()
-      };
-      var jsonStr = JSON.stringify(data);
-      var sizeBytes = jsonStr.length;
-      var sizeKB = (sizeBytes / 1024).toFixed(1);
 
-      if(sizeBytes > 900 * 1024){
-        var a = calcPodSize(data);
-        $('#lr', root).innerHTML = '<div class="rs er">❌ 数据过大：' + sizeKB + 'KB / 上限 900KB</div><div class="rs wn" style="margin-top:12px">💡 <b>优化建议：</b><br>' + (a.epContents > a.total * 0.5 ? '• 单集文字稿占大头，建议缩短字数或减少期数<br>' : '') + '• 视频链接只有几十字符，不占空间</div>';
-        throw new Error('数据过大');
-      }
+    var secret = genId();
+    var data = {
+      name: $('#pn', root).value || '我的播客',
+      author: $('#pa', root).value,
+      desc: $('#pd', root).value,
+      coverData: coverData,
+      secret: secret,
+      episodes: episodes,
+      updatedAt: Date.now()
+    };
+    var jsonStr = JSON.stringify(data);
+    var sizeBytes = jsonStr.length;
+    var sizeKB = (sizeBytes / 1024).toFixed(1);
 
-      // 用 jsonblob 存储
-      var res = await fetchT('https://jsonblob.com/api/jsonBlob', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json','Accept':'application/json' },
-        body: jsonStr
-      }, 20000);
+    if(sizeBytes > 900 * 1024){
+      var a = calcPodSize(data);
+      $('#lr', root).innerHTML = '<div class="rs er">❌ 数据过大：' + sizeKB + 'KB / 上限 900KB</div><div class="rs wn" style="margin-top:12px">💡 <b>优化建议：</b><br>' + (a.epContents > a.total * 0.5 ? '• 单集文字稿占大头，建议缩短字数或减少期数<br>' : '') + (a.cover > a.total * 0.1 ? '• 封面占比较大，建议换小图<br>' : '') + '• 视频链接只有几十字符，不占空间</div>';
+      btn.disabled = false; btn.textContent = '🔗 生成专属链接';
+      return;
+    }
+
+    fetchT('https://jsonblob.com/api/jsonBlob', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: jsonStr
+    }, 20000).then(function(res){
       if(!res.ok) throw new Error('服务器返回 ' + res.status);
       var loc = res.headers.get('Location') || res.headers.get('location');
       if(!loc) throw new Error('未获取到存储 ID');
-      var blobId = loc.split('/').pop();
-
+      return loc.split('/').pop();
+    }).then(function(blobId){
       var baseUrl = location.origin + location.pathname;
       var viewLink = baseUrl + '#podcast=' + blobId;
       var editLink = baseUrl + '#podcast-edit=' + blobId + '-' + secret;
 
       var my = loadPods();
-      my[blobId] = { name:data.name, created:Date.now(), secret:secret, viewLink:viewLink, editLink:editLink };
+      my[blobId] = { name: data.name, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
       savePods(my);
       renderMyPods(root);
 
@@ -821,15 +543,13 @@ function renderPodCreate(root){
       $('#ce', root).onclick = function(){ copyText(editLink); };
       $('#ov', root).onclick = function(){ window.open(viewLink, '_blank'); };
       $('#oe', root).onclick = function(){ location.hash = '#podcast-edit=' + blobId + '-' + secret; };
-      toast('链接已生成','ok');
-    }catch(e){
-      if(e.message !== '数据过大'){
-        toast('失败：' + e.message, 'er');
-        $('#lr', root).innerHTML = '<div class="rs er">❌ 生成失败：' + esc(e.message) + '<br><br><b>可能原因：</b>① 网络问题 ② 浏览器拦截 ③ 存储服务暂时不可用<br><br>建议：稍后重试</div>';
-      }
-    }finally{
+      toast('链接已生成', 'ok');
+    }).catch(function(e){
+      toast('失败：' + e.message, 'er');
+      $('#lr', root).innerHTML = '<div class="rs er">❌ 生成失败：' + esc(e.message) + '<br><br><b>可能原因：</b>① 网络问题 ② 浏览器拦截 ③ 存储服务暂时不可用<br><br>建议：稍后重试</div>';
+    }).then(function(){
       btn.disabled = false; btn.textContent = '🔗 生成专属链接';
-    }
+    });
   };
 
   renderEps();
@@ -842,16 +562,20 @@ function renderMyPods(root){
   var my = loadPods();
   var ids = Object.keys(my);
   if(!ids.length){ el.innerHTML = '<div class="hn" style="text-align:center;padding:20px">还没有创建过播客</div>'; return; }
-  el.innerHTML = ids.sort(function(a,b){ return my[b].created - my[a].created; }).map(function(id){
+  ids.sort(function(a, b){ return my[b].created - my[a].created; });
+  el.innerHTML = ids.map(function(id){
     var m = my[id];
     return '<div class="pe"><div class="pc" style="background:linear-gradient(135deg,rgba(191,90,242,.3),rgba(10,132,255,.2))">🎙️</div><div class="pi"><div class="pt">' + esc(m.name) + '</div><div class="pd">创建于 ' + new Date(m.created).toLocaleString('zh-CN') + '</div><div class="pa"><button class="bt sm pri" data-v="' + esc(m.viewLink) + '">📤 打开</button><button class="bt sm" data-e="' + esc(m.editLink) + '">✏️ 管理</button><button class="bt sm" data-c="' + esc(m.viewLink) + '">📋 复制</button><button class="bt sm gh" data-x="' + id + '" style="color:var(--pink)">🗑️ 删除</button></div></div></div>';
   }).join('');
-  $$('[data-v]', el).forEach(function(b){ b.onclick = function(){ window.open(b.dataset.v, '_blank'); }; });
-  $$('[data-e]', el).forEach(function(b){ b.onclick = function(){ location.hash = b.dataset.e.replace(/^[^#]*#/, '#'); }; });
-  $$('[data-c]', el).forEach(function(b){ b.onclick = function(){ copyText(b.dataset.c); }; });
+  $$('[data-v]', el).forEach(function(b){ b.onclick = function(){ window.open(b.getAttribute('data-v'), '_blank'); }; });
+  $$('[data-e]', el).forEach(function(b){ b.onclick = function(){ location.hash = b.getAttribute('data-e').replace(/^[^#]*#/, '#'); }; });
+  $$('[data-c]', el).forEach(function(b){ b.onclick = function(){ copyText(b.getAttribute('data-c')); }; });
   $$('[data-x]', el).forEach(function(b){ b.onclick = function(){
     if(!confirm('从本机删除这条记录？')) return;
-    var my = loadPods(); delete my[b.dataset.x]; savePods(my); renderMyPods(root);
+    var m = loadPods();
+    delete m[b.getAttribute('data-x')];
+    savePods(m);
+    renderMyPods(root);
   }; });
 }
 
@@ -864,8 +588,11 @@ function renderPodView(root, blobId){
     drawPodView(root, blobId, data);
     var timer = setInterval(function(){
       fetchT('https://jsonblob.com/api/jsonBlob/' + blobId, {}, 15000).then(function(r){ return r.json(); }).then(function(nd){
-        // 简单对比更新时间
-        if(nd.updatedAt !== data.updatedAt){ data = nd; drawPodView(root, blobId, nd); toast('内容已更新','ok'); }
+        if(nd.updatedAt !== data.updatedAt){
+          data = nd;
+          drawPodView(root, blobId, nd);
+          toast('内容已更新', 'ok');
+        }
       }).catch(function(){});
     }, 20000);
     root.addEventListener('tool:destroy', function(){ clearInterval(timer); });
@@ -873,12 +600,43 @@ function renderPodView(root, blobId){
     root.innerHTML = '<div class="cd"><div class="rs er">❌ 加载失败：' + esc(e.message) + '</div></div>';
   });
 }
+
 function drawPodView(root, blobId, data){
   var ep = (data.episodes || []).map(function(e, i){
-    return '<div class="pe2"><div class="pt2">第 ' + (i+1) + ' 期 · ' + esc(e.title) + '</div>' + (e.desc ? '<div style="font-size:12.5px;color:var(--t3);margin-bottom:14px">' + esc(e.desc) + '</div>' : '') + (e.content ? '<div class="pct">' + esc(e.content) + '</div>' : '') + renderMediaHTML(e.videoUrl) + '</div>';
+    var mediaHtml = '';
+    if(e.videoUrl){
+      var u = e.videoUrl.toLowerCase().split('?')[0];
+      if(/\.m3u8$/.test(u)){
+        mediaHtml = '<div style="margin-top:12px;padding:14px 16px;background:rgba(10,132,255,.08);border:1px solid rgba(10,132,255,.3);border-radius:10px;font-size:12.5px;color:#9fc2ff;display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span>📺 M3U8 流媒体</span><button class="bt sm pri" data-hls="' + esc(e.videoUrl) + '">▶ 播放</button><button class="bt sm" data-cp="' + esc(e.videoUrl) + '">📋 复制链接</button></div>';
+      } else {
+        mediaHtml = '<video class="pv-media" src="' + esc(e.videoUrl) + '" controls preload="metadata"></video>';
+      }
+    }
+    return '<div class="pe2"><div class="pt2">第 ' + (i + 1) + ' 期 · ' + esc(e.title) + '</div>' + (e.desc ? '<div style="font-size:12.5px;color:var(--t3);margin-bottom:14px">' + esc(e.desc) + '</div>' : '') + (e.content ? '<div class="pct">' + esc(e.content) + '</div>' : '') + mediaHtml + '</div>';
   }).join('') || '<div class="hn" style="text-align:center;padding:30px">暂无内容</div>';
-  root.innerHTML = '<div class="pvw"><div class="ph"><div style="margin-bottom:14px"><span class="ld"><span class="d"></span>实时同步</span></div>' + (data.coverData ? '<img class="pcv" src="' + data.coverData + '">' : '<div style="width:130px;height:130px;border-radius:24px;background:linear-gradient(135deg,rgba(191,90,242,.4),rgba(10,132,255,.3));margin:0 auto 18px;display:grid;place-items:center;font-size:56px">🎙️</div>') + '<div class="pt">' + esc(data.name) + '</div>' + (data.author ? '<div class="pa2">by ' + esc(data.author) + '</div>' : '') + (data.desc ? '<div class="pd">' + esc(data.desc) + '</div>' : '') + '<div class="hn" style="margin-top:14px;font-size:11px">更新于 ' + (data.updatedAt ? new Date(data.updatedAt).toLocaleString('zh-CN') : '未知') + '</div></div>' + ep + '<div class="cd" style="text-align:center;margin-top:20px"><div style="font-size:12px;color:var(--t3)">🔒 私人播客 · 内容实时同步</div></div></div>';
-  bindMedia(root);
+
+  root.innerHTML = '<div class="pvw"><div class="ph"><div style="margin-bottom:14px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(48,209,88,.15);border:1px solid rgba(48,209,88,.35);color:#7ee2a8;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#30d158"></span>实时同步</span></div>' + (data.coverData ? '<img class="pcv" src="' + data.coverData + '">' : '<div style="width:130px;height:130px;border-radius:24px;background:linear-gradient(135deg,rgba(191,90,242,.4),rgba(10,132,255,.3));margin:0 auto 18px;display:grid;place-items:center;font-size:56px">🎙️</div>') + '<div class="pt">' + esc(data.name) + '</div>' + (data.author ? '<div class="pa2">by ' + esc(data.author) + '</div>' : '') + (data.desc ? '<div class="pd">' + esc(data.desc) + '</div>' : '') + '<div class="hn" style="margin-top:14px;font-size:11px">更新于 ' + (data.updatedAt ? new Date(data.updatedAt).toLocaleString('zh-CN') : '未知') + '</div></div>' + ep + '<div class="cd" style="text-align:center;margin-top:20px"><div style="font-size:12px;color:var(--t3)">🔒 私人播客 · 内容实时同步</div></div></div>';
+
+  $$('[data-cp]', root).forEach(function(b){ b.onclick = function(){ copyText(b.getAttribute('data-cp')); }; });
+  $$('[data-hls]', root).forEach(function(b){
+    b.onclick = function(){
+      var src = b.getAttribute('data-hls');
+      var container = b.parentNode;
+      container.innerHTML = '<video controls style="width:100%;border-radius:12px;background:#000"></video>';
+      var video = container.querySelector('video');
+      if(window.Hls && window.Hls.isSupported()){
+        var hls = new window.Hls();
+        hls.loadSource(src);
+        hls.attachMedia(video);
+        hls.on(window.Hls.Events.MANIFEST_PARSED, function(){ video.play().catch(function(){}); });
+      } else if(video.canPlayType('application/vnd.apple.mpegurl')){
+        video.src = src;
+        video.play().catch(function(){});
+      } else {
+        container.innerHTML = '<div class="rs wn">⚠️ 当前浏览器不支持 HLS，请复制链接到 VLC 播放：<br><code>' + esc(src) + '</code></div>';
+      }
+    };
+  });
 }
 
 function renderPodEdit(root, blobId, secret){
@@ -896,94 +654,117 @@ function renderPodEdit(root, blobId, secret){
     root.innerHTML = '<div class="cd"><div class="rs er">❌ ' + esc(e.message) + '</div></div>';
   });
 }
+
 function drawPodEdit(root, blobId, secret, data){
-  var episodes = (data.episodes || []).map(function(e){ return Object.assign({}, e); });
+  var episodes = (data.episodes || []).map(function(e){ return JSON.parse(JSON.stringify(e)); });
   var coverData = data.coverData || null;
   var viewLink = location.origin + location.pathname + '#podcast=' + blobId;
 
-  root.innerHTML = '<div class="mbg"><span class="mg">✏️ 管理台</span><div class="mt">你处于<b>管理台模式</b>，保存后朋友刷新即见。</div></div><div class="cd"><div class="ct">🔗 当前浏览链接</div><div class="plb"><div class="pu">' + esc(viewLink) + '</div></div><div class="ac"><button class="bt sm" id="cv">📋 复制</button><button class="bt sm" id="ov">👁️ 预览</button></div></div><div class="cd"><div class="ct">📻 基础信息</div><div class="g2"><label class="fd"><span>名称</span><input id="pn" class="in" value="' + esc(data.name || '') + '"></label><label class="fd"><span>作者</span><input id="pa" class="in" value="' + esc(data.author || '') + '"></label></div><label class="fd"><span>简介</span><textarea id="pd" class="tx" rows="3">' + esc(data.desc || '') + '</textarea></label><label class="fd"><span>封面</span><input type="file" id="pc" accept="image/*" hidden><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="bt" id="pck">📷 更换</button><button class="bt sm gh" id="rmc">🗑️ 移除</button><span style="font-size:12px;color:var(--t3)" id="cn">' + (coverData ? '已有封面' : '未设置') + '</span></div></label>' + (coverData ? '<img src="' + coverData + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">' : '') + '</div><div class="cd"><div class="ct">📝 添加新单集</div><div class="g2"><label class="fd"><span>标题</span><input id="et" class="in"></label><label class="fd"><span>简介</span><input id="ed" class="in"></label></div><label class="fd"><span>内容</span><textarea id="ec" class="tx" rows="5"></textarea></label><label class="fd"><span>视频链接</span><input id="ev" class="in" placeholder=".mp4 / .m3u8 等"></label><div class="ac"><button class="bt" id="add">➕ 添加</button></div></div><div class="cd"><div class="ct">📋 单集列表</div><div id="eps"></div><div id="em" class="hn" style="text-align:center;padding:20px">没有单集</div></div><div class="cd" style="position:sticky;bottom:16px;background:rgba(20,20,28,.95);border-color:rgba(48,209,88,.4);z-index:20"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div style="flex:1;font-size:12.5px;color:var(--t2)">💡 保存后朋友刷新即可见</div><button class="bt pri" id="save" style="padding:12px 26px;font-size:14px">💾 保存并发布</button></div></div>';
+  root.innerHTML = '<div class="mbg"><span class="mg">✏️ 管理台</span><div class="mt">你处于<b>管理台模式</b>，保存后朋友刷新即见。</div></div><div class="cd"><div class="ct">🔗 当前浏览链接</div><div class="plb"><div class="pu">' + esc(viewLink) + '</div></div><div class="ac"><button class="bt sm" id="cv">📋 复制</button><button class="bt sm" id="ov">👁️ 预览</button></div></div><div class="cd"><div class="ct">📻 基础信息</div><div class="g2"><label class="fd"><span>名称</span><input id="pn2" class="in" value="' + esc(data.name || '') + '"></label><label class="fd"><span>作者</span><input id="pa2" class="in" value="' + esc(data.author || '') + '"></label></div><label class="fd"><span>简介</span><textarea id="pd2" class="tx" rows="3">' + esc(data.desc || '') + '</textarea></label><label class="fd"><span>封面</span><input type="file" id="pc2" accept="image/*" hidden><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="bt" id="pck2">📷 更换</button><button class="bt sm gh" id="rmc2">🗑️ 移除</button><span style="font-size:12px;color:var(--t3)" id="cn2">' + (coverData ? '已有封面' : '未设置') + '</span></div></label>' + (coverData ? '<img src="' + coverData + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">' : '') + '</div><div class="cd"><div class="ct">📝 添加新单集</div><div class="g2"><label class="fd"><span>标题</span><input id="et2" class="in"></label><label class="fd"><span>简介</span><input id="ed2" class="in"></label></div><label class="fd"><span>内容</span><textarea id="ec2" class="tx" rows="5"></textarea></label><label class="fd"><span>视频链接</span><input id="ev2" class="in" placeholder=".mp4 / .m3u8 等"></label><div class="ac"><button class="bt" id="add2">➕ 添加</button></div></div><div class="cd"><div class="ct">📋 单集列表</div><div id="eps2"></div><div id="em2" class="hn" style="text-align:center;padding:20px">没有单集</div></div><div class="cd" style="position:sticky;bottom:16px;background:rgba(20,20,28,.95);border-color:rgba(48,209,88,.4);z-index:20"><div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><div style="flex:1;font-size:12.5px;color:var(--t2)">💡 保存后朋友刷新即可见</div><button class="bt pri" id="save2" style="padding:12px 26px;font-size:14px">💾 保存并发布</button></div></div>';
 
   function renderEps(){
-    var el = $('#eps', root);
-    if(!episodes.length){ el.innerHTML = ''; $('#em', root).style.display = 'block'; return; }
-    $('#em', root).style.display = 'none';
+    var el = $('#eps2', root);
+    if(!episodes.length){ el.innerHTML = ''; $('#em2', root).style.display = 'block'; return; }
+    $('#em2', root).style.display = 'none';
     el.innerHTML = episodes.map(function(ep, i){
-      return '<div class="pe"><div class="pc">🎙️</div><div class="pi"><div class="pt">第 ' + (i+1) + ' 期 · ' + esc(ep.title) + '</div>' + (ep.desc ? '<div class="pd">' + esc(ep.desc) + '</div>' : '') + renderMediaHTML(ep.videoUrl, 'pe-media') + '<div class="pa" style="margin-top:8px"><button class="bt sm" data-ed="' + i + '">✏️ 编辑</button><button class="bt sm gh" data-x="' + i + '">🗑️ 删除</button></div></div></div>';
+      return '<div class="pe"><div class="pc">🎙️</div><div class="pi"><div class="pt">第 ' + (i + 1) + ' 期 · ' + esc(ep.title) + '</div>' + (ep.desc ? '<div class="pd">' + esc(ep.desc) + '</div>' : '') + '<div class="pa" style="margin-top:8px"><button class="bt sm" data-ed="' + i + '">✏️ 编辑</button><button class="bt sm gh" data-x2="' + i + '">🗑️ 删除</button></div></div></div>';
     }).join('');
-    bindMedia(el);
-    $$('[data-x]', el).forEach(function(b){ b.onclick = function(){ if(!confirm('删除这期？')) return; episodes.splice(+b.dataset.x, 1); renderEps(); }; });
+    $$('[data-x2]', el).forEach(function(b){ b.onclick = function(){
+      if(!confirm('删除这期？')) return;
+      episodes.splice(parseInt(b.getAttribute('data-x2'), 10), 1);
+      renderEps();
+    }; });
     $$('[data-ed]', el).forEach(function(b){ b.onclick = function(){
-      var i = +b.dataset.ed; var ep = episodes[i];
-      $('#et', root).value = ep.title || ''; $('#ed', root).value = ep.desc || '';
-      $('#ec', root).value = ep.content || ''; $('#ev', root).value = ep.videoUrl || '';
-      episodes.splice(i, 1); renderEps();
-      toast('已载入编辑区','ok'); window.scrollTo({top:0,behavior:'smooth'});
+      var i = parseInt(b.getAttribute('data-ed'), 10);
+      var ep = episodes[i];
+      $('#et2', root).value = ep.title || '';
+      $('#ed2', root).value = ep.desc || '';
+      $('#ec2', root).value = ep.content || '';
+      $('#ev2', root).value = ep.videoUrl || '';
+      episodes.splice(i, 1);
+      renderEps();
+      toast('已载入编辑区', 'ok');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }; });
   }
-  $('#pck', root).onclick = function(){ $('#pc', root).click(); };
-  $('#pc', root).onchange = function(e){
+
+  $('#pck2', root).onclick = function(){ $('#pc2', root).click(); };
+  $('#pc2', root).onchange = function(e){
     var f = e.target.files[0]; if(!f) return;
-    $('#cn', root).textContent = '压缩中…';
-    compressImage(f, 400, 0.7).then(function(d){ coverData = d; $('#cn', root).textContent = '已更换'; }).catch(function(err){ toast('失败：' + err.message, 'er'); });
+    $('#cn2', root).textContent = '压缩中…';
+    compressImage(f, 400, 0.7).then(function(d){
+      coverData = d;
+      $('#cn2', root).textContent = '已更换';
+    }).catch(function(err){ toast('失败：' + err.message, 'er'); });
   };
-  $('#rmc', root).onclick = function(){ coverData = null; $('#cn', root).textContent = '已移除'; };
-  $('#add', root).onclick = function(){
-    var t = $('#et', root).value.trim();
-    if(!t){ toast('请输入标题','er'); return; }
-    episodes.push({ title:t, desc:$('#ed', root).value.trim(), content:$('#ec', root).value.trim(), videoUrl:$('#ev', root).value.trim() });
-    ['et','ed','ec','ev'].forEach(function(id){ $('#' + id, root).value = ''; });
+  $('#rmc2', root).onclick = function(){ coverData = null; $('#cn2', root).textContent = '已移除'; };
+
+  $('#add2', root).onclick = function(){
+    var t = $('#et2', root).value.trim();
+    if(!t){ toast('请输入标题', 'er'); return; }
+    episodes.push({
+      title: t,
+      desc: $('#ed2', root).value.trim(),
+      content: $('#ec2', root).value.trim(),
+      videoUrl: $('#ev2', root).value.trim()
+    });
+    ['et2', 'ed2', 'ec2', 'ev2'].forEach(function(id){ $('#' + id, root).value = ''; });
     renderEps();
   };
-  $('#save', root).onclick = async function(){
-    var btn = $('#save', root);
+
+  $('#save2', root).onclick = function(){
+    var btn = $('#save2', root);
     btn.disabled = true; btn.textContent = '⏳ 保存中…';
-    try{
-      var payload = {
-        name: $('#pn', root).value || '我的播客',
-        author: $('#pa', root).value,
-        desc: $('#pd', root).value,
-        coverData: coverData,
-        secret: secret,
-        episodes: episodes,
-        updatedAt: Date.now()
-      };
-      var str = JSON.stringify(payload);
-      if(str.length > 900 * 1024) throw new Error('数据过大（' + (str.length/1024).toFixed(1) + 'KB）');
-      var res = await fetchT('https://jsonblob.com/api/jsonBlob/' + blobId, {
-        method: 'PUT',
-        headers: { 'Content-Type':'application/json' },
-        body: str
-      }, 20000);
-      if(!res.ok) throw new Error('保存失败 ' + res.status);
-      toast('已保存','ok');
-    }catch(e){
-      toast('失败：' + e.message, 'er');
-    }finally{
+    var payload = {
+      name: $('#pn2', root).value || '我的播客',
+      author: $('#pa2', root).value,
+      desc: $('#pd2', root).value,
+      coverData: coverData,
+      secret: secret,
+      episodes: episodes,
+      updatedAt: Date.now()
+    };
+    var str = JSON.stringify(payload);
+    if(str.length > 900 * 1024){
+      toast('数据过大（' + (str.length/1024).toFixed(1) + 'KB）', 'er');
       btn.disabled = false; btn.textContent = '💾 保存并发布';
+      return;
     }
+    fetchT('https://jsonblob.com/api/jsonBlob/' + blobId, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: str
+    }, 20000).then(function(r){
+      if(!r.ok) throw new Error('保存失败 ' + r.status);
+      toast('已保存', 'ok');
+    }).catch(function(e){
+      toast('失败：' + e.message, 'er');
+    }).then(function(){
+      btn.disabled = false; btn.textContent = '💾 保存并发布';
+    });
   };
+
   $('#cv', root).onclick = function(){ copyText(viewLink); };
   $('#ov', root).onclick = function(){ window.open(viewLink, '_blank'); };
   renderEps();
 }
 
 /* =========================================================
-   3. 东西托管
+   2. 东西托管
    ========================================================= */
 reg({
-  id:'hosting', name:'东西托管', icon:'🐮', cat:'file', desc:'加密上传 · 有效期可选', isNew:true,
+  id:'hosting', name:'东西托管', icon:'🐮', cat:'file', desc:'加密上传 · 有效期可选',
   render: function(root){
     var hash = location.hash;
     var m = hash.match(/^#host=(.+)$/);
-    if(m) return renderHostView(root, m[1]);
+    if(m){ renderHostView(root, m[1]); return; }
 
-    // 检查 crypto.subtle
     if(!window.crypto || !window.crypto.subtle){
-      root.innerHTML = '<div class="cd"><div class="rs er">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）。<br><br>请通过 HTTPS 访问本网站，或者把工具箱部署到公网（GitHub Pages / Vercel / Netlify），再使用东西托管。</div></div>';
+      root.innerHTML = '<div class="cd"><div class="rs er">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）。<br><br>请通过 HTTPS 访问本网站再使用东西托管。</div></div>';
       return;
     }
 
-    root.innerHTML = '<div class="cd" style="background:linear-gradient(135deg,rgba(255,159,10,.12),rgba(255,55,95,.08));border-color:rgba(255,159,10,.3)"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🐮</span><span style="font-size:15px;font-weight:700">一头牛东西托管</span></div><div style="font-size:12.5px;color:var(--t2);line-height:1.75">上传文件 → 本地加密 → 生成专属链接。别人打开链接直接下载，无需登录。<br>文件在本地用 <b>AES-256-GCM 加密</b>后才上传，服务器只存密文。</div></div><div class="cd"><div class="ct">📦 选择文件</div><div id="dz" style="border:1.5px dashed rgba(255,255,255,.18);border-radius:18px;padding:38px 20px;text-align:center;cursor:pointer;background:rgba(0,0,0,.18);transition:.2s"><div style="font-size:34px;margin-bottom:12px">📦</div><div style="font-size:14.5px;font-weight:600;margin-bottom:6px">点击选择文件，或拖拽到这里</div><div style="font-size:12px;color:var(--t3)">支持任意类型 · 建议单文件 &lt; 100MB</div></div><input type="file" id="fi" hidden><div id="fl" style="margin-top:14px"></div></div><div class="cd"><div class="ct">⏱️ 有效期</div><div class="g3"><label class="fd"><span>选择时长</span><select id="exp" class="in"><option value="1h" selected>1 小时</option><option value="24h">24 小时</option><option value="72h">72 小时</option><option value="forever">永久</option></select></label></div><div class="hn">💡 临时文件由 litterbox 提供，永久文件由 catbox 提供。</div><div class="ac"><button class="bt pri" id="run" disabled>🚀 上传并生成链接</button><button class="bt gh" id="clr" disabled>清空</button></div><div class="bw" id="bw"><div class="bwr" id="bar"></div></div><div id="out"></div></div>';
+    root.innerHTML = '<div class="cd" style="background:linear-gradient(135deg,rgba(255,159,10,.12),rgba(255,55,95,.08));border-color:rgba(255,159,10,.3)"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🐮</span><span style="font-size:15px;font-weight:700">一头牛东西托管</span></div><div style="font-size:12.5px;color:var(--t2);line-height:1.75">上传文件 → 本地加密 → 生成专属链接。别人打开链接直接下载，无需登录。密钥通过 URL 片段传递，服务器只存密文。</div></div><div class="cd"><div class="ct">📦 选择文件</div><div id="dz" style="border:1.5px dashed rgba(255,255,255,.18);border-radius:18px;padding:38px 20px;text-align:center;cursor:pointer;background:rgba(0,0,0,.18)"><div style="font-size:34px;margin-bottom:12px">📦</div><div style="font-size:14.5px;font-weight:600;margin-bottom:6px">点击选择文件，或拖拽到这里</div><div style="font-size:12px;color:var(--t3)">建议单文件 &lt; 100MB</div></div><input type="file" id="fi" hidden><div id="fl" style="margin-top:14px"></div></div><div class="cd"><div class="ct">⏱️ 有效期</div><div class="g3"><label class="fd"><span>选择时长</span><select id="exp" class="in"><option value="1h" selected>1 小时</option><option value="24h">24 小时</option><option value="72h">72 小时</option><option value="forever">永久</option></select></label></div><div class="ac"><button class="bt pri" id="run" disabled>🚀 上传并生成链接</button><button class="bt gh" id="clr" disabled>清空</button></div><div class="bw" id="bw"><div class="bwr" id="bar"></div></div><div id="out"></div></div>';
 
     var files = [];
     var listEl = $('#fl', root);
@@ -991,12 +772,17 @@ reg({
       listEl.innerHTML = fileListHTML(files);
       $('#run', root).disabled = files.length === 0;
       $('#clr', root).disabled = files.length === 0;
-      $$('.x', listEl).forEach(function(b){ b.onclick = function(){ files.splice(+b.dataset.i, 1); refresh(); }; });
+      $$('.x', listEl).forEach(function(b){
+        b.onclick = function(){
+          files.splice(parseInt(b.getAttribute('data-i'), 10), 1);
+          refresh();
+        };
+      });
     }
     setupDrop($('#dz', root), $('#fi', root), function(f){ files = files.concat(f); refresh(); });
     $('#clr', root).onclick = function(){ files = []; $('#out', root).innerHTML = ''; refresh(); };
 
-    $('#run', root).onclick = async function(){
+    $('#run', root).onclick = function(){
       if(!files.length) return;
       var file = files[0];
       var expiry = $('#exp', root).value;
@@ -1006,69 +792,72 @@ reg({
       bw.classList.add('on'); bar.style.width = '5%';
       var outEl = $('#out', root); outEl.innerHTML = '';
 
-      try{
-        var keyBytes = new Uint8Array(32);
-        crypto.getRandomValues(keyBytes);
-        var keyB64 = b64b(keyBytes);
-        bar.style.width = '15%';
+      var keyBytes = new Uint8Array(32);
+      crypto.getRandomValues(keyBytes);
+      var keyB64 = b64b(keyBytes);
+      bar.style.width = '15%';
 
-        var buf = new Uint8Array(await file.arrayBuffer());
+      file.arrayBuffer().then(function(ab){
+        var buf = new Uint8Array(ab);
         bar.style.width = '30%';
-
-        // 加密
-        var keyImported = await crypto.subtle.importKey('raw', keyBytes, {name:'AES-GCM'}, false, ['encrypt']);
-        var iv = crypto.getRandomValues(new Uint8Array(12));
-        var ct = new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv:iv}, keyImported, buf));
-        var out = new Uint8Array(12 + ct.length);
-        out.set(iv, 0); out.set(ct, 12);
-
+        return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']).then(function(key){
+          var iv = crypto.getRandomValues(new Uint8Array(12));
+          return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, buf).then(function(ct){
+            var ctArr = new Uint8Array(ct);
+            var out = new Uint8Array(12 + ctArr.length);
+            out.set(iv, 0);
+            out.set(ctArr, 12);
+            return out;
+          });
+        });
+      }).then(function(encBytes){
         bar.style.width = '50%';
         btn.textContent = '⏳ 上传中…';
-
-        // 上传
-        var encBlob = new Blob([out], {type:'application/octet-stream'});
+        var encBlob = new Blob([encBytes], { type: 'application/octet-stream' });
         var fd = new FormData();
         fd.append('fileToUpload', encBlob, 'enc_' + Date.now() + '.bin');
         fd.append('reqtype', 'fileupload');
-        var uploadUrl, uploadRes;
+        var uploadUrl;
         if(expiry === 'forever'){
           uploadUrl = 'https://catbox.moe/user/api.php';
         } else {
           uploadUrl = 'https://litterbox.catbox.moe/resources/internals/api.php';
-          var timeMap = { '1h':'1h', '24h':'24h', '72h':'72h' };
-          fd.append('time', timeMap[expiry] || '1h');
+          fd.append('time', expiry);
         }
-        var res = await fetchT(uploadUrl, { method:'POST', body:fd }, 60000);
-        if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
-        var fileUrl = (await res.text()).trim();
-        if(!/^https?:\/\//.test(fileUrl)) throw new Error('上传返回异常：' + fileUrl);
-
+        return fetchT(uploadUrl, { method: 'POST', body: fd }, 90000).then(function(res){
+          if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
+          return res.text();
+        }).then(function(fileUrl){
+          fileUrl = fileUrl.trim();
+          if(!/^https?:\/\//.test(fileUrl)) throw new Error('返回异常：' + fileUrl);
+          return fileUrl;
+        });
+      }).then(function(fileUrl){
         bar.style.width = '90%';
-
         var expiryMs = 0;
         if(expiry !== 'forever'){
           var msMap = { '1h':3600000, '24h':86400000, '72h':259200000 };
           expiryMs = Date.now() + (msMap[expiry] || 3600000);
         }
-        var payload = { u:fileUrl, k:keyB64, e:expiryMs, n:file.name, s:file.size, t:Date.now() };
+        var payload = { u: fileUrl, k: keyB64, e: expiryMs, n: file.name, s: file.size, t: Date.now() };
         var payloadB64 = b64b(enc.encode(JSON.stringify(payload)));
         var shareUrl = location.origin + location.pathname + '#host=' + payloadB64;
         bar.style.width = '100%';
 
         var expLabel = { '1h':'1 小时', '24h':'24 小时', '72h':'72 小时', 'forever':'永久' }[expiry];
-
-        outEl.innerHTML = '<div class="rs ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div><div class="plb"><div style="font-size:12px;color:#7ee2a8;margin-bottom:8px;font-weight:700">🔗 专属分享链接</div><div class="pu" id="shareUrl">' + esc(shareUrl) + '</div><div class="ac" style="margin-top:10px"><button class="bt sm pri" id="cp">📋 复制链接</button><button class="bt sm" id="op">👁️ 打开看看</button></div></div><div class="rs nf" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 <code>#</code> 后面，浏览器不会把它发给服务器。<b>服务端只有密文，无法解密</b>。</div>';
+        outEl.innerHTML = '<div class="rs ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div><div class="plb"><div style="font-size:12px;color:#7ee2a8;margin-bottom:8px;font-weight:700">🔗 专属分享链接</div><div class="pu">' + esc(shareUrl) + '</div><div class="ac" style="margin-top:10px"><button class="bt sm pri" id="cp">📋 复制链接</button><button class="bt sm" id="op">👁️ 打开看看</button></div></div><div class="rs nf" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。服务端只有密文。</div>';
         $('#cp', root).onclick = function(){ copyText(shareUrl); };
         $('#op', root).onclick = function(){ window.open(shareUrl, '_blank'); };
-        toast('生成成功','ok');
-      }catch(e){
-        console.error(e);
-        outEl.innerHTML = '<div class="rs er">❌ 失败：' + esc(e.message) + '<br><br><b>可能原因：</b>① 文件过大 ② 网络问题 ③ 上传服务暂时不可用<br><br>建议：换个文件或稍后重试</div>';
-        toast('失败','er');
-      }finally{
-        bar.style.width = '0'; bw.classList.remove('on');
-        btn.disabled = false; btn.textContent = '🚀 上传并生成链接';
-      }
+        toast('生成成功', 'ok');
+      }).catch(function(e){
+        outEl.innerHTML = '<div class="rs er">❌ 失败：' + esc(e.message) + '<br><br><b>可能原因：</b>① 文件过大 ② 网络问题 ③ 上传服务不可用</div>';
+        toast('失败', 'er');
+      }).then(function(){
+        bar.style.width = '0';
+        bw.classList.remove('on');
+        btn.disabled = false;
+        btn.textContent = '🚀 上传并生成链接';
+      });
     };
   }
 });
@@ -1088,49 +877,168 @@ function renderHostView(root, payloadB64){
     if(payload.e){
       var s = Math.floor((payload.e - Date.now()) / 1000);
       if(s < 60) remainTxt = s + ' 秒后过期';
-      else if(s < 3600) remainTxt = Math.floor(s/60) + ' 分钟后过期';
-      else if(s < 86400) remainTxt = Math.floor(s/3600) + ' 小时后过期';
-      else remainTxt = Math.floor(s/86400) + ' 天后过期';
+      else if(s < 3600) remainTxt = Math.floor(s / 60) + ' 分钟后过期';
+      else if(s < 86400) remainTxt = Math.floor(s / 3600) + ' 小时后过期';
+      else remainTxt = Math.floor(s / 86400) + ' 天后过期';
     }
 
-    root.innerHTML = '<div class="host-view"><div class="hv-logo">🐮</div><div class="hv-title">一头牛东西托管</div><div class="hv-sub">有人给你分享了一个文件</div><div class="hv-badge"><span style="width:6px;height:6px;border-radius:50%;background:#30d158;box-shadow:0 0 8px #30d158"></span>端到端加密 · 服务器无法查看</div><div class="hv-file"><div class="hv-fn">📎 ' + esc(payload.n) + '</div><div class="hv-fs">原始大小：' + fmtSize(payload.s) + '　·　' + remainTxt + '</div><button class="hv-btn" id="dl">⬇️ 下载文件</button><div id="dstat" style="margin-top:12px;font-size:12px;color:var(--t3);text-align:center"></div></div><div class="hv-foot">🔒 文件在本地加密后才上传<br>密钥在 URL 片段中，浏览器不会发送给服务器<br>🐮 一头牛东西托管 · 安全第一</div></div>';
+    root.innerHTML = '<div class="host-view"><div class="hv-logo">🐮</div><div class="hv-title">一头牛东西托管</div><div class="hv-sub">有人给你分享了一个文件</div><div class="hv-badge"><span style="width:6px;height:6px;border-radius:50%;background:#30d158;box-shadow:0 0 8px #30d158"></span>端到端加密 · 服务器无法查看</div><div class="hv-file"><div class="hv-fn">📎 ' + esc(payload.n) + '</div><div class="hv-fs">原始大小：' + fmtSize(payload.s) + '　·　' + remainTxt + '</div><button class="hv-btn" id="dl">⬇️ 下载文件</button><div id="dstat" style="margin-top:12px;font-size:12px;color:var(--t3);text-align:center"></div></div><div class="hv-foot">🔒 文件在本地加密后才上传<br>密钥在 URL 片段中，浏览器不会发送给服务器<br>🐮 一头牛东西托管</div></div>';
 
-    $('#dl', root).onclick = async function(){
+    $('#dl', root).onclick = function(){
       var btn = this;
       btn.disabled = true; btn.textContent = '⏳ 下载中…';
       var stat = $('#dstat', root);
-      try{
-        stat.textContent = '正在下载密文…';
-        var encRes = await fetchT(payload.u, {}, 60000);
-        if(!encRes.ok) throw new Error('下载失败 HTTP ' + encRes.status);
-        var encBytes = new Uint8Array(await encRes.arrayBuffer());
+      stat.textContent = '正在下载密文…';
+      fetchT(payload.u, {}, 60000).then(function(r){
+        if(!r.ok) throw new Error('下载失败 HTTP ' + r.status);
+        return r.arrayBuffer();
+      }).then(function(ab){
         stat.textContent = '正在本地解密…';
+        var encBytes = new Uint8Array(ab);
         var keyRaw = b2b(payload.k);
-        var keyImported = await crypto.subtle.importKey('raw', keyRaw, {name:'AES-GCM'}, false, ['decrypt']);
-        var iv = encBytes.slice(0, 12);
-        var ct = encBytes.slice(12);
-        var pt;
-        try{
-          pt = await crypto.subtle.decrypt({name:'AES-GCM',iv:iv}, keyImported, ct);
-        }catch(e){
-          throw new Error('解密失败，密钥可能不正确');
-        }
+        return crypto.subtle.importKey('raw', keyRaw, { name: 'AES-GCM' }, false, ['decrypt']).then(function(key){
+          var iv = encBytes.slice(0, 12);
+          var ct = encBytes.slice(12);
+          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
+        });
+      }).then(function(pt){
         var blob = new Blob([pt]);
         download(blob, payload.n);
         stat.textContent = '✅ 解密完成，已开始下载';
-        toast('下载成功','ok');
-      }catch(e){
-        console.error(e);
+        toast('下载成功', 'ok');
+      }).catch(function(e){
         stat.innerHTML = '<span style="color:#ff8095">❌ ' + esc(e.message) + '</span>';
-        toast('失败','er');
-      }finally{
-        btn.disabled = false; btn.textContent = '⬇️ 下载文件';
-      }
+        toast('失败', 'er');
+      }).then(function(){
+        btn.disabled = false;
+        btn.textContent = '⬇️ 下载文件';
+      });
     };
   }catch(e){
     root.innerHTML = '<div class="cd"><div class="rs er">❌ 链接无效或已损坏</div></div>';
   }
 }
+
+/* =========================================================
+   3. 短视频下载
+   ========================================================= */
+var VIDEO_APIS = [
+  { name:'BugPk 主节点', build: function(link){ return { url:'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts:{ method:'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+  { name:'BugPk 海外', build: function(link){ return { url:'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts:{ method:'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+  { name:'山海云端', build: function(link){ return { url:'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts:{ method:'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+  { name:'星之阁', build: function(link){ return { url:'https://api.xingzhige.com/API/parse/', opts:{ method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify({ url: link }) } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
+  { name:'redfox', build: function(link){ return { url:'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts:{ method:'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' }; } },
+  { name:'皮克', build: function(link){ return { url:'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts:{ method:'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } }
+];
+
+reg({
+  id:'video-dl', name:'短视频无水印下载', icon:'📥', cat:'video', desc:'6 个 API · 自动切换',
+  render: function(root){
+    root.innerHTML = '<div class="cd"><label class="fd"><span>粘贴短视频分享链接</span><textarea id="u" class="tx" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></label><div class="hn">💡 支持抖音、快手、小红书、视频号、B站、微博等。整段分享文案直接粘贴即可。</div><div class="ac"><button class="bt pri" id="run">🔍 解析视频</button><button class="bt" id="test">🧪 测试节点</button><button class="bt gh" id="clr">清空</button></div><div class="bw" id="bw"><div class="bwr" id="bar"></div></div><div id="st" style="margin-top:16px"></div><div id="out"></div></div>';
+
+    var bw = $('#bw', root), bar = $('#bar', root), outEl = $('#out', root), stEl = $('#st', root);
+
+    function renderStatus(states){
+      var html = '<div style="font-size:12.5px;color:var(--t3);margin-bottom:8px">📡 API 节点：' + VIDEO_APIS.length + ' 个</div>';
+      html += '<div class="bar2">';
+      VIDEO_APIS.forEach(function(api, i){
+        var s = states ? states[i] : 'idle';
+        var col = s === 'ok' ? '#30d158' : s === 'fail' ? '#ff453a' : s === 'checking' ? '#ffd60a' : '#666';
+        var lab = s === 'ok' ? '可用' : s === 'fail' ? '不可用' : s === 'checking' ? '检测中…' : '待检测';
+        html += '<div class="row"><span class="dot2" style="background:' + col + ';box-shadow:0 0 8px ' + col + '"></span><span class="nm">' + esc(api.name) + '</span><span class="st">' + lab + '</span></div>';
+      });
+      html += '</div>';
+      stEl.innerHTML = html;
+    }
+    renderStatus();
+
+    function renderResult(info){
+      outEl.innerHTML = '<div class="rs ok">✅ 解析成功！</div><div class="dr"><div class="dc">' + (info.cover ? '<img src="' + esc(info.cover) + '" loading="lazy">' : '<div style="width:100px;height:100px;border-radius:10px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>') + '<div class="di"><div class="dt2">' + esc(info.title) + '</div><div class="dac"><button class="bt sm pri" id="dl">⬇️ 下载</button><button class="bt sm" id="cp">📋 复制链接</button><button class="bt sm" id="op">🔗 打开</button></div></div></div></div>';
+      $('#dl', root).onclick = function(){
+        var self = this;
+        self.disabled = true; self.textContent = '下载中…';
+        fetchT(info.video, { mode: 'cors' }, 60000).then(function(r){ return r.blob(); }).then(function(blob){
+          download(blob, (baseName(info.title) || 'video') + '_' + Date.now() + '.mp4');
+          toast('下载完成', 'ok');
+        }).catch(function(e){ toast('下载失败：' + e.message, 'er'); }).then(function(){
+          self.disabled = false; self.textContent = '⬇️ 下载';
+        });
+      };
+      $('#cp', root).onclick = function(){ copyText(info.video); };
+      $('#op', root).onclick = function(){ window.open(info.video, '_blank'); };
+    }
+
+    function parse(){
+      var input = $('#u', root).value.trim();
+      if(!input){ toast('请输入链接', 'er'); return; }
+      var m = input.match(/https?:\/\/[^\s]+/);
+      var link = m ? m[0] : input;
+      bw.classList.add('on'); outEl.innerHTML = ''; bar.style.width = '5%';
+      var states = VIDEO_APIS.map(function(){ return 'checking'; });
+      renderStatus(states);
+      var i = 0;
+      function next(){
+        if(i >= VIDEO_APIS.length){
+          bar.style.width = '100%';
+          setTimeout(function(){ bw.classList.remove('on'); bar.style.width = '0'; }, 600);
+          outEl.innerHTML = '<div class="rs er">❌ 所有 ' + VIDEO_APIS.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b>① API 集体失效 ② 链接不被支持 ③ 网络问题<br><br><b>建议：</b>① 稍后重试 ② 复制链接到浏览器手动打开 ③ 换其他平台链接</div>';
+          return;
+        }
+        var api = VIDEO_APIS[i];
+        bar.style.width = ((i + 0.5) / VIDEO_APIS.length * 90) + '%';
+        var built = api.build(link);
+        fetchT(built.url, built.opts, 12000).then(function(res){
+          if(!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        }).then(function(data){
+          var info = api.parse(data);
+          if(!info.video) throw new Error('无视频链接');
+          states[i] = 'ok';
+          renderStatus(states);
+          renderResult(info);
+          bar.style.width = '100%';
+          setTimeout(function(){ bw.classList.remove('on'); bar.style.width = '0'; }, 600);
+        }).catch(function(){
+          states[i] = 'fail';
+          renderStatus(states);
+          i++;
+          next();
+        });
+      }
+      next();
+    }
+
+    function testNodes(){
+      var states = VIDEO_APIS.map(function(){ return 'checking'; });
+      renderStatus(states);
+      var okCount = 0;
+      var j = 0;
+      function testNext(){
+        if(j >= VIDEO_APIS.length){
+          toast(okCount + ' / ' + VIDEO_APIS.length + ' 个节点可用', okCount > 0 ? 'ok' : 'er');
+          return;
+        }
+        var api = VIDEO_APIS[j];
+        var built = api.build('https://v.douyin.com/test');
+        fetchT(built.url, built.opts, 5000).then(function(res){
+          states[j] = res.ok ? 'ok' : 'fail';
+          if(res.ok) okCount++;
+          renderStatus(states);
+          j++; testNext();
+        }).catch(function(){
+          states[j] = 'fail';
+          renderStatus(states);
+          j++; testNext();
+        });
+      }
+      testNext();
+    }
+
+    $('#run', root).onclick = parse;
+    $('#test', root).onclick = testNodes;
+    $('#clr', root).onclick = function(){ $('#u', root).value = ''; outEl.innerHTML = ''; };
+  }
+});
 
 /* =========================================================
    4. 在线音乐
@@ -1154,8 +1062,9 @@ reg({
           }).join('');
           $$('[data-i]', listEl).forEach(function(el){
             el.onclick = function(){
-              var r = items[+el.dataset.i];
-              au.src = r.previewUrl; au.play().catch(function(){});
+              var r = items[parseInt(el.getAttribute('data-i'), 10)];
+              au.src = r.previewUrl;
+              au.play().catch(function(){});
               pl.style.display = 'block';
               $('#cv', root).src = r.artworkUrl100;
               $('#mn', root).textContent = r.trackName;
@@ -1176,39 +1085,60 @@ reg({
   id:'imgc', name:'图片压缩', icon:'🗜️', cat:'image', desc:'本地智能压缩',
   render: function(root){
     root.innerHTML = '<div class="cd"><div id="dz" style="border:1.5px dashed rgba(255,255,255,.18);border-radius:18px;padding:38px 20px;text-align:center;cursor:pointer;background:rgba(0,0,0,.18)"><div style="font-size:34px;margin-bottom:12px">🗜️</div><div style="font-size:14.5px;font-weight:600">点击选择图片，或拖拽到这里</div></div><input type="file" id="fi" accept="image/*" multiple hidden><div class="g3" style="margin-top:16px"><label class="fd"><span>质量：<b id="qv">70%</b></span><input type="range" id="q" min="10" max="100" value="70"></label><label class="fd"><span>格式</span><select id="fm" class="in"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></label><label class="fd"><span>最大边长（0=不限）</span><input type="number" id="ms" class="in" value="0"></label></div><div id="list" style="margin-top:14px;display:flex;flex-direction:column;gap:8px"></div><div class="ac"><button class="bt pri" id="run" disabled>开始压缩</button><button class="bt gh" id="clr" disabled>清空</button></div><div id="out"></div></div>';
-    var files = []; var list = $('#list', root);
+    var files = [];
+    var list = $('#list', root);
     function refresh(){
       list.innerHTML = fileListHTML(files);
       $('#run', root).disabled = files.length === 0;
       $('#clr', root).disabled = files.length === 0;
-      $$('.x', list).forEach(function(b){ b.onclick = function(){ files.splice(+b.dataset.i, 1); refresh(); }; });
+      $$('.x', list).forEach(function(b){
+        b.onclick = function(){ files.splice(parseInt(b.getAttribute('data-i'), 10), 1); refresh(); };
+      });
     }
     setupDrop($('#dz', root), $('#fi', root), function(f){ files = files.concat(f); refresh(); });
     $('#q', root).oninput = function(){ $('#qv', root).textContent = this.value + '%'; };
     $('#clr', root).onclick = function(){ files = []; $('#out', root).innerHTML = ''; refresh(); };
-    $('#run', root).onclick = async function(){
-      var mime = $('#fm', root).value, q = +$('#q', root).value / 100, ms = +$('#ms', root).value || 0;
-      var extMap = { 'image/jpeg':'jpg', 'image/webp':'webp' };
-      var out = $('#out', root); out.innerHTML = '';
+
+    $('#run', root).onclick = function(){
+      var mime = $('#fm', root).value;
+      var q = parseInt($('#q', root).value, 10) / 100;
+      var ms = parseInt($('#ms', root).value, 10) || 0;
+      var extMap = { 'image/jpeg': 'jpg', 'image/webp': 'webp' };
+      var out = $('#out', root);
+      out.innerHTML = '';
       var tb = 0, ta = 0;
-      for(var idx = 0; idx < files.length; idx++){
-        var f = files[idx];
-        try{
-          var bmp = await createImageBitmap(f);
-          var w = bmp.width, h = bmp.height;
-          if(ms && Math.max(w, h) > ms){ var s = ms / Math.max(w, h); w = Math.round(w*s); h = Math.round(h*s); }
-          var cv = document.createElement('canvas'); cv.width = w; cv.height = h;
-          var ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,w,h); ctx.drawImage(bmp, 0, 0, w, h); bmp.close();
-          var blob = await new Promise(function(r){ cv.toBlob(r, mime, q); });
-          tb += f.size; ta += blob.size;
-          download(blob, baseName(f.name) + '_min.' + extMap[mime]);
-          out.insertAdjacentHTML('beforeend','<div class="rs ok">✅ ' + esc(f.name) + '　' + fmtSize(f.size) + ' → ' + fmtSize(blob.size) + '</div>');
-        }catch(e){
-          out.insertAdjacentHTML('beforeend','<div class="rs er">❌ ' + esc(f.name) + '：' + esc(e.message) + '</div>');
+      var idx = 0;
+      function next(){
+        if(idx >= files.length){
+          if(tb) out.insertAdjacentHTML('afterbegin', '<div class="rs ok">🎉 总压缩：' + fmtSize(tb) + ' → ' + fmtSize(ta) + '　节省 ' + ((1 - ta/tb) * 100).toFixed(1) + '%</div>');
+          toast('完成', 'ok');
+          return;
         }
+        var f = files[idx];
+        createImageBitmap(f).then(function(bmp){
+          var w = bmp.width, h = bmp.height;
+          if(ms && Math.max(w, h) > ms){
+            var s = ms / Math.max(w, h);
+            w = Math.round(w * s); h = Math.round(h * s);
+          }
+          var cv = document.createElement('canvas');
+          cv.width = w; cv.height = h;
+          var ctx = cv.getContext('2d');
+          ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+          ctx.drawImage(bmp, 0, 0, w, h);
+          bmp.close();
+          cv.toBlob(function(blob){
+            tb += f.size; ta += blob.size;
+            download(blob, baseName(f.name) + '_min.' + extMap[mime]);
+            out.insertAdjacentHTML('beforeend', '<div class="rs ok">✅ ' + esc(f.name) + '　' + fmtSize(f.size) + ' → ' + fmtSize(blob.size) + '</div>');
+            idx++; next();
+          }, mime, q);
+        }).catch(function(e){
+          out.insertAdjacentHTML('beforeend', '<div class="rs er">❌ ' + esc(f.name) + '：' + esc(e.message) + '</div>');
+          idx++; next();
+        });
       }
-      if(tb) out.insertAdjacentHTML('afterbegin','<div class="rs ok">🎉 总压缩：' + fmtSize(tb) + ' → ' + fmtSize(ta) + '　节省 ' + ((1 - ta/tb) * 100).toFixed(1) + '%</div>');
-      toast('完成','ok');
+      next();
     };
   }
 });
@@ -1223,22 +1153,21 @@ reg({
     function gen(){
       var t = $('#ta', root).value;
       if(!t.trim()) return;
-      loadLib('qr', 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js').then(function(ok){
-        if(!ok || typeof QRCode === 'undefined'){
-          $('#msg', root).innerHTML = '<div class="rs er">❌ 二维码库加载失败，请检查网络后重试</div>';
-          return;
-        }
-        QRCode.toCanvas($('#cv', root), t, { width:320, margin:2 }, function(e){
-          if(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; return; }
-          $('#wr', root).style.display = 'block';
-          $('#msg', root).innerHTML = '';
-        });
+      if(typeof QRCode === 'undefined'){
+        $('#msg', root).innerHTML = '<div class="rs er">❌ 二维码库未加载，请检查网络</div>';
+        return;
+      }
+      QRCode.toCanvas($('#cv', root), t, { width: 320, margin: 2 }, function(e){
+        if(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; return; }
+        $('#wr', root).style.display = 'block';
+        $('#msg', root).innerHTML = '';
       });
     }
     $('#gen', root).onclick = gen;
     $('#ta', root).oninput = function(){ clearTimeout(root._t); root._t = setTimeout(gen, 500); };
     $('#dl', root).onclick = function(){
-      var cv = $('#cv', root); if(!cv.width) return;
+      var cv = $('#cv', root);
+      if(!cv.width) return;
       cv.toBlob(function(b){ download(b, 'qrcode_' + Date.now() + '.png'); });
     };
     setTimeout(gen, 100);
@@ -1253,12 +1182,16 @@ reg({
   render: function(root){
     root.innerHTML = '<div class="cd"><label class="fd"><span>输入</span><textarea id="ta" class="tx" rows="6"></textarea></label><div class="ac"><button class="bt pri" id="en">编码</button><button class="bt" id="de">解码</button><button class="bt" id="cp">复制结果</button></div><label class="fd" style="margin-top:14px"><span>结果</span><textarea id="out" class="tx" rows="6" readonly></textarea></label><div id="msg"></div></div>';
     $('#en', root).onclick = function(){
-      try{ $('#out', root).value = b64b(enc.encode($('#ta', root).value)); $('#msg', root).innerHTML = '<div class="rs ok">✅ 编码完成</div>'; }
-      catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
+      try{
+        $('#out', root).value = b64b(enc.encode($('#ta', root).value));
+        $('#msg', root).innerHTML = '<div class="rs ok">✅ 编码完成</div>';
+      }catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
     };
     $('#de', root).onclick = function(){
-      try{ $('#out', root).value = dec.decode(b2b($('#ta', root).value.trim())); $('#msg', root).innerHTML = '<div class="rs ok">✅ 解码完成</div>'; }
-      catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
+      try{
+        $('#out', root).value = dec.decode(b2b($('#ta', root).value.trim()));
+        $('#msg', root).innerHTML = '<div class="rs ok">✅ 解码完成</div>';
+      }catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
     };
     $('#cp', root).onclick = function(){ copyText($('#out', root).value); };
   }
@@ -1303,7 +1236,7 @@ reg({
   render: function(root){
     root.innerHTML = '<div class="cd"><label class="fd"><span>数量</span><input type="number" id="n" class="in" value="10" min="1" max="500"></label><div class="ac"><button class="bt pri" id="gen">生成</button><button class="bt" id="cp">复制全部</button></div><label class="fd" style="margin-top:14px"><span>结果</span><textarea id="out" class="tx" rows="12" readonly></textarea></label></div>';
     $('#gen', root).onclick = function(){
-      var n = Math.max(1, Math.min(500, +$('#n', root).value || 1));
+      var n = Math.max(1, Math.min(500, parseInt($('#n', root).value, 10) || 1));
       var list = [];
       for(var i = 0; i < n; i++){
         var s = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
@@ -1313,7 +1246,7 @@ reg({
         list.push(s);
       }
       $('#out', root).value = list.join('\n');
-      toast('已生成 ' + n + ' 个','ok');
+      toast('已生成 ' + n + ' 个', 'ok');
     };
     $('#cp', root).onclick = function(){ copyText($('#out', root).value); };
     $('#gen', root).click();
@@ -1327,23 +1260,27 @@ reg({
   id:'ts', name:'时间戳转换', icon:'⏱️', cat:'dev', desc:'Unix 时间戳互转',
   render: function(root){
     root.innerHTML = '<div class="cd"><div class="rs" style="text-align:center;padding:22px"><div style="color:var(--t3);font-size:12px;margin-bottom:8px">当前 Unix 时间戳</div><div style="font-size:26px;font-weight:700;color:#9fc2ff;font-family:ui-monospace,monospace" id="ns">—</div><div style="font-size:12.5px;color:var(--t3);margin-top:6px;font-family:ui-monospace,monospace" id="nm">—</div></div><div class="g2" style="margin-top:16px"><div><label class="fd"><span>时间戳 → 日期</span><input id="ti" class="in" placeholder="1700000000"></label><button class="bt pri" id="td">转换</button><div id="do"></div></div><div><label class="fd"><span>日期 → 时间戳</span><input id="di" type="datetime-local" class="in" step="1"></label><button class="bt pri" id="tt">转换</button><div id="to"></div></div></div></div>';
-    function pad(n){ return String(n).padStart(2,'0'); }
-    function fmt(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
+    function pad(n){ return String(n).padStart(2, '0'); }
+    function fmtD(d){ return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
     function tick(){
       var d = new Date();
-      $('#ns', root).textContent = Math.floor(d.getTime()/1000);
+      $('#ns', root).textContent = Math.floor(d.getTime() / 1000);
       $('#nm', root).textContent = d.getTime();
     }
-    tick(); setInterval(tick, 1000);
+    tick();
+    var timer = setInterval(tick, 1000);
+    root.addEventListener('tool:destroy', function(){ clearInterval(timer); });
     $('#td', root).onclick = function(){
-      var n = Number($('#ti', root).value); if(isNaN(n)) return;
+      var n = Number($('#ti', root).value);
+      if(isNaN(n)) return;
       var d = new Date(n * 1000);
-      $('#do', root).innerHTML = '<div class="rs" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:var(--t3)">本地</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + fmt(d) + '</b></div><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--t3)">UTC</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + d.toISOString() + '</b></div></div>';
+      $('#do', root).innerHTML = '<div class="rs" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="color:var(--t3)">本地</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + fmtD(d) + '</b></div><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--t3)">UTC</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + d.toISOString() + '</b></div></div>';
     };
     $('#tt', root).onclick = function(){
-      var v = $('#di', root).value; if(!v) return;
+      var v = $('#di', root).value;
+      if(!v) return;
       var d = new Date(v);
-      $('#to', root).innerHTML = '<div class="rs" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--t3)">秒级</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + Math.floor(d.getTime()/1000) + '</b></div></div>';
+      $('#to', root).innerHTML = '<div class="rs" style="margin-top:12px"><div style="display:flex;justify-content:space-between;padding:10px 0"><span style="color:var(--t3)">秒级</span><b style="font-family:ui-monospace,monospace;font-size:12.5px">' + Math.floor(d.getTime() / 1000) + '</b></div></div>';
     };
   }
 });
@@ -1357,9 +1294,10 @@ reg({
     root.innerHTML = '<div class="cd"><div style="font-family:ui-monospace,monospace;font-size:16px;background:rgba(0,0,0,.3);border:1px solid var(--bd);border-radius:12px;padding:16px;word-break:break-all;line-height:1.6" id="out">点击下方按钮生成</div><label class="fd" style="margin-top:16px"><span>长度：<b id="lv">20</b></span><input type="range" id="len" min="4" max="128" value="20"></label><div class="ac"><button class="bt pri" id="gen">重新生成</button><button class="bt" id="cp">复制</button></div></div>';
     var CH = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:,.<>?/~';
     function gen(){
-      var len = +$('#len', root).value;
+      var len = parseInt($('#len', root).value, 10);
       var s = '';
-      var buf = new Uint8Array(len); crypto.getRandomValues(buf);
+      var buf = new Uint8Array(len);
+      crypto.getRandomValues(buf);
       for(var i = 0; i < len; i++) s += CH[buf[i] % CH.length];
       $('#out', root).textContent = s;
     }
@@ -1381,33 +1319,38 @@ reg({
       return;
     }
     root.innerHTML = '<div class="cd"><label class="fd"><span>文本</span><textarea id="ta" class="tx" rows="5"></textarea></label><label class="fd"><span>密码</span><input id="pw" type="password" class="in"></label><div class="ac"><button class="bt pri" id="en">加密</button><button class="bt" id="de">解密</button><button class="bt" id="cp">复制结果</button></div><label class="fd" style="margin-top:14px"><span>结果</span><textarea id="out" class="tx" rows="5" readonly></textarea></label><div id="msg"></div></div>';
-    async function deriveKey(pw, salt){
-      var km = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
-      return crypto.subtle.deriveKey({ name:'PBKDF2', salt:salt, iterations:200000, hash:'SHA-256' }, km, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']);
+    function deriveKey(pw, salt){
+      return crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']).then(function(km){
+        return crypto.subtle.deriveKey({ name:'PBKDF2', salt:salt, iterations: 200000, hash:'SHA-256' }, km, { name:'AES-GCM', length:256 }, false, ['encrypt', 'decrypt']);
+      });
     }
-    $('#en', root).onclick = async function(){
+    $('#en', root).onclick = function(){
       var t = $('#ta', root).value, pw = $('#pw', root).value;
-      if(!t || !pw){ toast('请输入','er'); return; }
-      try{
-        var salt = crypto.getRandomValues(new Uint8Array(16));
-        var iv = crypto.getRandomValues(new Uint8Array(12));
-        var key = await deriveKey(pw, salt);
-        var ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv:iv }, key, enc.encode(t));
-        var out = new Uint8Array(28 + ct.byteLength);
-        out.set(salt, 0); out.set(iv, 16); out.set(new Uint8Array(ct), 28);
-        $('#out', root).value = b64b(out);
-        $('#msg', root).innerHTML = '<div class="rs ok">✅ 加密完成</div>';
-      }catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
+      if(!t || !pw){ toast('请输入', 'er'); return; }
+      var salt = crypto.getRandomValues(new Uint8Array(16));
+      var iv = crypto.getRandomValues(new Uint8Array(12));
+      deriveKey(pw, salt).then(function(key){
+        return crypto.subtle.encrypt({ name:'AES-GCM', iv:iv }, key, enc.encode(t)).then(function(ct){
+          var ctArr = new Uint8Array(ct);
+          var out = new Uint8Array(28 + ctArr.length);
+          out.set(salt, 0); out.set(iv, 16); out.set(ctArr, 28);
+          $('#out', root).value = b64b(out);
+          $('#msg', root).innerHTML = '<div class="rs ok">✅ 加密完成</div>';
+        });
+      }).catch(function(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; });
     };
-    $('#de', root).onclick = async function(){
+    $('#de', root).onclick = function(){
       var t = $('#ta', root).value.trim(), pw = $('#pw', root).value;
-      if(!t || !pw){ toast('请输入','er'); return; }
+      if(!t || !pw){ toast('请输入', 'er'); return; }
       try{
         var raw = b2b(t);
         var salt = raw.slice(0, 16), iv = raw.slice(16, 28), ct = raw.slice(28);
-        var key = await deriveKey(pw, salt);
-        $('#out', root).value = dec.decode(await crypto.subtle.decrypt({ name:'AES-GCM', iv:iv }, key, ct));
-        $('#msg', root).innerHTML = '<div class="rs ok">✅ 解密成功</div>';
+        deriveKey(pw, salt).then(function(key){
+          return crypto.subtle.decrypt({ name:'AES-GCM', iv:iv }, key, ct);
+        }).then(function(pt){
+          $('#out', root).value = dec.decode(pt);
+          $('#msg', root).innerHTML = '<div class="rs ok">✅ 解密成功</div>';
+        }).catch(function(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; });
       }catch(e){ $('#msg', root).innerHTML = '<div class="rs er">❌ ' + esc(e.message) + '</div>'; }
     };
     $('#cp', root).onclick = function(){ copyText($('#out', root).value); };
@@ -1428,13 +1371,20 @@ reg({
       $('#list', root).innerHTML = todos.map(function(t, i){
         return '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:13px;background:rgba(0,0,0,.22);border:1px solid var(--bd);margin-bottom:8px"><div data-c="' + i + '" style="width:22px;height:22px;border-radius:50%;border:2px solid ' + (t.done ? 'var(--grn)' : 'var(--bd2)') + ';background:' + (t.done ? 'var(--grn)' : 'transparent') + ';cursor:pointer;display:grid;place-items:center;color:#fff;font-size:12px">' + (t.done ? '✓' : '') + '</div><div style="flex:1;font-size:13.5px;' + (t.done ? 'text-decoration:line-through;color:var(--t3)' : '') + '">' + esc(t.text) + '</div><button data-x="' + i + '" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:15px">✕</button></div>';
       }).join('');
-      $$('[data-c]', root).forEach(function(b){ b.onclick = function(){ todos[+b.dataset.c].done = !todos[+b.dataset.c].done; save(); render(); }; });
-      $$('[data-x]', root).forEach(function(b){ b.onclick = function(){ todos.splice(+b.dataset.x, 1); save(); render(); }; });
+      $$('[data-c]', root).forEach(function(b){
+        b.onclick = function(){ todos[parseInt(b.getAttribute('data-c'), 10)].done = !todos[parseInt(b.getAttribute('data-c'), 10)].done; save(); render(); };
+      });
+      $$('[data-x]', root).forEach(function(b){
+        b.onclick = function(){ todos.splice(parseInt(b.getAttribute('data-x'), 10), 1); save(); render(); };
+      });
     }
     function save(){ try{ localStorage.setItem(KEY, JSON.stringify(todos)); }catch(e){} }
     function add(){
-      var v = $('#inp', root).value.trim(); if(!v) return;
-      todos.unshift({ text:v, done:false }); $('#inp', root).value = ''; save(); render();
+      var v = $('#inp', root).value.trim();
+      if(!v) return;
+      todos.unshift({ text: v, done: false });
+      $('#inp', root).value = '';
+      save(); render();
     }
     $('#add', root).onclick = add;
     $('#inp', root).addEventListener('keydown', function(e){ if(e.key === 'Enter') add(); });
@@ -1456,12 +1406,17 @@ reg({
       $('#grid', root).innerHTML = notes.map(function(n, i){
         return '<div style="padding:14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid var(--bd);position:relative;min-height:100px"><button data-x="' + i + '" style="position:absolute;top:8px;right:8px;background:rgba(255,55,95,.15);border:none;color:var(--pink);width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:12px">✕</button><div style="font-size:13px;line-height:1.6;white-space:pre-wrap;word-break:break-word">' + esc(n.text) + '</div><div style="font-size:10.5px;color:var(--t3);margin-top:8px">' + new Date(n.t).toLocaleString('zh-CN') + '</div></div>';
       }).join('');
-      $$('[data-x]', root).forEach(function(b){ b.onclick = function(){ notes.splice(+b.dataset.x, 1); save(); render(); }; });
+      $$('[data-x]', root).forEach(function(b){
+        b.onclick = function(){ notes.splice(parseInt(b.getAttribute('data-x'), 10), 1); save(); render(); };
+      });
     }
     function save(){ try{ localStorage.setItem(KEY, JSON.stringify(notes)); }catch(e){} }
     $('#add', root).onclick = function(){
-      var v = $('#inp', root).value.trim(); if(!v) return;
-      notes.unshift({ text:v, t:Date.now() }); $('#inp', root).value = ''; save(); render();
+      var v = $('#inp', root).value.trim();
+      if(!v) return;
+      notes.unshift({ text: v, t: Date.now() });
+      $('#inp', root).value = '';
+      save(); render();
     };
     render();
   }
@@ -1471,20 +1426,28 @@ reg({
    应用初始化
    ========================================================= */
 function renderHome(){
-  var view = $('#view');
+  var view = document.getElementById('view');
   if(!view) return;
   var cats = Object.keys(CATS);
   var avail = cats.filter(function(c){ return TOOLS.some(function(t){ return t.cat === c; }); });
-  view.innerHTML = '<div class="hero"><h1>万能小工具箱 <span class="g">Pro</span></h1><p>苹果玻璃风格 · 全部本地处理。' + TOOLS.length + ' 个精选工具，持续可用。</p><div class="hs"><div><b>' + TOOLS.length + '</b><span>精选工具</span></div><div><b>' + avail.length + '</b><span>分类</span></div><div><b>100%</b><span>本地处理</span></div><div><b>0</b><span>数据上传</span></div></div></div>' +
-    avail.map(function(c){
-      var list = TOOLS.filter(function(t){ return t.cat === c; });
-      return '<div class="ch"><span class="ci">' + CATS[c].icon + '</span><h2>' + CATS[c].name + '</h2><span class="cc">' + list.length + ' 个工具</span></div><div class="gr">' + list.map(function(t){
-        return '<div class="tc" data-id="' + t.id + '">' + (t.isNew ? '<span class="tbg">NEW</span>' : '') + '<div class="ti" style="background:' + CATS[c].color + '">' + t.icon + '</div><div class="tn">' + esc(t.name) + '</div><div class="td">' + esc(t.desc || '') + '</div></div>';
-      }).join('') + '</div>';
-    }).join('');
-  var tc = $('#tc'); if(tc) tc.textContent = TOOLS.length + ' 个工具';
-  var crumb = $('#crumb'); if(crumb) crumb.textContent = '首页';
-  $$('.tc', view).forEach(function(el){ el.onclick = function(){ openTool(el.dataset.id); }; });
+  var html = '<div class="hero"><h1>万能小工具箱 <span class="g">Pro</span></h1><p>苹果玻璃风格 · 全部本地处理。' + TOOLS.length + ' 个精选工具，持续可用。</p><div class="hs"><div><b>' + TOOLS.length + '</b><span>精选工具</span></div><div><b>' + avail.length + '</b><span>分类</span></div><div><b>100%</b><span>本地处理</span></div><div><b>0</b><span>数据上传</span></div></div></div>';
+  avail.forEach(function(c){
+    var list = TOOLS.filter(function(t){ return t.cat === c; });
+    html += '<div class="ch"><span class="ci">' + CATS[c].icon + '</span><h2>' + CATS[c].name + '</h2><span class="cc">' + list.length + ' 个工具</span></div>';
+    html += '<div class="gr">';
+    list.forEach(function(t){
+      html += '<div class="tc" data-id="' + t.id + '">' + (t.isNew ? '<span class="tbg">NEW</span>' : '') + '<div class="ti" style="background:' + CATS[c].color + '">' + t.icon + '</div><div class="tn">' + esc(t.name) + '</div><div class="td">' + esc(t.desc || '') + '</div></div>';
+    });
+    html += '</div>';
+  });
+  view.innerHTML = html;
+  var tcEl = document.getElementById('tc');
+  if(tcEl) tcEl.textContent = TOOLS.length + ' 个工具';
+  var crumbEl = document.getElementById('crumb');
+  if(crumbEl) crumbEl.textContent = '首页';
+  $$('.tc', view).forEach(function(el){
+    el.onclick = function(){ openTool(el.getAttribute('data-id')); };
+  });
 }
 
 var curToolId = null;
@@ -1492,71 +1455,83 @@ function openTool(id){
   var t = TOOLS.find(function(x){ return x.id === id; });
   if(!t) return;
   if(curToolId){
-    try{ $('#tpb2').dispatchEvent(new Event('tool:destroy')); }catch(e){}
+    var oldBody = document.getElementById('tpb2');
+    if(oldBody) oldBody.dispatchEvent(new Event('tool:destroy'));
   }
   curToolId = id;
-  var panel = $('#tp'), body = $('#tpb2');
-  var tpt = $('#tpt'); if(tpt) tpt.textContent = t.name;
-  var tpi = $('#tpi'); if(tpi) tpi.textContent = t.icon;
+  var panel = document.getElementById('tp');
+  var body = document.getElementById('tpb2');
+  var tptEl = document.getElementById('tpt');
+  var tpiEl = document.getElementById('tpi');
+  if(tptEl) tptEl.textContent = t.name;
+  if(tpiEl) tpiEl.textContent = t.icon;
   if(body) body.innerHTML = '';
   if(panel) panel.classList.add('on');
   document.body.style.overflow = 'hidden';
   try{
     t.render(body);
   }catch(e){
-    console.error('Tool error:', e);
-    if(body) body.innerHTML = '<div class="cd"><div class="rs er">❌ 工具加载失败：' + esc(e.message) + '<br><br>其他工具不受影响，可返回继续使用。</div></div>';
+    console.error('Tool render error:', e);
+    if(body) body.innerHTML = '<div class="cd"><div class="rs er">❌ 工具加载失败：' + esc(e.message) + '<br><br>返回后其他工具不受影响。</div></div>';
   }
   if(panel) panel.scrollTop = 0;
 }
 function closeTool(){
   if(curToolId){
-    try{ $('#tpb2').dispatchEvent(new Event('tool:destroy')); }catch(e){}
+    var body = document.getElementById('tpb2');
+    if(body) body.dispatchEvent(new Event('tool:destroy'));
     curToolId = null;
   }
-  var panel = $('#tp'); if(panel) panel.classList.remove('on');
+  var panel = document.getElementById('tp');
+  if(panel) panel.classList.remove('on');
   document.body.style.overflow = '';
-  if(location.hash.startsWith('#podcast') || location.hash.startsWith('#host')){
+  if(location.hash.indexOf('#podcast') === 0 || location.hash.indexOf('#host') === 0){
     try{ history.replaceState(null, '', location.pathname); }catch(e){}
   }
 }
 
 function renderNav(){
-  var nav = $('#nav');
+  var nav = document.getElementById('nav');
   if(!nav) return;
   var cats = Object.keys(CATS);
   var avail = cats.filter(function(c){ return TOOLS.some(function(t){ return t.cat === c; }); });
-  nav.innerHTML = '<div class="ng"><div class="nl">全部</div><div class="ni on" data-h="1"><span class="i">🏠</span><span>首页</span></div></div>' +
-    avail.map(function(c){
-      var list = TOOLS.filter(function(t){ return t.cat === c; });
-      return '<div class="ng"><div class="nl">' + CATS[c].icon + ' ' + CATS[c].name + '</div>' + list.map(function(t){
-        return '<div class="ni" data-id="' + t.id + '"><span class="i">' + t.icon + '</span><span>' + esc(t.name) + '</span></div>';
-      }).join('') + '</div>';
-    }).join('');
+  var html = '<div class="ng"><div class="nl">全部</div><div class="ni on" data-h="1"><span class="i">🏠</span><span>首页</span></div></div>';
+  avail.forEach(function(c){
+    var list = TOOLS.filter(function(t){ return t.cat === c; });
+    html += '<div class="ng"><div class="nl">' + CATS[c].icon + ' ' + CATS[c].name + '</div>';
+    list.forEach(function(t){
+      html += '<div class="ni" data-id="' + t.id + '"><span class="i">' + t.icon + '</span><span>' + esc(t.name) + '</span></div>';
+    });
+    html += '</div>';
+  });
+  nav.innerHTML = html;
 }
 
 function init(){
-  // 每个初始化步骤独立 try/catch，一个失败不影响其他
-  try{ renderNav(); }catch(e){ console.error('renderNav failed:', e); }
-  try{ renderHome(); }catch(e){ console.error('renderHome failed:', e); }
+  console.log('🚀 init 开始');
 
-  // hash 路由
+  try{ renderNav(); }catch(e){ console.error('renderNav 出错:', e); }
+  try{ renderHome(); }catch(e){ console.error('renderHome 出错:', e); }
+
+  // 检查 hash 路由
   try{
     var hash = location.hash;
-    if(hash.startsWith('#podcast=') || hash.startsWith('#podcast-edit=')){
+    if(hash.indexOf('#podcast=') === 0 || hash.indexOf('#podcast-edit=') === 0){
       $$('.ni').forEach(function(x){ x.classList.remove('on'); });
-      var pn = $('.ni[data-id="podcast"]'); if(pn) pn.classList.add('on');
+      var pn = document.querySelector('.ni[data-id="podcast"]');
+      if(pn) pn.classList.add('on');
       openTool('podcast');
-    } else if(hash.startsWith('#host=')){
+    } else if(hash.indexOf('#host=') === 0){
       $$('.ni').forEach(function(x){ x.classList.remove('on'); });
-      var hn = $('.ni[data-id="hosting"]'); if(hn) hn.classList.add('on');
+      var hn = document.querySelector('.ni[data-id="hosting"]');
+      if(hn) hn.classList.add('on');
       openTool('hosting');
     }
-  }catch(e){ console.error('routing failed:', e); }
+  }catch(e){ console.error('hash 路由出错:', e); }
 
-  // 事件绑定
+  // 导航点击
   try{
-    var nav = $('#nav');
+    var nav = document.getElementById('nav');
     if(nav){
       nav.addEventListener('click', function(e){
         var home = e.target.closest('[data-h]');
@@ -1564,61 +1539,85 @@ function init(){
           $$('.ni').forEach(function(x){ x.classList.remove('on'); });
           home.classList.add('on');
           renderHome();
-          var sb = $('#sb'); if(sb) sb.classList.remove('on');
+          var sb = document.getElementById('sb');
+          if(sb) sb.classList.remove('on');
           return;
         }
         var item = e.target.closest('.ni[data-id]');
         if(item){
           $$('.ni').forEach(function(x){ x.classList.remove('on'); });
           item.classList.add('on');
-          openTool(item.dataset.id);
-          var sb = $('#sb'); if(sb) sb.classList.remove('on');
+          openTool(item.getAttribute('data-id'));
+          var sb = document.getElementById('sb');
+          if(sb) sb.classList.remove('on');
         }
       });
     }
+  }catch(e){ console.error('导航事件出错:', e); }
 
-    var search = $('#search');
+  // 搜索
+  try{
+    var search = document.getElementById('search');
     if(search){
       search.addEventListener('input', function(e){
         var q = e.target.value.trim().toLowerCase();
         if(!q){ renderHome(); return; }
-        var view = $('#view');
+        var view = document.getElementById('view');
         if(!view) return;
-        var hits = TOOLS.filter(function(t){ return t.name.toLowerCase().indexOf(q) >= 0 || t.id.indexOf(q) >= 0 || (t.desc || '').toLowerCase().indexOf(q) >= 0; });
-        view.innerHTML = '<div class="ch"><span class="ci">🔍</span><h2>搜索结果</h2><span class="cc">' + hits.length + ' 个</span></div><div class="gr">' + hits.map(function(t){
-          return '<div class="tc" data-id="' + t.id + '"><div class="ti" style="background:' + CATS[t.cat].color + '">' + t.icon + '</div><div class="tn">' + esc(t.name) + '</div><div class="td">' + esc(t.desc || '') + '</div></div>';
-        }).join('') + '</div>';
-        if(!hits.length) view.innerHTML += '<div class="hn" style="text-align:center;padding:40px">没有找到匹配的工具</div>';
-        $$('.tc', view).forEach(function(el){ el.onclick = function(){ openTool(el.dataset.id); }; });
+        var hits = TOOLS.filter(function(t){
+          return t.name.toLowerCase().indexOf(q) >= 0 || t.id.indexOf(q) >= 0 || (t.desc || '').toLowerCase().indexOf(q) >= 0;
+        });
+        var html = '<div class="ch"><span class="ci">🔍</span><h2>搜索结果</h2><span class="cc">' + hits.length + ' 个</span></div><div class="gr">';
+        hits.forEach(function(t){
+          html += '<div class="tc" data-id="' + t.id + '"><div class="ti" style="background:' + CATS[t.cat].color + '">' + t.icon + '</div><div class="tn">' + esc(t.name) + '</div><div class="td">' + esc(t.desc || '') + '</div></div>';
+        });
+        html += '</div>';
+        if(!hits.length) html += '<div class="hn" style="text-align:center;padding:40px">没有找到匹配的工具</div>';
+        view.innerHTML = html;
+        $$('.tc', view).forEach(function(el){
+          el.onclick = function(){ openTool(el.getAttribute('data-id')); };
+        });
       });
     }
+  }catch(e){ console.error('搜索出错:', e); }
 
-    var tpk = $('#tpk'); if(tpk) tpk.onclick = closeTool;
-    var mb = $('#mb'); if(mb) mb.onclick = function(){ var sb = $('#sb'); if(sb) sb.classList.toggle('on'); };
+  // 工具面板返回
+  try{
+    var tpk = document.getElementById('tpk');
+    if(tpk) tpk.onclick = closeTool;
+  }catch(e){ console.error('返回按钮出错:', e); }
 
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){ closeTool(); var hm = $('#hm'); if(hm) hm.classList.remove('on'); }
-    });
+  // 移动端菜单
+  try{
+    var mb = document.getElementById('mb');
+    if(mb){
+      mb.onclick = function(){
+        var sb = document.getElementById('sb');
+        if(sb) sb.classList.toggle('on');
+      };
+    }
+  }catch(e){ console.error('菜单出错:', e); }
 
-    var hm = $('#hm');
-    var hbtn = $('#hbtn');
-    var hc = $('#hc');
+  // ESC 关闭
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      closeTool();
+      var hm = document.getElementById('hm');
+      if(hm) hm.classList.remove('on');
+    }
+  });
+
+  // 帮助弹窗
+  try{
+    var hm = document.getElementById('hm');
+    var hbtn = document.getElementById('hbtn');
+    var hc = document.getElementById('hc');
     if(hbtn) hbtn.onclick = function(){ if(hm) hm.classList.add('on'); };
     if(hc) hc.onclick = function(){ if(hm) hm.classList.remove('on'); };
     if(hm) hm.onclick = function(e){ if(e.target === hm) hm.classList.remove('on'); };
-    $$('.mtk').forEach(function(t){
-      t.onclick = function(){
-        $$('.mtk').forEach(function(x){ x.classList.remove('on'); });
-        t.classList.add('on');
-        $$('.mp').forEach(function(p){ p.classList.remove('on'); });
-        var pane = $('#p-' + t.dataset.t);
-        if(pane) pane.classList.add('on');
-      };
-    });
-  }catch(e){ console.error('events failed:', e); }
+  }catch(e){ console.error('帮助弹窗出错:', e); }
 
-  console.log('%c✨ 万能小工具箱 Pro v3.6.0', 'color:#0a84ff;font-size:15px;font-weight:bold');
-  console.log('%c🔧 修复版 · ' + TOOLS.length + ' 个工具 · 按需加载外部库', 'color:#30d158');
+  console.log('✅ 万能小工具箱已就绪 · 共 ' + TOOLS.length + ' 个工具');
 }
 
 if(document.readyState === 'loading'){
@@ -1628,4 +1627,4 @@ if(document.readyState === 'loading'){
 }
 </script>
 </body>
-                                                            </html>
+  </html>
