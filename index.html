@@ -2,2077 +2,527 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>万能小工具箱</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>视频仓库</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0d14;--panel:#12161f;--panel2:#171c28;--border:#232a38;--text:#e8ecf4;--muted:#7a8499;--blue:#4f8cff;--purple:#a855f7;--green:#22c55e;--red:#ef4444;--orange:#f59e0b}
-html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit;outline:none}
-.app{display:flex;min-height:100vh}
-.sidebar{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:hidden}
-.brand{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--purple));display:grid;place-items:center;font-size:20px;flex:0 0 38px}
-.brand h1{font-size:14px;font-weight:700}
-.brand p{font-size:11px;color:var(--muted);margin-top:2px}
-.nav{flex:1;overflow-y:auto;padding:10px}
-.nav-group{margin-bottom:14px}
-.nav-title{font-size:10.5px;color:var(--muted);padding:8px 10px;letter-spacing:1px;font-weight:600}
-.nav-item{padding:9px 12px;border-radius:8px;font-size:13px;color:#b8c2d6;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:2px;transition:.15s}
-.nav-item:hover{background:#1a2130;color:#fff}
-.nav-item .ic{font-size:15px;width:18px;text-align:center;flex:0 0 18px}
-.footer{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
-.main{flex:1;min-width:0;display:flex;flex-direction:column}
-.topbar{height:56px;padding:0 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(10,13,20,.85);position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)}
-#menuBtn{display:none;background:none;border:none;font-size:20px;cursor:pointer;padding:6px}
-.crumb{flex:1;font-size:15px;font-weight:600}
-.badge{font-size:11.5px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#7ee2a8}
-.content{padding:24px;max-width:1000px;width:100%;margin:0 auto;flex:1}
-.hero{background:linear-gradient(135deg,rgba(79,140,255,.15),rgba(168,85,247,.1));border:1px solid var(--border);border-radius:16px;padding:28px;margin-bottom:24px}
-.hero h2{font-size:24px;font-weight:700;margin-bottom:8px}
-.hero h2 span{background:linear-gradient(135deg,#5ac8fa,#bf5af2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:13.5px;color:var(--muted);line-height:1.7;max-width:560px}
-.stats{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap}
-.stat b{font-size:22px;font-weight:700;display:block}
-.stat span{font-size:11px;color:var(--muted);margin-top:2px}
-.section-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:24px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:.18s;position:relative}
-.card:hover{background:var(--panel2);border-color:#33405a;transform:translateY(-2px)}
-.card .icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:10px;background:linear-gradient(135deg,rgba(79,140,255,.2),rgba(168,85,247,.2))}
-.card .name{font-size:13.5px;font-weight:600;margin-bottom:4px}
-.card .desc{font-size:11.5px;color:var(--muted);line-height:1.5}
-.card .new-badge{position:absolute;top:8px;right:8px;font-size:9px;padding:2px 7px;border-radius:20px;background:linear-gradient(135deg,#ff375f,#ff9f0a);color:#fff;font-weight:700}
-.panel{position:fixed;inset:0;background:rgba(10,13,20,.9);backdrop-filter:blur(20px);z-index:100;display:none;overflow-y:auto}
-.panel.on{display:block}
-.panel-inner{max-width:820px;margin:0 auto;padding:20px 20px 80px}
-.panel-bar{display:flex;align-items:center;gap:12px;padding:12px 0;position:sticky;top:0;background:rgba(10,13,20,.95);backdrop-filter:blur(10px);z-index:5;margin-bottom:16px}
-.btn-back{padding:8px 14px;border-radius:8px;background:var(--panel);border:1px solid var(--border);font-size:13px;cursor:pointer;font-weight:600}
-.btn-back:hover{background:var(--panel2)}
-.panel-title{font-size:16px;font-weight:700;flex:1}
-.panel-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:16px}
-.box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
-.box-title{font-size:13.5px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.label{display:block;font-size:12.5px;color:#a8b3c7;margin-bottom:6px;font-weight:500}
-.input,.select,.textarea{width:100%;background:#0a0e16;border:1px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13.5px}
-.input:focus,.select:focus,.textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,140,255,.12)}
-.textarea{resize:vertical;line-height:1.6;min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
-.field{margin-bottom:14px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
-.btn{padding:9px 16px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
-.btn:hover{background:#1d2534}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-primary{background:linear-gradient(135deg,var(--blue),#6a5cff);border:none;color:#fff;box-shadow:0 4px 12px rgba(79,140,255,.3)}
-.btn-primary:hover{filter:brightness(1.1)}
-.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
-.btn-ghost{background:transparent}
-.btn-danger{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#ff8080}
-.drop{border:2px dashed #2e384c;border-radius:12px;padding:32px 20px;text-align:center;cursor:pointer;background:#0a0e16;transition:.2s}
-.drop:hover{border-color:#41506b;background:#0d121c}
-.drop .di{font-size:30px;margin-bottom:10px}
-.drop .dt{font-size:14px;font-weight:600;margin-bottom:6px}
-.drop .ds{font-size:11.5px;color:var(--muted)}
-.file-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12.5px}
-.file-item .fn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.file-item .fs{color:var(--muted);font-size:11px}
-.file-item .fx{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px}
-.file-item .fx:hover{color:var(--red)}
-.result{margin-top:12px;padding:12px 14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;font-size:12.5px;line-height:1.7;word-break:break-all}
-.result.ok{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.06);color:#a8f0bd}
-.result.err{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.06);color:#ffb0b0}
-.result.info{border-color:rgba(79,140,255,.35);background:rgba(79,140,255,.06);color:#9fc2ff}
-.hint{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:8px}
-.bar{height:4px;background:#1a2130;border-radius:2px;overflow:hidden;margin-top:12px;display:none}
-.bar.on{display:block}
-.bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .2s}
-.toast-wrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
-.toast{padding:10px 18px;background:#1b2231;border:1px solid #2c3648;border-radius:10px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:tin .2s ease;max-width:80vw;text-align:center}
-.toast.ok{border-color:rgba(34,197,94,.5)}
-.toast.err{border-color:rgba(239,68,68,.5)}
-@keyframes tin{from{opacity:0;transform:translateY(8px)}}
-.mask{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90}
-.mask.on{display:block}
-.mono{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
-.pod-card{background:#0a0e16;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
-.pod-card .pc-title{font-size:14px;font-weight:600;margin-bottom:6px}
-.pod-card .pc-desc{font-size:11.5px;color:var(--muted);line-height:1.6;margin-bottom:8px}
-.pod-card .pc-actions{display:flex;gap:6px;flex-wrap:wrap}
-.ep-item{background:#0a0e16;border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px}
-.ep-item .ei-title{font-size:13px;font-weight:600;margin-bottom:4px}
-.ep-item .ei-desc{font-size:11.5px;color:var(--muted);line-height:1.5;margin-bottom:6px}
-.ep-item .ei-content{font-size:11px;color:var(--muted);line-height:1.5;max-height:60px;overflow:hidden;margin-bottom:6px}
-.ep-item .ei-actions{display:flex;gap:6px;flex-wrap:wrap}
-@media(max-width:860px){
-  .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .25s;width:250px;z-index:95}
-  .sidebar.on{transform:none}
-  #menuBtn{display:block}
-  .content{padding:16px}
-  .panel-inner{padding:12px 12px 60px}
-}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:#0f1115;color:#e8eaed}
+  header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#171a21;position:sticky;top:0;z-index:20;border-bottom:1px solid #2a2f3a}
+  header h1{font-size:18px;margin:0}
+  #menuBtn{background:none;border:none;color:#e8eaed;font-size:26px;line-height:1;cursor:pointer;padding:4px 8px}
+  #menuPanel{position:fixed;top:56px;right:12px;width:260px;max-height:70vh;overflow:auto;background:#1c2029;border:1px solid #333a46;border-radius:10px;padding:12px;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  #menuPanel.hidden{display:none}
+  #retainBtn{width:100%;padding:10px;border:none;border-radius:8px;background:#2d3442;color:#fff;font-size:15px;cursor:pointer;margin-bottom:10px}
+  #retainBtn:hover{background:#3a4354}
+  #menuPanel h3{font-size:14px;margin:8px 0;color:#9aa4b2}
+  #historyList{list-style:none;margin:0;padding:0}
+  #historyList li{padding:8px;border-radius:6px;background:#252b36;margin-bottom:6px;font-size:13px;cursor:pointer;word-break:break-all}
+  #historyList li:hover{background:#303847}
+  #historyList li.empty{color:#6b7280;cursor:default;background:none}
+  #playerWrap{position:relative;background:#000;margin:0 auto;max-width:900px}
+  #video{width:100%;max-height:60vh;background:#000;display:block}
+  #playerInfo{padding:8px 12px;font-size:13px;color:#9aa4b2;background:#171a21}
+  #landscapeBtn{position:absolute;right:10px;top:10px;padding:6px 10px;border:none;border-radius:6px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;cursor:pointer}
+  #list{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;padding:12px;max-width:1000px;margin:0 auto}
+  .card{background:#1c2029;border:1px solid #2a2f3a;border-radius:8px;padding:10px 8px;cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;flex-direction:column;align-items:center;gap:4px;transition:background .15s}
+  .card:hover{background:#252b36}
+  .card .ep{font-size:12px;color:#6b7280}
+  .card .title{font-size:13px;text-align:center;line-height:1.3;word-break:break-all}
+  .card.locked{opacity:.75}
+  .card.locked .title{color:#f59e0b}
+  #toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:rgba(0,0,0,.85);color:#fff;padding:10px 16px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:100;max-width:90vw;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  video:fullscreen{max-height:100vh;height:100vh;object-fit:contain}
+  @media (max-width:600px){#video{max-height:40vh} #list{grid-template-columns:repeat(auto-fill,minmax(90px,1fr));padding:8px}}
+
+  #fake404,#gate{display:none}
+  #fake404{position:fixed;inset:0;background:#0f1115;color:#6b7280;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:9999;font-size:15px;gap:8px}
+  #fake404 .code{font-size:48px;font-weight:700;color:#374151}
+  #gate{position:fixed;inset:0;background:#0f1115;z-index:9999;align-items:center;justify-content:center;flex-direction:column;padding:24px}
+  #gate > div{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:280px}
+  #gate h2{margin:0;font-size:18px;color:#e8eaed}
+  #gate p{margin:0;font-size:13px;color:#ef4444;min-height:18px;text-align:center}
+  #gate input{width:100%;padding:10px;border-radius:8px;border:1px solid #333a46;background:#1c2029;color:#e8eaed;font-size:15px;outline:none;text-align:center}
+  #gate input:focus{border-color:#4b5563}
+  #gate button{padding:10px 24px;border:none;border-radius:8px;background:#2d3442;color:#fff;font-size:15px;cursor:pointer;width:100%}
+  #gate button:hover{background:#3a4354}
+  #gate button:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
 <body>
 
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="logo">🧰</div>
-      <div>
-        <h1>万能小工具箱</h1>
-        <p>稳定版 · 本地处理</p>
-      </div>
-    </div>
-    <nav class="nav" id="nav"></nav>
-    <div class="footer"><span class="dot"></span>100% 本地 · 数据不上传</div>
-  </aside>
-  <div class="mask" id="mask"></div>
-  <main class="main">
-    <div class="topbar">
-      <button id="menuBtn">☰</button>
-      <div class="crumb" id="crumb">首页</div>
-      <div class="badge">🔒 本地处理</div>
-    </div>
-    <div class="content" id="content"></div>
-  </main>
+<div id="fake404">
+  <div class="code">404</div>
+  <div>Not Found</div>
 </div>
 
-<div class="panel" id="panel">
-  <div class="panel-inner">
-    <div class="panel-bar">
-      <button class="btn-back" id="panelBack">← 返回</button>
-      <div class="panel-icon" id="panelIcon"></div>
-      <div class="panel-title" id="panelTitle"></div>
-    </div>
-    <div id="panelBody"></div>
+<div id="gate">
+  <div id="humanStep">
+    <h2>人机验证</h2>
+    <p id="mathQuestion" style="color:#9aa4b2"></p>
+    <input type="number" id="mathAnswer" inputmode="numeric" placeholder="输入答案" autocomplete="off">
+    <button id="mathBtn">验证</button>
+    <p id="mathMsg"></p>
+  </div>
+  <div id="pwdStep" style="display:none">
+    <h2>访问密码</h2>
+    <input type="password" id="gatePwd" placeholder="请输入访问密码" autocomplete="new-password">
+    <button id="gateBtn">进入</button>
+    <p id="gateMsg"></p>
   </div>
 </div>
 
+<div id="mainApp" style="display:none">
+
+<header>
+  <h1>视频仓库</h1>
+  <button id="menuBtn" aria-label="菜单">⋮</button>
+</header>
+
+<div id="menuPanel" class="hidden">
+  <button id="retainBtn">想删除</button>
+  <h3>浏览记录</h3>
+  <ul id="historyList"></ul>
+</div>
+
+<div id="playerWrap">
+  <video id="video" controls playsinline></video>
+  <button id="landscapeBtn">横屏播放</button>
+  <div id="playerInfo">请选择集数播放</div>
+</div>
+
+<div id="list"></div>
+<div id="toast"></div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script>
-/* =========================================================
-   基础工具函数
-   ========================================================= */
-function $(sel, root){ try { return (root || document).querySelector(sel); } catch(e){ return null; } }
-function $$(sel, root){ try { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); } catch(e){ return []; } }
-function escapeHtml(s){
-  try { return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  catch(e){ return ''; }
+/* ============================================================
+   访问控制配置
+   ============================================================ */
+const URL_KEY = 'vk_9f4c2a7e1d8b3f6a';
+
+// 建议尽快替换成你自己的 SHA-256 哈希（生成方法见说明）
+const ACCESS_HASH = 'REPLACE_WITH_YOUR_SHA256_HASH';
+
+// 兜底明文密码：在 ACCESS_HASH 未替换前使用，方便你立刻测试
+const ACCESS_FALLBACK = 'Vq7#mK2$pL9@xR4!tN8';
+
+const MAX_FAIL = 5;
+const LOCK_MS = 60 * 1000;
+const FAIL_KEY = 'gate_fail_count';
+const LOCK_KEY = 'gate_lock_until';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
-function formatSize(n){
-  if(n === undefined || n === null || isNaN(n)) return '0 B';
-  if(n < 1024) return n + ' B';
-  if(n < 1048576) return (n/1024).toFixed(1) + ' KB';
-  if(n < 1073741824) return (n/1048576).toFixed(2) + ' MB';
-  return (n/1073741824).toFixed(2) + ' GB';
+
+function showApp() {
+  document.getElementById('mainApp').style.display = 'block';
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('fake404').style.display = 'none';
 }
-function showToast(msg, type){
-  try {
-    var wrap = document.getElementById('toastWrap');
-    if(!wrap){
-      wrap = document.createElement('div');
-      wrap.id = 'toastWrap';
-      wrap.className = 'toast-wrap';
-      document.body.appendChild(wrap);
+
+let mathAnswer = 0;
+function newMathQuestion() {
+  const a = Math.floor(Math.random() * 20) + 1;
+  const b = Math.floor(Math.random() * 20) + 1;
+  if (Math.random() > 0.5) {
+    mathAnswer = a + b;
+    document.getElementById('mathQuestion').textContent = `请计算：${a} + ${b} = ?`;
+  } else {
+    const big = Math.max(a, b), small = Math.min(a, b);
+    mathAnswer = big - small;
+    document.getElementById('mathQuestion').textContent = `请计算：${big} - ${small} = ?`;
+  }
+  document.getElementById('mathAnswer').value = '';
+  document.getElementById('mathMsg').textContent = '';
+}
+
+function checkMath() {
+  const val = parseInt(document.getElementById('mathAnswer').value, 10);
+  if (val === mathAnswer) {
+    document.getElementById('humanStep').style.display = 'none';
+    document.getElementById('pwdStep').style.display = 'flex';
+    document.getElementById('gatePwd').focus();
+  } else {
+    document.getElementById('mathMsg').textContent = '验证失败，请重新计算';
+    newMathQuestion();
+  }
+}
+
+let lockTimer = null;
+function startLockCountdown(until) {
+  const msg = document.getElementById('gateMsg');
+  const btn = document.getElementById('gateBtn');
+  const input = document.getElementById('gatePwd');
+  input.disabled = true;
+  btn.disabled = true;
+  function tick() {
+    const left = Math.ceil((until - Date.now()) / 1000);
+    if (left <= 0) {
+      clearInterval(lockTimer);
+      lockTimer = null;
+      input.disabled = false;
+      btn.disabled = false;
+      msg.textContent = '';
+      localStorage.removeItem(LOCK_KEY);
+      return;
     }
-    var t = document.createElement('div');
-    t.className = 'toast ' + (type || '');
-    t.textContent = msg;
-    wrap.appendChild(t);
-    setTimeout(function(){ try { t.remove(); } catch(e){} }, 3000);
-  } catch(e){ console.log('toast:', msg); }
-}
-function downloadBlob(blob, filename){
-  try {
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(function(){ try { URL.revokeObjectURL(url); } catch(e){} }, 60000);
-  } catch(e){ showToast('下载失败：' + e.message, 'err'); }
-}
-function copyToClipboard(text){
-  try {
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){
-        showToast('已复制', 'ok');
-      }).catch(function(){ fallback(text); });
-    } else { fallback(text); }
-  } catch(e){ fallback(text); }
-  function fallback(t){
-    try {
-      var ta = document.createElement('textarea');
-      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      document.execCommand('copy');
-      showToast('已复制', 'ok');
-      ta.remove();
-    } catch(e){ showToast('复制失败', 'err'); }
+    msg.textContent = `尝试次数过多，请 ${left} 秒后再试`;
   }
+  tick();
+  if (lockTimer) clearInterval(lockTimer);
+  lockTimer = setInterval(tick, 1000);
 }
-function setupDrop(zone, input, onFiles){
-  if(!zone || !input) return;
-  zone.onclick = function(){ try { input.click(); } catch(e){} };
-  input.onchange = function(){
-    try {
-      if(input.files && input.files.length) onFiles(Array.prototype.slice.call(input.files));
+
+async function checkGate() {
+  const input = document.getElementById('gatePwd');
+  const msg = document.getElementById('gateMsg');
+  const pwd = input.value;
+  if (!pwd) { msg.textContent = '请输入密码'; return; }
+
+  let ok = false;
+  if (ACCESS_HASH.includes('REPLACE_WITH')) {
+    ok = (pwd === ACCESS_FALLBACK);
+  } else {
+    ok = ((await sha256(pwd)) === ACCESS_HASH);
+  }
+
+  if (ok) {
+    localStorage.removeItem(FAIL_KEY);
+    localStorage.removeItem(LOCK_KEY);
+    sessionStorage.setItem('gate_ok', '1');
+    showApp();
+  } else {
+    let fails = parseInt(localStorage.getItem(FAIL_KEY) || '0') + 1;
+    if (fails >= MAX_FAIL) {
+      localStorage.setItem(FAIL_KEY, '0');
+      const until = Date.now() + LOCK_MS;
+      localStorage.setItem(LOCK_KEY, until);
+      startLockCountdown(until);
+    } else {
+      localStorage.setItem(FAIL_KEY, fails);
+      msg.textContent = `密码错误，还可尝试 ${MAX_FAIL - fails} 次`;
       input.value = '';
-    } catch(e){}
-  };
-  zone.ondragover = function(e){ e.preventDefault(); zone.style.borderColor = 'var(--blue)'; };
-  zone.ondragleave = function(){ zone.style.borderColor = ''; };
-  zone.ondrop = function(e){
-    e.preventDefault(); zone.style.borderColor = '';
-    try {
-      var f = Array.prototype.slice.call(e.dataTransfer.files || []);
-      if(f.length) onFiles(f);
-    } catch(err){}
-  };
-}
-function fileListHtml(files){
-  return files.map(function(f, i){
-    return '<div class="file-item"><span class="fn">' + escapeHtml(f.name) + '</span><span class="fs">' + formatSize(f.size) + '</span><button class="fx" data-del-idx="' + i + '">✕</button></div>';
-  }).join('');
-}
-function compressImage(file, maxSize, quality){
-  return new Promise(function(resolve, reject){
-    try {
-      var img = new Image();
-      img.onload = function(){
-        try {
-          var w = img.width, h = img.height;
-          if(Math.max(w, h) > maxSize){
-            var s = maxSize / Math.max(w, h);
-            w = Math.round(w * s); h = Math.round(h * s);
-          }
-          var cv = document.createElement('canvas');
-          cv.width = w; cv.height = h;
-          cv.getContext('2d').drawImage(img, 0, 0, w, h);
-          cv.toBlob(function(blob){
-            if(!blob){ reject(new Error('压缩失败')); return; }
-            var r = new FileReader();
-            r.onload = function(){ resolve(r.result); };
-            r.onerror = function(){ reject(new Error('读取失败')); };
-            r.readAsDataURL(blob);
-          }, 'image/jpeg', quality || 0.75);
-        } catch(e){ reject(e); }
-      };
-      img.onerror = function(){ reject(new Error('图片解析失败')); };
-      img.src = URL.createObjectURL(file);
-    } catch(e){ reject(e); }
-  });
-}
-function fetchTimeout(url, options, ms){
-  options = options || {}; ms = ms || 15000;
-  return new Promise(function(resolve, reject){
-    var ctrl = new AbortController();
-    var timer = setTimeout(function(){ try { ctrl.abort(); } catch(e){} reject(new Error('请求超时')); }, ms);
-    fetch(url, Object.assign({}, options, { signal: ctrl.signal }))
-      .then(function(r){ clearTimeout(timer); resolve(r); })
-      .catch(function(e){ clearTimeout(timer); reject(e); });
-  });
-}
-function bytesToBase64(bytes){
-  var bin = ''; var CHUNK = 0x8000;
-  for(var i = 0; i < bytes.length; i += CHUNK){
-    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+      input.focus();
+    }
   }
-  return btoa(bin);
 }
-function base64ToBytes(b64){
-  var bin = atob(b64.replace(/\s/g, ''));
-  var u = new Uint8Array(bin.length);
-  for(var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-  return u;
+
+(function initGate() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('k') !== URL_KEY) {
+    document.getElementById('fake404').style.display = 'flex';
+    return;
+  }
+  if (sessionStorage.getItem('gate_ok') === '1') {
+    showApp();
+    return;
+  }
+  document.getElementById('gate').style.display = 'flex';
+
+  const lockUntil = parseInt(localStorage.getItem(LOCK_KEY) || '0');
+  if (lockUntil > Date.now()) {
+    document.getElementById('humanStep').style.display = 'none';
+    document.getElementById('pwdStep').style.display = 'flex';
+    startLockCountdown(lockUntil);
+  } else {
+    localStorage.removeItem(LOCK_KEY);
+    newMathQuestion();
+  }
+
+  document.getElementById('mathBtn').onclick = checkMath;
+  document.getElementById('mathAnswer').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkMath();
+  });
+  document.getElementById('gateBtn').onclick = checkGate;
+  document.getElementById('gatePwd').addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkGate();
+  });
+})();
+
+/* ============================================================
+   链接智能解密：Base64 / URL编码 / AES 自动尝试
+   ============================================================ */
+const AES_KEY_HEX = '';  // 有 AES 密钥才填
+const AES_IV_HEX  = '';
+
+function looksLikeUrl(s) {
+  return typeof s === 'string' && /^https?:\/\//i.test(s.trim());
 }
-function genId(){
-  var t = Date.now().toString(16);
-  var r1 = Math.random().toString(16).slice(2, 10);
-  var r2 = Math.random().toString(16).slice(2, 10);
-  return t + r1 + r2;
+function normalizeB64(s) {
+  let t = String(s).replace(/-/g, '+').replace(/_/g, '/').replace(/\s/g, '');
+  while (t.length % 4) t += '=';
+  return t;
 }
-function safeLocalGet(key, def){
+function tryBase64(s) {
   try {
-    var v = localStorage.getItem(key);
-    if(v === null) return def;
-    return JSON.parse(v);
-  } catch(e){ return def; }
+    const d = atob(normalizeB64(s));
+    if (/^[\x20-\x7E\r\n]+$/.test(d)) return d.trim();
+  } catch (e) {}
+  return null;
 }
-function safeLocalSet(key, val){
-  try { localStorage.setItem(key, JSON.stringify(val)); return true; }
-  catch(e){ return false; }
+function tryUrlDecode(s) {
+  try {
+    const d = decodeURIComponent(s);
+    if (d !== s) return d.trim();
+  } catch (e) {}
+  return null;
+}
+function hexToBytes(hex) {
+  return new Uint8Array(hex.match(/.{1,2}/g).map(b => parseInt(b, 16)));
+}
+async function tryAes(s) {
+  if (!AES_KEY_HEX || !AES_IV_HEX) return null;
+  try {
+    const raw = Uint8Array.from(atob(normalizeB64(s)), c => c.charCodeAt(0));
+    const cryptoKey = await crypto.subtle.importKey(
+      'raw', hexToBytes(AES_KEY_HEX), { name: 'AES-CBC' }, false, ['decrypt']
+    );
+    const plain = await crypto.subtle.decrypt(
+      { name: 'AES-CBC', iv: hexToBytes(AES_IV_HEX) }, cryptoKey, raw
+    );
+    return new TextDecoder().decode(plain).trim();
+  } catch (e) {
+    return null;
+  }
+}
+async function decodeLink(link) {
+  if (!link) return link;
+  let cur = String(link).trim();
+  if (looksLikeUrl(cur)) return cur;
+
+  for (let round = 0; round < 3; round++) {
+    let next = tryBase64(cur);
+    if (next && looksLikeUrl(next)) return next;
+
+    next = tryUrlDecode(cur);
+    if (next && looksLikeUrl(next)) return next;
+
+    next = await tryAes(cur);
+    if (next && looksLikeUrl(next)) return next;
+
+    if (next && next !== cur) { cur = next; continue; }
+    break;
+  }
+
+  const candidates = [tryBase64(cur), tryUrlDecode(cur), await tryAes(cur)].filter(Boolean);
+  for (const c of candidates) {
+    if (/\.m3u8(\?|$)/i.test(c) || c.includes('://')) return c.trim();
+  }
+  return link;
 }
 
-/* =========================================================
-   播客云存储
-   ========================================================= */
-async function uploadPodcastFile(data){
-  var json = JSON.stringify(data);
-  var blob = new Blob([json], { type: 'application/json' });
-  var fd = new FormData();
-  fd.append('reqtype', 'fileupload');
-  fd.append('fileToUpload', blob, 'podcast_' + Date.now() + '.json');
-  var res = await fetchTimeout('https://catbox.moe/user/api.php', { method: 'POST', body: fd }, 180000);
-  if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
-  var url = (await res.text()).trim();
-  if(url.indexOf('http') !== 0) throw new Error('返回异常：' + url.slice(0, 100));
-  return url;
-}
-async function downloadPodcastFile(url){
-  var res = await fetchTimeout(url, {}, 90000);
-  if(!res.ok) throw new Error('下载失败 HTTP ' + res.status);
-  var text = await res.text();
-  try { return JSON.parse(text); }
-  catch(e){ throw new Error('数据解析失败'); }
-}
-async function createPodcast(secret, data){
-  var dataUrl = await uploadPodcastFile(data);
-  var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
-  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify(meta)
-  }, 20000);
-  if(!res.ok) throw new Error('创建元数据失败 ' + res.status);
-  var loc = res.headers.get('Location') || res.headers.get('location');
-  if(!loc) throw new Error('未获取到元数据 ID');
-  return loc.split('/').pop();
-}
-async function updatePodcast(metaId, secret, data){
-  var dataUrl = await uploadPodcastFile(data);
-  var meta = { u: dataUrl, s: secret, n: data.n, t: Date.now() };
-  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(meta)
-  }, 20000);
-  if(!res.ok) throw new Error('更新元数据失败 ' + res.status);
-  return dataUrl;
-}
-async function readPodcast(metaId){
-  var res = await fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000);
-  if(!res.ok) throw new Error('读取元数据失败 ' + res.status);
-  var meta = await res.json();
-  if(!meta.u) throw new Error('元数据不完整');
-  var data = await downloadPodcastFile(meta.u);
-  return { meta: meta, data: data };
-}
+/* ============================================================
+   视频数据
+   ============================================================ */
+const STREAMS = [
+  'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+  'https://test-streams.mux.dev/pts_shift/master.m3u8',
+  'https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8',
+  'https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8',
+  'https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8',
+  'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8',
+  'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
+  'https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8'
+];
 
-/* =========================================================
-   工具定义
-   ========================================================= */
-var TOOLS = [];
-var CATEGORIES = {
-  crypto: { name: '加密存储', icon: '🔐' },
-  video: { name: '视频工具', icon: '🎬' },
-  image: { name: '图片工具', icon: '🖼️' },
-  text: { name: '文本工具', icon: '📝' },
-  life: { name: '实用工具', icon: '🧰' }
+/* 会员链接：第 31–60 集填这里 */
+const VIP_LINKS = {
+  // 31: 'https://hls.weagdnz.cn/videos5/5a80a2e2403a702981acb17828c81640/5a80a2e2403a702981acb17828c81640.m3u8?auth_key=1792221588-6ad32194be736-0-8b497c5829ebe31a519acc40ab4e8503&v=3&time=0',
+  // 32: 'https://你的域名/vip/32.m3u8',
+  // ...
+  // 60: 'https://你的域名/vip/60.m3u8'
 };
 
-/* =========================================================
-   工具 1: 私人播客生成器
-   ========================================================= */
-var POD_LIST = 'toolbox_podcast_list_v2';
+const TOTAL = 60;
+const VIP_START = 31;
+const PASSWORD = atob('OTAwMDMwMzM=');
+let unlocked = sessionStorage.getItem('vip_unlocked') === '1';
+let hls = null;
+let currentIndex = null;
+let longPressTimer = null;
+let longPressTriggered = false;
 
-TOOLS.push({
-  id: 'podcast',
-  name: '私人播客生成器',
-  icon: '🎙️',
-  category: 'crypto',
-  desc: '无大小限制 · 实时可编辑',
-  isNew: true,
-  render: function(root){
-    try {
-      var hash = location.hash;
-      if(hash.indexOf('#podcast=') === 0){
-        renderPodcastView(root, hash.slice(9));
-        return;
-      }
-      if(hash.indexOf('#podcast-edit=') === 0){
-        var rest = hash.slice(14);
-        var dashIdx = rest.lastIndexOf('-');
-        if(dashIdx > 0){
-          renderPodcastEdit(root, rest.slice(0, dashIdx), rest.slice(dashIdx + 1));
-          return;
-        }
-      }
-      renderPodcastCreate(root);
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 播客工具初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-function renderPodcastCreate(root){
-  var h = '';
-  h += '<div class="box" style="background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(79,140,255,.08));border-color:rgba(168,85,247,.3)">';
-  h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🎙️</span><span style="font-size:15px;font-weight:700">私人播客生成器</span><span style="font-size:10px;padding:3px 8px;border-radius:20px;background:rgba(34,197,94,.2);border:1px solid rgba(34,197,94,.4);color:#7ee2a8;font-weight:700">无限制</span></div>';
-  h += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">编辑内容 → 生成专属链接 → 发给朋友。<br><b style="color:var(--text)">浏览链接</b>给朋友看，<b style="color:var(--text)">管理链接</b>你自己留着改。<br><span style="color:#7ee2a8">✅ 数据以文件形式存储，单文件支持 200MB，基本无限制。</span></div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📻 播客基础信息</div>';
-  h += '<div class="grid2">';
-  h += '<div class="field"><label class="label">播客名称（必填）</label><input type="text" class="input" id="podName" placeholder="例如：我的电台"></div>';
-  h += '<div class="field"><label class="label">播客作者（可选）</label><input type="text" class="input" id="podAuthor" placeholder="你的名字"></div>';
-  h += '</div>';
-  h += '<div class="field"><label class="label">播客简介（可选）</label><textarea class="textarea" id="podDesc" rows="3" placeholder="简单介绍一下…"></textarea></div>';
-  h += '<div class="field"><label class="label">播客封面（可选）</label>';
-  h += '<input type="file" id="podCover" accept="image/*" hidden>';
-  h += '<div class="row"><button class="btn" id="pickCoverBtn">📷 选择封面</button><button class="btn btn-ghost" id="removeCoverBtn" style="display:none">🗑️ 移除</button><span class="hint" id="coverName" style="margin-top:0">不选也行</span></div>';
-  h += '</div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📝 添加单集</div>';
-  h += '<div class="grid2">';
-  h += '<div class="field"><label class="label">单集标题（必填）</label><input type="text" class="input" id="epTitle" placeholder="例如：第 1 期 · 开场"></div>';
-  h += '<div class="field"><label class="label">单集简介（可选）</label><input type="text" class="input" id="epDesc" placeholder="可留空"></div>';
-  h += '</div>';
-  h += '<div class="field"><label class="label">单集文字稿（可选，不限长度）</label><textarea class="textarea" id="epContent" rows="5" placeholder="像写文章一样写…"></textarea></div>';
-  h += '<div class="field"><label class="label">视频链接（可选）</label><input type="text" class="input" id="epVideo" placeholder="支持 .mp4 / .m3u8 / 云盘直链等"></div>';
-  h += '<div class="row" style="margin-top:12px"><button class="btn btn-primary" id="addEpBtn">➕ 添加单集</button></div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📋 单集列表 <span id="epCount" style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto"></span></div>';
-  h += '<div id="epList"></div>';
-  h += '<div id="epEmpty" class="hint" style="text-align:center;padding:20px">还没有单集，添加第一期吧</div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">🔗 生成专属链接</div>';
-  h += '<div class="hint" style="margin-bottom:12px">生成后会给你两个链接：<b style="color:#7ee2a8">浏览链接</b>（给朋友）和 <b style="color:#ffd28a">管理链接</b>（自己改）。<b>链接永久不变</b>。</div>';
-  h += '<div class="row"><button class="btn btn-primary" id="genLinkBtn">🔗 生成专属链接</button></div>';
-  h += '<div class="bar" id="genBar"><div class="bar-fill" id="genBarFill"></div></div>';
-  h += '<div id="linkResult"></div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📚 我的播客</div>';
-  h += '<div id="myPodList"></div>';
-  h += '</div>';
-
-  root.innerHTML = h;
-
-  var state = { episodes: [], coverData: null };
-
-  try {
-    var draft = safeLocalGet('toolbox_podcast_draft', null);
-    if(draft && typeof draft === 'object'){
-      if(draft.name && $('#podName', root)) $('#podName', root).value = draft.name;
-      if(draft.author && $('#podAuthor', root)) $('#podAuthor', root).value = draft.author;
-      if(draft.desc && $('#podDesc', root)) $('#podDesc', root).value = draft.desc;
-      if(Array.isArray(draft.episodes)) state.episodes = draft.episodes;
-      if(draft.coverData) state.coverData = draft.coverData;
-      if(state.coverData && $('#coverName', root)){
-        $('#coverName', root).textContent = '已保存封面';
-        if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = '';
-      }
-    }
-  } catch(e){}
-
-  function updateEpCount(){
-    var c = $('#epCount', root);
-    if(c) c.textContent = state.episodes.length ? '共 ' + state.episodes.length + ' 期' : '';
-    var empty = $('#epEmpty', root);
-    if(empty) empty.style.display = state.episodes.length ? 'none' : 'block';
-  }
-
-  function renderEpList(){
-    var listEl = $('#epList', root);
-    if(!listEl) return;
-    if(state.episodes.length === 0){ listEl.innerHTML = ''; updateEpCount(); return; }
-    var h2 = '';
-    for(var i = 0; i < state.episodes.length; i++){
-      var ep = state.episodes[i];
-      h2 += '<div class="ep-item">';
-      h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
-      if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
-      if(ep.c) h2 += '<div class="ei-content">' + escapeHtml(ep.c.slice(0, 100)) + (ep.c.length > 100 ? '…' : '') + '</div>';
-      if(ep.v) h2 += '<div class="ei-desc" style="color:#9fc2ff">🎬 ' + escapeHtml(ep.v.slice(0, 60)) + (ep.v.length > 60 ? '…' : '') + '</div>';
-      h2 += '<div class="ei-actions"><button class="btn btn-sm btn-danger" data-del-ep="' + i + '">🗑️ 删除</button></div>';
-      h2 += '</div>';
-    }
-    listEl.innerHTML = h2;
-    var delBtns = $$('[data-del-ep]', listEl);
-    for(var j = 0; j < delBtns.length; j++){
-      delBtns[j].onclick = function(e){
-        var idx = parseInt(e.target.getAttribute('data-del-ep'), 10);
-        state.episodes.splice(idx, 1);
-        saveDraft();
-        renderEpList();
-      };
-    }
-    updateEpCount();
-  }
-
-  function saveDraft(){
-    safeLocalSet('toolbox_podcast_draft', {
-      name: $('#podName', root) ? $('#podName', root).value : '',
-      author: $('#podAuthor', root) ? $('#podAuthor', root).value : '',
-      desc: $('#podDesc', root) ? $('#podDesc', root).value : '',
-      coverData: state.coverData,
-      episodes: state.episodes
-    });
-  }
-
-  var pickBtn = $('#pickCoverBtn', root);
-  var coverInput = $('#podCover', root);
-  if(pickBtn && coverInput){
-    pickBtn.onclick = function(){ try { coverInput.click(); } catch(e){} };
-    coverInput.onchange = function(e){
-      var f = e.target.files[0];
-      if(!f) return;
-      if($('#coverName', root)) $('#coverName', root).textContent = '压缩中…';
-      compressImage(f, 600, 0.8).then(function(d){
-        state.coverData = d;
-        if($('#coverName', root)) $('#coverName', root).textContent = '已选择';
-        if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = '';
-        saveDraft();
-      }).catch(function(err){
-        if($('#coverName', root)) $('#coverName', root).textContent = '处理失败';
-        showToast('封面处理失败：' + err.message, 'err');
-      });
-    };
-  }
-  var rmCover = $('#removeCoverBtn', root);
-  if(rmCover){
-    rmCover.onclick = function(){
-      state.coverData = null;
-      if($('#coverName', root)) $('#coverName', root).textContent = '不选也行';
-      if($('#removeCoverBtn', root)) $('#removeCoverBtn', root).style.display = 'none';
-      saveDraft();
-    };
-  }
-
-  var addBtn = $('#addEpBtn', root);
-  if(addBtn){
-    addBtn.onclick = function(){
-      try {
-        var title = $('#epTitle', root) ? $('#epTitle', root).value.trim() : '';
-        if(!title){ showToast('请输入单集标题', 'err'); return; }
-        state.episodes.push({
-          t: title,
-          d: $('#epDesc', root) ? $('#epDesc', root).value.trim() : '',
-          c: $('#epContent', root) ? $('#epContent', root).value.trim() : '',
-          v: $('#epVideo', root) ? $('#epVideo', root).value.trim() : ''
-        });
-        if($('#epTitle', root)) $('#epTitle', root).value = '';
-        if($('#epDesc', root)) $('#epDesc', root).value = '';
-        if($('#epContent', root)) $('#epContent', root).value = '';
-        if($('#epVideo', root)) $('#epVideo', root).value = '';
-        saveDraft();
-        renderEpList();
-        showToast('已添加', 'ok');
-      } catch(e){ showToast('添加失败：' + e.message, 'err'); }
-    };
-  }
-
-  var genBtn = $('#genLinkBtn', root);
-  if(genBtn){
-    genBtn.onclick = function(){
-      if(state.episodes.length === 0){ showToast('请至少添加一期内容', 'err'); return; }
-      genBtn.disabled = true;
-      genBtn.textContent = '⏳ 上传中…';
-      var bar = $('#genBar', root);
-      var barFill = $('#genBarFill', root);
-      if(bar) bar.classList.add('on');
-      if(barFill) barFill.style.width = '20%';
-
-      var secret = genId();
-      var data = {
-        n: $('#podName', root) ? ($('#podName', root).value || '我的播客') : '我的播客',
-        a: $('#podAuthor', root) ? $('#podAuthor', root).value : '',
-        d: $('#podDesc', root) ? $('#podDesc', root).value : '',
-        c: state.coverData,
-        e: state.episodes
-      };
-
-      if(barFill) barFill.style.width = '40%';
-      createPodcast(secret, data).then(function(metaId){
-        if(barFill) barFill.style.width = '100%';
-        var base = location.origin + location.pathname;
-        var viewLink = base + '#podcast=' + metaId;
-        var editLink = base + '#podcast-edit=' + metaId + '-' + secret;
-
-        var my = safeLocalGet(POD_LIST, {});
-        my[metaId] = { name: data.n, created: Date.now(), secret: secret, viewLink: viewLink, editLink: editLink };
-        safeLocalSet(POD_LIST, my);
-
-        var lr = $('#linkResult', root);
-        if(lr){
-          lr.innerHTML =
-            '<div class="result ok" style="margin-top:14px">✅ 生成成功！</div>' +
-            '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-            '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">📤 浏览链接（发朋友）</div>' +
-            '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>' +
-            '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpView">📋 复制</button><button class="btn btn-sm" id="opView">👁️ 预览</button></div>' +
-            '</div>' +
-            '<div style="background:#0a0e16;border:1px solid rgba(245,158,11,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-            '<div style="font-size:11.5px;color:#ffd08a;font-weight:700;margin-bottom:6px">✏️ 管理链接（自己留）</div>' +
-            '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(editLink) + '</div>' +
-            '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="cpEdit">📋 复制</button><button class="btn btn-sm" id="opEdit">✏️ 打开管理</button></div>' +
-            '</div>';
-          var cpView = $('#cpView', root);
-          var opView = $('#opView', root);
-          var cpEdit = $('#cpEdit', root);
-          var opEdit = $('#opEdit', root);
-          if(cpView) cpView.onclick = function(){ copyToClipboard(viewLink); };
-          if(opView) opView.onclick = function(){ window.open(viewLink, '_blank'); };
-          if(cpEdit) cpEdit.onclick = function(){ copyToClipboard(editLink); };
-          if(opEdit) opEdit.onclick = function(){ location.hash = '#podcast-edit=' + metaId + '-' + secret; };
-        }
-        renderMyPodList(root);
-        showToast('生成成功', 'ok');
-      }).catch(function(e){
-        console.error(e);
-        showToast('上传失败：' + e.message, 'err');
-        var lr = $('#linkResult', root);
-        if(lr){
-          lr.innerHTML = '<div class="result err">❌ 生成失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 网络问题（无法连接 catbox.moe 或 jsonblob.com）<br>② 浏览器拦截了跨域请求<br>③ 存储服务暂时不可用<br><br><b>建议：</b>检查网络、稍后重试</div>';
-        }
-      }).then(function(){
-        if(barFill) barFill.style.width = '0';
-        setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
-        genBtn.disabled = false;
-        genBtn.textContent = '🔗 生成专属链接';
-      });
-    };
-  }
-
-  renderEpList();
-  renderMyPodList(root);
-}
-
-function renderMyPodList(root){
-  var el = $('#myPodList', root);
-  if(!el) return;
-  var my = safeLocalGet(POD_LIST, {});
-  var ids = Object.keys(my);
-  if(ids.length === 0){
-    el.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有创建过播客</div>';
-    return;
-  }
-  ids.sort(function(a, b){ return (my[b].created || 0) - (my[a].created || 0); });
-  var h = '';
-  for(var i = 0; i < ids.length; i++){
-    var id = ids[i];
-    var m = my[id];
-    h += '<div class="pod-card">';
-    h += '<div class="pc-title">' + escapeHtml(m.name || '未命名') + '</div>';
-    h += '<div class="pc-desc">创建于 ' + (m.created ? new Date(m.created).toLocaleString('zh-CN') : '未知') + '</div>';
-    h += '<div class="pc-actions">';
-    h += '<button class="btn btn-sm btn-primary" data-open="' + escapeHtml(m.viewLink || '') + '">📤 打开</button>';
-    h += '<button class="btn btn-sm" data-edit="' + escapeHtml(m.editLink || '') + '">✏️ 管理</button>';
-    h += '<button class="btn btn-sm" data-copy="' + escapeHtml(m.viewLink || '') + '">📋 复制</button>';
-    h += '<button class="btn btn-sm btn-danger" data-delpod="' + id + '">🗑️ 删除</button>';
-    h += '</div></div>';
-  }
-  el.innerHTML = h;
-
-  var openBtns = $$('[data-open]', el);
-  for(var j = 0; j < openBtns.length; j++){
-    openBtns[j].onclick = function(e){
-      var url = e.target.getAttribute('data-open');
-      if(url) window.open(url, '_blank');
-    };
-  }
-  var editBtns = $$('[data-edit]', el);
-  for(var k = 0; k < editBtns.length; k++){
-    editBtns[k].onclick = function(e){
-      var url = e.target.getAttribute('data-edit');
-      if(url){
-        var idx = url.indexOf('#');
-        if(idx >= 0) location.hash = url.slice(idx);
-      }
-    };
-  }
-  var copyBtns = $$('[data-copy]', el);
-  for(var l = 0; l < copyBtns.length; l++){
-    copyBtns[l].onclick = function(e){ copyToClipboard(e.target.getAttribute('data-copy')); };
-  }
-  var delBtns = $$('[data-delpod]', el);
-  for(var m = 0; m < delBtns.length; m++){
-    delBtns[m].onclick = function(e){
-      if(!confirm('从本机删除这条记录？')) return;
-      var my = safeLocalGet(POD_LIST, {});
-      delete my[e.target.getAttribute('data-delpod')];
-      safeLocalSet(POD_LIST, my);
-      renderMyPodList(root);
-    };
-  }
-}
-
-function renderPodcastView(root, metaId){
-  root.innerHTML = '<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">🎙️</div><div style="font-size:14px;color:var(--muted)">正在加载播客…</div></div>';
-
-  readPodcast(metaId).then(function(result){
-    drawPodcastView(root, metaId, result.data, result.meta);
-    var lastTs = result.meta.t;
-    var timer = setInterval(function(){
-      fetchTimeout('https://jsonblob.com/api/jsonBlob/' + metaId, {}, 15000)
-        .then(function(r){ return r.json(); })
-        .then(function(meta){
-          if(meta.t !== lastTs){
-            lastTs = meta.t;
-            return downloadPodcastFile(meta.u).then(function(newData){
-              drawPodcastView(root, metaId, newData, meta);
-              showToast('内容已更新', 'ok');
-            });
-          }
-        })
-        .catch(function(){});
-    }, 20000);
-    if(root._podTimer) clearInterval(root._podTimer);
-    root._podTimer = timer;
-  }).catch(function(e){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 加载失败：' + escapeHtml(e.message) + '<br><br>可能原因：<br>① 网络问题<br>② 存储服务暂时不可用<br>③ 链接已失效</div></div>';
+const videos = [];
+for (let i = 1; i <= TOTAL; i++) {
+  const isVip = i >= VIP_START;
+  const realLink = isVip
+    ? (VIP_LINKS[i] || STREAMS[(i - 1) % STREAMS.length])
+    : STREAMS[(i - 1) % STREAMS.length];
+  videos.push({
+    id: i,
+    isVip,
+    title: isVip ? 'VIP第' + i + '集' : '第' + i + '集',
+    link: isVip ? btoa(realLink) : realLink
   });
 }
 
-function drawPodcastView(root, metaId, data, meta){
-  var h = '';
-  h += '<div style="max-width:820px;margin:0 auto">';
-  h += '<div style="text-align:center;padding:36px 24px;border-radius:16px;background:linear-gradient(135deg,rgba(79,140,255,.15),rgba(168,85,247,.12));border:1px solid var(--border);margin-bottom:20px">';
-  h += '<div style="margin-bottom:14px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.35);color:#7ee2a8;font-weight:600"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e"></span>实时同步</span></div>';
-  if(data.c){
-    h += '<img src="' + data.c + '" style="width:130px;height:130px;border-radius:24px;object-fit:cover;margin:0 auto 18px;display:block;box-shadow:0 20px 50px rgba(0,0,0,.4)">';
-  } else {
-    h += '<div style="width:130px;height:130px;border-radius:24px;background:linear-gradient(135deg,rgba(168,85,247,.4),rgba(79,140,255,.3));margin:0 auto 18px;display:grid;place-items:center;font-size:56px">🎙️</div>';
-  }
-  h += '<div style="font-size:28px;font-weight:700;margin-bottom:8px">' + escapeHtml(data.n || '未命名') + '</div>';
-  if(data.a) h += '<div style="font-size:14px;color:var(--muted);margin-bottom:8px">by ' + escapeHtml(data.a) + '</div>';
-  if(data.d) h += '<div style="font-size:13px;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.75">' + escapeHtml(data.d) + '</div>';
-  h += '<div class="hint" style="margin-top:14px;font-size:11px">更新于 ' + (meta && meta.t ? new Date(meta.t).toLocaleString('zh-CN') : '未知') + '</div>';
-  h += '</div>';
+function renderList() {
+  const listEl = document.getElementById('list');
+  listEl.innerHTML = '';
+  videos.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'card' + (v.isVip && !unlocked ? ' locked' : '');
+    card.dataset.id = v.id;
+    const title = (v.isVip && !unlocked) ? '非会员内容' : v.title;
+    card.innerHTML = `<span class="ep">${v.id}</span><span class="title">${title}</span>`;
 
-  var eps = data.e || [];
-  if(eps.length === 0){
-    h += '<div class="hint" style="text-align:center;padding:30px">暂无内容</div>';
-  } else {
-    for(var i = 0; i < eps.length; i++){
-      var ep = eps[i];
-      h += '<div class="box">';
-      h += '<div style="font-size:17px;font-weight:700;margin-bottom:8px">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
-      if(ep.d) h += '<div style="font-size:12.5px;color:var(--muted);margin-bottom:14px">' + escapeHtml(ep.d) + '</div>';
-      if(ep.c) h += '<div style="font-size:14.5px;line-height:1.9;color:#b8c2d6;white-space:pre-wrap;margin-bottom:16px">' + escapeHtml(ep.c) + '</div>';
-      if(ep.v){
-        var u = ep.v.toLowerCase().split('?')[0];
-        if(u.indexOf('.m3u8') >= 0){
-          h += '<div style="padding:14px 16px;background:rgba(79,140,255,.08);border:1px solid rgba(79,140,255,.3);border-radius:10px;font-size:12.5px;color:#9fc2ff;display:flex;align-items:center;gap:10px;flex-wrap:wrap">';
-          h += '<span>📺 M3U8 流媒体</span>';
-          h += '<a href="' + escapeHtml(ep.v) + '" target="_blank" class="btn btn-sm btn-primary">▶ 打开播放</a>';
-          h += '<button class="btn btn-sm" data-cpv="' + escapeHtml(ep.v) + '">📋 复制链接</button>';
-          h += '</div>';
-          h += '<div class="hint" style="margin-top:6px">💡 浏览器如不能播放，可复制链接到 VLC / IINA 播放</div>';
-        } else {
-          h += '<video src="' + escapeHtml(ep.v) + '" controls preload="metadata" style="width:100%;border-radius:12px;margin-bottom:12px;background:#000"></video>';
-        }
-      }
-      h += '</div>';
-    }
-  }
-  h += '<div class="box" style="text-align:center"><div style="font-size:12px;color:var(--muted)">🔒 私人播客 · 内容实时同步</div></div>';
-  h += '</div>';
-
-  root.innerHTML = h;
-
-  var cpBtns = $$('[data-cpv]', root);
-  for(var k = 0; k < cpBtns.length; k++){
-    cpBtns[k].onclick = function(e){ copyToClipboard(e.target.getAttribute('data-cpv')); };
-  }
-}
-
-function renderPodcastEdit(root, metaId, secret){
-  root.innerHTML = '<div style="text-align:center;padding:60px 20px"><div style="font-size:48px;margin-bottom:16px">✏️</div><div style="font-size:14px;color:var(--muted)">正在打开管理台…</div></div>';
-
-  readPodcast(metaId).then(function(result){
-    if(result.meta.s !== secret){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 管理密钥错误</div></div>';
-      return;
-    }
-    drawPodcastEdit(root, metaId, secret, result.data);
-  }).catch(function(e){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 打开失败：' + escapeHtml(e.message) + '</div></div>';
-  });
-}
-
-function drawPodcastEdit(root, metaId, secret, data){
-  var state = {
-    episodes: (data.e || []).map(function(ep){ return JSON.parse(JSON.stringify(ep)); }),
-    coverData: data.c || null
-  };
-  var viewLink = location.origin + location.pathname + '#podcast=' + metaId;
-
-  var h = '';
-  h += '<div style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.12));border:1px solid rgba(245,158,11,.35);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:#ffd08a;line-height:1.6"><b>✏️ 管理台模式</b>：修改保存后朋友刷新就能看到。数据无大小限制。</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">🔗 当前浏览链接</div>';
-  h += '<div style="background:#0a0e16;border:1px solid var(--border);border-radius:9px;padding:12px 14px;word-break:break-all">';
-  h += '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(viewLink) + '</div>';
-  h += '<div class="row" style="margin-top:8px"><button class="btn btn-sm" id="edCopy">📋 复制</button><button class="btn btn-sm" id="edOpen">👁️ 预览</button></div>';
-  h += '</div></div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📻 基础信息</div>';
-  h += '<div class="grid2">';
-  h += '<div class="field"><label class="label">播客名称</label><input type="text" class="input" id="edName" value="' + escapeHtml(data.n || '') + '"></div>';
-  h += '<div class="field"><label class="label">作者</label><input type="text" class="input" id="edAuthor" value="' + escapeHtml(data.a || '') + '"></div>';
-  h += '</div>';
-  h += '<div class="field"><label class="label">简介</label><textarea class="textarea" id="edDesc" rows="3">' + escapeHtml(data.d || '') + '</textarea></div>';
-  h += '<div class="field"><label class="label">封面</label>';
-  h += '<input type="file" id="edCover" accept="image/*" hidden>';
-  h += '<div class="row"><button class="btn" id="edPickCover">📷 更换</button><button class="btn btn-ghost" id="edRemoveCover">🗑️ 移除</button><span class="hint" style="margin-top:0" id="edCoverName">' + (state.coverData ? '已有封面' : '未设置') + '</span></div>';
-  h += '</div>';
-  if(state.coverData) h += '<img src="' + state.coverData + '" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-top:6px">';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📝 添加新单集</div>';
-  h += '<div class="grid2">';
-  h += '<div class="field"><label class="label">标题</label><input type="text" class="input" id="edEpTitle"></div>';
-  h += '<div class="field"><label class="label">简介</label><input type="text" class="input" id="edEpDesc"></div>';
-  h += '</div>';
-  h += '<div class="field"><label class="label">内容（不限长度）</label><textarea class="textarea" id="edEpContent" rows="5"></textarea></div>';
-  h += '<div class="field"><label class="label">视频链接</label><input type="text" class="input" id="edEpVideo" placeholder=".mp4 / .m3u8 等"></div>';
-  h += '<div class="row"><button class="btn" id="edAddEp">➕ 添加</button></div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📋 单集列表 <span id="edEpCount" style="font-size:11.5px;color:var(--muted);font-weight:500;margin-left:auto"></span></div>';
-  h += '<div id="edEpList"></div>';
-  h += '<div id="edEpEmpty" class="hint" style="text-align:center;padding:20px">没有单集</div>';
-  h += '</div>';
-
-  h += '<div class="box" style="position:sticky;bottom:16px;background:rgba(18,22,31,.98);border-color:rgba(34,197,94,.4);z-index:20">';
-  h += '<div class="row" style="align-items:center"><div style="flex:1;font-size:12.5px;color:var(--muted)">💡 修改完成后点击右侧按钮保存</div>';
-  h += '<button class="btn btn-primary" id="edSaveBtn" style="padding:12px 26px">💾 保存并发布</button>';
-  h += '</div>';
-  h += '<div class="bar" id="edBar"><div class="bar-fill" id="edBarFill"></div></div>';
-  h += '</div>';
-
-  root.innerHTML = h;
-
-  function renderEpList(){
-    var el = $('#edEpList', root);
-    var emptyEl = $('#edEpEmpty', root);
-    var countEl = $('#edEpCount', root);
-    if(countEl) countEl.textContent = state.episodes.length ? '共 ' + state.episodes.length + ' 期' : '';
-    if(!el) return;
-    if(state.episodes.length === 0){
-      el.innerHTML = '';
-      if(emptyEl) emptyEl.style.display = 'block';
-      return;
-    }
-    if(emptyEl) emptyEl.style.display = 'none';
-    var h2 = '';
-    for(var i = 0; i < state.episodes.length; i++){
-      var ep = state.episodes[i];
-      h2 += '<div class="ep-item">';
-      h2 += '<div class="ei-title">第 ' + (i+1) + ' 期 · ' + escapeHtml(ep.t || '') + '</div>';
-      if(ep.d) h2 += '<div class="ei-desc">' + escapeHtml(ep.d) + '</div>';
-      h2 += '<div class="ei-actions">';
-      h2 += '<button class="btn btn-sm" data-ededit="' + i + '">✏️ 编辑</button>';
-      h2 += '<button class="btn btn-sm btn-danger" data-eddel="' + i + '">🗑️ 删除</button>';
-      h2 += '</div></div>';
-    }
-    el.innerHTML = h2;
-    var delBtns = $$('[data-eddel]', el);
-    for(var j = 0; j < delBtns.length; j++){
-      delBtns[j].onclick = function(e){
-        if(!confirm('删除这期？')) return;
-        state.episodes.splice(parseInt(e.target.getAttribute('data-eddel'), 10), 1);
-        renderEpList();
-      };
-    }
-    var editBtns = $$('[data-ededit]', el);
-    for(var k = 0; k < editBtns.length; k++){
-      editBtns[k].onclick = function(e){
-        var idx = parseInt(e.target.getAttribute('data-ededit'), 10);
-        var ep = state.episodes[idx];
-        if($('#edEpTitle', root)) $('#edEpTitle', root).value = ep.t || '';
-        if($('#edEpDesc', root)) $('#edEpDesc', root).value = ep.d || '';
-        if($('#edEpContent', root)) $('#edEpContent', root).value = ep.c || '';
-        if($('#edEpVideo', root)) $('#edEpVideo', root).value = ep.v || '';
-        state.episodes.splice(idx, 1);
-        renderEpList();
-        showToast('已载入编辑区', 'ok');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-    }
-  }
-
-  var pickCover = $('#edPickCover', root);
-  var coverInput = $('#edCover', root);
-  if(pickCover && coverInput){
-    pickCover.onclick = function(){ try { coverInput.click(); } catch(e){} };
-    coverInput.onchange = function(e){
-      var f = e.target.files[0]; if(!f) return;
-      if($('#edCoverName', root)) $('#edCoverName', root).textContent = '压缩中…';
-      compressImage(f, 600, 0.8).then(function(d){
-        state.coverData = d;
-        if($('#edCoverName', root)) $('#edCoverName', root).textContent = '已更换';
-      }).catch(function(err){ showToast('处理失败：' + err.message, 'err'); });
-    };
-  }
-  var rmCover = $('#edRemoveCover', root);
-  if(rmCover) rmCover.onclick = function(){
-    state.coverData = null;
-    if($('#edCoverName', root)) $('#edCoverName', root).textContent = '已移除';
-  };
-
-  var addBtn = $('#edAddEp', root);
-  if(addBtn) addBtn.onclick = function(){
-    try {
-      var t = $('#edEpTitle', root) ? $('#edEpTitle', root).value.trim() : '';
-      if(!t){ showToast('请输入标题', 'err'); return; }
-      state.episodes.push({
-        t: t,
-        d: $('#edEpDesc', root) ? $('#edEpDesc', root).value.trim() : '',
-        c: $('#edEpContent', root) ? $('#edEpContent', root).value.trim() : '',
-        v: $('#edEpVideo', root) ? $('#edEpVideo', root).value.trim() : ''
-      });
-      if($('#edEpTitle', root)) $('#edEpTitle', root).value = '';
-      if($('#edEpDesc', root)) $('#edEpDesc', root).value = '';
-      if($('#edEpContent', root)) $('#edEpContent', root).value = '';
-      if($('#edEpVideo', root)) $('#edEpVideo', root).value = '';
-      renderEpList();
-      showToast('已添加', 'ok');
-    } catch(e){ showToast('添加失败：' + e.message, 'err'); }
-  };
-
-  var saveBtn = $('#edSaveBtn', root);
-  if(saveBtn) saveBtn.onclick = function(){
-    saveBtn.disabled = true;
-    saveBtn.textContent = '⏳ 上传中…';
-    var bar = $('#edBar', root);
-    var barFill = $('#edBarFill', root);
-    if(bar) bar.classList.add('on');
-    if(barFill) barFill.style.width = '20%';
-
-    var payload = {
-      n: $('#edName', root) ? ($('#edName', root).value || '我的播客') : '我的播客',
-      a: $('#edAuthor', root) ? $('#edAuthor', root).value : '',
-      d: $('#edDesc', root) ? $('#edDesc', root).value : '',
-      c: state.coverData,
-      e: state.episodes
-    };
-
-    if(barFill) barFill.style.width = '40%';
-    updatePodcast(metaId, secret, payload).then(function(){
-      if(barFill) barFill.style.width = '100%';
-      showToast('已保存，朋友刷新即可看到', 'ok');
-    }).catch(function(e){
-      showToast('保存失败：' + e.message, 'err');
-    }).then(function(){
-      if(barFill) barFill.style.width = '0';
-      setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
-      saveBtn.disabled = false;
-      saveBtn.textContent = '💾 保存并发布';
+    card.addEventListener('click', () => {
+      if (longPressTriggered) { longPressTriggered = false; return; }
+      playVideo(v.id);
     });
-  };
 
-  var edCopy = $('#edCopy', root);
-  var edOpen = $('#edOpen', root);
-  if(edCopy) edCopy.onclick = function(){ copyToClipboard(viewLink); };
-  if(edOpen) edOpen.onclick = function(){ window.open(viewLink, '_blank'); };
-
-  renderEpList();
-}
-
-/* =========================================================
-   工具 2: 东西托管
-   ========================================================= */
-TOOLS.push({
-  id: 'hosting',
-  name: '东西托管',
-  icon: '🐮',
-  category: 'crypto',
-  desc: '加密上传 · 生成专属链接',
-  isNew: true,
-  render: function(root){
-    try {
-      var hash = location.hash;
-      if(hash.indexOf('#host=') === 0){
-        renderHostView(root, hash.slice(6));
-        return;
-      }
-      renderHostCreate(root);
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 东西托管初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-function renderHostCreate(root){
-  if(!window.crypto || !window.crypto.subtle){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）。</div></div>';
-    return;
-  }
-  var h = '';
-  h += '<div class="box" style="background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(239,68,68,.08));border-color:rgba(245,158,11,.3)">';
-  h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:22px">🐮</span><span style="font-size:15px;font-weight:700">一头牛东西托管</span></div>';
-  h += '<div style="font-size:12.5px;color:var(--muted);line-height:1.75">上传文件 → 本地加密 → 生成专属链接。<br>别人打开链接直接下载，无需登录。<br>文件在本地用 <b style="color:var(--text)">AES-256-GCM 加密</b>后才上传，服务器只存密文。</div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">📦 选择文件</div>';
-  h += '<div class="drop" id="hostDrop"><div class="di">📦</div><div class="dt">点击选择文件，或拖拽到这里</div><div class="ds">建议单文件 &lt; 100MB</div></div>';
-  h += '<input type="file" id="hostFile" hidden>';
-  h += '<div id="hostFileList" style="margin-top:14px"></div>';
-  h += '</div>';
-
-  h += '<div class="box">';
-  h += '<div class="box-title">⏱️ 有效期</div>';
-  h += '<div class="field"><label class="label">选择时长</label><select class="select" id="hostExp"><option value="1h" selected>1 小时</option><option value="24h">24 小时</option><option value="72h">72 小时</option><option value="forever">永久</option></select></div>';
-  h += '<div class="hint">💡 临时文件由 litterbox 提供，永久文件由 catbox 提供。</div>';
-  h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="hostRun" disabled>🚀 上传并生成链接</button><button class="btn" id="hostClear" disabled>清空</button></div>';
-  h += '<div class="bar" id="hostBar"><div class="bar-fill" id="hostBarFill"></div></div>';
-  h += '<div id="hostResult"></div>';
-  h += '</div>';
-
-  root.innerHTML = h;
-
-  var files = [];
-
-  function refresh(){
-    var fl = $('#hostFileList', root);
-    if(fl) fl.innerHTML = fileListHtml(files);
-    var runBtn = $('#hostRun', root);
-    var clearBtn = $('#hostClear', root);
-    if(runBtn) runBtn.disabled = files.length === 0;
-    if(clearBtn) clearBtn.disabled = files.length === 0;
-    var xs = $$('.fx', fl);
-    for(var i = 0; i < xs.length; i++){
-      (function(idx){
-        xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
-      })(i);
-    }
-  }
-
-  setupDrop($('#hostDrop', root), $('#hostFile', root), function(newFiles){
-    files = files.concat(newFiles);
-    refresh();
-  });
-
-  var clearBtn = $('#hostClear', root);
-  if(clearBtn) clearBtn.onclick = function(){
-    files = [];
-    var r = $('#hostResult', root);
-    if(r) r.innerHTML = '';
-    refresh();
-  };
-
-  var runBtn = $('#hostRun', root);
-  if(runBtn) runBtn.onclick = function(){
-    if(files.length === 0) return;
-    var file = files[0];
-    var expSel = $('#hostExp', root);
-    var expiry = expSel ? expSel.value : '1h';
-    runBtn.disabled = true;
-    runBtn.textContent = '⏳ 加密中…';
-    var bar = $('#hostBar', root);
-    var barFill = $('#hostBarFill', root);
-    if(bar) bar.classList.add('on');
-    if(barFill) barFill.style.width = '10%';
-    var resultArea = $('#hostResult', root);
-    if(resultArea) resultArea.innerHTML = '';
-
-    var keyBytes = new Uint8Array(32);
-    crypto.getRandomValues(keyBytes);
-    var keyB64 = bytesToBase64(keyBytes);
-    var iv;
-
-    file.arrayBuffer().then(function(ab){
-      if(barFill) barFill.style.width = '30%';
-      return crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']).then(function(key){
-        iv = crypto.getRandomValues(new Uint8Array(12));
-        return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, ab);
-      });
-    }).then(function(ct){
-      if(barFill) barFill.style.width = '50%';
-      var ctArr = new Uint8Array(ct);
-      var out = new Uint8Array(12 + ctArr.length);
-      out.set(iv, 0);
-      out.set(ctArr, 12);
-      return out;
-    }).then(function(encBytes){
-      if(barFill) barFill.style.width = '60%';
-      runBtn.textContent = '⏳ 上传中…';
-      var encBlob = new Blob([encBytes], { type: 'application/octet-stream' });
-      var fd = new FormData();
-      fd.append('reqtype', 'fileupload');
-      fd.append('fileToUpload', encBlob, 'enc_' + Date.now() + '.bin');
-      var uploadUrl;
-      if(expiry === 'forever'){
-        uploadUrl = 'https://catbox.moe/user/api.php';
-      } else {
-        uploadUrl = 'https://litterbox.catbox.moe/resources/internals/api.php';
-        fd.append('time', expiry);
-      }
-      return fetchTimeout(uploadUrl, { method: 'POST', body: fd }, 180000).then(function(res){
-        if(!res.ok) throw new Error('上传失败 HTTP ' + res.status);
-        return res.text();
-      });
-    }).then(function(fileUrl){
-      fileUrl = fileUrl.trim();
-      if(fileUrl.indexOf('http') !== 0) throw new Error('返回异常：' + fileUrl.slice(0, 100));
-      if(barFill) barFill.style.width = '95%';
-      var expiryMs = 0;
-      if(expiry !== 'forever'){
-        var msMap = { '1h': 3600000, '24h': 86400000, '72h': 259200000 };
-        expiryMs = Date.now() + (msMap[expiry] || 3600000);
-      }
-      var payload = { u: fileUrl, k: keyB64, e: expiryMs, n: file.name, s: file.size, t: Date.now() };
-      var payloadB64 = bytesToBase64(new TextEncoder().encode(JSON.stringify(payload)));
-      var shareUrl = location.origin + location.pathname + '#host=' + payloadB64;
-      if(barFill) barFill.style.width = '100%';
-
-      var expLabel = { '1h': '1 小时', '24h': '24 小时', '72h': '72 小时', 'forever': '永久' }[expiry];
-
-      if(resultArea){
-        resultArea.innerHTML =
-          '<div class="result ok" style="margin-top:14px">✅ 上传成功！有效期：<b>' + expLabel + '</b></div>' +
-          '<div style="background:#0a0e16;border:1px solid rgba(34,197,94,.4);border-radius:9px;padding:12px 14px;margin-top:10px;word-break:break-all">' +
-          '<div style="font-size:11.5px;color:#7ee2a8;font-weight:700;margin-bottom:6px">🔗 专属分享链接</div>' +
-          '<div class="mono" style="color:#9fc2ff;line-height:1.6">' + escapeHtml(shareUrl) + '</div>' +
-          '<div class="row" style="margin-top:8px"><button class="btn btn-sm btn-primary" id="hostCopy">📋 复制链接</button><button class="btn btn-sm" id="hostOpen">👁️ 打开看看</button></div>' +
-          '</div>' +
-          '<div class="result info" style="margin-top:12px">🔒 文件已用 AES-256-GCM 加密。密钥藏在链接 # 后面，浏览器不会发给服务器。</div>';
-        var hc = $('#hostCopy', root);
-        var ho = $('#hostOpen', root);
-        if(hc) hc.onclick = function(){ copyToClipboard(shareUrl); };
-        if(ho) ho.onclick = function(){ window.open(shareUrl, '_blank'); };
-      }
-      showToast('生成成功', 'ok');
-    }).catch(function(e){
-      console.error(e);
-      if(resultArea) resultArea.innerHTML = '<div class="result err">❌ 失败：' + escapeHtml(e.message) + '<br><br><b>可能原因：</b><br>① 文件过大<br>② 网络问题<br>③ 上传服务暂时不可用</div>';
-      showToast('失败', 'err');
-    }).then(function(){
-      if(barFill) barFill.style.width = '0';
-      setTimeout(function(){ if(bar) bar.classList.remove('on'); }, 500);
-      runBtn.disabled = false;
-      runBtn.textContent = '🚀 上传并生成链接';
-    });
-  };
-}
-
-function renderHostView(root, payloadB64){
-  if(!window.crypto || !window.crypto.subtle){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto。</div></div>';
-    return;
-  }
-  var payload;
-  try {
-    payload = JSON.parse(new TextDecoder().decode(base64ToBytes(payloadB64)));
-  } catch(e){
-    root.innerHTML = '<div class="box"><div class="result err">❌ 链接无效或已损坏</div></div>';
-    return;
-  }
-  if(payload.e && Date.now() > payload.e){
-    root.innerHTML = '<div style="max-width:600px;margin:60px auto;text-align:center"><div style="font-size:52px;margin-bottom:16px">⏰</div><div style="font-size:28px;font-weight:700;margin-bottom:10px">链接已过期</div><div style="font-size:14px;color:var(--muted)">此链接的有效期已结束</div></div>';
-    return;
-  }
-
-  var remainTxt = '永久有效';
-  if(payload.e){
-    var s = Math.floor((payload.e - Date.now()) / 1000);
-    if(s < 60) remainTxt = s + ' 秒后过期';
-    else if(s < 3600) remainTxt = Math.floor(s / 60) + ' 分钟后过期';
-    else if(s < 86400) remainTxt = Math.floor(s / 3600) + ' 小时后过期';
-    else remainTxt = Math.floor(s / 86400) + ' 天后过期';
-  }
-
-  var h = '';
-  h += '<div style="max-width:600px;margin:40px auto;text-align:center">';
-  h += '<div style="width:100px;height:100px;border-radius:26px;background:linear-gradient(135deg,#5ac8fa,#bf5af2 50%,#ff375f);display:grid;place-items:center;font-size:52px;margin:0 auto 22px">🐮</div>';
-  h += '<div style="font-size:32px;font-weight:700;margin-bottom:10px">一头牛东西托管</div>';
-  h += '<div style="font-size:14px;color:var(--muted);margin-bottom:28px">有人给你分享了一个文件</div>';
-  h += '<div style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#7ee2a8;font-size:11.5px;font-weight:600;margin-bottom:20px"><span style="width:6px;height:6px;border-radius:50%;background:#22c55e"></span>端到端加密 · 服务器无法查看</div>';
-  h += '<div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:20px;text-align:left">';
-  h += '<div style="font-size:15px;font-weight:600;margin-bottom:6px;word-break:break-all">📎 ' + escapeHtml(payload.n) + '</div>';
-  h += '<div style="font-size:12px;color:var(--muted);margin-bottom:14px">原始大小：' + formatSize(payload.s) + '　·　' + remainTxt + '</div>';
-  h += '<button class="btn btn-primary" id="hostDownload" style="padding:14px 32px;font-size:15px;width:100%">⬇️ 下载文件</button>';
-  h += '<div id="hostDlStatus" style="margin-top:12px;font-size:12px;color:var(--muted);text-align:center"></div>';
-  h += '</div>';
-  h += '<div style="font-size:11.5px;color:var(--muted);line-height:1.7">🔒 文件在本地加密后才上传<br>密钥在 URL 片段中，浏览器不会发送给服务器<br>🐮 一头牛东西托管</div>';
-  h += '</div>';
-
-  root.innerHTML = h;
-
-  var btn = $('#hostDownload', root);
-  var status = $('#hostDlStatus', root);
-
-  if(btn) btn.onclick = function(){
-    btn.disabled = true;
-    btn.textContent = '⏳ 下载中…';
-    if(status) status.textContent = '正在下载密文…';
-
-    fetchTimeout(payload.u, {}, 90000).then(function(r){
-      if(!r.ok) throw new Error('下载失败 HTTP ' + r.status);
-      return r.arrayBuffer();
-    }).then(function(ab){
-      if(status) status.textContent = '正在本地解密…';
-      var encBytes = new Uint8Array(ab);
-      var keyRaw = base64ToBytes(payload.k);
-      return crypto.subtle.importKey('raw', keyRaw, { name: 'AES-GCM' }, false, ['decrypt'])
-        .then(function(key){
-          var iv = encBytes.slice(0, 12);
-          var ct = encBytes.slice(12);
-          return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct);
-        });
-    }).then(function(pt){
-      var blob = new Blob([pt]);
-      downloadBlob(blob, payload.n);
-      if(status) status.textContent = '✅ 解密完成，已开始下载';
-      showToast('下载成功', 'ok');
-    }).catch(function(e){
-      console.error(e);
-      if(status) status.innerHTML = '<span style="color:#ff8080">❌ ' + escapeHtml(e.message) + '</span>';
-      showToast('失败', 'err');
-    }).then(function(){
-      btn.disabled = false;
-      btn.textContent = '⬇️ 下载文件';
-    });
-  };
-}
-
-/* =========================================================
-   工具 3: 短视频无水印下载
-   ========================================================= */
-TOOLS.push({
-  id: 'video-dl',
-  name: '短视频无水印下载',
-  icon: '📥',
-  category: 'video',
-  desc: '多平台 · 自动切换 API',
-  render: function(root){
-    try {
-      var h = '';
-      h += '<div class="box">';
-      h += '<div class="field"><label class="label">粘贴短视频分享链接</label><textarea class="textarea" id="vdInput" rows="3" placeholder="例如：9.01 复制打开抖音，看看【作者】的作品 https://v.douyin.com/xxxxx/"></textarea></div>';
-      h += '<div class="hint">💡 支持抖音、快手、小红书、视频号、B站、微博等。整段分享文案直接粘贴。</div>';
-      h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="vdRun">🔍 解析视频</button><button class="btn" id="vdTest">🧪 测试节点</button><button class="btn btn-ghost" id="vdClear">清空</button></div>';
-      h += '<div class="bar" id="vdBar"><div class="bar-fill" id="vdBarFill"></div></div>';
-      h += '<div id="vdStatus" style="margin-top:14px"></div>';
-      h += '<div id="vdResult"></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      var APIs = [
-        { name: 'BugPk 主节点', build: function(link){ return { url: 'https://api-new.ifphp.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-        { name: 'BugPk 海外', build: function(link){ return { url: 'https://api-new.bugpk.com/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.video_url || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-        { name: '山海云端', build: function(link){ return { url: 'https://api.yyy001.com/api/videoparse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video || r.url || r.video_url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-        { name: '星之阁', build: function(link){ return { url: 'https://api.xingzhige.com/API/parse/', opts: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: link }) } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } },
-        { name: 'redfox', build: function(link){ return { url: 'https://api.redfox.hk/parseWork/parse?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.url || r.video || '', title: r.title || '未命名', cover: r.cover || '' }; } },
-        { name: '皮克', build: function(link){ return { url: 'https://api.pearktrue.cn/api/video/jx/?url=' + encodeURIComponent(link), opts: { method: 'GET' } }; }, parse: function(d){ var r = d.data || d; return { video: r.video_url || r.video || r.url || r.play || '', title: r.title || r.desc || '未命名', cover: r.cover || r.pic || '' }; } }
-      ];
-
-      function renderStatus(states){
-        var st = $('#vdStatus', root);
-        if(!st) return;
-        var h2 = '<div style="font-size:12.5px;color:var(--muted);margin-bottom:8px">📡 API 节点：' + APIs.length + ' 个</div>';
-        h2 += '<div style="display:flex;flex-direction:column;gap:6px">';
-        for(var i = 0; i < APIs.length; i++){
-          var s = states ? states[i] : 'idle';
-          var col = s === 'ok' ? '#22c55e' : s === 'fail' ? '#ef4444' : s === 'checking' ? '#f59e0b' : '#666';
-          var lab = s === 'ok' ? '可用' : s === 'fail' ? '不可用' : s === 'checking' ? '检测中…' : '待检测';
-          h2 += '<div style="display:flex;align-items:center;gap:10px;font-size:12.5px;padding:8px 12px;background:#0a0e16;border:1px solid var(--border);border-radius:8px">';
-          h2 += '<span style="width:8px;height:8px;border-radius:50%;background:' + col + ';flex:0 0 8px"></span>';
-          h2 += '<span style="flex:1">' + escapeHtml(APIs[i].name) + '</span>';
-          h2 += '<span style="color:var(--muted);font-size:11px">' + lab + '</span>';
-          h2 += '</div>';
-        }
-        h2 += '</div>';
-        st.innerHTML = h2;
-      }
-      renderStatus();
-
-      function renderResult(info){
-        var rs = $('#vdResult', root);
-        if(!rs) return;
-        var h2 = '<div class="result ok" style="margin-top:14px">✅ 解析成功！</div>';
-        h2 += '<div style="display:flex;gap:14px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:10px;margin-top:12px">';
-        if(info.cover){
-          h2 += '<img src="' + escapeHtml(info.cover) + '" style="width:100px;height:100px;border-radius:10px;object-fit:cover;flex:0 0 100px;background:#1a2130">';
-        } else {
-          h2 += '<div style="width:100px;height:100px;border-radius:10px;background:#1a2130;display:grid;place-items:center;font-size:28px;flex:0 0 100px">🎬</div>';
-        }
-        h2 += '<div style="flex:1;min-width:0">';
-        h2 += '<div style="font-size:13.5px;font-weight:600;margin-bottom:8px;line-height:1.4">' + escapeHtml(info.title) + '</div>';
-        h2 += '<div class="row">';
-        h2 += '<button class="btn btn-sm btn-primary" id="vdDownload">⬇️ 下载</button>';
-        h2 += '<button class="btn btn-sm" id="vdCopy">📋 复制链接</button>';
-        h2 += '<button class="btn btn-sm" id="vdOpen">🔗 打开</button>';
-        h2 += '</div></div></div>';
-        rs.innerHTML = h2;
-
-        var dl = $('#vdDownload', root);
-        var cp = $('#vdCopy', root);
-        var op = $('#vdOpen', root);
-        if(dl) dl.onclick = function(){
-          dl.disabled = true;
-          dl.textContent = '下载中…';
-          fetchTimeout(info.video, { mode: 'cors' }, 60000)
-            .then(function(r){ return r.blob(); })
-            .then(function(blob){
-              var name = (info.title || 'video').replace(/[\\/:*?"<>|]/g, '_').slice(0, 50);
-              downloadBlob(blob, name + '_' + Date.now() + '.mp4');
-              showToast('下载完成', 'ok');
-            })
-            .catch(function(e){ showToast('下载失败：' + e.message, 'err'); })
-            .then(function(){ dl.disabled = false; dl.textContent = '⬇️ 下载'; });
-        };
-        if(cp) cp.onclick = function(){ copyToClipboard(info.video); };
-        if(op) op.onclick = function(){ window.open(info.video, '_blank'); };
-      }
-
-      var runBtn = $('#vdRun', root);
-      if(runBtn) runBtn.onclick = function(){
-        var input = $('#vdInput', root);
-        var v = input ? input.value.trim() : '';
-        if(!v){ showToast('请输入链接', 'err'); return; }
-        var m = v.match(/https?:\/\/[^\s]+/);
-        var link = m ? m[0] : v;
-
-        var bar = $('#vdBar', root);
-        var barFill = $('#vdBarFill', root);
-        if(bar) bar.classList.add('on');
-        if(barFill) barFill.style.width = '5%';
-        var rs = $('#vdResult', root);
-        if(rs) rs.innerHTML = '';
-        var states = [];
-        for(var i = 0; i < APIs.length; i++) states.push('checking');
-        renderStatus(states);
-
-        var i = 0;
-        function next(){
-          if(i >= APIs.length){
-            if(barFill) barFill.style.width = '100%';
-            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 600);
-            if(rs) rs.innerHTML = '<div class="result err">❌ 所有 ' + APIs.length + ' 个 API 节点均失败。<br><br><b>可能原因：</b><br>① API 集体失效<br>② 链接不被支持<br>③ 网络问题<br><br><b>建议：</b><br>• 稍后重试<br>• 复制链接到浏览器手动打开<br>• 换其他平台链接</div>';
-            return;
-          }
-          var api = APIs[i];
-          if(barFill) barFill.style.width = ((i + 0.5) / APIs.length * 90) + '%';
-          var built = api.build(link);
-          fetchTimeout(built.url, built.opts, 12000).then(function(res){
-            if(!res.ok) throw new Error('HTTP ' + res.status);
-            return res.json();
-          }).then(function(data){
-            var info = api.parse(data);
-            if(!info.video) throw new Error('无视频链接');
-            states[i] = 'ok';
-            renderStatus(states);
-            renderResult(info);
-            if(barFill) barFill.style.width = '100%';
-            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 600);
-          }).catch(function(){
-            states[i] = 'fail';
-            renderStatus(states);
-            i++;
-            next();
-          });
-        }
-        next();
-      };
-
-      var testBtn = $('#vdTest', root);
-      if(testBtn) testBtn.onclick = function(){
-        var states = [];
-        for(var i = 0; i < APIs.length; i++) states.push('checking');
-        renderStatus(states);
-        var okCount = 0;
-        var j = 0;
-        function nextTest(){
-          if(j >= APIs.length){
-            showToast(okCount + ' / ' + APIs.length + ' 个节点可用', okCount > 0 ? 'ok' : 'err');
-            return;
-          }
-          var api = APIs[j];
-          var built = api.build('https://v.douyin.com/test');
-          fetchTimeout(built.url, built.opts, 5000).then(function(res){
-            states[j] = res.ok ? 'ok' : 'fail';
-            if(res.ok) okCount++;
-            renderStatus(states);
-            j++;
-            nextTest();
-          }).catch(function(){
-            states[j] = 'fail';
-            renderStatus(states);
-            j++;
-            nextTest();
-          });
-        }
-        nextTest();
-      };
-
-      var clearBtn = $('#vdClear', root);
-      if(clearBtn) clearBtn.onclick = function(){
-        var input = $('#vdInput', root);
-        if(input) input.value = '';
-        var rs = $('#vdResult', root);
-        if(rs) rs.innerHTML = '';
-      };
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 短视频工具初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 4: 图片压缩
-   ========================================================= */
-TOOLS.push({
-  id: 'img-compress',
-  name: '图片压缩',
-  icon: '🗜️',
-  category: 'image',
-  desc: '本地压缩图片体积',
-  render: function(root){
-    try {
-      var h = '<div class="box">';
-      h += '<div class="drop" id="icDrop"><div class="di">🗜️</div><div class="dt">点击选择图片，或拖拽到这里</div><div class="ds">支持批量 · 可多选</div></div>';
-      h += '<input type="file" id="icFile" accept="image/*" multiple hidden>';
-      h += '<div id="icList" style="margin-top:14px"></div>';
-      h += '<div class="grid3" style="margin-top:14px">';
-      h += '<div><label class="label">质量：<b id="icQVal">70%</b></label><input type="range" id="icQ" min="10" max="100" value="70" style="width:100%"></div>';
-      h += '<div><label class="label">格式</label><select class="select" id="icFmt"><option value="image/jpeg">JPEG</option><option value="image/webp">WebP</option></select></div>';
-      h += '<div><label class="label">最大边长</label><input type="number" class="input" id="icMax" value="0" min="0"></div>';
-      h += '</div>';
-      h += '<div class="row" style="margin-top:14px"><button class="btn btn-primary" id="icRun" disabled>开始压缩</button><button class="btn" id="icClear" disabled>清空</button></div>';
-      h += '<div class="bar" id="icBar"><div class="bar-fill" id="icBarFill"></div></div>';
-      h += '<div id="icResult"></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      var files = [];
-      var fileList = $('#icList', root);
-      var runBtn = $('#icRun', root);
-      var clearBtn = $('#icClear', root);
-
-      function refresh(){
-        if(fileList) fileList.innerHTML = fileListHtml(files);
-        if(runBtn) runBtn.disabled = files.length === 0;
-        if(clearBtn) clearBtn.disabled = files.length === 0;
-        var xs = $$('.fx', fileList);
-        for(var i = 0; i < xs.length; i++){
-          (function(idx){
-            xs[i].onclick = function(){ files.splice(idx, 1); refresh(); };
-          })(i);
-        }
-      }
-      setupDrop($('#icDrop', root), $('#icFile', root), function(newFiles){
-        files = files.concat(newFiles);
-        refresh();
-      });
-      var qInput = $('#icQ', root);
-      if(qInput) qInput.oninput = function(){ var qv = $('#icQVal', root); if(qv) qv.textContent = qInput.value + '%'; };
-      if(clearBtn) clearBtn.onclick = function(){
-        files = [];
-        var r = $('#icResult', root);
-        if(r) r.innerHTML = '';
-        refresh();
-      };
-      if(runBtn) runBtn.onclick = function(){
-        if(files.length === 0) return;
-        runBtn.disabled = true;
-        if(clearBtn) clearBtn.disabled = true;
-        var resultArea = $('#icResult', root);
-        if(resultArea) resultArea.innerHTML = '';
-        var bar = $('#icBar', root);
-        var barFill = $('#icBarFill', root);
-        if(bar) bar.classList.add('on');
-
-        var fmtSel = $('#icFmt', root);
-        var maxInput = $('#icMax', root);
-        var qInput2 = $('#icQ', root);
-        var mime = fmtSel ? fmtSel.value : 'image/jpeg';
-        var quality = qInput2 ? parseInt(qInput2.value, 10) / 100 : 0.7;
-        var maxSide = maxInput ? parseInt(maxInput.value, 10) || 0 : 0;
-        var extMap = { 'image/jpeg': 'jpg', 'image/webp': 'webp' };
-        var totalBefore = 0, totalAfter = 0, idx = 0;
-
-        function processNext(){
-          if(idx >= files.length){
-            if(barFill) barFill.style.width = '100%';
-            var saved = totalBefore > 0 ? ((1 - totalAfter / totalBefore) * 100).toFixed(1) : 0;
-            if(resultArea) resultArea.insertAdjacentHTML('afterbegin', '<div class="result ok">✅ 完成！共 ' + files.length + ' 张，' + formatSize(totalBefore) + ' → ' + formatSize(totalAfter) + '（节省 ' + saved + '%）</div>');
-            setTimeout(function(){ if(bar) bar.classList.remove('on'); if(barFill) barFill.style.width = '0'; }, 500);
-            runBtn.disabled = false;
-            if(clearBtn) clearBtn.disabled = false;
-            showToast('压缩完成', 'ok');
-            return;
-          }
-          var f = files[idx];
-          if(barFill) barFill.style.width = Math.round((idx / files.length) * 100) + '%';
-          createImageBitmap(f).then(function(bmp){
-            var w = bmp.width, h = bmp.height;
-            if(maxSide && Math.max(w, h) > maxSide){
-              var s = maxSide / Math.max(w, h);
-              w = Math.round(w * s); h = Math.round(h * s);
+    const startLongPress = () => {
+      if (longPressTimer) clearTimeout(longPressTimer);
+      longPressTriggered = false;
+      longPressTimer = setTimeout(() => {
+        longPressTriggered = true;
+        const newLink = prompt('粘贴 M3U8 链接（长按功能）', '');
+        if (newLink && newLink.trim()) {
+          const target = videos.find(x => x.id === v.id);
+          if (target) {
+            if (target.isVip && !unlocked) {
+              showToast('非会员内容，请先解锁');
+              return;
             }
-            var cv = document.createElement('canvas');
-            cv.width = w; cv.height = h;
-            var ctx = cv.getContext('2d');
-            ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
-            ctx.drawImage(bmp, 0, 0, w, h);
-            bmp.close();
-            cv.toBlob(function(blob){
-              if(!blob){
-                if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：处理失败</div>');
-                idx++; processNext(); return;
-              }
-              totalBefore += f.size;
-              totalAfter += blob.size;
-              downloadBlob(blob, f.name.replace(/\.[^.]+$/, '') + '_min.' + extMap[mime]);
-              if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result ok">✅ ' + escapeHtml(f.name) + '　' + formatSize(f.size) + ' → ' + formatSize(blob.size) + '</div>');
-              idx++; processNext();
-            }, mime, quality);
-          }).catch(function(err){
-            if(resultArea) resultArea.insertAdjacentHTML('beforeend', '<div class="result err">❌ ' + escapeHtml(f.name) + '：' + escapeHtml(err.message) + '</div>');
-            idx++; processNext();
-          });
-        }
-        processNext();
-      };
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 图片压缩初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 5: 文本加密解密
-   ========================================================= */
-TOOLS.push({
-  id: 'text-crypto', name: '文本加密解密', icon: '✉️', category: 'crypto', desc: 'AES-256-GCM 加解密',
-  render: function(root){
-    try {
-      if(!window.crypto || !window.crypto.subtle){
-        root.innerHTML = '<div class="box"><div class="result err">❌ 当前环境不支持 Web Crypto（需要 HTTPS 或 localhost）</div></div>';
-        return;
-      }
-      var h = '<div class="box">';
-      h += '<div class="row" style="margin-bottom:14px"><button class="btn btn-primary" id="tcTabEnc">加密</button><button class="btn" id="tcTabDec">解密</button></div>';
-      h += '<div class="field"><label class="label">文本内容</label><textarea class="textarea" id="tcText" rows="5" placeholder="输入要加密的文本…"></textarea></div>';
-      h += '<div class="field"><label class="label">密码</label><input type="password" class="input" id="tcPw"></div>';
-      h += '<div class="row"><button class="btn btn-primary" id="tcRun">加密</button><button class="btn" id="tcCopy">复制结果</button></div>';
-      h += '<div class="field" style="margin-top:14px"><label class="label">结果</label><textarea class="textarea" id="tcOut" rows="5" readonly></textarea></div>';
-      h += '<div id="tcMsg"></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      var mode = 'enc';
-      var tabEnc = $('#tcTabEnc', root);
-      var tabDec = $('#tcTabDec', root);
-      var runBtn = $('#tcRun', root);
-
-      function setMode(m){
-        mode = m;
-        if(tabEnc) tabEnc.className = m === 'enc' ? 'btn btn-primary' : 'btn';
-        if(tabDec) tabDec.className = m === 'dec' ? 'btn btn-primary' : 'btn';
-        if(runBtn) runBtn.textContent = m === 'enc' ? '加密' : '解密';
-        var out = $('#tcOut', root);
-        var msg = $('#tcMsg', root);
-        if(out) out.value = '';
-        if(msg) msg.innerHTML = '';
-      }
-      if(tabEnc) tabEnc.onclick = function(){ setMode('enc'); };
-      if(tabDec) tabDec.onclick = function(){ setMode('dec'); };
-
-      function deriveKey(password, salt){
-        return crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
-          .then(function(km){
-            return crypto.subtle.deriveKey(
-              { name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' },
-              km,
-              { name: 'AES-GCM', length: 256 },
-              false,
-              ['encrypt', 'decrypt']
-            );
-          });
-      }
-
-      if(runBtn) runBtn.onclick = function(){
-        var textInput = $('#tcText', root);
-        var pwInput = $('#tcPw', root);
-        var text = textInput ? textInput.value : '';
-        var pw = pwInput ? pwInput.value : '';
-        var msg = $('#tcMsg', root);
-        var out = $('#tcOut', root);
-        if(msg) msg.innerHTML = '';
-        if(!text){ showToast('请输入内容', 'err'); return; }
-        if(!pw){ showToast('请输入密码', 'err'); return; }
-
-        if(mode === 'enc'){
-          var salt = crypto.getRandomValues(new Uint8Array(16));
-          var iv = crypto.getRandomValues(new Uint8Array(12));
-          deriveKey(pw, salt).then(function(key){
-            return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(text));
-          }).then(function(ct){
-            var ctArr = new Uint8Array(ct);
-            var outArr = new Uint8Array(28 + ctArr.length);
-            outArr.set(salt, 0);
-            outArr.set(iv, 16);
-            outArr.set(ctArr, 28);
-            if(out) out.value = bytesToBase64(outArr);
-            if(msg) msg.innerHTML = '<div class="result ok">✅ 加密完成</div>';
-          }).catch(function(e){
-            if(msg) msg.innerHTML = '<div class="result err">❌ ' + escapeHtml(e.message) + '</div>';
-          });
-        } else {
-          var raw;
-          try { raw = base64ToBytes(text.trim()); }
-          catch(e){ if(msg) msg.innerHTML = '<div class="result err">❌ 密文格式不正确</div>'; return; }
-          if(raw.length < 28){ if(msg) msg.innerHTML = '<div class="result err">❌ 密文太短</div>'; return; }
-          var salt2 = raw.slice(0, 16), iv2 = raw.slice(16, 28), ct2 = raw.slice(28);
-          deriveKey(pw, salt2).then(function(key){
-            return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv2 }, key, ct2);
-          }).then(function(pt){
-            if(out) out.value = new TextDecoder().decode(pt);
-            if(msg) msg.innerHTML = '<div class="result ok">✅ 解密完成</div>';
-          }).catch(function(){
-            if(msg) msg.innerHTML = '<div class="result err">❌ 密码错误或密文已损坏</div>';
-          });
-        }
-      };
-
-      var copyBtn = $('#tcCopy', root);
-      if(copyBtn) copyBtn.onclick = function(){
-        var out = $('#tcOut', root);
-        if(!out || !out.value){ showToast('结果为空', 'err'); return; }
-        copyToClipboard(out.value);
-      };
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 文本加密初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 6: 密码生成器
-   ========================================================= */
-TOOLS.push({
-  id: 'pwd-gen', name: '密码生成器', icon: '🔑', category: 'crypto', desc: '生成随机密码',
-  render: function(root){
-    try {
-      var h = '<div class="box">';
-      h += '<div style="font-family:ui-monospace,monospace;font-size:15px;padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;word-break:break-all;line-height:1.6" id="pwdOut">点击下方按钮生成</div>';
-      h += '<div class="field" style="margin-top:14px"><label class="label">长度：<b id="pwdLenVal">20</b></label><input type="range" id="pwdLen" min="4" max="64" value="20" style="width:100%"></div>';
-      h += '<div class="row" style="margin-bottom:14px">';
-      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdLower" checked> 小写</label>';
-      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdUpper" checked> 大写</label>';
-      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdDigit" checked> 数字</label>';
-      h += '<label style="font-size:12.5px"><input type="checkbox" id="pwdSymbol" checked> 符号</label>';
-      h += '</div>';
-      h += '<div class="row"><button class="btn btn-primary" id="pwdGen">重新生成</button><button class="btn" id="pwdCopy">复制</button></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      function generate(){
-        try {
-          var pool = '';
-          var cLower = $('#pwdLower', root);
-          var cUpper = $('#pwdUpper', root);
-          var cDigit = $('#pwdDigit', root);
-          var cSymbol = $('#pwdSymbol', root);
-          if(cLower && cLower.checked) pool += 'abcdefghijkmnpqrstuvwxyz';
-          if(cUpper && cUpper.checked) pool += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-          if(cDigit && cDigit.checked) pool += '23456789';
-          if(cSymbol && cSymbol.checked) pool += '!@#$%^&*()-_=+';
-          if(!pool){ var o = $('#pwdOut', root); if(o) o.textContent = '请至少选择一种字符类型'; return; }
-          var lenInput = $('#pwdLen', root);
-          var len = lenInput ? parseInt(lenInput.value, 10) : 20;
-          var result = '';
-          var buf = new Uint8Array(len);
-          crypto.getRandomValues(buf);
-          for(var i = 0; i < len; i++) result += pool[buf[i] % pool.length];
-          var out = $('#pwdOut', root);
-          if(out) out.textContent = result;
-        } catch(e){ console.error(e); }
-      }
-      var lenInput = $('#pwdLen', root);
-      if(lenInput) lenInput.oninput = function(){ var lv = $('#pwdLenVal', root); if(lv) lv.textContent = lenInput.value; generate(); };
-      ['pwdLower','pwdUpper','pwdDigit','pwdSymbol'].forEach(function(id){
-        var el = $('#' + id, root);
-        if(el) el.onchange = generate;
-      });
-      var genBtn = $('#pwdGen', root);
-      if(genBtn) genBtn.onclick = generate;
-      var copyBtn = $('#pwdCopy', root);
-      if(copyBtn) copyBtn.onclick = function(){
-        var t = $('#pwdOut', root);
-        if(!t) return;
-        var v = t.textContent;
-        if(!v || v.indexOf('请至少') === 0 || v.indexOf('点击') === 0) return;
-        copyToClipboard(v);
-      };
-      generate();
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 密码生成器初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 7: 待办清单
-   ========================================================= */
-TOOLS.push({
-  id: 'todo', name: '待办清单', icon: '✅', category: 'life', desc: '本地保存待办事项',
-  render: function(root){
-    try {
-      var h = '<div class="box">';
-      h += '<div class="row" style="margin-bottom:14px"><input type="text" class="input" id="todoInput" placeholder="输入待办事项，回车添加…" style="flex:1"><button class="btn btn-primary" id="todoAdd">添加</button></div>';
-      h += '<div id="todoList"></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      var KEY = 'toolbox_todos';
-      var todos = safeLocalGet(KEY, []);
-      if(!Array.isArray(todos)) todos = [];
-
-      function save(){ safeLocalSet(KEY, todos); }
-      function render(){
-        var listEl = $('#todoList', root);
-        if(!listEl) return;
-        if(todos.length === 0){ listEl.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有待办</div>'; return; }
-        var h2 = '';
-        for(var i = 0; i < todos.length; i++){
-          var t = todos[i];
-          h2 += '<div class="file-item" style="padding:12px 14px">';
-          h2 += '<input type="checkbox" data-idx="' + i + '" data-act="toggle" ' + (t.done ? 'checked' : '') + ' style="cursor:pointer">';
-          h2 += '<span class="fn" style="' + (t.done ? 'text-decoration:line-through;color:var(--muted)' : '') + '">' + escapeHtml(t.text) + '</span>';
-          h2 += '<button class="fx" data-idx="' + i + '" data-act="del">✕</button>';
-          h2 += '</div>';
-        }
-        listEl.innerHTML = h2;
-        var btns = $$('[data-act]', listEl);
-        for(var j = 0; j < btns.length; j++){
-          btns[j].onclick = function(e){
-            var idx = parseInt(e.target.getAttribute('data-idx'), 10);
-            var act = e.target.getAttribute('data-act');
-            if(act === 'del') todos.splice(idx, 1);
-            else if(act === 'toggle') todos[idx].done = e.target.checked;
-            save(); render();
-          };
-        }
-      }
-      function add(){
-        var input = $('#todoInput', root);
-        if(!input) return;
-        var v = input.value.trim();
-        if(!v) return;
-        todos.unshift({ text: v, done: false });
-        input.value = '';
-        save(); render();
-      }
-      var addBtn = $('#todoAdd', root);
-      if(addBtn) addBtn.onclick = add;
-      var input = $('#todoInput', root);
-      if(input) input.onkeydown = function(e){ if(e.key === 'Enter') add(); };
-      render();
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 待办初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 8: 便签
-   ========================================================= */
-TOOLS.push({
-  id: 'notes', name: '便签', icon: '📌', category: 'life', desc: '本地保存便签',
-  render: function(root){
-    try {
-      var h = '<div class="box">';
-      h += '<div class="field"><label class="label">新建便签</label><textarea class="textarea" id="noteInput" rows="4" placeholder="输入便签内容…"></textarea></div>';
-      h += '<button class="btn btn-primary" id="noteAdd">保存便签</button>';
-      h += '</div>';
-      h += '<div class="box"><div id="noteList"></div></div>';
-      root.innerHTML = h;
-
-      var KEY = 'toolbox_notes';
-      var notes = safeLocalGet(KEY, []);
-      if(!Array.isArray(notes)) notes = [];
-
-      function save(){ safeLocalSet(KEY, notes); }
-      function render(){
-        var listEl = $('#noteList', root);
-        if(!listEl) return;
-        if(notes.length === 0){ listEl.innerHTML = '<div class="hint" style="text-align:center;padding:20px">还没有便签</div>'; return; }
-        var h2 = '';
-        for(var i = 0; i < notes.length; i++){
-          var n = notes[i];
-          h2 += '<div style="padding:14px;background:#0a0e16;border:1px solid var(--border);border-radius:9px;margin-bottom:10px;position:relative">';
-          h2 += '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;padding-right:30px">' + escapeHtml(n.text) + '</div>';
-          h2 += '<div style="font-size:10.5px;color:var(--muted);margin-top:8px">' + (n.time ? new Date(n.time).toLocaleString('zh-CN') : '') + '</div>';
-          h2 += '<button class="fx" data-idx="' + i + '" style="position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>';
-          h2 += '</div>';
-        }
-        listEl.innerHTML = h2;
-        var btns = $$('.fx', listEl);
-        for(var j = 0; j < btns.length; j++){
-          btns[j].onclick = function(e){
-            notes.splice(parseInt(e.target.getAttribute('data-idx'), 10), 1);
-            save(); render();
-          };
-        }
-      }
-      var addBtn = $('#noteAdd', root);
-      if(addBtn) addBtn.onclick = function(){
-        var input = $('#noteInput', root);
-        if(!input) return;
-        var v = input.value.trim();
-        if(!v){ showToast('请输入内容', 'err'); return; }
-        notes.unshift({ text: v, time: Date.now() });
-        input.value = '';
-        save(); render();
-        showToast('已保存', 'ok');
-      };
-      render();
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 便签初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   工具 9: 计算器
-   ========================================================= */
-TOOLS.push({
-  id: 'calc', name: '计算器', icon: '🧮', category: 'life', desc: '简单计算器',
-  render: function(root){
-    try {
-      var h = '<div class="box">';
-      h += '<input type="text" class="input" id="calcDisplay" readonly value="0" style="font-size:24px;text-align:right;padding:16px;font-family:ui-monospace,monospace">';
-      h += '<div id="calcPad" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px"></div>';
-      h += '</div>';
-      root.innerHTML = h;
-
-      var keys = ['C','(',')','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','⌫','='];
-      var expr = '';
-      var pad = $('#calcPad', root);
-      if(!pad) return;
-      var h2 = '';
-      for(var i = 0; i < keys.length; i++) h2 += '<button class="btn" data-k="' + keys[i] + '" style="padding:14px;font-size:16px">' + keys[i] + '</button>';
-      pad.innerHTML = h2;
-      var btns = $$('button', pad);
-      for(var j = 0; j < btns.length; j++){
-        btns[j].onclick = function(e){
-          var k = e.target.getAttribute('data-k');
-          var display = $('#calcDisplay', root);
-          if(!display) return;
-          if(k === 'C'){ expr = ''; display.value = '0'; return; }
-          if(k === '⌫'){ expr = expr.slice(0, -1); display.value = expr || '0'; return; }
-          if(k === '='){
-            try {
-              var e2 = expr.replace(/×/g, '*').replace(/÷/g, '/');
-              var r = Function('"use strict";return (' + e2 + ')')();
-              display.value = r;
-              expr = String(r);
-            } catch(err){ display.value = '错误'; expr = ''; }
-            return;
+            target.link = target.isVip ? btoa(newLink.trim()) : newLink.trim();
+            showToast('链接已更新');
+            if (currentIndex === v.id) playVideo(v.id);
           }
-          expr += k;
-          display.value = expr;
-        };
-      }
-    } catch(e){
-      root.innerHTML = '<div class="box"><div class="result err">❌ 计算器初始化失败：' + escapeHtml(e.message) + '</div></div>';
-    }
-  }
-});
-
-/* =========================================================
-   页面渲染
-   ========================================================= */
-function renderNav(){
-  try {
-    var nav = document.getElementById('nav');
-    if(!nav) return;
-    var h = '';
-    var cats = Object.keys(CATEGORIES);
-    for(var i = 0; i < cats.length; i++){
-      var c = cats[i];
-      var cat = CATEGORIES[c];
-      var tools = TOOLS.filter(function(t){ return t.category === c; });
-      if(tools.length === 0) continue;
-      h += '<div class="nav-group">';
-      h += '<div class="nav-title">' + cat.icon + ' ' + cat.name + '</div>';
-      for(var j = 0; j < tools.length; j++){
-        var t = tools[j];
-        h += '<div class="nav-item" data-id="' + t.id + '"><span class="ic">' + t.icon + '</span>' + escapeHtml(t.name) + '</div>';
-      }
-      h += '</div>';
-    }
-    nav.innerHTML = h;
-    var items = nav.querySelectorAll('.nav-item');
-    for(var k = 0; k < items.length; k++){
-      items[k].onclick = function(e){
-        var id = e.currentTarget.getAttribute('data-id');
-        openTool(id);
-        var sb = document.getElementById('sidebar');
-        var mask = document.getElementById('mask');
-        if(sb) sb.classList.remove('on');
-        if(mask) mask.classList.remove('on');
-      };
-    }
-  } catch(e){ console.error('renderNav:', e); }
-}
-
-function renderHome(){
-  try {
-    var content = document.getElementById('content');
-    if(!content) return;
-    var h = '';
-    h += '<div class="hero">';
-    h += '<h2>万能小工具箱 <span>Pro</span></h2>';
-    h += '<p>全部功能本地运行，数据不上传。共 ' + TOOLS.length + ' 个精选工具。</p>';
-    h += '<div class="stats">';
-    h += '<div class="stat"><b>' + TOOLS.length + '</b><span>精选工具</span></div>';
-    h += '<div class="stat"><b>' + Object.keys(CATEGORIES).length + '</b><span>分类</span></div>';
-    h += '<div class="stat"><b>100%</b><span>本地处理</span></div>';
-    h += '<div class="stat"><b>0</b><span>数据上传</span></div>';
-    h += '</div></div>';
-    var cats = Object.keys(CATEGORIES);
-    for(var i = 0; i < cats.length; i++){
-      var c = cats[i];
-      var cat = CATEGORIES[c];
-      var tools = TOOLS.filter(function(t){ return t.category === c; });
-      if(tools.length === 0) continue;
-      h += '<div class="section-title">' + cat.icon + ' ' + cat.name + '</div>';
-      h += '<div class="grid">';
-      for(var j = 0; j < tools.length; j++){
-        var t = tools[j];
-        h += '<div class="card" data-id="' + t.id + '">';
-        h += '<div class="icon">' + t.icon + '</div>';
-        h += '<div class="name">' + escapeHtml(t.name) + (t.isNew ? '<span class="new-badge">NEW</span>' : '') + '</div>';
-        h += '<div class="desc">' + escapeHtml(t.desc || '') + '</div>';
-        h += '</div>';
-      }
-      h += '</div>';
-    }
-    content.innerHTML = h;
-    var cards = content.querySelectorAll('.card');
-    for(var k = 0; k < cards.length; k++){
-      cards[k].onclick = function(e){ openTool(e.currentTarget.getAttribute('data-id')); };
-    }
-  } catch(e){ console.error('renderHome:', e); }
-}
-
-function openTool(id){
-  try {
-    var tool = null;
-    for(var i = 0; i < TOOLS.length; i++){
-      if(TOOLS[i].id === id){ tool = TOOLS[i]; break; }
-    }
-    if(!tool){ showToast('工具未找到：' + id, 'err'); return; }
-    var panel = document.getElementById('panel');
-    var panelBody = document.getElementById('panelBody');
-    var panelTitle = document.getElementById('panelTitle');
-    var panelIcon = document.getElementById('panelIcon');
-    var crumb = document.getElementById('crumb');
-    if(!panel || !panelBody) return;
-    if(panelTitle) panelTitle.textContent = tool.name;
-    if(panelIcon) panelIcon.textContent = tool.icon;
-    if(crumb) crumb.textContent = tool.name;
-    panelBody.innerHTML = '';
-    panel.classList.add('on');
-    document.body.style.overflow = 'hidden';
-    try {
-      tool.render(panelBody);
-    } catch(err){
-      console.error('Tool render error:', err);
-      panelBody.innerHTML = '<div class="box"><div class="result err">❌ 工具加载失败：' + escapeHtml(err.message) + '<br><br><b>详细信息：</b><br>' + escapeHtml(String(err.stack || '').slice(0, 500)) + '</div></div>';
-    }
-    panel.scrollTop = 0;
-  } catch(e){
-    console.error('openTool:', e);
-    showToast('打开工具失败：' + e.message, 'err');
-  }
-}
-
-function closeTool(){
-  try {
-    var panelBody = document.getElementById('panelBody');
-    if(panelBody && panelBody._podTimer){ clearInterval(panelBody._podTimer); }
-    var panel = document.getElementById('panel');
-    if(panel) panel.classList.remove('on');
-    document.body.style.overflow = '';
-    var crumb = document.getElementById('crumb');
-    if(crumb) crumb.textContent = '首页';
-    if(location.hash.indexOf('#podcast') === 0 || location.hash.indexOf('#host') === 0){
-      try { history.replaceState(null, '', location.pathname); } catch(e){}
-    }
-  } catch(e){}
-}
-
-function bindEvents(){
-  try {
-    var back = document.getElementById('panelBack');
-    if(back) back.onclick = closeTool;
-    var menu = document.getElementById('menuBtn');
-    if(menu) menu.onclick = function(){
-      var sb = document.getElementById('sidebar');
-      var mask = document.getElementById('mask');
-      if(sb) sb.classList.add('on');
-      if(mask) mask.classList.add('on');
+        }
+      }, 800);
     };
-    var mask = document.getElementById('mask');
-    if(mask) mask.onclick = function(){
-      var sb = document.getElementById('sidebar');
-      if(sb) sb.classList.remove('on');
-      mask.classList.remove('on');
+    const cancelLongPress = () => {
+      if (longPressTimer) { clearTimeout(longPressTimer); longPressTimer = null; }
     };
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape') closeTool();
-    });
-  } catch(e){ console.error('bindEvents:', e); }
+    card.addEventListener('touchstart', startLongPress, { passive: true });
+    card.addEventListener('touchend', cancelLongPress);
+    card.addEventListener('touchmove', cancelLongPress);
+    card.addEventListener('mousedown', startLongPress);
+    card.addEventListener('mouseup', cancelLongPress);
+    card.addEventListener('mouseleave', cancelLongPress);
+
+    listEl.appendChild(card);
+  });
 }
 
-function start(){
-  try {
-    console.log('启动中，工具数量：' + TOOLS.length);
-    renderNav();
-    renderHome();
-    bindEvents();
-    var hash = location.hash;
-    if(hash.indexOf('#podcast=') === 0 || hash.indexOf('#podcast-edit=') === 0){
-      openTool('podcast');
-    } else if(hash.indexOf('#host=') === 0){
-      openTool('hosting');
-    }
-    console.log('✅ 万能小工具箱已就绪 · 共 ' + TOOLS.length + ' 个工具');
-  } catch(err){
-    console.error('启动失败:', err);
-    var content = document.getElementById('content');
-    if(content) content.innerHTML = '<div class="box"><div class="result err">❌ 启动失败：' + escapeHtml(err.message) + '<br><br>' + escapeHtml(String(err.stack || '').slice(0, 500)) + '</div></div>';
+async function playVideo(id) {
+  const v = videos.find(x => x.id === id);
+  if (!v) return;
+  if (v.isVip && !unlocked) {
+    showToast('非会员内容：第' + id + '集，链接放在这里');
+    return;
   }
+
+  let link = v.link;
+  if (v.isVip) {
+    try { link = atob(v.link); } catch (e) { showToast('链接解码失败'); return; }
+  }
+
+  link = await decodeLink(link);
+
+  currentIndex = id;
+  const video = document.getElementById('video');
+  if (hls) { hls.destroy(); hls = null; }
+
+  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+    hls = new Hls();
+    hls.loadSource(link);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => { video.play().catch(() => {}); });
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = link;
+    video.play().catch(() => {});
+  } else {
+    showToast('当前浏览器不支持 HLS 播放');
+    return;
+  }
+
+  document.getElementById('playerInfo').textContent =
+    (v.isVip && unlocked ? v.title : '第' + id + '集') + ' - ' +
+    (v.isVip ? '会员内容' : '普通内容');
+  addHistory(v);
 }
 
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', start);
-} else {
-  start();
+function addHistory(v) {
+  let hist = JSON.parse(localStorage.getItem('video_history') || '[]');
+  hist = hist.filter(h => h.id !== v.id);
+  hist.unshift({
+    id: v.id,
+    title: (v.isVip && unlocked ? v.title : (v.isVip ? '非会员内容' : v.title)),
+    time: Date.now()
+  });
+  hist = hist.slice(0, 10);
+  localStorage.setItem('video_history', JSON.stringify(hist));
+  renderHistory();
 }
 
-/* 全局错误捕获，避免白屏 */
-window.addEventListener('error', function(e){
-  console.error('全局错误:', e.error || e.message);
+function renderHistory() {
+  const ul = document.getElementById('historyList');
+  const hist = JSON.parse(localStorage.getItem('video_history') || '[]');
+  ul.innerHTML = '';
+  if (!hist.length) { ul.innerHTML = '<li class="empty">暂无记录</li>'; return; }
+  hist.forEach(h => {
+    const v = videos.find(x => x.id === h.id);
+    const title = (v && v.isVip && unlocked) ? v.title : h.title;
+    const li = document.createElement('li');
+    li.textContent = title + '（第' + h.id + '集）';
+    li.onclick = () => { playVideo(h.id); closeMenu(); };
+    ul.appendChild(li);
+  });
+}
+
+const menuPanel = document.getElementById('menuPanel');
+function toggleMenu() { menuPanel.classList.toggle('hidden'); renderHistory(); }
+function closeMenu() { menuPanel.classList.add('hidden'); }
+document.getElementById('menuBtn').onclick = (e) => { e.stopPropagation(); toggleMenu(); };
+document.addEventListener('click', (e) => {
+  if (!menuPanel.contains(e.target) && e.target.id !== 'menuBtn') closeMenu();
 });
-window.addEventListener('unhandledrejection', function(e){
-  console.error('未处理的 Promise 错误:', e.reason);
-});
+
+document.getElementById('retainBtn').onclick = () => {
+  const pwd = prompt('请输入密码：');
+  if (pwd === null) return;
+  if (pwd === PASSWORD) {
+    unlocked = true;
+    sessionStorage.setItem('vip_unlocked', '1');
+    showToast('会员内容已解锁');
+    renderList();
+    renderHistory();
+  } else {
+    showToast('非会员内容');
+  }
+};
+
+document.getElementById('landscapeBtn').onclick = async () => {
+  const video = document.getElementById('video');
+  try {
+    if (video.requestFullscreen) await video.requestFullscreen();
+    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+    else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+    if (screen.orientation && screen.orientation.lock) {
+      await screen.orientation.lock('landscape').catch(() => {});
+    }
+  } catch (e) {
+    showToast('横屏切换失败，请手动旋转屏幕');
+  }
+};
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+renderList();
+renderHistory();
 </script>
 </body>
-  </html>
+</html>
