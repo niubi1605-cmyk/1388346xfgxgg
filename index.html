@@ -1,244 +1,1286 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线无水印短视频下载</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#3b82f6',
-                        dark: '#1e293b',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .menu-mask {
-            background-color: rgba(0,0,0,0.4);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>通用视频播放器</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.4/dist/dash.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mpegts.js@1.7.3/dist/mpegts.min.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ background:#0a0a0a; color:#fff; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; }
+  :root{ --bar-h:54px; --prog-h:14px; }
+
+  /* ============ 播放器容器 ============ */
+  .wrap{ max-width:860px; margin:0 auto; padding:12px; }
+  .player{ position:relative; width:100%; aspect-ratio:16/9; background:#000; border-radius:14px; overflow:hidden; }
+  video{ width:100%; height:100%; object-fit:contain; display:block; }
+  /* 横屏 */
+  .player.landscape{ position:fixed; inset:0; z-index:9999; width:100vw; height:100vh; max-width:none;
+    border-radius:0; aspect-ratio:auto; background:#000; }
+  .player.landscape video{ object-fit:contain; }
+
+  /* ============ 中央大播放键 ============ */
+  .bigbtn{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(1);
+    width:72px; height:72px; z-index:5; cursor:pointer; opacity:.92; transition:.18s; pointer-events:none; }
+  .player.idle .bigbtn{ pointer-events:auto; }
+  .player.playing .bigbtn{ opacity:0; transform:translate(-50%,-50%) scale(.6); }
+  .player.seeking .bigbtn{ opacity:0; }
+  .bigbtn svg{ width:100%; height:100%; filter:drop-shadow(0 4px 14px rgba(0,0,0,.5)); }
+
+  /* ============ 加载动画 ============ */
+  .loader{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:4;
+    width:46px; height:46px; border:4px solid rgba(255,255,255,.2); border-top-color:#ff6a00;
+    border-radius:50%; animation:sp .8s linear infinite; opacity:0; transition:.2s; pointer-events:none; }
+  .player.loading .loader{ opacity:1; }
+  @keyframes sp{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+
+  /* ============ 提示条（顶部） ============ */
+  .toast{ position:absolute; left:50%; top:14px; transform:translateX(-50%) translateY(-20px);
+    z-index:30; max-width:82%; padding:8px 16px; font-size:13px; text-align:center;
+    background:rgba(0,0,0,.72); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.12);
+    border-radius:20px; opacity:0; transition:.28s; pointer-events:none; line-height:1.4; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ============ 控制栏 ============ */
+  .ctrl{ position:absolute; left:0; right:0; bottom:0; z-index:20;
+    background:linear-gradient(0deg,rgba(0,0,0,.92),rgba(0,0,0,.55) 70%,transparent);
+    padding:22px 0 0; opacity:0; transition:opacity .25s; }
+  .player.showbar .ctrl{ opacity:1; }
+  .player.ended .ctrl{ opacity:1; }
+  .player.landscape .ctrl{ padding-bottom:env(safe-area-inset-bottom, 0); }
+
+  /* 进度条 */
+  .prog{ position:relative; height:var(--prog-h); padding:0 12px; display:flex; align-items:center; cursor:pointer; }
+  .prog:hover{ --prog-h:18px; }
+  .track{ position:relative; width:100%; height:4px; background:rgba(255,255,255,.28); border-radius:3px; transition:height .15s; }
+  .prog:hover .track, .player.seeking .track{ height:6px; }
+  .buf{ position:absolute; left:0; top:0; bottom:0; background:rgba(255,255,255,.4); border-radius:3px; width:0; }
+  .played{ position:absolute; left:0; top:0; bottom:0; width:0; border-radius:3px;
+    background:linear-gradient(90deg,#ff6a00,#ee0979); }
+  .knob{ position:absolute; top:50%; width:14px; height:14px; border-radius:50%;
+    background:#fff; transform:translate(-50%,-50%) scale(0); transition:transform .12s;
+    box-shadow:0 0 0 4px rgba(255,255,255,.18); }
+  .prog:hover .knob, .player.seeking .knob{ transform:translate(-50%,-50%) scale(1); }
+  .time{ display:flex; justify-content:space-between; padding:2px 12px 0; font-size:11px;
+    color:rgba(255,255,255,.7); font-variant-numeric:tabular-nums; }
+
+  /* 按钮行 */
+  .row{ display:flex; align-items:center; gap:4px; padding:4px 6px 8px; }
+  .btn{ flex:none; width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+    background:none; border:none; color:#fff; cursor:pointer; border-radius:9px; }
+  .btn:active{ background:rgba(255,255,255,.16); }
+  .btn svg{ width:21px; height:21px; }
+  .spacer{ flex:1; }
+  .vol{ display:flex; align-items:center; gap:2px; }
+  .vbar{ width:0; height:4px; background:rgba(255,255,255,.28); border-radius:3px; overflow:hidden;
+    transition:width .2s; cursor:pointer; }
+  .vol:hover .vbar, .vol.ing .vbar{ width:68px; }
+  .vnow{ height:100%; width:0; background:#fff; border-radius:3px; }
+  .hint{ font-size:10px; color:rgba(255,255,255,.5); padding:0 4px; white-space:nowrap; }
+
+  /* 菜单（清晰度 / 倍速 / 字幕） */
+  .menu{ position:absolute; bottom:calc(var(--bar-h) + 4px); right:8px; z-index:25;
+    min-width:132px; padding:6px; background:rgba(20,20,22,.96); backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.1); border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.6);
+    opacity:0; transform:translateY(8px) scale(.96); pointer-events:none; transition:.18s; }
+  .menu.show{ opacity:1; transform:none; pointer-events:auto; }
+  .menu .mt{ padding:7px 12px; font-size:11px; color:rgba(255,255,255,.45); border-bottom:1px solid rgba(255,255,255,.08); margin-bottom:4px; }
+  .menu button{ display:flex; align-items:center; justify-content:space-between; width:100%;
+    padding:9px 12px; font-size:13px; color:#fff; background:none; border:none; border-radius:8px; cursor:pointer; }
+  .menu button:active{ background:rgba(255,255,255,.12); }
+  .menu button.on{ color:#ff6a00; }
+  .menu button .tick{ font-size:12px; opacity:.9; }
+  .menu button .badge{ font-size:10px; color:rgba(255,255,255,.4); }
+
+  /* ============ 三点菜单 ============ */
+  .dots{ position:absolute; right:8px; top:8px; z-index:40; width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    background:rgba(0,0,0,.5); backdrop-filter:blur(4px); border-radius:50%; border:none; }
+  .dots:active{ background:rgba(0,0,0,.8); }
+  .dots span{ display:block; width:4px; height:4px; border-radius:50%; background:#fff;
+    box-shadow:0 -7px 0 #fff, 0 7px 0 #fff; }
+  .dmenu{ position:absolute; right:8px; top:52px; z-index:41; min-width:168px; padding:6px;
+    background:rgba(20,20,22,.97); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.1);
+    border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.6);
+    opacity:0; transform:translateY(-8px) scale(.96); pointer-events:none; transition:.18s; }
+  .dmenu.show{ opacity:1; transform:none; pointer-events:auto; }
+  .dmenu button{ display:flex; align-items:center; gap:10px; width:100%; padding:11px 12px;
+    font-size:14px; color:#fff; background:none; border:none; border-radius:9px; cursor:pointer; text-align:left; }
+  .dmenu button:active{ background:rgba(255,255,255,.12); }
+  .dmenu .ic{ width:18px; text-align:center; flex:none; font-size:14px; }
+  .dmenu .sep{ height:1px; margin:4px 8px; background:rgba(255,255,255,.1); }
+
+  /* ============ 剧集面板 ============ */
+  .eps{ display:none; margin-top:14px; padding:14px; background:#141416;
+    border:1px solid rgba(255,255,255,.08); border-radius:14px; }
+  .eps.show{ display:block; }
+  .eps-h{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .eps-t{ font-size:15px; font-weight:600; }
+  .eps-t small{ display:block; font-size:11px; color:rgba(255,255,255,.45); font-weight:400; margin-top:3px; }
+  .eps-n{ font-size:12px; color:rgba(255,255,255,.5); }
+  .epgrid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(62px,1fr)); gap:8px;
+    max-height:280px; overflow-y:auto; padding-right:4px; }
+  .epgrid::-webkit-scrollbar{ width:4px; }
+  .epgrid::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.2); border-radius:2px; }
+  .ep{ position:relative; padding:11px 0; text-align:center; font-size:14px; font-weight:500;
+    background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.08);
+    border-radius:9px; color:#fff; cursor:pointer; transition:.15s; }
+  .ep:active{ transform:scale(.95); }
+  .ep.cur{ background:linear-gradient(135deg,#ff6a00,#ee0979); border-color:transparent;
+    box-shadow:0 3px 10px rgba(238,9,121,.4); }
+  .ep.vip{ background:rgba(255,176,32,.1); border-color:rgba(255,176,32,.3); color:#ffb020; }
+  .ep.locked{ opacity:.55; }
+  .ep .lk{ display:block; font-size:10px; margin-top:2px; font-weight:400; }
+  .ep.vip.unlocked{ background:rgba(46,204,113,.12); border-color:rgba(46,204,113,.3); color:#2ecc71; }
+
+  /* ============ 密码弹窗 ============ */
+  .modal{ position:fixed; inset:0; z-index:10000; display:none; align-items:center; justify-content:center;
+    background:rgba(0,0,0,.65); backdrop-filter:blur(3px); padding:20px; }
+  .modal.show{ display:flex; }
+  .mbox{ width:100%; max-width:340px; padding:24px; background:#1a1a1e;
+    border:1px solid rgba(255,255,255,.1); border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.7); }
+  .mbox h3{ margin:0 0 6px; font-size:17px; text-align:center; }
+  .mbox p{ margin:0 0 16px; font-size:12px; color:rgba(255,255,255,.5); text-align:center; line-height:1.5; }
+  .mbox input{ width:100%; padding:13px 14px; font-size:16px; letter-spacing:2px; text-align:center;
+    color:#fff; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+    border-radius:11px; outline:none; font-family:inherit; }
+  .mbox input:focus{ border-color:#ff6a00; background:rgba(255,255,255,.1); }
+  .mbox .err{ margin-top:8px; font-size:12px; color:#ff3b30; text-align:center; min-height:16px; }
+  .mbtn{ display:flex; gap:10px; margin-top:16px; }
+  .mbtn button{ flex:1; padding:12px 0; font-size:14px; font-weight:600; border:none;
+    border-radius:11px; cursor:pointer; font-family:inherit; }
+  .mbtn .cancel{ background:rgba(255,255,255,.1); color:#fff; }
+  .mbtn .ok{ background:linear-gradient(135deg,#ff6a00,#ee0979); color:#fff; }
+  .mbtn .ok:active{ transform:scale(.98); }
+
+  /* ============ 当前集标记 ============ */
+  .eptag{ position:absolute; left:8px; top:8px; z-index:6; padding:5px 11px; font-size:12px;
+    font-weight:600; background:rgba(0,0,0,.6); backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,.15); border-radius:14px; }
+
+  /* ============ 更多内容按钮 ============ */
+  .more{ display:block; margin:14px auto 0; padding:15px 0; width:100%;
+    background:linear-gradient(135deg,#ff6a00,#ee0979); color:#fff;
+    text-align:center; text-decoration:none; font-size:16px; font-weight:600;
+    letter-spacing:1px; border:none; border-radius:12px; box-shadow:0 4px 14px rgba(238,9,121,.35);
+    transition:transform .1s; }
+  .more:active{ transform:scale(.985); }
+
+  /* ============ 状态条（失败信息） ============ */
+  .status{ position:absolute; left:0; right:0; bottom:0; z-index:15;
+    display:flex; align-items:center; gap:8px; padding:10px 14px; flex-wrap:wrap;
+    background:linear-gradient(0deg,rgba(0,0,0,.85),transparent);
+    font-size:12px; color:#ffb020; transition:opacity .25s; }
+  .status.hide{ opacity:0; pointer-events:none; }
+  .btn-s{ margin-left:auto; padding:5px 10px; font-size:11px; color:#fff; cursor:pointer;
+    background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.25); border-radius:6px; }
+  .btn-s:active{ background:rgba(255,255,255,.3); }
+</style>
 </head>
-<body class="bg-slate-100 min-h-screen">
-<div class="container mx-auto px-4 py-8 max-w-3xl">
-    <!-- 顶部栏：左上角三点菜单 -->
-    <header class="flex items-center justify-between mb-8">
-        <div class="relative">
-            <button id="menuBtn" class="p-2 rounded-lg hover:bg-slate-200 transition">
-                <i class="fa fa-ellipsis-v text-xl"></i>
-            </button>
-            <!-- 下拉菜单 -->
-            <div id="menuPanel" class="hidden absolute left-0 top-full mt-1 bg-white shadow-lg rounded-lg w-44 z-50 overflow-hidden">
-                <button id="changeApiBtn" class="w-full text-left px-4 py-3 hover:bg-slate-100">更换接口</button>
-                <button id="aboutBtn" class="w-full text-left px-4 py-3 hover:bg-slate-100">网站介绍</button>
-            </div>
-        </div>
-        <h1 class="text-xl md:text-2xl font-bold text-dark">在线无水印短视频下载</h1>
-        <div></div>
-    </header>
+<body>
+<div class="wrap">
+  <div class="player idle" id="player">
+    <video id="video" playsinline webkit-playsinline x5-playsinline preload="auto"
+           crossorigin="anonymous" disablepictureinpicture="false"></video>
 
-    <!-- 主输入区域 -->
-    <div class="bg-white rounded-xl shadow p-6 mb-6">
-        <div class="mb-4">
-            <label class="block text-slate-700 mb-2">短视频分享链接</label>
-            <input id="videoUrlInput" type="text" placeholder="粘贴抖音/快手/小红书等短视频分享链接"
-                   class="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary">
-        </div>
-        <div class="flex items-center justify-between mb-4">
-            <span class="text-sm text-slate-500">当前接口：<span id="currentApiName">短视频解析聚合</span></span>
-            <button id="parseBtn" class="bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-blue-600 transition">
-                <i class="fa fa-search mr-1"></i>开始解析
-            </button>
-        </div>
-        <div id="loadingTip" class="hidden text-center text-slate-500 py-3">
-            <i class="fa fa-spinner fa-spin mr-2"></i>解析中，请稍候...
-        </div>
+    <div class="loader"></div>
+    <div class="bigbtn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.55)"/><polygon points="9.5,7.5 16.5,12 9.5,16.5" fill="#fff"/></svg>
     </div>
 
-    <!-- 解析结果区域 -->
-    <div id="resultBox" class="hidden bg-white rounded-xl shadow p-6">
-        <h2 class="text-lg font-semibold mb-4">解析结果</h2>
-        <div class="grid md:grid-cols-2 gap-4">
-            <div>
-                <img id="coverImg" class="w-full rounded-lg object-cover" alt="封面">
-            </div>
-            <div>
-                <h3 id="videoTitle" class="font-medium text-lg mb-2"></h3>
-                <p id="videoAuthor" class="text-slate-500 text-sm mb-4"></p>
-                <a id="downloadBtn" target="_blank" download
-                   class="inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
-                    <i class="fa fa-download mr-1"></i>下载无水印视频
-                </a>
-            </div>
-        </div>
+    <div class="toast" id="toast"></div>
+
+    <!-- 当前集标记 -->
+    <div class="eptag" id="epTag" style="display:none"></div>
+
+    <!-- 右上角三点 -->
+    <button class="dots" id="bDots" title="更多"><span></span></button>
+    <div class="dmenu" id="mDots">
+      <button id="dEps"><span class="ic">☰</span>更多内容（剧集）</button>
+      <div class="sep"></div>
+      <button id="dVip"><span class="ic">🔓</span>解锁 VIP 剧集</button>
     </div>
+
+    <!-- 控制栏 -->
+    <div class="ctrl">
+      <div class="prog" id="prog">
+        <div class="track">
+          <div class="buf" id="buf"></div>
+          <div class="played" id="played"></div>
+          <div class="knob" id="knob"></div>
+        </div>
+      </div>
+      <div class="time"><span id="tCur">00:00</span><span id="tTotal">00:00</span></div>
+      <div class="row">
+        <button class="btn" id="bPlay" title="播放/暂停（空格）">
+          <svg id="iPlay" viewBox="0 0 24 24"><polygon points="7,5 19,12 7,19" fill="#fff"/></svg>
+          <svg id="iPause" viewBox="0 0 24 24" style="display:none"><rect x="6.5" y="5" width="3.5" height="14" fill="#fff"/><rect x="14" y="5" width="3.5" height="14" fill="#fff"/></svg>
+        </button>
+        <button class="btn" id="bStepB" title="后退10秒（←）"><svg viewBox="0 0 24 24"><path d="M12 5V2L5 8l7 6V9c3 0 5 1 6 4-1-4-3-6-6-6z" fill="#fff"/><path d="M10.5 12l-2.5 2.5L5.5 12l2.5-2.5z" fill="#fff" transform="translate(-1.5,0)"/></svg></button>
+        <button class="btn" id="bStepF" title="前进10秒（→）"><svg viewBox="0 0 24 24"><path d="M12 5V2l7 6-7 6V9c-3 0-5 1-6 4 1-4 3-6 6-6z" fill="#fff"/></svg></button>
+        <div class="vol" id="vol">
+          <button class="btn" id="bMute" title="静音（M）">
+            <svg id="iVol" viewBox="0 0 24 24"><path d="M4 10v4h3l4 3.5V6.5L7 10H4z" fill="#fff"/><path d="M16.5 12c0-1.8-1-3.3-2.5-4v8c1.5-.7 2.5-2.2 2.5-4z" fill="#fff"/><path d="M14 4.5v3c2.5.8 4.3 3.1 4.3 5.8V16c0-3.4-2.5-6.2-5.7-6.6v3.4c2.5.5 4.3 2.8 4.3 5.4 0 .7-.1 1.3-.4 1.9l1.6 1.6c.7-1 1.1-2.2 1.1-3.5 0-3.6-2.4-6.6-5.8-7.6V4.5z" fill="#fff" transform="translate(-1.2,0)"/></svg>
+            <svg id="iMute" viewBox="0 0 24 24" style="display:none"><path d="M4 10v4h3l4 3.5V6.5L7 10H4z" fill="#fff"/><line x1="18" y1="8" x2="12" y2="14" stroke="#fff" stroke-width="2"/><line x1="12" y1="8" x2="18" y2="14" stroke="#fff" stroke-width="2"/></svg>
+          </button>
+          <div class="vbar" id="vbar"><div class="vnow" id="vnow"></div></div>
+        </div>
+        <span class="hint" id="vHint"></span>
+        <div class="spacer"></div>
+        <button class="btn" id="bSub" title="字幕">CC</button>
+        <button class="btn" id="bRate" title="倍速">1.0×</button>
+        <button class="btn" id="bQual" title="清晰度">画质</button>
+        <button class="btn" id="bPip" title="画中画">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#fff" stroke-width="1.8"/><rect x="13" y="11" width="7" height="5" rx="1" fill="#fff"/></svg>
+        </button>
+        <button class="btn" id="bFull" title="全屏（F）">
+          <svg id="iFull" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <svg id="iNorm" viewBox="0 0 24 24" style="display:none"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button class="btn" id="bLand" title="横屏">
+          <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="none" stroke="#fff" stroke-width="1.7"/><path d="M15 12h4" stroke="#fff" stroke-width="1.7"/><path d="M15 9l3 3-3 3" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 弹出菜单 -->
+    <div class="menu" id="mQual"><div class="mt">清晰度</div></div>
+    <div class="menu" id="mRate"><div class="mt">播放速度</div>
+      <button data-r="0.5">0.5×</button><button data-r="0.75">0.75×</button>
+      <button data-r="1" class="on">1.0×<span class="tick">✓</span></button>
+      <button data-r="1.25">1.25×</button><button data-r="1.5">1.5×</button>
+      <button data-r="2">2.0×</button>
+    </div>
+    <div class="menu" id="mSub"><div class="mt">字幕</div>
+      <button data-lang="off" class="on">关闭<span class="tick">✓</span></button>
+    </div>
+
+    <div class="status hide" id="status"><span id="statusText">初始化…</span>
+      <button class="btn-s" id="btnEngine">换引擎</button>
+    </div>
+  </div>
+
+  <a class="more" href="https://example.com" id="moreBtn" target="_blank" rel="noopener" onclick="event.stopPropagation()">更多内容 ▾</a>
+
+  <!-- ============ 剧集面板 ============ -->
+  <div class="eps" id="epsPanel">
+    <div class="eps-h">
+      <div class="eps-t">选集<small id="epsTip">前 10 集免费观看</small></div>
+      <div class="eps-n" id="epsCount">共 100 集</div>
+    </div>
+    <div class="epgrid" id="epGrid"></div>
+  </div>
 </div>
 
-<!-- 弹窗通用遮罩 -->
-<div id="modalMask" class="menu-mask fixed inset-0 z-40 hidden flex items-center justify-center p-4">
-    <!-- 更换接口弹窗 -->
-    <div id="apiModal" class="hidden bg-white rounded-xl max-w-md w-full p-6">
-        <h2 class="text-lg font-bold mb-4">更换接口</h2>
-        <div id="apiListBox" class="space-y-2 mb-4">
-            <!-- 接口列表JS渲染 -->
-        </div>
-        <div class="flex justify-end gap-2">
-            <button id="closeApiModal" class="px-4 py-2 border rounded-lg hover:bg-slate-100">关闭</button>
-        </div>
+<!-- ============ 解锁弹窗 ============ -->
+<div class="modal" id="vipModal">
+  <div class="mbox">
+    <h3>🔓 解锁 VIP 剧集</h3>
+    <p>解锁后可观看第 11 集及之后全部内容<br>请输入解锁码</p>
+    <input type="text" id="vipInput" placeholder="请输入解锁码" autocomplete="off" inputmode="numeric">
+    <div class="err" id="vipErr"></div>
+    <div class="mbtn">
+      <button class="cancel" id="vipCancel">取消</button>
+      <button class="ok" id="vipOk">立即解锁</button>
     </div>
-
-    <!-- 网站介绍弹窗 -->
-    <div id="aboutModal" class="hidden bg-white rounded-xl max-w-md w-full p-6">
-        <h2 class="text-lg font-bold mb-4">网站介绍</h2>
-        <div class="text-slate-700 text-sm space-y-2">
-            <p>✅ 在线无水印短视频下载工具，依托短视频解析聚合API，解析短视频分享链接，获取无水印视频资源。</p>
-            <p>✅ 支持多接口切换，后续会持续新增更多解析接口。</p>
-            <p>✅ 仅用于个人学习预览，请勿商用，下载内容版权归原作者所有。</p>
-            <p>📄 API文档地址：<a href="https://api-new.ifphp.com/docs/5#online-test" target="_blank" class="text-primary underline">https://api-new.ifphp.com/docs/5#online-test</a></p>
-        </div>
-        <div class="flex justify-end mt-4">
-            <button id="closeAboutModal" class="px-4 py-2 border rounded-lg hover:bg-slate-100">关闭</button>
-        </div>
-    </div>
+  </div>
 </div>
 
 <script>
-// 接口配置列表，后续新增接口在这里追加即可
-const apiList = [
-    {
-        name: "短视频解析聚合",
-        baseUrl: "https://api-new.ifphp.com",
-        key: "bp_live_a29d5a45d8554cc75c8cacae731f42360479d20076e3ef8b2a734a078618292f"
-    }
+/* ==================== 只需改这里 ==================== */
+let VIDEO_URL = 'https://你的视频地址/xxx.m3u8';
+
+/* ---------- 剧集设置 ---------- */
+const TOTAL_EP = 100;      // 总集数
+const FREE_EP  = 10;       // 前 N 集免费（第 11 集起需解锁）
+const VIP_CODE = '333088825520';   // 解锁码
+
+/* ==================================================================
+   每集链接：下面一共 100 条，一条一个完整链接，全部独立写全
+   第 1 条 = 第 1 集，第 2 条 = 第 2 集 …… 第 100 条 = 第 100 集
+   每条互不依赖，想改哪集就改哪一行
+   ================================================================== */
+const EPISODE_URLS = [
+  /* 第   1 集 · 免费 */ 'https://你的域名/ep1.m3u8',
+  /* 第   2 集 · 免费 */ 'https://你的域名/ep2.m3u8',
+  /* 第   3 集 · 免费 */ 'https://你的域名/ep3.m3u8',
+  /* 第   4 集 · 免费 */ 'https://你的域名/ep4.m3u8',
+  /* 第   5 集 · 免费 */ 'https://你的域名/ep5.m3u8',
+  /* 第   6 集 · 免费 */ 'https://你的域名/ep6.m3u8',
+  /* 第   7 集 · 免费 */ 'https://你的域名/ep7.m3u8',
+  /* 第   8 集 · 免费 */ 'https://你的域名/ep8.m3u8',
+  /* 第   9 集 · 免费 */ 'https://你的域名/ep9.m3u8',
+  /* 第  10 集 · 免费 */ 'https://你的域名/ep10.m3u8',
+  /* 汉服· VIP  */ 'https://filehuoshan.shuidi.cn/file/upload/files_3/12/f0/36/15/12f036156c69dcaae39186381d18a586.mp4/video_1792292700443_3bd127b89bd22b08.mp4',
+  /* 第  12 集 · VIP  */ 'https://你的域名/ep12.m3u8',
+  /* 第  13 集 · VIP  */ 'https://你的域名/ep13.m3u8',
+  /* 第  14 集 · VIP  */ 'https://你的域名/ep14.m3u8',
+  /* 第  15 集 · VIP  */ 'https://你的域名/ep15.m3u8',
+  /* 第  16 集 · VIP  */ 'https://你的域名/ep16.m3u8',
+  /* 第  17 集 · VIP  */ 'https://你的域名/ep17.m3u8',
+  /* 第  18 集 · VIP  */ 'https://你的域名/ep18.m3u8',
+  /* 第  19 集 · VIP  */ 'https://你的域名/ep19.m3u8',
+  /* 第  20 集 · VIP  */ 'https://你的域名/ep20.m3u8',
+  /* 第  21 集 · VIP  */ 'https://你的域名/ep21.m3u8',
+  /* 第  22 集 · VIP  */ 'https://你的域名/ep22.m3u8',
+  /* 第  23 集 · VIP  */ 'https://你的域名/ep23.m3u8',
+  /* 第  24 集 · VIP  */ 'https://你的域名/ep24.m3u8',
+  /* 第  25 集 · VIP  */ 'https://你的域名/ep25.m3u8',
+  /* 第  26 集 · VIP  */ 'https://你的域名/ep26.m3u8',
+  /* 第  27 集 · VIP  */ 'https://你的域名/ep27.m3u8',
+  /* 第  28 集 · VIP  */ 'https://你的域名/ep28.m3u8',
+  /* 第  29 集 · VIP  */ 'https://你的域名/ep29.m3u8',
+  /* 第  30 集 · VIP  */ 'https://你的域名/ep30.m3u8',
+  /* 第  31 集 · VIP  */ 'https://你的域名/ep31.m3u8',
+  /* 第  32 集 · VIP  */ 'https://你的域名/ep32.m3u8',
+  /* 第  33 集 · VIP  */ 'https://你的域名/ep33.m3u8',
+  /* 第  34 集 · VIP  */ 'https://你的域名/ep34.m3u8',
+  /* 第  35 集 · VIP  */ 'https://你的域名/ep35.m3u8',
+  /* 第  36 集 · VIP  */ 'https://你的域名/ep36.m3u8',
+  /* 第  37 集 · VIP  */ 'https://你的域名/ep37.m3u8',
+  /* 第  38 集 · VIP  */ 'https://你的域名/ep38.m3u8',
+  /* 第  39 集 · VIP  */ 'https://你的域名/ep39.m3u8',
+  /* 第  40 集 · VIP  */ 'https://你的域名/ep40.m3u8',
+  /* 第  41 集 · VIP  */ 'https://你的域名/ep41.m3u8',
+  /* 第  42 集 · VIP  */ 'https://你的域名/ep42.m3u8',
+  /* 第  43 集 · VIP  */ 'https://你的域名/ep43.m3u8',
+  /* 第  44 集 · VIP  */ 'https://你的域名/ep44.m3u8',
+  /* 第  45 集 · VIP  */ 'https://你的域名/ep45.m3u8',
+  /* 第  46 集 · VIP  */ 'https://你的域名/ep46.m3u8',
+  /* 第  47 集 · VIP  */ 'https://你的域名/ep47.m3u8',
+  /* 第  48 集 · VIP  */ 'https://你的域名/ep48.m3u8',
+  /* 第  49 集 · VIP  */ 'https://你的域名/ep49.m3u8',
+  /* 第  50 集 · VIP  */ 'https://你的域名/ep50.m3u8',
+  /* 第  51 集 · VIP  */ 'https://你的域名/ep51.m3u8',
+  /* 第  52 集 · VIP  */ 'https://你的域名/ep52.m3u8',
+  /* 第  53 集 · VIP  */ 'https://你的域名/ep53.m3u8',
+  /* 第  54 集 · VIP  */ 'https://你的域名/ep54.m3u8',
+  /* 第  55 集 · VIP  */ 'https://你的域名/ep55.m3u8',
+  /* 第  56 集 · VIP  */ 'https://你的域名/ep56.m3u8',
+  /* 第  57 集 · VIP  */ 'https://你的域名/ep57.m3u8',
+  /* 第  58 集 · VIP  */ 'https://你的域名/ep58.m3u8',
+  /* 第  59 集 · VIP  */ 'https://你的域名/ep59.m3u8',
+  /* 第  60 集 · VIP  */ 'https://你的域名/ep60.m3u8',
+  /* 第  61 集 · VIP  */ 'https://你的域名/ep61.m3u8',
+  /* 第  62 集 · VIP  */ 'https://你的域名/ep62.m3u8',
+  /* 第  63 集 · VIP  */ 'https://你的域名/ep63.m3u8',
+  /* 第  64 集 · VIP  */ 'https://你的域名/ep64.m3u8',
+  /* 第  65 集 · VIP  */ 'https://你的域名/ep65.m3u8',
+  /* 第  66 集 · VIP  */ 'https://你的域名/ep66.m3u8',
+  /* 第  67 集 · VIP  */ 'https://你的域名/ep67.m3u8',
+  /* 第  68 集 · VIP  */ 'https://你的域名/ep68.m3u8',
+  /* 第  69 集 · VIP  */ 'https://你的域名/ep69.m3u8',
+  /* 第  70 集 · VIP  */ 'https://你的域名/ep70.m3u8',
+  /* 第  71 集 · VIP  */ 'https://你的域名/ep71.m3u8',
+  /* 第  72 集 · VIP  */ 'https://你的域名/ep72.m3u8',
+  /* 第  73 集 · VIP  */ 'https://你的域名/ep73.m3u8',
+  /* 第  74 集 · VIP  */ 'https://你的域名/ep74.m3u8',
+  /* 第  75 集 · VIP  */ 'https://你的域名/ep75.m3u8',
+  /* 第  76 集 · VIP  */ 'https://你的域名/ep76.m3u8',
+  /* 第  77 集 · VIP  */ 'https://你的域名/ep77.m3u8',
+  /* 第  78 集 · VIP  */ 'https://你的域名/ep78.m3u8',
+  /* 第  79 集 · VIP  */ 'https://你的域名/ep79.m3u8',
+  /* 第  80 集 · VIP  */ 'https://你的域名/ep80.m3u8',
+  /* 第  81 集 · VIP  */ 'https://你的域名/ep81.m3u8',
+  /* 第  82 集 · VIP  */ 'https://你的域名/ep82.m3u8',
+  /* 第  83 集 · VIP  */ 'https://你的域名/ep83.m3u8',
+  /* 第  84 集 · VIP  */ 'https://你的域名/ep84.m3u8',
+  /* 第  85 集 · VIP  */ 'https://你的域名/ep85.m3u8',
+  /* 第  86 集 · VIP  */ 'https://你的域名/ep86.m3u8',
+  /* 第  87 集 · VIP  */ 'https://你的域名/ep87.m3u8',
+  /* 第  88 集 · VIP  */ 'https://你的域名/ep88.m3u8',
+  /* 第  89 集 · VIP  */ 'https://你的域名/ep89.m3u8',
+  /* 第  90 集 · VIP  */ 'https://你的域名/ep90.m3u8',
+  /* 第  91 集 · VIP  */ 'https://你的域名/ep91.m3u8',
+  /* 第  92 集 · VIP  */ 'https://你的域名/ep92.m3u8',
+  /* 第  93 集 · VIP  */ 'https://你的域名/ep93.m3u8',
+  /* 第  94 集 · VIP  */ 'https://你的域名/ep94.m3u8',
+  /* 第  95 集 · VIP  */ 'https://你的域名/ep95.m3u8',
+  /* 第  96 集 · VIP  */ 'https://你的域名/ep96.m3u8',
+  /* 第  97 集 · VIP  */ 'https://你的域名/ep97.m3u8',
+  /* 第  98 集 · VIP  */ 'https://你的域名/ep98.m3u8',
+  /* 第  99 集 · VIP  */ 'https://你的域名/ep99.m3u8',
+  /* 第 100 集 · VIP  */ 'https://你的域名/ep100.m3u8',
 ];
-let selectedApiIndex = 0;
 
-// DOM元素
-const menuBtn = document.getElementById('menuBtn');
-const menuPanel = document.getElementById('menuPanel');
-const changeApiBtn = document.getElementById('changeApiBtn');
-const aboutBtn = document.getElementById('aboutBtn');
-const modalMask = document.getElementById('modalMask');
-const apiModal = document.getElementById('apiModal');
-const aboutModal = document.getElementById('aboutModal');
-const closeApiModal = document.getElementById('closeApiModal');
-const closeAboutModal = document.getElementById('closeAboutModal');
-const apiListBox = document.getElementById('apiListBox');
-const currentApiName = document.getElementById('currentApiName');
+/* 兜底模板：上面 100 条如果某集被你删空了，才会用它，{n} 换成集数
+   正常情况下用不到，不用管 */
+const EPISODE_TPL = 'https://你的域名/ep{n}.m3u8';
+/* ==================== 到此为止 ==================== */
 
-const videoUrlInput = document.getElementById('videoUrlInput');
-const parseBtn = document.getElementById('parseBtn');
-const loadingTip = document.getElementById('loadingTip');
-const resultBox = document.getElementById('resultBox');
-const coverImg = document.getElementById('coverImg');
-const videoTitle = document.getElementById('videoTitle');
-const videoAuthor = document.getElementById('videoAuthor');
-const downloadBtn = document.getElementById('downloadBtn');
+/* 当前集 / 解锁状态（无需修改） */
+let curEp = parseInt(localStorage.getItem('vp_ep') || '1', 10) || 1;
+let vip   = localStorage.getItem('vp_vip') === '1';
 
-// 渲染接口列表
-function renderApiList() {
-    apiListBox.innerHTML = "";
-    apiList.forEach((item, idx) => {
-        const div = document.createElement('div');
-        div.className = `p-3 border rounded-lg cursor-pointer ${idx === selectedApiIndex ? 'border-primary bg-blue-50' : 'hover:bg-slate-50'}`;
-        div.innerText = item.name;
-        div.onclick = () => {
-            selectedApiIndex = idx;
-            currentApiName.innerText = apiList[selectedApiIndex].name;
-            renderApiList();
-        }
-        apiListBox.appendChild(div);
-    })
+const $ = id => document.getElementById(id);
+const video = $('video'), player = $('player'), toast = $('toast');
+const engines = ['hls.js','dash.js','flv.js','mpegts.js','webm-wasm','ffmpeg.wasm','ts-chain','mp4-fragment','media-source','object-url','img-sequence','audio-element','native'];
+let used = '', retryCount = 0, MAX_RETRY = 6, hlsInst = null, dashInst = null, toastTimer = null;
+
+/* ---------- 提示 ---------- */
+function tip(msg, ms = 1800){
+  toast.textContent = msg; toast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), ms);
 }
-renderApiList();
+function st(type, msg){
+  $('statusText').textContent = msg;
+  $('status').classList.remove('hide');
+  $('status').querySelector('.spinner') && ($('status').querySelector('.spinner').style.display = type === 'load' ? '' : 'none');
+  if(type === 'ok' || type === 'err') setTimeout(()=>$('status').classList.add('hide'), 1400);
+}
+function log(){ console.log('[player]', ...arguments); }
 
-// 三点菜单展开收起
-menuBtn.onclick = (e) => {
-    e.stopPropagation();
-    menuPanel.classList.toggle('hidden');
+/* ---------- 解码能力探测 ---------- */
+const DECODE_MAP = {
+  'video/mp4; codecs="avc1.64001e, mp4a.40.2"':   'H.264 High@4.2 + AAC',
+  'video/mp4; codecs="avc1.64001f, mp4a.40.2"':   'H.264 High@4.3 + AAC',
+  'video/mp4; codecs="avc1.64401e, mp4a.40.2"':   'H.264 High10@4.2 + AAC',
+  'video/mp4; codecs="avc1.42401e, mp4a.40.2"':   'H.264 Main@4.2 + AAC',
+  'video/mp4; codecs="avc1.42001e, mp4a.40.2"':   'H.264 Baseline@4.2 + AAC',
+  'video/mp4; codecs="avc1.640028, mp4a.40.2"':   'H.264 High@4.0 + AAC',
+  'video/mp4; codecs="hev1.1.6.L93.B0, mp4a.40.2"': 'H.265 Main@L5.1 + AAC',
+  'video/mp4; codecs="hev1.2.4.L93.B0, mp4a.40.2"': 'H.265 Main10@L5.1 + AAC',
+  'video/mp4; codecs="hev1.3.5.L93.B0, mp4a.40.2"': 'H.265 Main12@L5.1 + AAC',
+  'video/mp4; codecs="hvc1.1.6.L93.B0, mp4a.40.2"': 'H.265 (hvc1) + AAC',
+  'video/mp4; codecs="vp8, vorbis"':              'VP8 + Vorbis',
+  'video/mp4; codecs="vp8, opus"':                'VP8 + Opus',
+  'video/mp4; codecs="vp09.00.10.08, opus"':      'VP9 profile0 L1 + Opus',
+  'video/mp4; codecs="vp09.02.10.10, opus"':      'VP9 profile2 HDR + Opus',
+  'video/mp4; codecs="vp09.01.20.08, opus"':      'VP9 profile1 10bit + Opus',
+  'video/mp4; codecs="av01.0.05M.08, opus"':      'AV1 Main 8bit + Opus',
+  'video/mp4; codecs="av01.0.05M.10, opus"':      'AV1 Main 10bit + Opus',
+  'video/mp4; codecs="av01.1.04M.10, opus"':      'AV1 High 10bit + Opus',
+  'video/mp4; codecs="av01.2.04M.10, opus"':      'AV1 Professional 10bit + Opus',
+  'video/mp4; codecs="avc1.64001e, ac-3"':        'H.264 + Dolby AC-3',
+  'video/mp4; codecs="avc1.64001e, ec-3"':        'H.264 + Dolby Digital Plus',
+  'video/mp4; codecs="avc1.64001e, opus"':        'H.264 + Opus',
+  'video/mp4; codecs="avc1.64001e, flac"':        'H.264 + FLAC',
+  'video/mp4; codecs="avc1.64001e, pcm_s16le"':   'H.264 + PCM',
+  'video/webm; codecs="vp8, vorbis"':             'WebM VP8',
+  'video/webm; codecs="vp9, opus"':               'WebM VP9',
+  'video/webm; codecs="av1, opus"':               'WebM AV1',
+  'video/ogg; codecs="theora, vorbis"':           'Ogg Theora',
+  'video/ogg; codecs="dirac, vorbis"':            'Ogg Dirac',
+  'audio/mp4; codecs="mp4a.40.2"':                'AAC-LC',
+  'audio/mp4; codecs="mp4a.40.5"':                'AAC-HE',
+  'audio/mp4; codecs="mp4a.40.29"':               'AAC-HEv2',
+  'audio/mp4; codecs="ac-3"':                     'Dolby AC-3',
+  'audio/mp4; codecs="ec-3"':                     'Dolby Digital Plus',
+  'audio/mp4; codecs="opus"':                     'Opus',
+  'audio/mp4; codecs="flac"':                     'FLAC',
+  'audio/mp4; codecs="alac"':                     'ALAC',
+  'audio/ogg; codecs="vorbis"':                   'Vorbis',
+  'audio/ogg; codecs="opus"':                     'Ogg Opus'
 };
-document.body.onclick = () => {
-    menuPanel.classList.add('hidden');
-};
+const support = {};
+if(window.MediaSource && window.MediaSource.isTypeSupported){
+  for(const [mime, name] of Object.entries(DECODE_MAP)){
+    try { support[mime] = MediaSource.isTypeSupported(mime); } catch(e){ support[mime] = false; }
+  }
+}
+const canPlay = {};
+['video/mp4','video/webm','video/ogg','video/quicktime','video/x-matroska','video/avi','video/mpeg',
+ 'audio/mpeg','audio/ogg','audio/wav','audio/flac','audio/x-wav'].forEach(m => {
+  canPlay[m] = (video.canPlayType(m + ';') || video.canPlayType(m) || '').toLowerCase();
+});
+log('MSE解码能力:', Object.keys(support).filter(k => support[k]).length + '/' + Object.keys(support).length);
+log('原生可播:', Object.keys(canPlay).filter(k => canPlay[k]).join(', '));
+if(window.VideoDecoder) log('VideoDecoder(WebCodecs): 可用');
+if(window.OffscreenCanvas) log('OffscreenCanvas: 可用');
 
-// 打开弹窗
-changeApiBtn.onclick = () => {
-    menuPanel.classList.add('hidden');
-    modalMask.classList.remove('hidden');
-    apiModal.classList.remove('hidden');
+/* ---------- 格式判定 ---------- */
+function ext(u){ return (u || '').split('?')[0].split('#')[0].split('.').pop().toLowerCase().replace(/\/$/,''); }
+function isHLS(u){ const e = ext(u); return e === 'm3u8' || e === 'm3u' || /\/playlist\b/.test(u); }
+function isDASH(u){ const e = ext(u); return e === 'mpd' || /dash|manifest/.test(u); }
+function isFLV(u){ return ext(u) === 'flv' || /flv/i.test(u); }
+function isTS(u){ return ['ts','mts','m2ts'].includes(ext(u)) || /\.ts\b/.test(u); }
+function isMP4(u){ return ['mp4','m4v','m4s'].includes(ext(u)); }
+function isWebM(u){ return ['webm','mkv'].includes(ext(u)); }
+function isOGG(u){ return ['ogv','ogg','ogm','oga'].includes(ext(u)); }
+function isMOV(u){ return ['mov','qt','mpg','mpeg','mxf'].includes(ext(u)); }
+function isImage(u){ return ['jpg','jpeg','png','webp','bmp'].includes(ext(u)); }
+function isAudio(u){ return ['mp3','wav','flac','aac','ogg','wma','alac','ape','m4a','opus'].includes(ext(u)); }
+
+/* ---------- fetch 工具 ---------- */
+function fetchText(url, timeout = 3000){
+  return new Promise((resolve, reject) => {
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>{ ctrl.abort(); reject(new Error('timeout')); }, timeout);
+    fetch(url, { signal:ctrl.signal, headers:{ 'X-Requested-With':'XMLHttpRequest' } })
+      .then(r => r.ok ? r.text() : Promise.reject(new Error('http ' + r.status)))
+      .then(txt => { clearTimeout(t); resolve(txt); })
+      .catch(e => { clearTimeout(t); reject(e); });
+  });
 }
-aboutBtn.onclick = () => {
-    menuPanel.classList.add('hidden');
-    modalMask.classList.remove('hidden');
-    aboutModal.classList.remove('hidden');
-}
-// 关闭弹窗
-closeApiModal.onclick = ()=>{
-    modalMask.classList.add('hidden');
-    apiModal.classList.add('hidden');
-}
-closeAboutModal.onclick = ()=>{
-    modalMask.classList.add('hidden');
-    aboutModal.classList.add('hidden');
-}
-modalMask.onclick = (e)=>{
-    if(e.target === modalMask){
-        modalMask.classList.add('hidden');
-        apiModal.classList.add('hidden');
-        aboutModal.classList.add('hidden');
-    }
+function fetchBin(url){
+  const ctrl = new AbortController();
+  return { promise: fetch(url, { signal:ctrl.signal }).then(r => r.ok ? r.arrayBuffer() : Promise.reject(new Error('http ' + r.status))),
+           abort: ()=>ctrl.abort() };
 }
 
-// 解析按钮逻辑
-parseBtn.onclick = async ()=>{
-    const link = videoUrlInput.value.trim();
-    if(!link){
-        alert("请粘贴短视频分享链接");
-        return;
-    }
-    const apiItem = apiList[selectedApiIndex];
-    loadingTip.classList.remove('hidden');
-    resultBox.classList.add('hidden');
+/* ---------- HLS 配置 ---------- */
+function mkHls(){
+  return new Hls({
+    startLevel: -1, capLevelToPlayerSize: true, autoStartLoad: true,
+    manifestLoadingTimeOut: 8000, manifestLoadingMaxRetry: 3,
+    levelLoadingTimeOut: 12000, fragLoadingTimeOut: 20000, fragLoadingMaxRetry: 4,
+    fragLoadingMaxRetryDelay: 1000, abrEwmaDefaultEstimate: 500000,
+    abrBandWidthFactor: 0.95, abrBandWidthUpFactor: 0.7, abrMaxWithRealBitrate: true,
+    maxBufferLength: 60, backBufferLength: 30, maxBufferHole: 0.5,
+    lowLatencyMode: true, liveSyncDuration: 3, enableWorker: true,
+    enableSoftwareAES: true, renderTextTracksNatively: true, subtitleFallback: true,
+    appendErrorMaxRetry: 5, useRecommendedOrder: true,
+    enableDateRangeMetadataCues: true, enableEmsgMetadataCues: true,
+    emeEnabled: true,
+    drmSystems: { 'com.widevine.alpha':{ licenseUrl:'' }, 'com.microsoft.playready':{ licenseUrl:'' }, 'org.w3.clearkey':{ licenseUrl:'', keyIds:{} } },
+    xhrSetup: function(xhr, url){
+      // xhr.setRequestHeader('Referer', 'https://来源页');
+      // xhr.withCredentials = true;
+    },
+    licenseXhrSetup: function(xhr){ xhr.setRequestHeader('Content-Type', 'application/octet-stream'); }
+  });
+}
 
+/* ==================== 引擎 1：HLS ==================== */
+function tryHLS(url){
+  return new Promise((resolve, reject) => {
+    if(!window.Hls || !Hls.isSupported()) return reject(new Error('Hlsjs不支持'));
+    destroyAll();
+    const hls = mkHls(); hlsInst = hls;
+    const to = setTimeout(()=>{ hls.destroy(); reject(new Error('HLS加载超时')); }, 18000);
+    hls.on(Hls.Events.MANIFEST_PARSED, (e, d) => {
+      clearTimeout(to);
+      log('HLS 解析完成:', d.levels.length + '档码率');
+      st('ok', '已就绪 · HLS' + (d.levels.length > 1 ? '(' + d.levels.length + '档)' : ''));
+      used = 'hls.js';
+      buildQualMenu(d.levels);
+      resolve();
+    });
+    hls.on(Hls.Events.LEVEL_LOADED, (e, d) => { log('HLS level:', d.level + ':' + d.details.totalduration.toFixed(1) + 's'); });
+    hls.on(Hls.Events.FRAG_DECRYPTED, () => { if(!window.__k) { window.__k = 1; log('HLS 硬件解密成功'); } });
+    hls.on(Hls.Events.SUBTITLE_TRACK_LOADED, () => collectTextTracks());
+    hls.on(Hls.Events.ERROR, (e, d) => handleHlsError(d, reject));
+    try { hls.loadSource(url); hls.attachMedia(video); } catch(err){ clearTimeout(to); reject(err); }
+  });
+}
+function handleHlsError(d, reject){
+  if(!d || !d.type) return;
+  log('HLS错误:', d.type, d.details, d.fatal ? '(fatal)' : '');
+  if(!d.fatal) return;
+  const map = {
+    [Hls.ErrorDetails.MANIFEST_LOAD_ERROR]:'m3u8加载失败', [Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT]:'m3u8超时',
+    [Hls.ErrorDetails.MANIFEST_PARSING_ERROR]:'m3u8解析失败', [Hls.ErrorDetails.LEVEL_LOAD_ERROR]:'码率列表加载失败',
+    [Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT]:'码率列表超时', [Hls.ErrorDetails.FRAG_LOAD_ERROR]:'分片加载失败',
+    [Hls.ErrorDetails.FRAG_LOAD_TIMEOUT]:'分片超时', [Hls.ErrorDetails.FRAG_DECRYPT_ERROR]:'分片解密失败(密钥错误)',
+    [Hls.ErrorDetails.FRAG_PARSING_ERROR]:'分片解析失败', [Hls.ErrorDetails.KEY_LOAD_ERROR]:'密钥加载失败',
+    [Hls.ErrorDetails.KEY_LOAD_TIMEOUT]:'密钥超时', [Hls.ErrorDetails.BUFFER_APPEND_ERROR]:'缓冲区写入失败',
+    [Hls.ErrorDetails.BUFFER_FULL_ERROR]:'缓冲区已满', [Hls.ErrorDetails.LEVEL_SWITCH_ERROR]:'码率切换失败',
+    [Hls.ErrorDetails.AUDIO_TRACK_LOAD_ERROR]:'音频轨加载失败', [Hls.ErrorDetails.SUBTITLE_LOAD_ERROR]:'字幕加载失败',
+    [Hls.ErrorDetails.KEY_SYSTEM_ERROR]:'DRM密钥系统失败', [Hls.ErrorDetails.EME_KEY_ERROR]:'EME许可证失败',
+    [Hls.ErrorDetails.EME_LICENSE_ERROR]:'DRM许可证获取失败', [Hls.ErrorDetails.INTERNAL_EXCEPTION]:'内部异常'
+  };
+  if([Hls.ErrorDetails.BUFFER_STALLED_ERROR, Hls.ErrorDetails.BUFFER_SEEK_OVER_HOLE].includes(d.details)){
+    if(video.currentTime < video.duration - 3){ video.currentTime += 3; log('卡顿 → 跳过3秒'); return; }
+  }
+  if([Hls.ErrorDetails.FRAG_LOAD_ERROR, Hls.ErrorDetails.LEVEL_LOAD_ERROR, Hls.ErrorDetails.FRAG_PARSING_ERROR, Hls.ErrorDetails.KEY_LOAD_ERROR].includes(d.details)){
+    if(retryCount < MAX_RETRY){ retryCount++; log('自动重试', retryCount + '/' + MAX_RETRY); st('load', '重试中 ' + retryCount + '/' + MAX_RETRY); return; }
+  }
+  const msg = map[d.details];
+  if(msg) st('err', 'HLS失败：' + msg);
+  reject(new Error(msg || d.details));
+}
+
+/* ==================== 引擎 2：DASH ==================== */
+function tryDASH(url){
+  return new Promise((resolve, reject) => {
+    if(!window.dashjs) return reject(new Error('dashjs未加载'));
+    destroyAll();
+    const dash = dashjs.MediaPlayer().create(); dashInst = dash;
+    dash.initialize(video, url, false);
+    dash.updateSettings({
+      streaming: { lowLatencyEnabled: true, liveCatchup:{ enabled:true },
+        abr:{ useDefaultABRRules:true, autoSwitchBitrate:{ video:true, audio:true } },
+        buffer:{ stableBufferTime:30, bufferTimeAtTopQuality:60 }, segments:{ segmentDuration:4 },
+        retry:{ maxLoadingTimeouts:3, lowLatencyMaxRetry:5 } },
+      protection:{ keepProtectionMediaKeys:true, ignoreEmeEncryptedEvent:false }
+    });
+    dash.on(dashjs.MediaPlayer.events.MANIFEST_LOADED, () => {
+      log('DASH manifest 已加载');
+      const reps = dash.getBitrateInfoListFor('video') || [];
+      st('ok', '已就绪 · DASH' + (reps.length > 1 ? '(' + reps.length + '档)' : ''));
+      used = 'dash.js';
+      buildQualMenu(reps.map((r, i) => ({ height: r.height || 0, bitrate: r.bitrate, name: r.width + '×' + r.height, idx: i })));
+      resolve();
+    });
+    dash.on(dashjs.MediaPlayer.events.ERROR, e => { log('DASH错误:', e.error); reject(new Error(e.error || 'DASH失败')); });
+    dash.on(dashjs.MediaPlayer.events.REP_SWITCH, e => log('DASH 码率切换:', e.to));
+    setTimeout(()=>reject(new Error('DASH超时')), 18000);
+  });
+}
+
+/* ==================== 引擎 3：FLV ==================== */
+function tryFLV(url){
+  return new Promise((resolve, reject) => {
+    if(!window.flvjs || !flvjs.isSupported()) return reject(new Error('flvjs不支持'));
+    destroyAll();
+    const f = flvjs.createPlayer({ type:'flv', url:url, isLive:false, hasAudio:true, hasVideo:true, cors:true, withCredentials:false },
+      { enableWorker:true, enableStashBuffer:true, stashInitialSize:128, lazyLoad:true, seekType:'range', seekParamStart:'start', seekParamEnd:'end' });
+    f.attachMediaElement(video); f.load();
+    f.on(flvjs.Events.METADATA_ARRIVED, m => log('FLV 元数据:', m.width + 'x' + m.height, m.duration ? m.duration.toFixed(1) + 's' : '直播'));
+    f.on(flvjs.Events.LOADING_COMPLETE, ()=>log('FLV 加载完成'));
+    f.on(flvjs.Events.ERROR, (t, e) => { log('FLV错误:', t, e); reject(new Error('FLV失败：' + t)); });
+    video.addEventListener('loadedmetadata', ()=>{ st('ok', '已就绪 · FLV'); used = 'flv.js'; resolve(); }, { once: true });
+    setTimeout(()=>reject(new Error('FLV超时')), 15000);
+  });
+}
+
+/* ==================== 引擎 4：mpegts（支持 HEVC）==================== */
+function tryMPEGTS(url){
+  return new Promise((resolve, reject) => {
+    if(!window.mpegts || !mpegts.isSupported()) return reject(new Error('mpegts不支持'));
+    destroyAll();
+    const m = mpegts.createPlayer({ type: isTS(url) ? 'mpegts' : 'flv', url:url, isLive:false },
+      { enableWorker:true, enableStashBuffer:true, stashInitialSize:384, lazyLoad:true, lazyLoadMaxDuration:120, deferLoadAfterSourceOpen:true });
+    m.attachMediaElement(video); m.load();
+    m.on(mpegts.Events.METADATA_ARRIVED, d => log('MPEGTS 元数据:', JSON.stringify(d).slice(0, 120)));
+    m.on(mpegts.Events.LOADING_COMPLETE, ()=>log('MPEGTS 完成'));
+    m.on(mpegts.Events.ERROR, (t, e) => { log('MPEGTS错误:', t, e); reject(new Error('MPEGTS失败：' + t)); });
+    video.addEventListener('loadedmetadata', ()=>{ st('ok', '已就绪 · MPEG-TS/FLV'); used = 'mpegts.js'; resolve(); }, { once: true });
+    setTimeout(()=>reject(new Error('MPEGTS超时')), 15000);
+  });
+}
+
+/* ==================== 引擎 5：原生 ==================== */
+function tryNative(url, label){
+  return new Promise((resolve, reject) => {
+    destroyAll();
+    const onOk = () => { st('ok', '已就绪 · ' + (label || '原生')); used = 'native'; resolve(); };
+    video.addEventListener('loadedmetadata', onOk, { once: true });
+    video.addEventListener('error', function onErr(){
+      video.removeEventListener('error', onErr);
+      reject(new Error('原生播放失败 code=' + video.error.code + ' ' + (video.error.message || '')));
+    }, { once: true });
+    video.src = url;
+    setTimeout(()=>reject(new Error('原生超时')), 20000);
+  });
+}
+
+/* ==================== 引擎 6：WebM-WASM 软解 ==================== */
+async function tryWebmWasm(url){
+  if(!window.WebmWasm) throw new Error('webm-wasm未加载');
+  destroyAll();
+  st('load', 'WebM软解加载中…');
+  const { promise } = fetchBin(url);
+  const buf = await promise;
+  const wasm = await WebmWasm({ buf });
+  log('webm-wasm 轨道数:', wasm.info().tracks.length);
+  wasm.onFrame(frame => {
+    if(!cv2){ cv2 = document.createElement('canvas'); ctx2 = cv2.getContext('2d'); }
+    if(cv2.width !== frame.width){ cv2.width = frame.width; cv2.height = frame.height; }
+    if(ctx2) ctx2.putImageData(new ImageData(frame.data, frame.width, frame.height), 0, 0);
+    if(!softAttached){ softAttached = true; cv2.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1'; player.insertBefore(cv2, video); video.style.opacity = 0; }
+  });
+  wasm.start();
+  used = 'webm-wasm'; st('ok', '已就绪 · WebM软解');
+  return Promise.resolve();
+}
+let cv2 = null, ctx2 = null, softAttached = false;
+
+/* ==================== 引擎 7：ffmpeg.wasm 转码 ==================== */
+async function tryFFmpegWasm(url){
+  if(!window.FFmpeg) throw new Error('ffmpeg.wasm未加载');
+  destroyAll();
+  st('load', 'ffmpeg.wasm 加载中（较慢）…');
+  const { promise } = fetchBin(url);
+  const buf = await promise;
+  const ffmpeg = new FFmpeg();
+  await ffmpeg.load({ coreURL:'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js',
+    wasmURL:'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm' });
+  ffmpeg.writeFile('input', new Uint8Array(buf));
+  ffmpeg.on('log', ({ message }) => log('ffmpeg:', message));
+  await ffmpeg.exec(['-i','input','-c:v','libx264','-preset','ultrafast','-crf','23','-c:a','copy','out.mp4']);
+  const out = await ffmpeg.readFile('out.mp4');
+  return tryNative(URL.createObjectURL(new Blob([out.buffer], { type:'video/mp4' })), 'ffmpeg转码');
+}
+
+/* ==================== 兜底 A：MP4 分片 ==================== */
+async function tryMP4Fragments(url){
+  destroyAll();
+  const head = await fetch(url, { headers:{ 'Range':'bytes=0-16383' } }).then(r => r.arrayBuffer());
+  const u8 = new Uint8Array(head);
+  let off = 0, boxes = [];
+  while(off < u8.length - 8){
+    const size = (u8[off]<<24)|(u8[off+1]<<16)|(u8[off+2]<<8)|u8[off+3];
+    const type = String.fromCharCode(u8[off+4],u8[off+5],u8[off+6],u8[off+7]);
+    if(size < 8 || size > 0x100000) break;
+    boxes.push(type); off += size;
+  }
+  log('MP4 boxes:', boxes.slice(0,12).join(','));
+  if(!boxes.includes('moov') && !boxes.includes('moof')) throw new Error('MP4头不完整(需faststart)');
+  return tryNative(url, 'MP4分片');
+}
+
+/* ==================== 兜底 B：ts 逐片串流 ==================== */
+async function tryTsChain(url){
+  const txt = await fetchText(url, 5000);
+  const base = url.split('/').slice(0,-1).join('/') + '/';
+  const tsList = txt.split('\n').filter(l => l.trim() && !l.startsWith('#'))
+    .map(l => l.trim().startsWith('http') ? l.trim() : base + l.trim()).filter(isTS);
+  if(!tsList.length) throw new Error('m3u8中无ts片段');
+  log('ts 串流:', tsList.length + '个片段');
+  destroyAll();
+  let i = 0;
+  const playNext = () => {
+    if(i >= tsList.length) return;
+    video.src = tsList[i]; video.play().catch(()=>{});
+    st('load', '串流 ' + (i+1) + '/' + tsList.length); i++;
+  };
+  video.addEventListener('ended', playNext);
+  video.addEventListener('error', () => { if(i < tsList.length) playNext(); });
+  playNext(); used = 'ts-chain';
+  return Promise.resolve();
+}
+
+/* ==================== 兜底 C：图片序列 ==================== */
+async function tryImageSeq(url){
+  if(!isImage(url) && !/snapshot|frame|image|mjpeg/i.test(url)) throw new Error('非图片序列');
+  destroyAll();
+  if(!cv2){ cv2 = document.createElement('canvas'); ctx2 = cv2.getContext('2d'); }
+  cv2.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:1';
+  player.insertBefore(cv2, video); video.style.opacity = 0;
+  const img = new Image(); img.crossOrigin = 'anonymous';
+  let running = true, ok = false;
+  const tick = async () => {
+    if(!running) return;
+    const u = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
     try {
-        // ===== 这里根据接口文档修改请求方式/参数，当前预留请求模板 =====
-        // 你可以对照文档调整请求method、header、body
-        const res = await fetch(`${apiItem.baseUrl}/xxx?key=${apiItem.key}&url=${encodeURIComponent(link)}`, {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                url: link,
-                key: apiItem.key
-            })
-        })
-        const data = await res.json();
-        console.log("接口返回：", data);
-
-        // ========== 解析结果渲染（根据API返回字段修改这里）==========
-        // 下面字段需要你对照接口文档替换成真实返回字段
-        if(data.code === 200 || data.success){
-            videoTitle.innerText = data.data?.title || "无标题";
-            videoAuthor.innerText = data.data?.author || "";
-            coverImg.src = data.data?.cover || "";
-            downloadBtn.href = data.data?.video_url || "";
-            resultBox.classList.remove('hidden');
-        }else{
-            alert(data.msg || "解析失败");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("请求异常，大概率跨域CORS问题，请部署到静态站点后使用");
-    } finally {
-        loadingTip.classList.add('hidden');
-    }
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = u; });
+      if(!ok){ cv2.width = img.width; cv2.height = img.height; ok = true; log('图片序列启动', img.width + 'x' + img.height); }
+      ctx2.drawImage(img, 0, 0);
+    } catch(e){}
+    setTimeout(tick, 40);
+  };
+  tick();
+  used = 'img-sequence'; st('ok', '已就绪 · 图片流');
+  return Promise.resolve();
 }
+
+/* ==================== 兜底 D：Object URL ==================== */
+async function tryObjectUrl(url){
+  const { promise } = fetchBin(url);
+  const buf = await promise;
+  log('ObjectURL 生成:', (buf.byteLength / 1048576).toFixed(2) + 'MB');
+  return tryNative(URL.createObjectURL(new Blob([buf], { type:'video/mp4' })), 'ObjectURL');
+}
+
+/* ==================== 兜底 E：MSE 直写 ==================== */
+function tryMSEDirect(url){
+  if(!window.MediaSource) throw new Error('MSE不可用');
+  const mt = support['video/mp4; codecs="avc1.64001e, mp4a.40.2"'] ? 'video/mp4; codecs="avc1.64001e, mp4a.40.2"'
+           : support['video/webm; codecs="vp8, vorbis"'] ? 'video/webm; codecs="vp8, vorbis"' : null;
+  if(!mt) throw new Error('无可用MSE mime');
+  const ms = new MediaSource();
+  video.src = URL.createObjectURL(ms);
+  return new Promise((resolve, reject) => {
+    ms.addEventListener('sourceopen', async () => {
+      const sb = ms.addSourceBuffer(mt);
+      try {
+        const buf = await fetchBin(url).promise;
+        sb.appendBuffer(buf);
+        sb.addEventListener('updateend', () => { if(ms.readyState === 'open') ms.endOfStream(); used = 'media-source'; st('ok', '已就绪 · MSE直写'); resolve(); });
+      } catch(e){ reject(e); }
+    });
+    ms.addEventListener('error', e => reject(new Error('MSE错误')));
+    setTimeout(()=>reject(new Error('MSE超时')), 25000);
+  });
+}
+
+/* ==================== 兜底 F：纯音频 ==================== */
+function tryAudio(url){
+  if(!isAudio(url) && !/audio/i.test(ext(url))) throw new Error('非音轨');
+  destroyAll();
+  const audio = new Audio();
+  audio.crossOrigin = 'anonymous';
+  document.body.appendChild(audio);
+  audio.src = url; audio.play();
+  st('ok', '已就绪 · 音频'); used = 'audio-element';
+  return Promise.resolve();
+}
+
+/* ---------- 销毁 ---------- */
+function destroyAll(){
+  try { if(hlsInst){ hlsInst.off(Hls.Events.ERROR); hlsInst.destroy(); hlsInst = null; } } catch(e){}
+  try { if(dashInst){ dashInst.reset(); dashInst = null; } } catch(e){}
+  try { if(video.src && video.src.startsWith('blob:')) URL.revokeObjectURL(video.src); } catch(e){}
+  if(cv2 && cv2.parentNode){ cv2.parentNode.removeChild(cv2); cv2 = null; ctx2 = null; softAttached = false; }
+  video.style.opacity = '';
+  video.removeAttribute('src'); video.load();
+  curQual = 'auto';
+}
+
+/* ==================== 主流程 ==================== */
+async function play(url){
+  const e = ext(url);
+  log('目标:', url.slice(0,80), '扩展名:', e || '(无)');
+
+  if(isHLS(url)){
+    const txt = await fetchText(url, 3000).catch(() => null);
+    const head = (txt || '').slice(0, 4096);
+    const enc = head.includes('#EXT-X-KEY:') || /["']([^"']*\.key\b)/.test(head);
+    log('m3u8 探测:', '加密=', enc, '版本=', (head.match(/#EXT-X-VERSION:(\d+)/) || [])[1] || '?');
+    try { return await tryHLS(url); } catch(err){ log('HLS失败 →', err.message); }
+    try { return await tryTsChain(url); } catch(err){ log('ts串流失败 →', err.message); }
+  }
+  if(isDASH(url)){ try { return await tryDASH(url); } catch(err){ log('DASH失败 →', err.message); } }
+  if(isFLV(url)){
+    try { return await tryFLV(url); } catch(err){ log('flv.js失败 →', err.message); }
+    try { return await tryMPEGTS(url); } catch(err){ log('mpegts失败 →', err.message); }
+  }
+  if(isTS(url)){
+    try { return await tryMPEGTS(url); } catch(err){ log('mpegts失败 →', err.message); }
+    try { return await tryHLS(url); } catch(err){ log('HLS回退失败 →', err.message); }
+  }
+  if(isMP4(url)){
+    if(support['video/mp4; codecs="avc1.64001e, mp4a.40.2"'] || canPlay['video/mp4']){
+      try { return await tryNative(url, 'MP4'); } catch(err){ log('MP4原生失败 →', err.message); }
+    }
+    try { return await tryMP4Fragments(url); } catch(err){ log('MP4分片失败 →', err.message); }
+    try { return await tryMSEDirect(url); } catch(err){ log('MSE直写失败 →', err.message); }
+  }
+  if(isWebM(url)){
+    if(support['video/webm; codecs="vp9, opus"'] || support['video/webm; codecs="vp8, vorbis"'] || canPlay['video/webm']){
+      try { return await tryNative(url, 'WebM'); } catch(err){ log('WebM原生失败 →', err.message); }
+    }
+    try { return await tryWebmWasm(url); } catch(err){ log('webm-wasm失败 →', err.message); }
+  }
+  if(isOGG(url)){ try { return await tryNative(url, 'Ogg'); } catch(err){ log('Ogg失败 →', err.message); } }
+  if(isMOV(url)){
+    try { return await tryFFmpegWasm(url); } catch(err){ log('ffmpeg转码失败 →', err.message); }
+    try { return await tryObjectUrl(url); } catch(err){ log('ObjectURL失败 →', err.message); }
+  }
+  try { return await tryImageSeq(url); } catch(err){ log('图片序列失败 →', err.message); }
+  try { return await tryAudio(url); } catch(err){ log('音频失败 →', err.message); }
+  try { return await tryNative(url, '原生直连'); } catch(err){ log('全部失败:', err.message); st('err', '全部引擎均失败：' + err.message); throw err; }
+}
+
+/* ==================================================================
+   以下为播放器控制功能：进度条 / 播放 / 静音 / 倍速 / 清晰度 / 字幕
+   / 画中画 / 全屏 / 横屏 / 快捷键 / 记忆
+   ================================================================== */
+
+/* ---------- 时间格式化 ---------- */
+function fmt(s){
+  if(!isFinite(s)) return '00:00';
+  s = Math.max(0, Math.floor(s));
+  const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = s % 60;
+  const p = n => String(n).padStart(2, '0');
+  return h ? p(h) + ':' + p(m) + ':' + p(ss) : p(m) + ':' + p(ss);
+}
+
+/* ---------- 进度条 ---------- */
+function pct(x, el){ const r = el.getBoundingClientRect(); return Math.max(0, Math.min(1, (x - r.left) / r.width)); }
+$('prog').addEventListener('pointerdown', e => {
+  player.classList.add('seeking');
+  const el = $('prog');
+  const seek = ev => { const p = pct(ev.clientX, el); $('played').style.width = p * 100 + '%'; $('knob').style.left = p * 100 + '%'; };
+  const up = ev => {
+    const p = pct(ev.clientX, el);
+    const t = video.duration * p;
+    if(isFinite(t)){ video.currentTime = t; log('跳转 →', fmt(t)); }
+    player.classList.remove('seeking');
+    window.removeEventListener('pointermove', seek);
+    window.removeEventListener('pointerup', up);
+  };
+  seek(e);
+  window.addEventListener('pointermove', seek, { passive: true });
+  window.addEventListener('pointerup', up);
+});
+video.addEventListener('timeupdate', () => {
+  if(player.classList.contains('seeking')) return;
+  const d = video.duration || 0;
+  $('tCur').textContent = fmt(video.currentTime);
+  if(isFinite(d) && d > 0){
+    const p = (video.currentTime / d * 100);
+    $('played').style.width = p + '%'; $('knob').style.left = p + '%';
+  }
+});
+video.addEventListener('durationchange', () => { $('tTotal').textContent = fmt(video.duration); });
+video.addEventListener('progress', () => {
+  if(!video.buffered.length) return;
+  const end = video.buffered.end(video.buffered.length - 1);
+  $('buf').style.width = (end / (video.duration || 1) * 100) + '%';
+});
+video.addEventListener('waiting', () => player.classList.add('loading'));
+video.addEventListener('canplay', () => player.classList.remove('loading'));
+
+/* ---------- 播放 / 暂停 ---------- */
+function toggle(){
+  if(!video.src && !hlsInst && !dashInst) return;
+  if(video.paused || video.ended){ video.play(); player.classList.remove('idle', 'ended'); player.classList.add('playing'); }
+  else { video.pause(); player.classList.remove('playing'); }
+}
+$('bPlay').addEventListener('click', toggle);
+video.addEventListener('play',  () => { player.classList.add('playing'); player.classList.remove('idle', 'ended'); syncPlayIcon(); });
+video.addEventListener('pause', () => { if(!video.ended) player.classList.remove('playing'); syncPlayIcon(); });
+video.addEventListener('ended', () => { player.classList.add('ended'); player.classList.remove('playing'); syncPlayIcon(); });
+function syncPlayIcon(){
+  const p = video.paused || video.ended;
+  $('iPlay').style.display  = p ? '' : 'none';
+  $('iPause').style.display = p ? 'none' : '';
+}
+$('bStepB').addEventListener('click', () => { video.currentTime = Math.max(0, video.currentTime - 10); tip('后退 10 秒'); });
+$('bStepF').addEventListener('click', () => { video.currentTime = Math.min(video.duration || 1e9, video.currentTime + 10); tip('前进 10 秒'); });
+
+/* ---------- 音量 / 静音 ---------- */
+let lastVol = parseFloat(localStorage.getItem('vp_vol') || '1');
+video.volume = lastVol; video.muted = lastVol === 0;
+function syncVol(){
+  const v = video.muted ? 0 : video.volume;
+  $('vnow').style.width = (v * 100) + '%';
+  $('iVol').style.display  = (v === 0 || video.muted) ? 'none' : '';
+  $('iMute').style.display = (v === 0 || video.muted) ? '' : 'none';
+  $('vHint').textContent = v === 0 ? '已静音' : Math.round(v * 100) + '%';
+}
+$('bMute').addEventListener('click', () => {
+  if(video.muted || video.volume === 0){ video.muted = false; video.volume = lastVol || 0.8; }
+  else { lastVol = video.volume; video.muted = true; }
+  syncVol(); localStorage.setItem('vp_vol', String(video.volume));
+});
+const vbar = $('vbar');
+vbar.addEventListener('pointerdown', e => {
+  $('vol').classList.add('ing');
+  const move = ev => { video.volume = pct(ev.clientX, vbar); video.muted = false; syncVol(); };
+  const up = () => { localStorage.setItem('vp_vol', String(video.volume)); $('vol').classList.remove('ing'); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+  move(e); window.addEventListener('pointermove', move, { passive: true }); window.addEventListener('pointerup', up);
+});
+syncVol();
+
+/* ---------- 菜单通用 ---------- */
+function openMenu(id){
+  closeMenus();
+  const m = $(id);
+  m.classList.add('show');
+  m._close = e => { if(!m.contains(e.target) && e.target.id !== id.replace('m','b')) closeMenus(); };
+  setTimeout(() => document.addEventListener('pointerdown', m._close, { once: true }), 0);
+}
+function closeMenus(){ ['mQual','mRate','mSub'].forEach(id => { const m = $(id); m.classList.remove('show'); }); }
+document.addEventListener('pointerdown', e => { if(!e.target.closest('.menu') && !e.target.closest('.btn')) closeMenus(); });
+
+/* ---------- 清晰度 ---------- */
+let curQual = 'auto';
+function buildQualMenu(levels){
+  const box = $('mQual');
+  box.innerHTML = '<div class="mt">清晰度</div>';
+  const auto = document.createElement('button');
+  auto.dataset.q = 'auto';
+  auto.innerHTML = '自动<span class="tick">✓</span>';
+  auto.className = curQual === 'auto' ? 'on' : '';
+  auto.onclick = () => { curQual = 'auto'; applyQual(); openMenu('mQual'); };
+  box.appendChild(auto);
+  (levels || []).forEach((lv, i) => {
+    const b = document.createElement('button');
+    const w = lv.width || lv.attrs && lv.attrs.width;
+    const h = lv.height || lv.attrs && lv.attrs.height;
+    const kbps = lv.bitrate ? Math.round(lv.bitrate / 1000) + ' kbps' : '';
+    b.dataset.q = String(lv.idx !== undefined ? lv.idx : i);
+    b.innerHTML = (h ? h + 'p' : (w ? w + '×?' : '档' + (i+1))) + '<span class="badge">' + kbps + '</span>' + (curQual === b.dataset.q ? '<span class="tick">✓</span>' : '');
+    b.onclick = () => { curQual = b.dataset.q; applyQual(); openMenu('mQual'); };
+    box.appendChild(b);
+  });
+  if(levels && levels.length){
+    const cur = levels[Math.min(curQual === 'auto' ? 0 : (+curQual), levels.length - 1)];
+    $('bQual').textContent = (cur && cur.height) ? cur.height + 'p' : '画质';
+  }
+}
+function applyQual(){
+  if(hlsInst && hlsInst.levels && hlsInst.levels.length){
+    hlsInst.currentLevel = curQual === 'auto' ? -1 : +curQual;
+    const lv = hlsInst.levels[curQual === 'auto' ? hlsInst.currentLevel : +curQual] || {};
+    tip('清晰度：' + (lv.height ? lv.height + 'p' : '自动'));
+  } else if(dashInst){
+    const reps = dashInst.getBitrateInfoListFor('video') || [];
+    if(curQual === 'auto'){ dashInst.updateSettings({ streaming:{ abr:{ autoSwitchBitrate:{ video:true } } } }); tip('清晰度：自动'); }
+    else { const r = reps[+curQual]; if(r){ dashInst.setQualityFor('video', +curQual); tip('清晰度：' + (r.height || r.width + '×' + r.height)); } }
+  }
+  refreshMenus();
+}
+$('bQual').addEventListener('click', () => openMenu('mQual'));
+
+/* ---------- 倍速 ---------- */
+let curRate = parseFloat(localStorage.getItem('vp_rate') || '1');
+video.playbackRate = curRate;
+$('bRate').textContent = curRate + '×';
+$('mRate').querySelectorAll('button').forEach(b => {
+  b.onclick = () => {
+    curRate = parseFloat(b.dataset.r);
+    video.playbackRate = curRate;
+    $('bRate').textContent = curRate + '×';
+    localStorage.setItem('vp_rate', String(curRate));
+    tip(curRate === 1 ? '正常速度' : '播放速度 ' + curRate + '×');
+    refreshMenus();
+  };
+});
+function refreshMenus(){
+  $('mRate').querySelectorAll('button').forEach(b => b.classList.toggle('on', parseFloat(b.dataset.r) === curRate));
+  const qs = $('mQual').querySelectorAll('button');
+  qs.forEach(b => b.classList.toggle('on', b.dataset.q === String(curQual)));
+}
+
+/* ---------- 字幕 ---------- */
+function collectTextTracks(){
+  const box = $('mSub');
+  const off = box.querySelector('[data-lang="off"]');
+  box.innerHTML = '<div class="mt">字幕</div>';
+  box.appendChild(off);
+  let n = 0;
+  for(let i = 0; i < video.textTracks.length; i++){
+    const t = video.textTracks[i];
+    const b = document.createElement('button');
+    b.dataset.lang = t.label || t.language || ('字幕' + (++n));
+    b.textContent = b.dataset.lang;
+    b.onclick = () => {
+      for(let j = 0; j < video.textTracks.length; j++) video.textTracks[j].mode = (video.textTracks[j] === t) ? 'showing' : 'hidden';
+      curSub = t.label || t.language || '';
+      tip('字幕：' + curSub); refreshMenus();
+    };
+    box.appendChild(b);
+  }
+  if(hlsInst && hlsInst.subtitleTracks && hlsInst.subtitleTracks.length){
+    hlsInst.subtitleTracks.forEach(st => {
+      const b = document.createElement('button');
+      b.dataset.lang = st.name || ('字幕' + st.id);
+      b.textContent = b.dataset.lang;
+      b.onclick = () => { hlsInst.subtitleTrack = st.id; curSub = st.name || ''; tip('字幕：' + curSub); refreshMenus(); };
+      box.appendChild(b);
+    });
+  }
+}
+let curSub = '';
+$('bSub').addEventListener('click', () => { collectTextTracks(); openMenu('mSub'); });
+$('mSub').querySelector('[data-lang="off"]').onclick = () => {
+  for(let i = 0; i < video.textTracks.length; i++) video.textTracks[i].mode = 'hidden';
+  if(hlsInst && hlsInst.subtitleTracks) hlsInst.subtitleTrack = -1;
+  curSub = ''; tip('字幕已关闭'); refreshMenus();
+};
+
+/* ---------- 画中画 ---------- */
+$('bPip').addEventListener('click', () => {
+  if(document.pictureInPictureElement){ document.exitPictureInPicture().catch(()=>{}); tip('退出画中画'); }
+  else if(video.requestPictureInPicture){ video.requestPictureInPicture().then(()=>tip('进入画中画')).catch(()=>tip('画中画不可用')); }
+  else tip('当前浏览器不支持画中画');
+});
+video.addEventListener('enterpictureinpicture', () => tip('画中画已开启'));
+video.addEventListener('leavepictureinpicture', () => tip('画中画已退出'));
+
+/* ---------- 全屏 / 横屏 ---------- */
+function isFull(){ return document.fullscreenElement || document.webkitFullscreenElement; }
+function toggleFull(){
+  if(isFull()){ (document.exitFullscreen || document.webkitExitFullscreen).call(document).catch(()=>{}); }
+  else { (player.requestFullscreen || player.webkitRequestFullscreen).call(player).catch(()=>{}); }
+}
+$('bFull').addEventListener('click', toggleFull);
+document.addEventListener('fullscreenchange', () => {
+  $('iFull').style.display = isFull() ? 'none' : '';
+  $('iNorm').style.display = isFull() ? '' : 'none';
+  $('bFull').title = isFull() ? '退出全屏（F）' : '全屏（F）';
+});
+$('bLand').addEventListener('click', () => {
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock('landscape').then(()=>tip('已横屏')).catch(()=>tip('横屏被系统拒绝'));
+  } else if(screen.lockOrientation){
+    screen.lockOrientation('landscape') ? tip('已横屏') : tip('横屏不可用');
+  } else {
+    player.classList.toggle('landscape');
+    tip(player.classList.contains('landscape') ? '横屏模式' : '竖屏模式');
+  }
+});
+window.addEventListener('orientationchange', () => {
+  if(window.matchMedia('(orientation: portrait)').matches && player.classList.contains('landscape')){
+    if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+  }
+});
+
+/* ---------- 控制栏显隐 ---------- */
+let barTimer = null;
+function showBar(){
+  player.classList.add('showbar');
+  clearTimeout(barTimer);
+  if(!video.paused && !player.classList.contains('seeking')){
+    barTimer = setTimeout(() => player.classList.remove('showbar'), 2600);
+  }
+}
+player.addEventListener('pointermove', showBar);
+player.addEventListener('pointerdown', showBar);
+video.addEventListener('play', showBar);
+video.addEventListener('pause', () => { player.classList.add('showbar'); clearTimeout(barTimer); });
+$('ctrl').addEventListener('pointermove', e => e.stopPropagation());
+$('ctrl').addEventListener('pointerdown', e => e.stopPropagation());
+
+/* ---------- 快捷键 ---------- */
+document.addEventListener('keydown', e => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  if(tag === 'input' || tag === 'textarea') return;
+  switch(e.key){
+    case ' ': case 'k': e.preventDefault(); toggle(); break;
+    case 'ArrowRight': video.currentTime = Math.min(video.duration || 1e9, video.currentTime + 10); tip('+10 秒'); break;
+    case 'ArrowLeft':  video.currentTime = Math.max(0, video.currentTime - 10); tip('-10 秒'); break;
+    case 'ArrowUp':    video.volume = Math.min(1, video.volume + 0.1); video.muted = false; syncVol(); break;
+    case 'ArrowDown':  video.volume = Math.max(0, video.volume - 0.1); syncVol(); break;
+    case 'm': case 'M': $('bMute').click(); break;
+    case 'f': case 'F': toggleFull(); break;
+    case '>': case '.': video.playbackRate = Math.min(2, video.playbackRate + 0.25); $('bRate').textContent = video.playbackRate + '×'; tip(video.playbackRate + '×'); break;
+    case '<': case ',': video.playbackRate = Math.max(0.5, video.playbackRate - 0.25); $('bRate').textContent = video.playbackRate + '×'; tip(video.playbackRate + '×'); break;
+    case '0': case '1': case '2': case '3': case '4': case '5':
+    case '6': case '7': case '8': case '9':
+      if(video.duration){ video.currentTime = video.duration * (+e.key / 10); tip('跳到 ' + (+e.key * 10) + '%'); } break;
+    case 'Home': video.currentTime = 0; break;
+    case 'End': video.currentTime = video.duration; break;
+  }
+});
+
+/* ---------- 记忆播放位置 ---------- */
+const memKey = () => 'vp_pos_' + curEp;
+if(localStorage.getItem(memKey())){ video.addEventListener('loadedmetadata', () => { const p = parseFloat(localStorage.getItem(memKey()) || '0'); if(isFinite(p) && p > 5 && p < video.duration - 10){ video.currentTime = p; log('恢复播放位置:', fmt(p)); } }, { once: true }); }
+video.addEventListener('timeupdate', () => { if(Math.floor(video.currentTime) % 8 === 0) localStorage.setItem(memKey(), String(video.currentTime)); });
+video.addEventListener('ended', () => localStorage.removeItem(memKey()));
+
+/* ---------- 手动换引擎 ---------- */
+$('btnEngine').addEventListener('click', () => {
+  retryCount = 0;
+  const idx = (engines.indexOf(used) + 1) % engines.length;
+  st('load', '切换到 ' + engines[idx] + '…');
+  log('手动切换引擎 →', engines[idx]);
+  const map = {
+    'hls.js': () => tryHLS(VIDEO_URL), 'dash.js': () => tryDASH(VIDEO_URL),
+    'flv.js': () => tryFLV(VIDEO_URL), 'mpegts.js': () => tryMPEGTS(VIDEO_URL),
+    'webm-wasm': () => tryWebmWasm(VIDEO_URL), 'ffmpeg.wasm': () => tryFFmpegWasm(VIDEO_URL),
+    'ts-chain': () => tryTsChain(VIDEO_URL), 'mp4-fragment': () => tryMP4Fragments(VIDEO_URL),
+    'img-sequence': () => tryImageSeq(VIDEO_URL), 'object-url': () => tryObjectUrl(VIDEO_URL),
+    'media-source': () => tryMSEDirect(VIDEO_URL), 'audio-element': () => tryAudio(VIDEO_URL),
+    'native': () => tryNative(VIDEO_URL, '原生')
+  };
+  (map[engines[idx]] || map['native'])().catch(e => st('err', '切换失败：' + e.message));
+});
+
+/* ==================================================================
+   剧集系统：三点菜单 / 剧集列表 / VIP 解锁
+   ================================================================== */
+/* 取第 n 集的链接：优先用 EPISODE_URLS 里填的，没填就用模板生成 */
+function epUrl(n){
+  const custom = EPISODE_URLS[n - 1];
+  if(custom && custom.trim() && !/你的域名/.test(custom)) return custom.trim();
+  if(EPISODE_TPL && !/你的域名/.test(EPISODE_TPL)) return EPISODE_TPL.replace('{n}', n);
+  return VIDEO_URL;
+}
+const isVipEp = n => n > FREE_EP;
+
+/* 渲染剧集网格 */
+function renderEps(){
+  const g = $('epGrid');
+  g.innerHTML = '';
+  for(let n = 1; n <= TOTAL_EP; n++){
+    const vipEp = isVipEp(n);
+    const locked = vipEp && !vip;
+    const b = document.createElement('div');
+    b.className = 'ep' + (vipEp ? ' vip' : '') + (locked ? ' locked' : '') + (vipEp && vip ? ' unlocked' : '');
+    if(n === curEp) b.className += ' cur';
+    b.innerHTML = n + (locked ? '<span class="lk">🔒 VIP</span>' : vipEp ? '<span class="lk">VIP</span>' : '');
+    b.onclick = () => epClick(n);
+    g.appendChild(b);
+  }
+  $('epsCount').textContent = '共 ' + TOTAL_EP + ' 集';
+  $('epsTip').textContent = vip ? '已解锁，全部剧集可观看' : '前 ' + FREE_EP + ' 集免费观看';
+}
+
+/* 点击某一集 */
+function epClick(n){
+  if(isVipEp(n) && !vip){
+    tip('第 ' + n + ' 集为 VIP 剧集，请先解锁', 2200);
+    setTimeout(openVip, 500);
+    return;
+  }
+  playEp(n);
+}
+
+/* 播放某一集 */
+function playEp(n){
+  curEp = n;
+  const url = epUrl(n);
+  VIDEO_URL = url;
+  localStorage.setItem('vp_ep', String(n));
+  $('epTag').style.display = '';
+  $('epTag').textContent = '第 ' + n + ' 集';
+  log('[ep] 第 ' + n + ' 集 → ' + url);
+  retryCount = 0;
+  renderEps();
+  $('mDots').classList.remove('show');
+  st('load', '正在加载第 ' + n + ' 集…');
+  play(url).catch(()=>{});
+}
+
+/* 三点菜单开关 */
+$('bDots').addEventListener('click', e => { e.stopPropagation(); $('mDots').classList.toggle('show'); });
+document.addEventListener('pointerdown', e => {
+  if(!e.target.closest('#mDots') && !e.target.closest('#bDots')) $('mDots').classList.remove('show');
+});
+
+/* 菜单项 1：更多内容（剧集） */
+$('dEps').addEventListener('click', () => {
+  const on = $('epsPanel').classList.toggle('show');
+  $('mDots').classList.remove('show');
+  if(on){
+    renderEps();
+    const c = $('epGrid').querySelector('.ep.cur');
+    if(c) c.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    tip('已切换到剧集模式');
+  }
+});
+
+/* 菜单项 2：解锁 VIP 剧集 */
+$('dVip').addEventListener('click', () => { $('mDots').classList.remove('show'); openVip(); });
+function openVip(){
+  if(vip){ tip('已解锁，无需重复操作'); return; }
+  $('vipModal').classList.add('show');
+  $('vipErr').textContent = '';
+  $('vipInput').value = '';
+  setTimeout(() => $('vipInput').focus(), 120);
+}
+function closeVip(){ $('vipModal').classList.remove('show'); }
+$('vipCancel').addEventListener('click', closeVip);
+$('vipModal').addEventListener('click', e => { if(e.target === $('vipModal')) closeVip(); });
+$('vipOk').addEventListener('click', doUnlock);
+$('vipInput').addEventListener('keydown', e => { if(e.key === 'Enter') doUnlock(); });
+function doUnlock(){
+  const val = $('vipInput').value.trim();
+  if(!val){ $('vipErr').textContent = '请输入解锁码'; return; }
+  if(val === VIP_CODE){
+    vip = true;
+    localStorage.setItem('vp_vip', '1');
+    closeVip();
+    renderEps();
+    tip('🎉 解锁成功，第 ' + (FREE_EP + 1) + ' 集起全部开放', 2800);
+    log('[vip] 解锁成功');
+  } else {
+    $('vipErr').textContent = '解锁码不正确，请重新输入';
+    $('vipInput').value = '';
+    $('vipInput').focus();
+    log('[vip] 解锁码错误');
+  }
+}
+
+/* ---------- 启动 ---------- */
+st('load', '检测解码能力…');
+setTimeout(() => {
+  st('load', '加载中…');
+  $('epTag').style.display = '';
+  $('epTag').textContent = '第 ' + curEp + ' 集';
+  renderEps();
+  play(VIDEO_URL).catch(()=>{});
+}, 300);
 </script>
 </body>
 </html>
