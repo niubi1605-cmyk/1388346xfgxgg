@@ -219,7 +219,7 @@ const player = $('player');
 const progressEl = $('progress');
 
 /* ---------- VIP 状态 ---------- */
-try { vip = localStorage.getItem('vp_vip') === '1'; } catch (e) {}
+vip = true;
 
 /* ---------- 渲染剧集网格 ---------- */
 (function buildGrid() {
